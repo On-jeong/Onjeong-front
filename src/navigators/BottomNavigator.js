@@ -1,9 +1,13 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Calender from '../screens/CalenderScreen';
+import Calendar from '../screens/CalendarScreen';
 import Home from '../screens/HomeScreen';
 import Qa from '../screens/QaScreen';
 import Profile from '../screens/ProfileScreen';
+import Octicons from 'react-native-vector-icons/Octicons';
+import Feather from 'react-native-vector-icons/Feather';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,12 +19,44 @@ export function BottomNavigator() {
         tabBarStyle: {height: 66, position: 'absolute'},
         tabBarActiveTintColor: '#e91e63',
         headerShown: false,
-        tabBarShowLabel: true,
+        tabBarShowLabel: false,
       }}>
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Calender" component={Calender} />
-      <Tab.Screen name="Profile" component={Profile} />
-      <Tab.Screen name="Qa" component={Qa} />
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarIcon: ({color, size}) => (
+            <Feather name="home" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Calendar"
+        component={Calendar}
+        options={{
+          tabBarIcon: ({color, size}) => (
+            <MaterialCommunityIcons name="calendar" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: ({color, size}) => (
+            <Octicons name="person" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Qa"
+        component={Qa}
+        options={{
+          tabBarIcon: ({color, size}) => (
+            <AntDesign name="setting" color={color} size={size} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }

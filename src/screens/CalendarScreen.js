@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function CalenderScreen() {
+export default function CalendarScreen() {
   return (
     <View>
-      <Text>Calender</Text>
+      <Text>Calendar</Text>
     </View>
   )
 }
