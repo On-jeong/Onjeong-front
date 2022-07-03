@@ -16,7 +16,7 @@ import WithHeader from '../components/WithHeader';
 import {FontStyle} from '../utils/GlobalFonts';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
-  blur,
+  AppColors,
   bottomTabHeight,
   navigationHeight,
   windowHeight,
@@ -35,7 +35,7 @@ const DateBox = styled.View`
   height: ${(windowHeight - navigationHeight - bottomTabHeight) / 6};
   padding: 4px;
   border-width: 1px;
-  border-color: ${blur};
+  border-color: ${AppColors.blur};
   margin-left: -1px;
   margin-top: -1px;
 `;
@@ -69,11 +69,20 @@ export default function CalendarScreen() {
       for (let i = 0; i < 7; i++) {
         let formattedDate = format(date, 'd'); // 날짜만 format
         let formattedMonth = date.getMonth() + 1;
+        let formattedDay = date.getDay();
+
+        // 색깔 지정
+        let color = AppColors.black;
+        if (formattedMonth == curMonth) {
+          // 이번 달 일 경우
+          if (formattedDay == 0) color = '#DD4A48';
+          else if (formattedDay == 6) color = '#35589A';
+        } else color = AppColors.blur; // 이번 달이 아닐 경우
+
         // 하루 추가
         week.push(
           <DateBox>
-            <FontStyle.ContentB
-              style={{color: formattedMonth == curMonth ? 'black' : blur}}>
+            <FontStyle.ContentB style={{color: color}}>
               {formattedDate}
             </FontStyle.ContentB>
           </DateBox>,

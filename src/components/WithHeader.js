@@ -2,7 +2,7 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import {FontStyle} from '../utils/GlobalFonts';
 import styled from 'styled-components';
-import {navigationHeight} from '../utils/GlobalStyles';
+import {AppColors, navigationHeight} from '../utils/GlobalStyles';
 
 const NavBar = styled.View`
   height: ${navigationHeight};
@@ -10,6 +10,7 @@ const NavBar = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  background-color: ${AppColors.main};
 `;
 
 const RightNav = styled.View`
@@ -27,6 +28,11 @@ const LeftNav = styled.View`
 
 const IconBox = styled.TouchableOpacity`
   margin: 8px;
+`;
+
+const Body = styled.View`
+  height: 100%;
+  background-color: ${AppColors.body};
 `;
 
 const WithHeader = ({
@@ -51,7 +57,7 @@ const WithHeader = ({
           <IconBox onPress={rightOnPress2}>{rightIcon2}</IconBox>
         </RightNav>
       </NavBar>
-      {children}
+      <Body>{children}</Body>
     </>
   );
 };
