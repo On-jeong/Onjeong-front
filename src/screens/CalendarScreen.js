@@ -19,6 +19,7 @@ import {
   AppColors,
   bottomTabHeight,
   navigationHeight,
+  statusBarHeight,
   windowHeight,
   windowWidth,
 } from '../utils/GlobalStyles';
@@ -32,12 +33,12 @@ const Calendar = styled.View`
 
 const DateBox = styled.View`
   width: ${windowWidth / 7};
-  height: ${(windowHeight - navigationHeight - bottomTabHeight) / 6};
+  height: ${(windowHeight - navigationHeight - bottomTabHeight - statusBarHeight) / 6};
   padding: 4px;
-  border-width: 1px;
+  border-width: 0.6px;
   border-color: ${AppColors.blur};
-  margin-left: -1px;
-  margin-top: -1px;
+  //margin-left: -1px;
+  //margin-top: -1px;
 `;
 
 const Week = styled.View`
