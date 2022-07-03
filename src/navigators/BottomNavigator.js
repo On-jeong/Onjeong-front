@@ -6,6 +6,7 @@ import Qa from '../screens/QaScreen';
 import Profile from '../screens/ProfileScreen';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Feather from 'react-native-vector-icons/Feather';
+import { bottomTabHeight } from '../utils/GlobalStyles';
 
 const Tab = createBottomTabNavigator();
 
@@ -14,7 +15,7 @@ export function BottomNavigator() {
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        tabBarStyle: {height: 66, position: 'absolute'},
+        tabBarStyle: {height: bottomTabHeight, position: 'absolute'},
         tabBarActiveTintColor: '#e91e63',
         headerShown: false,
         tabBarShowLabel: false,
