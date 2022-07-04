@@ -16,7 +16,7 @@ export function BottomNavigator() {
       initialRouteName="Home"
       screenOptions={{
         tabBarStyle: {height: bottomTabHeight, position: 'absolute'},
-        tabBarActiveTintColor: AppColors.red1,
+        tabBarActiveTintColor: AppColors.red2,
         headerShown: false,
         tabBarShowLabel: false,
         tabBarActiveBackgroundColor:AppColors.main,

@@ -1,4 +1,3 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import {FontStyle} from '../utils/GlobalFonts';
 import styled from 'styled-components';
@@ -20,17 +19,17 @@ const RightNav = styled.View`
   margin-right: 10px;
 `;
 
-const LeftNav = styled.View`
+export const LeftNav = styled.View`
   width: 70px;
   flex-direction: row;
   margin-left: 10px;
 `;
 
-const IconBox = styled.TouchableOpacity`
+export const IconBox = styled.TouchableOpacity`
   margin: 8px;
 `;
 
-const Body = styled.View`
+export const Body = styled.View`
   height: 100%;
   background-color: ${AppColors.body};
 `;
