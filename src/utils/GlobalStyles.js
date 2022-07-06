@@ -15,6 +15,8 @@ export const statusBarHeight = 24;
 //
 export const main = '#EAE7C8';
 export const body = '#F8F6E7';
+export const white = '#fffcf3';
+export const border = '#c9c3a3';
 export const blur = '#d1d1d1';
 export const black = '#191919';
 export const red1 = '#C64756';
@@ -28,9 +30,11 @@ export const yellow2 = '#FAD586';
 
 export const AppColors = {
   main,
+  body,
+  white,
+  border,
   blur,
   black,
-  body,
   red1,
   red2,
   green1,

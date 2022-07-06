@@ -7,12 +7,12 @@ const Title = styled.Text`
 
 const Content = styled.Text`
   font-family: 'GangwonLight';
-  font-size: 15px;
+  font-size: 20px;
 `;
 
 const ContentB = styled.Text`
   font-family: 'GangwonBold';
-  font-size: 15px;
+  font-size: 20px;
 `;
 
 export const FontStyle = {

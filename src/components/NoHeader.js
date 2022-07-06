@@ -5,6 +5,7 @@ import {AppColors} from '../utils/GlobalStyles';
 import {Body, IconBox} from './WithHeader';
 
 const Container = styled.View`
+  flex: 1;
   background-color: ${AppColors.body};
 `;
 

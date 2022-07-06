@@ -5,7 +5,7 @@ import Home from '../screens/HomeScreen';
 import Qa from '../screens/QaScreen';
 import Profile from '../screens/ProfileScreen';
 import Octicons from 'react-native-vector-icons/Octicons';
-import Feather from 'react-native-vector-icons/Feather';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { AppColors, bottomTabHeight } from '../utils/GlobalStyles';
 
 const Tab = createBottomTabNavigator();
@@ -54,7 +54,7 @@ export function BottomNavigator() {
         component={Qa}
         options={{
           tabBarIcon: ({color, size}) => (
-            <Feather name="settings" color={color} size={size} />
+            <MaterialCommunityIcons name="comment-question-outline" color={color} size={size} />
           ),
         }}
       />

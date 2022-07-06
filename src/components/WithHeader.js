@@ -30,7 +30,7 @@ export const IconBox = styled.TouchableOpacity`
 `;
 
 export const Body = styled.View`
-  height: 100%;
+  flex: 1;
   background-color: ${AppColors.body};
 `;
 
