@@ -59,10 +59,8 @@ const MailWriteScreen = ({navigation}) => {
 
   return (
     <NoHeader
-      leftIcon={<Entypo name="chevron-left" size={20} />}
-      leftOnPress={() => {
-        navigation.goBack();
-      }}>
+    isBack={true}
+    navigation={navigation}>
       <>
         <PaperContainer>
           <Paper>

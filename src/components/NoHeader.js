@@ -3,6 +3,7 @@ import {FontStyle} from '../utils/GlobalFonts';
 import styled from 'styled-components';
 import {AppColors} from '../utils/GlobalStyles';
 import {Body, IconBox} from './WithHeader';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const Container = styled.View`
   flex: 1;
@@ -24,18 +25,29 @@ const LeftNav = styled.View`
 `;
 
 const NoHeader = ({
+  isBack,
   children,
   title,
   leftIcon,
   leftOnPress,
   rightIcon,
   rightOnPress,
+  navigation
 }) => {
   return (
     <Container>
       <NavContainer>
         <LeftNav>
-          <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
+          {isBack ? (
+            <IconBox
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Entypo name="chevron-left" size={20} />
+            </IconBox>
+          ) : (
+            <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
+          )}
           <FontStyle.Title>{title}</FontStyle.Title>
         </LeftNav>
         <IconBox onPress={rightOnPress}>{rightIcon}</IconBox>

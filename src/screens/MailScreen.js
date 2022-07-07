@@ -50,10 +50,8 @@ const MailScreen = ({navigation}) => {
   return (
     <NoHeader
       title={'우편함'}
-      leftIcon={<Entypo name="chevron-left" size={20} />}
-      leftOnPress={() => {
-        navigation.goBack();
-      }}>
+      isBack={true}
+      navigation={navigation}>
       <>
         <TopBar>
           <Filter>
