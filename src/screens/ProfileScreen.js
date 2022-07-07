@@ -22,9 +22,9 @@ const Profile = styled.View`
   border-radius: 12px;
 `;
 
-const EmptyBox = styled.View`
+export const EmptyBox = styled.View`
   height: 100px;
-`
+`;
 
 export default function ProfileScreen() {
   return (
@@ -40,7 +40,7 @@ export default function ProfileScreen() {
           <Profile></Profile>
           <Profile></Profile>
         </ProfileBox>
-        <EmptyBox/>
+        <EmptyBox />
       </ScrollView>
     </WithHeader>
   );

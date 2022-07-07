@@ -33,12 +33,27 @@ const Calendar = styled.View`
 
 const DateBox = styled.View`
   width: ${windowWidth / 7};
-  height: ${(windowHeight - navigationHeight - bottomTabHeight - statusBarHeight) / 6};
+  height: ${(windowHeight -
+    navigationHeight -
+    bottomTabHeight -
+    statusBarHeight) /
+  6};
   padding: 4px;
   border-width: 0.6px;
   border-color: ${AppColors.blur};
   //margin-left: -1px;
   //margin-top: -1px;
+`;
+
+const Circle = styled.View`
+  width: 25px;
+  height: 25px;
+  border-radius: 50px;
+  /* border-width: 4px;
+  border-color: ${AppColors.red2}; */
+  background-color: ${AppColors.main};
+  justify-content: center;
+  align-items: center;
 `;
 
 const Week = styled.View`
@@ -61,6 +76,7 @@ export default function CalendarScreen() {
     const endDate = endOfWeek(monthEnd); // 이번 달 마지막 주의 마지막 날짜
     const curMonth = getMonth(curDate) + 1; // 이번 달
     const curYear = getYear(curDate); // 이번 달
+    const today = format(new Date(), 'yy-MM-dd');
 
     let date = startDate;
     let month = [];
@@ -80,14 +96,27 @@ export default function CalendarScreen() {
           else if (formattedDay == 6) color = '#35589A';
         } else color = AppColors.blur; // 이번 달이 아닐 경우
 
-        // 하루 추가
-        week.push(
-          <DateBox>
-            <FontStyle.ContentB style={{color: color}}>
-              {formattedDate}
-            </FontStyle.ContentB>
-          </DateBox>,
-        );
+        // 하루 추가 - 오늘 일 경우 표시하기
+        if (format(date, 'yy-MM-dd') == today) {
+          week.push(
+            <DateBox>
+              <Circle>
+                <FontStyle.ContentB style={{color: color}}>
+                  {formattedDate}
+                </FontStyle.ContentB>
+              </Circle>
+            </DateBox>,
+          );
+        } else {
+          week.push(
+            <DateBox>
+              <FontStyle.ContentB style={{color: color}}>
+                {formattedDate}
+              </FontStyle.ContentB>
+            </DateBox>,
+          );
+        }
+
         date = addDays(date, 1); // 다음날
       }
       month.push(<Week>{week}</Week>); // 한 주 추가
