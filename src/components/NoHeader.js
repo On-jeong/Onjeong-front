@@ -19,7 +19,6 @@ const NavContainer = styled.View`
 `;
 
 const LeftNav = styled.View`
-  width: 70px;
   flex-direction: row;
   align-items: center;
 `;

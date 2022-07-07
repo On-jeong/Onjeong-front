@@ -5,20 +5,21 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {AppColors, windowHeight} from '../utils/GlobalStyles';
 import {FontStyle} from '../utils/GlobalFonts';
 
-const PaperContainer = styled.View`
+export const PaperContainer = styled.View`
   flex: 1;
   align-items: center;
   padding-left: 7%;
   padding-right: 7%;
 `;
 
-const Paper = styled.View`
+export const Paper = styled.View`
   width: 100%;
   height: ${windowHeight * 0.8};
   border-width: 2px;
   border-color: ${AppColors.border};
   background-color: ${AppColors.white};
   padding: 20px;
+  padding-top: 10px;
   margin-top: 5px;
   margin-bottom: 5px;
 `;
@@ -36,26 +37,26 @@ const ToInput = styled.TextInput`
   caret-color: ${AppColors.black};
 `;
 
-const MainInput = styled.TextInput`
+export const MainInput = styled.TextInput`
   flex: 1;
   font-family: 'GangwonLight';
   font-size: 20px;
   line-height: 30px;
 `;
 
-const SendBox = styled.View`
+export const SendBox = styled.View`
   width: 100%;
   align-items: flex-end;
 `;
 
-const SendBtn = styled.TouchableOpacity`
+export const SendBtn = styled.TouchableOpacity`
   margin: 5px;
 `;
 
 const MailWriteScreen = ({navigation}) => {
   const [mainText, setMainText] = useState('');
-  const [totext, setTotext] = useState('');
-  console.log(mainText);
+  const [toText, setToText] = useState('');
+
   return (
     <NoHeader
       leftIcon={<Entypo name="chevron-left" size={20} />}
@@ -70,8 +71,8 @@ const MailWriteScreen = ({navigation}) => {
               <ToInput
                 maxLength={10}
                 selectionColor="black"
-                value={totext}
-                onChangeText={setTotext}
+                value={toText}
+                onChangeText={setToText}
               />
             </PaperTop>
             <MainInput
@@ -81,6 +82,11 @@ const MailWriteScreen = ({navigation}) => {
               value={mainText}
               onChangeText={setMainText}
             />
+            <SendBox>
+              <FontStyle.ContentB>
+                From. <FontStyle.ContentB>현진</FontStyle.ContentB>
+              </FontStyle.ContentB>
+            </SendBox>
           </Paper>
           <SendBox>
             <SendBtn>

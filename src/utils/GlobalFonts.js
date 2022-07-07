@@ -15,8 +15,14 @@ const ContentB = styled.Text`
   font-size: 20px;
 `;
 
+const SubContent = styled.Text`
+  font-family: 'GangwonLight';
+  font-size: 15px;
+`;
+
 export const FontStyle = {
   Title,
   Content,
   ContentB,
+  SubContent,
 };

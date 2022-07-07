@@ -31,7 +31,7 @@ const Calendar = styled.View`
   align-items: center;
 `;
 
-const DateBox = styled.View`
+const DateBox = styled.TouchableOpacity`
   width: ${windowWidth / 7};
   height: ${(windowHeight -
     navigationHeight -
@@ -60,7 +60,7 @@ const Week = styled.View`
   flex-direction: row;
 `;
 
-export default function CalendarScreen() {
+export default function CalendarScreen({navigation}) {
   const isFocus = useIsFocused();
   const [curDate, setCurDate] = useState(new Date());
   const [curMonth, setCurMonth] = useState(getMonth(curDate) + 1);
@@ -99,7 +99,12 @@ export default function CalendarScreen() {
         // 하루 추가 - 오늘 일 경우 표시하기
         if (format(date, 'yy-MM-dd') == today) {
           week.push(
-            <DateBox>
+            <DateBox
+              onPress={() => {
+                navigation.navigate('PostWrite', {
+                  date: format(date, 'yy-MM-dd'),
+                });
+              }}>
               <Circle>
                 <FontStyle.ContentB style={{color: color}}>
                   {formattedDate}
@@ -108,15 +113,21 @@ export default function CalendarScreen() {
             </DateBox>,
           );
         } else {
+          let clickDate = format(date, 'yyyy년 MM월 dd일');
           week.push(
-            <DateBox>
+            <DateBox
+              onPress={() => {
+                navigation.navigate('PostWrite', {
+                  date: clickDate,
+                });
+              }}>
               <FontStyle.ContentB style={{color: color}}>
                 {formattedDate}
               </FontStyle.ContentB>
             </DateBox>,
           );
         }
-
+        console.log(format(date, 'yyyy-MM-dd'));
         date = addDays(date, 1); // 다음날
       }
       month.push(<Week>{week}</Week>); // 한 주 추가
