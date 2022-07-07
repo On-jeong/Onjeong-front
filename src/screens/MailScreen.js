@@ -4,6 +4,7 @@ import NoHeader from '../components/NoHeader';
 import Entypo from 'react-native-vector-icons/Entypo';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {ScrollView} from 'react-native-gesture-handler';
 import {FontStyle} from '../utils/GlobalFonts';
 import {TouchableOpacity} from 'react-native';
@@ -16,12 +17,16 @@ const TopBar = styled.View`
   padding-left: 7%;
   padding-right: 7%;
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 `;
 
 const Filter = styled.View`
   flex-direction: row;
   justify-content: flex-end;
+`;
+
+const Alert = styled.View`
+  margin-left: 5px;
 `;
 
 const MailBox = styled.View`
@@ -59,6 +64,15 @@ const MailScreen = ({navigation}) => {
             <TouchableOpacity>
               <FontStyle.ContentB>보낸 우편함</FontStyle.ContentB>
             </TouchableOpacity>
+            <Alert>
+              <TouchableOpacity>
+                <Ionicons
+                  name="alert-circle-outline"
+                  size={15}
+                
+                />
+              </TouchableOpacity>
+            </Alert>
           </Filter>
           <Filter>
             <TouchableOpacity>
@@ -66,10 +80,13 @@ const MailScreen = ({navigation}) => {
                 name="pencil"
                 size={18}
                 style={{marginRight: 8}}
+                onPress={() => {
+                  navigation.navigate('MailWrite');
+                }}
               />
             </TouchableOpacity>
             <TouchableOpacity>
-              <Ionicons name="alert-circle-outline" size={20} />
+              <AntDesign name="delete" size={20} />
             </TouchableOpacity>
           </Filter>
         </TopBar>
