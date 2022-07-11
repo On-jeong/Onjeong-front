@@ -15,14 +15,16 @@ const Menu = styled.TouchableOpacity`
   padding-right: 30px;
 `;
 
-const HorizonLine = styled.View`
+export const HorizonLine = styled.View`
   background-color: ${AppColors.border};
   height: 1px;
   width: 100%;
 `;
 
-const Email = styled.View`
+export const Email = styled.View`
   position: absolute;
+  flex-direction: row;
+  align-items: center;
   bottom: 20px;
   left: 30px;
 `;
