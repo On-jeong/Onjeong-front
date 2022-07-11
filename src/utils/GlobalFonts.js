@@ -25,10 +25,16 @@ const SubContent = styled.Text`
   font-size: 15px;
 `;
 
+const CalendarFont = styled.Text`
+  font-family: 'GangwonBold';
+  font-size: 12px;
+`;
+
 export const FontStyle = {
   Title,
   SubTitle,
   Content,
   ContentB,
   SubContent,
+  CalendarFont,
 };

@@ -56,6 +56,26 @@ const Circle = styled.View`
   align-items: center;
 `;
 
+const Anniversary = styled.View`
+  justify-content: center;
+  align-items: center;
+  padding: 1px;
+  margin-top: 2px;
+  border-width: 1px;
+  border-radius: 12px;
+  border-color: ${AppColors.red1};
+`;
+
+const Plan = styled.View`
+  justify-content: center;
+  align-items: center;
+  padding: 1px;
+  margin-top: 2px;
+  border-width: 1px;
+  border-radius: 12px;
+  border-color: ${AppColors.green2};
+`;
+
 const Week = styled.View`
   flex-direction: row;
 `;
@@ -96,13 +116,13 @@ export default function CalendarScreen({navigation}) {
           else if (formattedDay == 6) color = '#35589A';
         } else color = AppColors.blur; // 이번 달이 아닐 경우
 
-        // 하루 추가 - 오늘 일 경우 표시하기
+        // 하루 추가 - 오늘인 경우 표시하기
         if (format(date, 'yy-MM-dd') == today) {
           week.push(
             <DateBox
               onPress={() => {
-                navigation.navigate('PostWrite', {
-                  date: format(date, 'yy-MM-dd'),
+                navigation.navigate('Post', {
+                  date: format(date, 'yyyy년 MM월 dd일'),
                 });
               }}>
               <Circle>
@@ -110,6 +130,12 @@ export default function CalendarScreen({navigation}) {
                   {formattedDate}
                 </FontStyle.ContentB>
               </Circle>
+              <Anniversary>
+                <FontStyle.CalendarFont>엄마 생신</FontStyle.CalendarFont>
+              </Anniversary>
+              <Plan>
+                <FontStyle.CalendarFont>바다 여행</FontStyle.CalendarFont>
+              </Plan>
             </DateBox>,
           );
         } else {
@@ -117,7 +143,7 @@ export default function CalendarScreen({navigation}) {
           week.push(
             <DateBox
               onPress={() => {
-                navigation.navigate('PostWrite', {
+                navigation.navigate('Post', {
                   date: clickDate,
                 });
               }}>
@@ -127,7 +153,6 @@ export default function CalendarScreen({navigation}) {
             </DateBox>,
           );
         }
-        console.log(format(date, 'yyyy-MM-dd'));
         date = addDays(date, 1); // 다음날
       }
       month.push(<Week>{week}</Week>); // 한 주 추가

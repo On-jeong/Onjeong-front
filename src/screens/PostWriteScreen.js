@@ -1,9 +1,7 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import NoHeader from '../components/NoHeader';
-import Entypo from 'react-native-vector-icons/Entypo';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import {AppColors, windowHeight} from '../utils/GlobalStyles';
 import {FontStyle} from '../utils/GlobalFonts';
 import {MainInput, Paper, PaperContainer} from './MailWriteScreen';
 
