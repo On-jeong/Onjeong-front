@@ -25,7 +25,7 @@ export const EmptyBox = styled.View`
   height: 100px;
 `;
 
-export default function ProfileScreen() {
+export default function ProfileScreen({navigation}) {
   return (
     <BasicHeader title="가족 프로필" navigation={navigation}>
       <ScrollView>

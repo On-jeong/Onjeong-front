@@ -12,7 +12,7 @@ import {
 } from 'date-fns';
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import WithHeader from '../components/WithHeader';
+import {WithHeader} from '../components/WithHeader';
 import {FontStyle} from '../utils/GlobalFonts';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {

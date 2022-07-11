@@ -45,7 +45,7 @@ const Ans = styled.View`
   margin-bottom: 5px;
 `;
 
-export default function QaScreen() {
+export default function QaScreen({navigation}) {
   return (
     <BasicHeader title="이 주의 문답" navigation={navigation}>
       <QuestBox>
