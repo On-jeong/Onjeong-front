@@ -2,6 +2,8 @@ import React from 'react';
 import {FontStyle} from '../utils/GlobalFonts';
 import styled from 'styled-components';
 import {AppColors, navigationHeight} from '../utils/GlobalStyles';
+import Octicons from 'react-native-vector-icons/Octicons';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const NavBar = styled.View`
   height: ${navigationHeight};
@@ -34,7 +36,8 @@ export const Body = styled.View`
   background-color: ${AppColors.body};
 `;
 
-const WithHeader = ({
+export const WithHeader = ({
+  isBack,
   children,
   title,
   leftIcon,
@@ -48,7 +51,16 @@ const WithHeader = ({
     <>
       <NavBar>
         <LeftNav>
-          <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
+          {isBack ? (
+            <IconBox
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Entypo name="chevron-left" size={20} />
+            </IconBox>
+          ) : (
+            <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
+          )}
         </LeftNav>
         <FontStyle.Title>{title}</FontStyle.Title>
         <RightNav>
@@ -61,4 +73,46 @@ const WithHeader = ({
   );
 };
 
-export default WithHeader;
+export const BasicHeader = ({
+  isBack,
+  children,
+  title,
+  leftIcon,
+  leftOnPress,
+  navigation,
+}) => {
+  return (
+    <>
+      <NavBar>
+        <LeftNav>
+          {isBack ? (
+            <IconBox
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Entypo name="chevron-left" size={20} />
+            </IconBox>
+          ) : (
+            <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
+          )}
+        </LeftNav>
+        <FontStyle.Title>{title}</FontStyle.Title>
+        <RightNav>
+          <IconBox
+            onPress={() => {
+              navigation.navigate('Alert');
+            }}>
+            <Octicons name="bell" size={20} />
+          </IconBox>
+          <IconBox
+            onPress={() => {
+              navigation.navigate('My');
+            }}>
+            <Octicons name="person" size={21} />
+          </IconBox>
+        </RightNav>
+      </NavBar>
+      <Body>{children}</Body>
+    </>
+  );
+};

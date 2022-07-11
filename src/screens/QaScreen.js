@@ -1,6 +1,5 @@
 import React from 'react';
-import WithHeader from '../components/WithHeader';
-import Octicons from 'react-native-vector-icons/Octicons';
+import {BasicHeader} from '../components/WithHeader';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import styled from 'styled-components';
 import {ScrollView, TouchableOpacity} from 'react-native';
@@ -48,10 +47,7 @@ const Ans = styled.View`
 
 export default function QaScreen() {
   return (
-    <WithHeader
-      title="이 주의 문답"
-      rightIcon1={<Octicons name="bell" size={20} />}
-      rightIcon2={<Octicons name="person" size={21} />}>
+    <BasicHeader title="이 주의 문답" navigation={navigation}>
       <QuestBox>
         <FontStyle.ContentB>
           질문 :{' '}
@@ -87,6 +83,6 @@ export default function QaScreen() {
           <EmptyBox />
         </AnsContainer>
       </ScrollView>
-    </WithHeader>
+    </BasicHeader>
   );
 }

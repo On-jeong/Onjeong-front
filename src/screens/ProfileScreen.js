@@ -1,6 +1,5 @@
 import React from 'react';
-import WithHeader from '../components/WithHeader';
-import Octicons from 'react-native-vector-icons/Octicons';
+import {BasicHeader} from '../components/WithHeader';
 import styled from 'styled-components';
 import {AppColors, windowHeight, windowWidth} from '../utils/GlobalStyles';
 import {ScrollView} from 'react-native';
@@ -28,10 +27,7 @@ export const EmptyBox = styled.View`
 
 export default function ProfileScreen() {
   return (
-    <WithHeader
-      title="가족 프로필"
-      rightIcon1={<Octicons name="bell" size={20} />}
-      rightIcon2={<Octicons name="person" size={21} />}>
+    <BasicHeader title="가족 프로필" navigation={navigation}>
       <ScrollView>
         <ProfileBox>
           <Profile></Profile>
@@ -42,6 +38,6 @@ export default function ProfileScreen() {
         </ProfileBox>
         <EmptyBox />
       </ScrollView>
-    </WithHeader>
+    </BasicHeader>
   );
 }
