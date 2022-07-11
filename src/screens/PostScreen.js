@@ -18,7 +18,6 @@ const PlanTitle = styled.View`
   margin-bottom: 10px;
 `;
 
-
 const Paper = styled.View`
   width: 100%;
   height: ${windowHeight * 0.2};
@@ -32,7 +31,6 @@ const Paper = styled.View`
 `;
 
 const PostScreen = ({navigation, route}) => {
-
   return (
     <NoHeader title={route.params.date} isBack={true} navigation={navigation}>
       <>
@@ -59,8 +57,7 @@ const PostScreen = ({navigation, route}) => {
               />
             </TouchableOpacity>
           </PlanTitle>
-          <Paper>
-          </Paper>
+          <Paper></Paper>
         </PlanBox>
       </>
     </NoHeader>

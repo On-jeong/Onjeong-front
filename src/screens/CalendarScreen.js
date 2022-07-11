@@ -41,17 +41,15 @@ const DateBox = styled.TouchableOpacity`
   padding: 4px;
   border-width: 0.6px;
   border-color: ${AppColors.blur};
-  //margin-left: -1px;
-  //margin-top: -1px;
+  overflow: hidden;
 `;
 
 const Circle = styled.View`
   width: 25px;
   height: 25px;
+  margin-bottom: 2px;
   border-radius: 50px;
-  /* border-width: 4px;
-  border-color: ${AppColors.red2}; */
-  background-color: ${AppColors.main};
+  background-color: ${props => props.color && AppColors.main};
   justify-content: center;
   align-items: center;
 `;
@@ -125,14 +123,20 @@ export default function CalendarScreen({navigation}) {
                   date: format(date, 'yyyy년 MM월 dd일'),
                 });
               }}>
-              <Circle>
+              <Circle color={true}>
                 <FontStyle.ContentB style={{color: color}}>
                   {formattedDate}
                 </FontStyle.ContentB>
               </Circle>
+              {/* 기념일은 3개까지만 들어가게 하기 */}
               <Anniversary>
-                <FontStyle.CalendarFont>엄마 생신</FontStyle.CalendarFont>
+                <FontStyle.CalendarFont numberOfLines={1} ellipsizeMode="tail">
+                  엄마 생신이다
+                </FontStyle.CalendarFont>
               </Anniversary>
+              <Plan>
+                <FontStyle.CalendarFont>바다 여행</FontStyle.CalendarFont>
+              </Plan>
               <Plan>
                 <FontStyle.CalendarFont>바다 여행</FontStyle.CalendarFont>
               </Plan>
@@ -147,9 +151,11 @@ export default function CalendarScreen({navigation}) {
                   date: clickDate,
                 });
               }}>
-              <FontStyle.ContentB style={{color: color}}>
-                {formattedDate}
-              </FontStyle.ContentB>
+              <Circle color={false}>
+                <FontStyle.ContentB style={{color: color}}>
+                  {formattedDate}
+                </FontStyle.ContentB>
+              </Circle>
             </DateBox>,
           );
         }
