@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {AppColors} from '../utils/GlobalStyles';
 import {Body, IconBox} from './WithHeader';
 import Entypo from 'react-native-vector-icons/Entypo';
+import PropTypes from 'prop-types';
 
 const Container = styled.View`
   flex: 1;
@@ -32,7 +33,7 @@ const NoHeader = ({
   leftOnPress,
   rightIcon,
   rightOnPress,
-  navigation
+  navigation,
 }) => {
   return (
     <Container>
@@ -58,3 +59,19 @@ const NoHeader = ({
 };
 
 export default NoHeader;
+
+NoHeader.PropTypes = {
+  isBack: PropTypes.bool,
+  children: PropTypes.PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
+  title: PropTypes.string,
+  leftIcon: PropTypes.element,
+  leftOnPress: PropTypes.func,
+  rightIcon: PropTypes.element,
+  rightOnPress: PropTypes.func,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }),
+};

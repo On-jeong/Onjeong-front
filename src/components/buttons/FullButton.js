@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FontStyle } from '../../utils/GlobalFonts';
+import {FontStyle} from '../../utils/GlobalFonts';
 import {AppColors} from '../../utils/GlobalStyles';
+import PropTypes from 'prop-types';
 
 const Button = styled.TouchableOpacity`
-  height: 40px;
+  height: 45px;
   width: 70%;
   border-radius: 12px;
   justify-content: center;
@@ -18,11 +19,20 @@ export const FullButton = ({title, inputCheck, onPress, borderColor}) => {
   return (
     <>
       <Button
-        color={inputCheck ? borderColor : AppColors.blur}
+        color={inputCheck ? borderColor : AppColors.border}
         onPress={onPress}
         disabled={!inputCheck}>
-        <FontStyle.ContentB>{title}</FontStyle.ContentB>
+        <FontStyle.ContentB color={!inputCheck && AppColors.border}>
+          {title}
+        </FontStyle.ContentB>
       </Button>
     </>
   );
+};
+
+FullButton.PropTypes = {
+  title: PropTypes.string.isRequired,
+  inputCheck: PropTypes.bool,
+  onPress: PropTypes.func.isRequired,
+  borderColor: PropTypes.string,
 };

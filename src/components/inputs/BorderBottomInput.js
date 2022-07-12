@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {AppColors} from '../../utils/GlobalStyles';
+import PropTypes from 'prop-types';
 
 export const InputBox = styled.TextInput`
   width: 70%;
@@ -29,4 +30,12 @@ export const BorderBottomInput = ({
       />
     </>
   );
+};
+
+BorderBottomInput.PropTypes = {
+  value: PropTypes.string,
+  onChangeText: PropTypes.func,
+  placeholder: PropTypes.string,
+  maxLength: PropTypes.number,
+  secureTextEntry: PropTypes.bool,
 };

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {AppColors, navigationHeight} from '../utils/GlobalStyles';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Entypo from 'react-native-vector-icons/Entypo';
+import PropTypes from 'prop-types';
 
 const NavBar = styled.View`
   height: ${navigationHeight};
@@ -46,6 +47,7 @@ export const WithHeader = ({
   leftOnPress,
   rightOnPress1,
   rightOnPress2,
+  navigation,
 }) => {
   return (
     <>
@@ -115,4 +117,36 @@ export const BasicHeader = ({
       <Body>{children}</Body>
     </>
   );
+};
+
+WithHeader.PropTypes = {
+  isBack: PropTypes.bool,
+  children: PropTypes.PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
+  title: PropTypes.string,
+  leftIcon: PropTypes.element,
+  leftOnPress: PropTypes.func,
+  rightIcon1: PropTypes.element,
+  rightIcon2: PropTypes.element,
+  rightOnPress1: PropTypes.func,
+  rightOnPress2: PropTypes.func,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }),
+};
+
+BasicHeader.PropTypes = {
+  isBack: PropTypes.bool,
+  children: PropTypes.PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
+  title: PropTypes.string,
+  leftIcon: PropTypes.element,
+  leftOnPress: PropTypes.func,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }),
 };

@@ -15,7 +15,7 @@ export const Container = styled.View`
 export const Box = styled.View`
   width: 100%;
   align-items: center;
-  padding-bottom: 30px;
+  padding-bottom: 50px;
 `;
 
 export const Title = styled.View`
