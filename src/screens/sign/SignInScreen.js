@@ -118,6 +118,7 @@ const SignInScreen = ({navigation}) => {
           {/* 생일 선택 모달 */}
           <DatePicker
             modal
+            mode="date"
             open={birthOpen}
             date={birth}
             onConfirm={date => {
@@ -128,6 +129,10 @@ const SignInScreen = ({navigation}) => {
             onCancel={() => {
               setBirthOpen(false);
             }}
+            confirmText="확인"
+            cancelText="취소"
+            title={null}
+            androidVariant='iosClone'
           />
         </Box>
       </Container>
