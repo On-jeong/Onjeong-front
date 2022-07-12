@@ -1,14 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import NoHeader from '../components/NoHeader';
-import Entypo from 'react-native-vector-icons/Entypo';
+import NoHeader from '@/components/NoHeader';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {ScrollView} from 'react-native-gesture-handler';
-import {FontStyle} from '../utils/GlobalFonts';
+import {FontStyle} from '@/utils/GlobalFonts';
 import {TouchableOpacity} from 'react-native';
-import {AppColors} from '../utils/GlobalStyles';
+import {AppColors} from '@/utils/GlobalStyles';
 
 const TopBar = styled.View`
   width: 100%;
@@ -48,10 +47,7 @@ const Mail = styled.View`
 
 const MailScreen = ({navigation}) => {
   return (
-    <NoHeader
-      title={'우편함'}
-      isBack={true}
-      navigation={navigation}>
+    <NoHeader title={'우편함'} isBack={true} navigation={navigation}>
       <>
         <TopBar>
           <Filter>
@@ -64,11 +60,7 @@ const MailScreen = ({navigation}) => {
             </TouchableOpacity>
             <Alert>
               <TouchableOpacity>
-                <Ionicons
-                  name="alert-circle-outline"
-                  size={15}
-                
-                />
+                <Ionicons name="alert-circle-outline" size={15} />
               </TouchableOpacity>
             </Alert>
           </Filter>

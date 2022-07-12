@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import NoHeader from '../components/NoHeader';
-import Entypo from 'react-native-vector-icons/Entypo';
-import {AppColors, windowHeight} from '../utils/GlobalStyles';
-import {FontStyle} from '../utils/GlobalFonts';
+import NoHeader from '@/components/NoHeader';
+import {AppColors, windowHeight} from '@/utils/GlobalStyles';
+import {FontStyle} from '@/utils/GlobalFonts';
 
 export const PaperContainer = styled.View`
   flex: 1;

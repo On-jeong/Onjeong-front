@@ -1,4 +1,3 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import {BasicHeader} from '../components/WithHeader';
 import styled from 'styled-components';

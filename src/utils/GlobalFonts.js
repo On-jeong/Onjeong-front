@@ -1,5 +1,10 @@
 import styled from 'styled-components';
 
+const Big = styled.Text`
+  font-family: 'GangwonBold';
+  font-size: 30px;
+`;
+
 const Title = styled.Text`
   font-family: 'GangwonBold';
   font-size: 25px;
@@ -31,6 +36,7 @@ const CalendarFont = styled.Text`
 `;
 
 export const FontStyle = {
+  Big,
   Title,
   SubTitle,
   Content,

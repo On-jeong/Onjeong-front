@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import NoHeader from '../components/NoHeader';
+import NoHeader from '@/components/NoHeader';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import {FontStyle} from '../utils/GlobalFonts';
-import {MainInput, Paper, PaperContainer} from './MailWriteScreen';
+import {FontStyle} from '@/utils/GlobalFonts';
+import {MainInput, Paper, PaperContainer} from '@/screens/mail/MailWriteScreen';
 
 const SendBox = styled.View`
   width: 100%;
@@ -21,10 +21,7 @@ const PostWriteScreen = ({navigation, route}) => {
   const [mainText, setMainText] = useState('');
 
   return (
-    <NoHeader
-      title={route.params.date}
-      isBack={true}
-      navigation={navigation}>
+    <NoHeader title={route.params.date} isBack={true} navigation={navigation}>
       <>
         <PaperContainer>
           <Paper>

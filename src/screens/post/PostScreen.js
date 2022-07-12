@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import NoHeader from '../components/NoHeader';
+import NoHeader from '@/components/NoHeader';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import {FontStyle} from '../utils/GlobalFonts';
-import {AppColors, windowHeight} from '../utils/GlobalStyles';
-import {HorizonLine} from './MyScreen';
+import {FontStyle} from '@/utils/GlobalFonts';
+import {AppColors, windowHeight} from '@/utils/GlobalStyles';
+import {HorizonLine} from '../MyScreen';
 import {TouchableOpacity} from 'react-native';
 
 const PlanBox = styled.View`
