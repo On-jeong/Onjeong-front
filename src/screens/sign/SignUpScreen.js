@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import NoHeader from '@/components/NoHeader';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {AppColors} from '@/utils/GlobalStyles';
+import {AppButtons} from '../../components/buttons';
+import { AppInputs } from '../../components/inputs';
 
 export const Container = styled.View`
   flex: 1;
@@ -28,25 +30,6 @@ export const InputContainer = styled.View`
   margin-bottom: 20px;
 `;
 
-export const InputBox = styled.TextInput`
-  width: 70%;
-  border-bottom-width: 1px;
-  border-color: ${AppColors.border};
-  font-family: 'GangwonLight';
-  font-size: 20px;
-  margin-bottom: 10px;
-`;
-
-export const SignButton = styled.TouchableOpacity`
-  height: 40px;
-  width: 70%;
-  border-radius: 12px;
-  justify-content: center;
-  align-items: center;
-  border-width: 1px;
-  border-color: ${props => props.color};
-  margin-bottom: 10px;
-`;
 
 const SignUpScreen = ({navigation}) => {
   const [inputCheck, setInputCheck] = useState(false);
@@ -82,13 +65,13 @@ const SignUpScreen = ({navigation}) => {
             <FontStyle.Big>온정</FontStyle.Big>
           </Title>
           <InputContainer>
-            <InputBox
+            <AppInputs.BorderBottomInput
               maxLength={15}
               placeholder="아이디"
               value={id}
               onChangeText={setId}
             />
-            <InputBox
+            <AppInputs.BorderBottomInput
               maxLength={15}
               placeholder="비밀번호"
               value={pw}
@@ -96,19 +79,20 @@ const SignUpScreen = ({navigation}) => {
               secureTextEntry={true}
             />
           </InputContainer>
-          <SignButton
-            color={inputCheck ? AppColors.red1 : AppColors.blur}
+          <AppButtons.FullButton
+            title="로그인"
+            borderColor={AppColors.red1}
             onPress={onSubmit}
-            disabled={!inputCheck}>
-            <FontStyle.ContentB>로그인</FontStyle.ContentB>
-          </SignButton>
-          <SignButton
-            color={AppColors.green2}
+            inputCheck={inputCheck}
+          />
+          <AppButtons.FullButton
+            title="회원가입"
+            borderColor={AppColors.green2}
             onPress={() => {
               navigation.navigate('SignIn');
-            }}>
-            <FontStyle.ContentB>회원가입</FontStyle.ContentB>
-          </SignButton>
+            }}
+            inputCheck={true}
+          />
         </Box>
       </Container>
     </NoHeader>

@@ -14,6 +14,7 @@ export const statusBarHeight = 24;
 // color
 //
 export const main = '#EAE7C8';
+export const font = '#716B55';
 export const body = '#F8F6E7';
 export const white = '#fffcf3';
 export const border = '#c9c3a3';
@@ -30,6 +31,7 @@ export const yellow2 = '#FAD586';
 
 export const AppColors = {
   main,
+  font,
   body,
   white,
   border,
