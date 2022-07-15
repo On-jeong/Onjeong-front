@@ -3,6 +3,7 @@ import {BasicHeader} from '@/components/WithHeader';
 import styled from 'styled-components';
 import {AppColors, windowHeight, windowWidth} from '@/utils/GlobalStyles';
 import {ScrollView} from 'react-native';
+import { Components } from '@/utils/Components';
 
 const ProfileBox = styled.View`
   flex-direction: row;
@@ -21,9 +22,6 @@ const Profile = styled.TouchableOpacity`
   border-radius: 12px;
 `;
 
-export const EmptyBox = styled.View`
-  height: 100px;
-`;
 
 export default function ProfileScreen({navigation}) {
   return (
@@ -32,14 +30,14 @@ export default function ProfileScreen({navigation}) {
         <ProfileBox>
           <Profile
             onPress={() =>
-              navigation.navigate('ProfileDetail', {role: '아빠'})
+              navigation.navigate('ProfileDetail', {role: '딸1'})
             }></Profile>
           <Profile></Profile>
           <Profile></Profile>
           <Profile></Profile>
           <Profile></Profile>
         </ProfileBox>
-        <EmptyBox />
+        <Components.EmptyBox />
       </ScrollView>
     </BasicHeader>
   );

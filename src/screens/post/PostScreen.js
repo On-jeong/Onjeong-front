@@ -6,6 +6,7 @@ import {FontStyle} from '@/utils/GlobalFonts';
 import {AppColors, windowHeight} from '@/utils/GlobalStyles';
 import {HorizonLine} from '../MyScreen';
 import {TouchableOpacity} from 'react-native';
+import { Components } from '../../utils/Components';
 
 const PlanBox = styled.View`
   padding: 7%;
@@ -34,7 +35,7 @@ const PostScreen = ({navigation, route}) => {
   return (
     <NoHeader title={route.params.date} isBack={true} navigation={navigation}>
       <>
-        <HorizonLine />
+        <Components.HorizonLine />
         <PlanBox>
           <PlanTitle>
             <FontStyle.SubTitle>오늘의 행사</FontStyle.SubTitle>
@@ -42,7 +43,7 @@ const PostScreen = ({navigation, route}) => {
           <FontStyle.ContentB>1. 엄마 생신</FontStyle.ContentB>
           <FontStyle.ContentB>2. 바다 여행</FontStyle.ContentB>
         </PlanBox>
-        <HorizonLine />
+        <Components.HorizonLine />
         <PlanBox>
           <PlanTitle>
             <FontStyle.SubTitle>오늘의 기록</FontStyle.SubTitle>

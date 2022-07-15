@@ -3,6 +3,7 @@ import NoHeader from '@/components/NoHeader';
 import styled from 'styled-components';
 import {AppColors, windowWidth} from '../../utils/GlobalStyles';
 import {FontStyle} from '../../utils/GlobalFonts';
+import {Components} from '../../utils/Components';
 
 const Image = styled.Image`
   width: ${windowWidth * 0.3};
@@ -38,6 +39,7 @@ const ArrowBox = styled.View`
   padding: 8px;
   margin-left: 5px;
   margin-right: 5px;
+  margin-bottom: 10px;
   border-radius: 8px;
   background-color: ${AppColors.beige1};
   align-self: flex-start;
@@ -88,9 +90,12 @@ const ProfileDetailScreen = ({navigation, route}) => {
         {/* 상태메시지 */}
         <ArrowBox>
           <TopArrow />
-          <FontStyle.SubContent>하잉~</FontStyle.SubContent>
+          <FontStyle.SubContent>
+            하잉~ 다들 오늘도 행복하게!
+          </FontStyle.SubContent>
         </ArrowBox>
       </Container>
+      <Components.HorizonLine />
     </NoHeader>
   );
 };

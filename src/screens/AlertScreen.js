@@ -1,9 +1,10 @@
 import {BasicHeader} from '../components/WithHeader';
 import React from 'react';
 import {FontStyle} from '../utils/GlobalFonts';
-import {Email, HorizonLine} from './MyScreen';
+import {Email} from './MyScreen';
 import styled from 'styled-components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Components } from '../utils/Components';
 
 const Menu = styled.TouchableOpacity`
   width: 100%;
@@ -19,7 +20,7 @@ const AlertScreen = ({navigation}) => {
       <Menu>
         <FontStyle.ContentB>온정에 오신 것을 환영합니다!</FontStyle.ContentB>
       </Menu>
-      <HorizonLine />
+      <Components.HorizonLine />
       <Email>
         <Ionicons name="alert-circle-outline" size={15} />
         <FontStyle.SubContent>

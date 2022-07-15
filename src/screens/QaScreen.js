@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import {ScrollView, TouchableOpacity} from 'react-native';
 import {FontStyle} from '../utils/GlobalFonts';
 import {AppColors} from '../utils/GlobalStyles';
-import {EmptyBox} from './profile/ProfileScreen';
+import { Components } from '../utils/Components';
 
 const IconBox = styled.View`
   width: 100%;
@@ -80,7 +80,7 @@ export default function QaScreen({navigation}) {
             <FontStyle.ContentB>아들</FontStyle.ContentB>
             <Ans></Ans>
           </AnsBox>
-          <EmptyBox />
+          <Components.EmptyBox />
         </AnsContainer>
       </ScrollView>
     </BasicHeader>
