@@ -4,9 +4,9 @@ import NoHeader from '@/components/NoHeader';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {AppColors} from '@/utils/GlobalStyles';
 import {AppButtons} from '../../components/buttons';
-import { AppInputs } from '../../components/inputs';
+import {AppInputs} from '../../components/inputs';
 
-export const Container = styled.View`
+export const Container = styled.SafeAreaView`
   flex: 1;
   justify-content: center;
   align-items: center;
@@ -29,7 +29,6 @@ export const InputContainer = styled.View`
   align-items: center;
   margin-bottom: 20px;
 `;
-
 
 const SignUpScreen = ({navigation}) => {
   const [inputCheck, setInputCheck] = useState(false);

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import {ScrollView, TouchableOpacity} from 'react-native';
 import {FontStyle} from '../utils/GlobalFonts';
 import {AppColors} from '../utils/GlobalStyles';
-import {EmptyBox} from './ProfileScreen';
+import {EmptyBox} from './profile/ProfileScreen';
 
 const IconBox = styled.View`
   width: 100%;

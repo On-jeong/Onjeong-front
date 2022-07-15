@@ -9,6 +9,7 @@ import AlertScreen from '@/screens/AlertScreen';
 import PostScreen from '@/screens/post/PostScreen';
 import SignUpScreen from '@/screens/sign/SignUpScreen';
 import SignInScreen from '@/screens/sign/SignInScreen';
+import ProfileDetailScreen from '../screens/profile/ProfileDetailScreen';
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,7 @@ export function StackNavigator() {
       <Stack.Screen name="PostWrite" component={PostWriteScreen} />
       <Stack.Screen name="My" component={MyScreen} />
       <Stack.Screen name="Alert" component={AlertScreen} />
+      <Stack.Screen name="ProfileDetail" component={ProfileDetailScreen} />
     </Stack.Navigator>
   );
 }

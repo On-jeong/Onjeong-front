@@ -1,7 +1,7 @@
 import React from 'react';
-import {BasicHeader} from '../components/WithHeader';
+import {BasicHeader} from '@/components/WithHeader';
 import styled from 'styled-components';
-import {AppColors, windowHeight, windowWidth} from '../utils/GlobalStyles';
+import {AppColors, windowHeight, windowWidth} from '@/utils/GlobalStyles';
 import {ScrollView} from 'react-native';
 
 const ProfileBox = styled.View`
@@ -11,9 +11,9 @@ const ProfileBox = styled.View`
   justify-content: center;
 `;
 
-const Profile = styled.View`
-  width: ${windowWidth / 2.5};
-  height: ${windowHeight / 3};
+const Profile = styled.TouchableOpacity`
+  width: ${parseInt(windowWidth / 2.5)};
+  height: ${parseInt(windowHeight / 3)};
   margin: 10px;
   background-color: ${AppColors.white};
   border-width: 2px;
@@ -30,7 +30,10 @@ export default function ProfileScreen({navigation}) {
     <BasicHeader title="가족 프로필" navigation={navigation}>
       <ScrollView>
         <ProfileBox>
-          <Profile></Profile>
+          <Profile
+            onPress={() =>
+              navigation.navigate('ProfileDetail', {role: '아빠'})
+            }></Profile>
           <Profile></Profile>
           <Profile></Profile>
           <Profile></Profile>

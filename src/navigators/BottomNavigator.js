@@ -3,7 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Calendar from '../screens/CalendarScreen';
 import Home from '../screens/HomeScreen';
 import Qa from '../screens/QaScreen';
-import Profile from '../screens/ProfileScreen';
+import Profile from '../screens/profile/ProfileScreen';
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { AppColors, bottomTabHeight } from '../utils/GlobalStyles';
