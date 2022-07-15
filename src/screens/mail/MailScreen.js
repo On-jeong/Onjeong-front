@@ -1,13 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import NoHeader from '@/components/NoHeader';
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {ScrollView} from 'react-native-gesture-handler';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {TouchableOpacity} from 'react-native';
 import {AppColors} from '@/utils/GlobalStyles';
+import { AppIconButtons } from '../../components/IconButtons';
 
 const TopBar = styled.View`
   width: 100%;
@@ -59,16 +58,12 @@ const MailScreen = ({navigation}) => {
               <FontStyle.ContentB>보낸 우편함</FontStyle.ContentB>
             </TouchableOpacity>
             <Alert>
-              <TouchableOpacity>
-                <Ionicons name="alert-circle-outline" size={15} />
-              </TouchableOpacity>
+             <AppIconButtons.Alert onPress={()=>{}}/>
             </Alert>
           </Filter>
           <Filter>
             <TouchableOpacity>
-              <SimpleLineIcons
-                name="pencil"
-                size={18}
+              <AppIconButtons.Pencil
                 style={{marginRight: 8}}
                 onPress={() => {
                   navigation.navigate('MailWrite');

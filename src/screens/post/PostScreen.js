@@ -4,9 +4,9 @@ import NoHeader from '@/components/NoHeader';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {AppColors, windowHeight} from '@/utils/GlobalStyles';
-import {HorizonLine} from '../MyScreen';
 import {TouchableOpacity} from 'react-native';
-import { Components } from '../../utils/Components';
+import {Components} from '../../utils/Components';
+import {AppIconButtons} from '../../components/IconButtons';
 
 const PlanBox = styled.View`
   padding: 7%;
@@ -48,9 +48,7 @@ const PostScreen = ({navigation, route}) => {
           <PlanTitle>
             <FontStyle.SubTitle>오늘의 기록</FontStyle.SubTitle>
             <TouchableOpacity>
-              <SimpleLineIcons
-                name="pencil"
-                size={18}
+              <AppIconButtons.Pencil
                 style={{marginRight: 8}}
                 onPress={() => {
                   navigation.navigate('PostWrite', {date: route.params.date});

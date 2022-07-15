@@ -3,8 +3,8 @@ import React from 'react';
 import {FontStyle} from '../utils/GlobalFonts';
 import {Email} from './MyScreen';
 import styled from 'styled-components';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Components } from '../utils/Components';
+import {Components} from '../utils/Components';
+import {AppIconButtons} from '../components/IconButtons';
 
 const Menu = styled.TouchableOpacity`
   width: 100%;
@@ -22,9 +22,10 @@ const AlertScreen = ({navigation}) => {
       </Menu>
       <Components.HorizonLine />
       <Email>
-        <Ionicons name="alert-circle-outline" size={15} />
+        <AppIconButtons.Alert size={15} />
         <FontStyle.SubContent>
-          {' '}3일이 지나면 알림이 사라집니다.
+          {' '}
+          3일이 지나면 알림이 사라집니다.
         </FontStyle.SubContent>
       </Email>
     </BasicHeader>

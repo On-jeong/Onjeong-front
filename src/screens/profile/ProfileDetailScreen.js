@@ -67,7 +67,11 @@ const ProfileDetailScreen = ({navigation, route}) => {
     <NoHeader title={route.params.role} isBack={true} navigation={navigation}>
       <Container>
         <TopContainer>
-          <Image source={{uri: 'https://placeimg.com/100/100/people'}} />
+          <Image
+            source={{
+              uri: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTEyMTRfMjIz%2FMDAxNjM5NDcyNTY1MTYw.eZq3xw951hO9XplL50Q6j1Ir7SEGp8ZBRenxxao0RFUg.8HoXLtv1V5qdprl1_O-v2s85c5YbHfLNMLbqooTueWMg.JPEG.dhfhwlwodnjs%2F832982630_1639462263.039.jpg&type=sc960_832',
+            }}
+          />
           <BasicInfos>
             <BasicInfo>
               <FontStyle.Content>
@@ -95,6 +99,7 @@ const ProfileDetailScreen = ({navigation, route}) => {
           </FontStyle.SubContent>
         </ArrowBox>
       </Container>
+
       <Components.HorizonLine />
     </NoHeader>
   );

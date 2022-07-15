@@ -6,6 +6,7 @@ import {ScrollView, TouchableOpacity} from 'react-native';
 import {FontStyle} from '../utils/GlobalFonts';
 import {AppColors} from '../utils/GlobalStyles';
 import { Components } from '../utils/Components';
+import { AppIconButtons } from '../components/IconButtons';
 
 const IconBox = styled.View`
   width: 100%;
@@ -58,7 +59,7 @@ export default function QaScreen({navigation}) {
       </QuestBox>
       <IconBox>
         <TouchableOpacity>
-          <SimpleLineIcons name="pencil" size={18} style={{marginRight: 8}} />
+          <AppIconButtons.Pencil style={{marginRight: 8}} />
         </TouchableOpacity>
       </IconBox>
 
