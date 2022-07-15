@@ -49,7 +49,6 @@ const PostScreen = ({navigation, route}) => {
             <FontStyle.SubTitle>오늘의 기록</FontStyle.SubTitle>
             <TouchableOpacity>
               <AppIconButtons.Pencil
-                style={{marginRight: 8}}
                 onPress={() => {
                   navigation.navigate('PostWrite', {date: route.params.date});
                 }}

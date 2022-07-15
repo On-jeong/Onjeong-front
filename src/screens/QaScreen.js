@@ -59,7 +59,7 @@ export default function QaScreen({navigation}) {
       </QuestBox>
       <IconBox>
         <TouchableOpacity>
-          <AppIconButtons.Pencil style={{marginRight: 8}} />
+          <AppIconButtons.Pencil />
         </TouchableOpacity>
       </IconBox>
 

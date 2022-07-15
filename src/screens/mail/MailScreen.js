@@ -6,7 +6,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {TouchableOpacity} from 'react-native';
 import {AppColors} from '@/utils/GlobalStyles';
-import { AppIconButtons } from '../../components/IconButtons';
+import {AppIconButtons} from '@/components/IconButtons';
 
 const TopBar = styled.View`
   width: 100%;
@@ -58,13 +58,13 @@ const MailScreen = ({navigation}) => {
               <FontStyle.ContentB>보낸 우편함</FontStyle.ContentB>
             </TouchableOpacity>
             <Alert>
-             <AppIconButtons.Alert onPress={()=>{}}/>
+              <AppIconButtons.Alert onPress={() => {}} />
             </Alert>
           </Filter>
           <Filter>
             <TouchableOpacity>
               <AppIconButtons.Pencil
-                style={{marginRight: 8}}
+                margin={{marginRight: 8}}
                 onPress={() => {
                   navigation.navigate('MailWrite');
                 }}

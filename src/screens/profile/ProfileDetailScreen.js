@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import {AppColors, windowWidth} from '../../utils/GlobalStyles';
 import {FontStyle} from '../../utils/GlobalFonts';
 import {Components} from '../../utils/Components';
+import {AppIconButtons} from '@/components/IconButtons';
+import PropTypes from 'prop-types';
 
 const Image = styled.Image`
   width: ${windowWidth * 0.3};
@@ -11,6 +13,11 @@ const Image = styled.Image`
 `;
 
 const Container = styled.View`
+  padding-left: 7%;
+  padding-right: 7%;
+`;
+
+const ContentsContainer = styled.ScrollView`
   padding-left: 7%;
   padding-right: 7%;
 `;
@@ -39,7 +46,7 @@ const ArrowBox = styled.View`
   padding: 8px;
   margin-left: 5px;
   margin-right: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   border-radius: 8px;
   background-color: ${AppColors.beige1};
   align-self: flex-start;
@@ -60,6 +67,12 @@ const TopArrow = styled.View`
   position: absolute;
   top: -9px;
   left: 20px;
+`;
+
+const TagContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
 `;
 
 const ProfileDetailScreen = ({navigation, route}) => {
@@ -100,9 +113,93 @@ const ProfileDetailScreen = ({navigation, route}) => {
         </ArrowBox>
       </Container>
 
-      <Components.HorizonLine />
+      <Components.HorizonLine margin={{marginBottom: 10}} />
+
+      <ContentsContainer>
+        <CategoryTitle title="좋아하는 것들" />
+        <TagContainer>
+          <Tag title="노래" />
+          <Tag title="춤" />
+          <Tag title="게임" />
+        </TagContainer>
+        <CategoryTitle title="싫어하는 것들" />
+        <TagContainer>
+          <Tag title="벌레" />
+          <Tag title="무서운 거" />
+          <Tag title="공부" />
+        </TagContainer>
+        <CategoryTitle title="요즘 관심사" />
+        <TagContainer>
+          <Tag title="놀기" />
+          <Tag title="눞기" />
+          <Tag title="케이크" />
+        </TagContainer>
+        <CategoryTitle
+          title={`'${route.params.role}'을(를) 한단어로 표현한다면?`}
+        />
+        <TagContainer>
+          <Tag title="사랑" />
+          <Tag title="이쁨" />
+          <Tag title="isfp" />
+          <Tag title="isfp" />
+          <Tag title="isfp" />
+          <Tag title="isfp" />
+          <Tag title="isfp" />
+          <Tag title="isfp" />
+        </TagContainer>
+      </ContentsContainer>
     </NoHeader>
   );
+};
+
+const Title = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
+
+const CategoryTitle = ({title, onPress}) => {
+  return (
+    <>
+      <Title>
+        <FontStyle.ContentB>{title}</FontStyle.ContentB>
+        <AppIconButtons.Pencil
+          onPress={onPress}
+          size={17}
+          style={{marginLeft: 10}}
+        />
+      </Title>
+    </>
+  );
+};
+CategoryTitle.ProtoTypes = {
+  title: PropTypes.string,
+  onPress: PropTypes.func,
+};
+
+const TagBox = styled.View`
+  align-self: flex-start;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  background-color: ${AppColors.beige1};
+  border-radius: 12px;
+`;
+
+const Tag = ({title}) => {
+  return (
+    <>
+      <TagBox>
+        <FontStyle.SubContent>{title}</FontStyle.SubContent>
+      </TagBox>
+    </>
+  );
+};
+Tag.ProtoTypes = {
+  title: PropTypes.string,
 };
 
 export default ProfileDetailScreen;
