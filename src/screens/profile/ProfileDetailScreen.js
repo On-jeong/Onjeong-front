@@ -167,7 +167,7 @@ const CategoryTitle = ({title, onPress}) => {
         <AppIconButtons.Pencil
           onPress={onPress}
           size={17}
-          style={{marginLeft: 10}}
+          margin={{marginLeft: 10}}
         />
       </Title>
     </>
