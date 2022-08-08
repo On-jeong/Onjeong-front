@@ -1,63 +1,122 @@
 import React, {useEffect, useState} from 'react';
-import styled from 'styled-components';
 import NoHeader from '@/components/NoHeader';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {AppColors} from '@/utils/GlobalStyles';
+import {Box, Container, InputContainer, Title} from './SignInScreen';
 import {AppButtons} from '../../components/buttons';
 import {AppInputs} from '../../components/inputs';
+import DatePicker from 'react-native-date-picker';
+import styled from 'styled-components';
+import {format} from 'date-fns';
+import {useMutation} from '@tanstack/react-query';
+import axios from 'axios';
+import {API} from '../../config/api';
+import {useSignUpNoJoined, useSignUpWithJoined} from '../../hooks/useUserData';
 
-export const Container = styled.SafeAreaView`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
+//
+// 회원가입
+//
 
-export const Box = styled.View`
-  width: 100%;
-  align-items: center;
-  padding-bottom: 50px;
-`;
-
-export const Title = styled.View`
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 50px;
-`;
-
-export const InputContainer = styled.View`
-  width: 100%;
-  align-items: center;
-  margin-bottom: 20px;
+const BirthButton = styled.TouchableOpacity`
+  width: 70%;
+  border-bottom-width: 1px;
+  border-color: ${AppColors.border};
+  margin-top: 13px;
+  margin-bottom: 10px;
+  padding-left: 4px;
+  padding-bottom: 10px;
 `;
 
 const SignUpScreen = ({navigation}) => {
   const [inputCheck, setInputCheck] = useState(false);
-  const [id, setId] = useState('');
-  const [pw, setPw] = useState('');
+  const [userId, setUserId] = useState('');
+  const [userName, setUserName] = useState('');
+  const [userPassword, setUserPassWord] = useState('');
+  const [pwCheck, setPwCheck] = useState('');
+  const [userBirth, setUserBirth] = useState(new Date());
+  const [userStatus, setUserStatus] = useState('');
+  const [joinedNickname, setJoinedNickname] = useState('');
+  const [birthClick, setBirthClick] = useState(false); // 한번도 클릭하지 않았을 경우 '생년월일'
+  const [birthOpen, setBirthOpen] = useState(false);
 
   // 항목을 전부 입력했는지 체크
   useEffect(() => {
-    if (id && pw) setInputCheck(true);
+    if (
+      userId &&
+      userName &&
+      userPassword &&
+      pwCheck &&
+      userBirth &&
+      userStatus
+    )
+      setInputCheck(true);
     else setInputCheck(false);
-  }, [id, pw]);
+  }, [userId, userName, userPassword, pwCheck, userBirth, userStatus]);
 
-  const onSubmit = () => {
-    console.log('id: ' + id);
-    console.log('pw: ' + pw);
-
-    if (!id) {
+  const validationCheck = () => {
+    if (!userId) {
       alert('아이디를 입력해주세요.');
       return 0;
-    } else if (!pw) {
+    } else if (!userName) {
+      alert('이름을 입력해주세요.');
+      return 0;
+    } else if (!userPassword) {
       alert('비밀번호를 입력해주세요.');
       return 0;
-    }
+    } else if (!pwCheck) {
+      alert('비밀번호 확인을 입력해주세요.');
+      return 0;
+    } else if (userPassword != pwCheck) {
+      alert('비밀번호 확인이 맞지 않습니다.');
+      return 0;
+    } else if (!userBirth) {
+      alert('생일을 입력해주세요.');
+      return 0;
+    } else if (!userStatus) {
+      alert('가족 내 역할을 입력해주세요.');
+      return 0;
+    } else return 1;
+  };
 
-    navigation.navigate('Home');
+  const {mutate: addNoJoined} = useSignUpNoJoined(navigation);
+  const {mutate: addWithJoined} = useSignUpWithJoined(navigation);
+
+  const onSubmit = () => {
+    console.log('id: ' + userId);
+    console.log('name: ' + userName);
+    console.log('pw: ' + userPassword);
+    console.log('pwCheck: ' + pwCheck);
+    console.log('birth: ' + userBirth);
+    console.log('role: ' + userStatus);
+    console.log('invite: ' + joinedNickname);
+
+    if (validationCheck()) {
+      // 가족회원이 없는 회원가입
+      if (!joinedNickname) {
+        addNoJoined({
+          userBirth: format(userBirth, 'yyyy-MM-dd'),
+          userName,
+          userNickname: userId,
+          userPassword,
+          userStatus,
+        });
+      }
+      // 가족회원이 있는 회원가입
+      else {
+        addWithJoined({
+          joinedNickname,
+          userBirth: format(userBirth, 'yyyy-MM-dd'),
+          userName,
+          userNickname: userId,
+          userPassword,
+          userStatus,
+        });
+      }
+    }
   };
 
   return (
-    <NoHeader>
+    <NoHeader isBack={true} navigation={navigation}>
       <Container>
         <Box>
           <Title>
@@ -67,30 +126,72 @@ const SignUpScreen = ({navigation}) => {
             <AppInputs.BorderBottomInput
               maxLength={15}
               placeholder="아이디"
-              value={id}
-              onChangeText={setId}
+              value={userId}
+              onChangeText={setUserId}
+            />
+            <AppInputs.BorderBottomInput
+              maxLength={15}
+              placeholder="이름"
+              value={userName}
+              onChangeText={setUserName}
             />
             <AppInputs.BorderBottomInput
               maxLength={15}
               placeholder="비밀번호"
-              value={pw}
-              onChangeText={setPw}
+              value={userPassword}
+              onChangeText={setUserPassWord}
               secureTextEntry={true}
+            />
+            <AppInputs.BorderBottomInput
+              maxLength={15}
+              placeholder="비밀번호 확인"
+              value={pwCheck}
+              onChangeText={setPwCheck}
+              secureTextEntry={true}
+            />
+            {/* 생년월일 선택 버튼 */}
+            <BirthButton onPress={() => setBirthOpen(true)}>
+              <FontStyle.Content color={birthClick ? 'black' : '#999797'}>
+                {birthClick ? format(userBirth, 'yyyy-MM-dd') : '생년월일'}
+              </FontStyle.Content>
+            </BirthButton>
+            <AppInputs.BorderBottomInput
+              maxLength={15}
+              placeholder="가족 내 역할  (ex)첫째 딸"
+              value={userStatus}
+              onChangeText={setUserStatus}
+            />
+            <AppInputs.BorderBottomInput
+              maxLength={15}
+              placeholder="초대가족 아이디"
+              value={joinedNickname}
+              onChangeText={setJoinedNickname}
             />
           </InputContainer>
           <AppButtons.FullButton
-            title="로그인"
-            borderColor={AppColors.red1}
+            title="회원가입"
+            borderColor={AppColors.green2}
             onPress={onSubmit}
             inputCheck={inputCheck}
           />
-          <AppButtons.FullButton
-            title="회원가입"
-            borderColor={AppColors.green2}
-            onPress={() => {
-              navigation.navigate('SignIn');
+          {/* 생일 선택 모달 */}
+          <DatePicker
+            modal
+            mode="date"
+            open={birthOpen}
+            date={userBirth}
+            onConfirm={date => {
+              setBirthOpen(false);
+              setUserBirth(date);
+              setBirthClick(true);
             }}
-            inputCheck={true}
+            onCancel={() => {
+              setBirthOpen(false);
+            }}
+            confirmText="확인"
+            cancelText="취소"
+            title={null}
+            androidVariant="iosClone"
           />
         </Box>
       </Container>
