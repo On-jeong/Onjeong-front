@@ -90,6 +90,8 @@ const SignUpScreen = ({navigation}) => {
     console.log('role: ' + userStatus);
     console.log('invite: ' + joinedNickname);
 
+
+    // 서버에 회원가입 요청
     if (validationCheck()) {
       // 가족회원이 없는 회원가입
       if (!joinedNickname) {

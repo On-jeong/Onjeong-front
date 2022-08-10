@@ -8,7 +8,8 @@ import {AppInputs} from '../../components/inputs';
 import {useMutation} from '@tanstack/react-query';
 import axios from 'axios';
 import {API} from '../../config/api';
-
+import {useSignIn} from '../../hooks/useUserData';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 //
 // 로그인
 //
@@ -39,28 +40,48 @@ export const InputContainer = styled.View`
 
 const SignInScreen = ({navigation}) => {
   const [inputCheck, setInputCheck] = useState(false);
-  const [id, setId] = useState('');
-  const [pw, setPw] = useState('');
+  const [userId, setUserId] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+
+  // 로그인 되어있는 상태이면 바로 홈화면으로 이동, 없으면 로그인 화면으로
+  useEffect(() => {
+    getToken();
+  }, []);
+
+  const getToken = async () => {
+    const token = await AsyncStorage.getItem('userToken');
+    console.log(token);
+    if (token !== null) navigation.navigate('Home');
+  };
+
 
   // 항목을 전부 입력했는지 체크
   useEffect(() => {
-    if (id && pw) setInputCheck(true);
+    if (userId && userPassword) setInputCheck(true);
     else setInputCheck(false);
-  }, [id, pw]);
+    const token = AsyncStorage.getItem('userToken');
+    console.log('loginToken:' + token);
+  }, [userId, userPassword]);
+
+  const {mutate} = useSignIn(navigation);
 
   const onSubmit = () => {
-    console.log('id: ' + id);
-    console.log('pw: ' + pw);
+    console.log('id: ' + userId);
+    console.log('pw: ' + userPassword);
 
-    if (!id) {
+    if (!userId) {
       alert('아이디를 입력해주세요.');
       return 0;
-    } else if (!pw) {
+    } else if (!userPassword) {
       alert('비밀번호를 입력해주세요.');
       return 0;
     }
 
-    navigation.navigate('Home');
+    // 서버에 로그인 요청
+    mutate({
+      userNickname: userId,
+      userPassword,
+    });
   };
 
   return (
@@ -74,14 +95,14 @@ const SignInScreen = ({navigation}) => {
             <AppInputs.BorderBottomInput
               maxLength={15}
               placeholder="아이디"
-              value={id}
-              onChangeText={setId}
+              value={userId}
+              onChangeText={setUserId}
             />
             <AppInputs.BorderBottomInput
               maxLength={15}
               placeholder="비밀번호"
-              value={pw}
-              onChangeText={setPw}
+              value={userPassword}
+              onChangeText={setUserPassword}
               secureTextEntry={true}
             />
           </InputContainer>

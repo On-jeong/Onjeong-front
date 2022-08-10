@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {FontStyle} from '../utils/GlobalFonts';
 import {BasicHeader} from '../components/WithHeader';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';

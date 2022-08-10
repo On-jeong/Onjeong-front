@@ -1,5 +1,6 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
+
 import {BottomNavigator} from './BottomNavigator';
 import MailScreen from '@/screens/mail/MailScreen';
 import MailWriteScreen from '@/screens/mail/MailWriteScreen';
@@ -13,10 +14,11 @@ import ProfileDetailScreen from '../screens/profile/ProfileDetailScreen';
 
 const Stack = createStackNavigator();
 
-export function StackNavigator() {
+export function StackNavigator(navigation) {
+
   return (
     <Stack.Navigator
-      initialRouteName="SignIn"
+      initialRouteName={'SignIn'}
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="SignIn" component={SignInScreen} />
