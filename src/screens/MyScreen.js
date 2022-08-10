@@ -2,7 +2,8 @@ import React from 'react';
 import {BasicHeader} from '../components/WithHeader';
 import styled from 'styled-components';
 import {FontStyle} from '../utils/GlobalFonts';
-import { Components } from '../utils/Components';
+import {Components} from '../utils/Components';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Menu = styled.TouchableOpacity`
   width: 100%;
@@ -41,7 +42,20 @@ const MyScreen = ({navigation}) => {
         <FontStyle.SubTitle>비밀번호 변경</FontStyle.SubTitle>
       </Menu>
       <Components.HorizonLine />
-      <Menu>
+      <Menu
+        onPress={async () => {
+          try {
+            await AsyncStorage.removeItem('userToken', () => {
+              // AsyncStorage.getAllKeys().then(keys =>
+              //   AsyncStorage.multiGet(keys).then(data => console.log(data)),
+              // );
+              const token = AsyncStorage.getItem('userToken');
+              navigation.navigate('SignIn');
+            });
+          } catch (e) {
+            console.error(e);
+          }
+        }}>
         <FontStyle.SubTitle>로그아웃</FontStyle.SubTitle>
       </Menu>
       <Components.HorizonLine />
