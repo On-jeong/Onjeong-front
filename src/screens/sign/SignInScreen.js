@@ -5,11 +5,8 @@ import {FontStyle} from '@/utils/GlobalFonts';
 import {AppColors} from '@/utils/GlobalStyles';
 import {AppButtons} from '../../components/buttons';
 import {AppInputs} from '../../components/inputs';
-import {useMutation} from '@tanstack/react-query';
-import axios from 'axios';
-import {API} from '../../config/api';
 import {useSignIn} from '../../hooks/useUserData';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {storage} from '../../config/storage';
 //
 // 로그인
 //
@@ -45,22 +42,19 @@ const SignInScreen = ({navigation}) => {
 
   // 로그인 되어있는 상태이면 바로 홈화면으로 이동, 없으면 로그인 화면으로
   useEffect(() => {
-    getToken();
+    //checkToken();
   }, []);
 
-  const getToken = async () => {
-    const token = await AsyncStorage.getItem('userToken');
-    console.log(token);
+  const checkToken = async () => {
+    const token = await storage.getItem('userToken');
+    console.log('loginToken: ' + token);
     if (token !== null) navigation.navigate('Home');
   };
-
 
   // 항목을 전부 입력했는지 체크
   useEffect(() => {
     if (userId && userPassword) setInputCheck(true);
     else setInputCheck(false);
-    const token = AsyncStorage.getItem('userToken');
-    console.log('loginToken:' + token);
   }, [userId, userPassword]);
 
   const {mutate} = useSignIn(navigation);

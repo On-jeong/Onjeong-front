@@ -11,7 +11,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {StackNavigator} from './src/navigators/StackNavigator';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import FlipperAsyncStorage from 'rn-flipper-async-storage-advanced';
-import { navigationHeight } from './src/utils/GlobalStyles';
 
 const queryClient = new QueryClient();
 

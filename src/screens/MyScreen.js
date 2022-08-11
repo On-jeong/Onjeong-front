@@ -3,7 +3,7 @@ import {BasicHeader} from '../components/WithHeader';
 import styled from 'styled-components';
 import {FontStyle} from '../utils/GlobalFonts';
 import {Components} from '../utils/Components';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useSignOut} from '../hooks/useUserData';
 
 const Menu = styled.TouchableOpacity`
   width: 100%;
@@ -43,18 +43,11 @@ const MyScreen = ({navigation}) => {
       </Menu>
       <Components.HorizonLine />
       <Menu
-        onPress={async () => {
-          try {
-            await AsyncStorage.removeItem('userToken', () => {
-              // AsyncStorage.getAllKeys().then(keys =>
-              //   AsyncStorage.multiGet(keys).then(data => console.log(data)),
-              // );
-              const token = AsyncStorage.getItem('userToken');
-              navigation.navigate('SignIn');
-            });
-          } catch (e) {
-            console.error(e);
-          }
+        onPress={() => {
+          const {status, error, data} = useSignOut(navigation);
+          console.log('status: ' + status);
+          if (error) console.log('error: ' + error);
+          if (status != 'loading') console.log('data: ' + data);
         }}>
         <FontStyle.SubTitle>로그아웃</FontStyle.SubTitle>
       </Menu>

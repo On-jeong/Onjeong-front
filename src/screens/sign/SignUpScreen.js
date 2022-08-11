@@ -8,9 +8,6 @@ import {AppInputs} from '../../components/inputs';
 import DatePicker from 'react-native-date-picker';
 import styled from 'styled-components';
 import {format} from 'date-fns';
-import {useMutation} from '@tanstack/react-query';
-import axios from 'axios';
-import {API} from '../../config/api';
 import {useSignUpNoJoined, useSignUpWithJoined} from '../../hooks/useUserData';
 
 //
