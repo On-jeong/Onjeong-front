@@ -5,11 +5,7 @@ import {storage} from '../config/storage';
 
 const fetchUserData = async () => {
   const token = await storage.getItem('userToken');
-  return axios.get(`${API}/users`, {
-    headers: {
-      Authorization: token,
-    },
-  });
+  return axios.get(`${API}/users`);
 };
 
 const postSignUpNoJoined = userData => {
@@ -26,11 +22,7 @@ const postSignInData = userData => {
 
 const reqSignOut = async () => {
   const token = await storage.getItem('userToken');
-  return axios.get(`${API}/logout`, {
-    headers: {
-      Authorization: token,
-    },
-  });
+  return axios.get(`${API}/logout`);
 };
 
 // 유저 데이터 불러오기
