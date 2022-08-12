@@ -6,6 +6,7 @@ import {FontStyle} from '../../utils/GlobalFonts';
 import {Components} from '../../utils/Components';
 import {AppIconButtons} from '@/components/IconButtons';
 import PropTypes from 'prop-types';
+import {useGetFamilyDetail} from '../../hooks/useProFileData';
 
 const Image = styled.Image`
   width: ${windowWidth * 0.3};
@@ -76,41 +77,56 @@ const TagContainer = styled.View`
 `;
 
 const ProfileDetailScreen = ({navigation, route}) => {
+  const {data, isLoading, status, error} = useGetFamilyDetail(
+    route.params.userId,
+  );
+  if (status == 'success') console.log(data.data);
+  console.log(status);
+  console.log(error);
   return (
     <NoHeader title={route.params.role} isBack={true} navigation={navigation}>
       <Container>
-        <TopContainer>
-          <Image
-            source={{
-              uri: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTEyMTRfMjIz%2FMDAxNjM5NDcyNTY1MTYw.eZq3xw951hO9XplL50Q6j1Ir7SEGp8ZBRenxxao0RFUg.8HoXLtv1V5qdprl1_O-v2s85c5YbHfLNMLbqooTueWMg.JPEG.dhfhwlwodnjs%2F832982630_1639462263.039.jpg&type=sc960_832',
-            }}
-          />
-          <BasicInfos>
-            <BasicInfo>
-              <FontStyle.Content>
-                이름: <FontStyle.Content>소현진</FontStyle.Content>
-              </FontStyle.Content>
-            </BasicInfo>
-            <BasicInfo>
-              <FontStyle.Content>
-                나이: <FontStyle.Content>23</FontStyle.Content>
-              </FontStyle.Content>
-            </BasicInfo>
-            <BasicInfo>
-              <FontStyle.Content>
-                생일: <FontStyle.Content>2000-04-25</FontStyle.Content>
-              </FontStyle.Content>
-            </BasicInfo>
-          </BasicInfos>
-        </TopContainer>
+        {isLoading && <FontStyle.Content>Loading...</FontStyle.Content>}
+        {status == 'success' && (
+          <>
+            <TopContainer>
+              <Image
+                source={{
+                  uri: data.data.profileImageUrl
+                    ? checkProfileImage
+                    : 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTEyMTRfMjIz%2FMDAxNjM5NDcyNTY1MTYw.eZq3xw951hO9XplL50Q6j1Ir7SEGp8ZBRenxxao0RFUg.8HoXLtv1V5qdprl1_O-v2s85c5YbHfLNMLbqooTueWMg.JPEG.dhfhwlwodnjs%2F832982630_1639462263.039.jpg&type=sc960_832',
+                }}
+              />
+              <BasicInfos>
+                <BasicInfo>
+                  <FontStyle.Content>
+                    이름:{' '}
+                    <FontStyle.Content>{data.data.name}</FontStyle.Content>
+                  </FontStyle.Content>
+                </BasicInfo>
+                <BasicInfo>
+                  <FontStyle.Content>
+                    나이: <FontStyle.Content>{data.data.age}</FontStyle.Content>
+                  </FontStyle.Content>
+                </BasicInfo>
+                <BasicInfo>
+                  <FontStyle.Content>
+                    생일:{' '}
+                    <FontStyle.Content>{data.data.birth}</FontStyle.Content>
+                  </FontStyle.Content>
+                </BasicInfo>
+              </BasicInfos>
+            </TopContainer>
 
-        {/* 상태메시지 */}
-        <ArrowBox>
-          <TopArrow />
-          <FontStyle.SubContent>
-            하잉~ 다들 오늘도 행복하게!
-          </FontStyle.SubContent>
-        </ArrowBox>
+            {/* 상태메시지 */}
+            <ArrowBox>
+              <TopArrow />
+              <FontStyle.SubContent>
+                하잉~ 다들 오늘도 행복하게!
+              </FontStyle.SubContent>
+            </ArrowBox>
+          </>
+        )}
       </Container>
 
       <Components.HorizonLine margin={{marginBottom: 10}} />

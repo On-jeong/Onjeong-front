@@ -13,8 +13,8 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {RecoilRoot} from 'recoil';
 
 import FlipperAsyncStorage from 'rn-flipper-async-storage-advanced';
-import {Text} from 'react-native';
 import {FontStyle} from './src/utils/GlobalFonts';
+
 
 const queryClient = new QueryClient();
 
@@ -25,6 +25,7 @@ if (__DEV__) {
 }
 
 export default function App({navigation}) {
+
   return (
     <>
       <QueryClientProvider client={queryClient}>

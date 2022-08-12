@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {BasicHeader} from '@/components/WithHeader';
 import styled from 'styled-components';
 import {AppColors, windowHeight, windowWidth} from '@/utils/GlobalStyles';
 import {ScrollView} from 'react-native';
-import { Components } from '@/utils/Components';
+import {Components} from '@/utils/Components';
+import {useGetFamilyList} from '../../hooks/useProFileData';
+import {FontStyle} from '../../utils/GlobalFonts';
 
 const ProfileBox = styled.View`
   flex-direction: row;
@@ -20,22 +22,33 @@ const Profile = styled.TouchableOpacity`
   border-width: 2px;
   border-color: ${AppColors.border};
   border-radius: 12px;
+  justify-content: center;
+  align-items: center;
 `;
 
-
 export default function ProfileScreen({navigation}) {
+  const {data, isLoading, status} = useGetFamilyList();
+
   return (
     <BasicHeader title="가족 프로필" navigation={navigation}>
       <ScrollView>
         <ProfileBox>
-          <Profile
-            onPress={() =>
-              navigation.navigate('ProfileDetail', {role: '딸1'})
-            }></Profile>
-          <Profile></Profile>
-          <Profile></Profile>
-          <Profile></Profile>
-          <Profile></Profile>
+          {isLoading && <FontStyle.Content>Loading...</FontStyle.Content>}
+          {status == 'success' && (
+            <>
+              {data.data.map(fm => (
+                <Profile
+                  onPress={() =>
+                    navigation.navigate('ProfileDetail', {
+                      userId: fm.userId,
+                      role: fm.userStatus,
+                    })
+                  }>
+                  <FontStyle.SubTitle>{fm.userStatus}</FontStyle.SubTitle>
+                </Profile>
+              ))}
+            </>
+          )}
         </ProfileBox>
         <Components.EmptyBox />
       </ScrollView>
