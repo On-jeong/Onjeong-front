@@ -7,6 +7,7 @@ import {AppButtons} from '../../components/buttons';
 import {AppInputs} from '../../components/inputs';
 import {useGetUserData, useSignIn} from '../../hooks/useUserData';
 import {storage} from '../../config/storage';
+import axios from 'axios';
 
 //
 // 로그인
@@ -55,10 +56,13 @@ const SignInScreen = ({navigation}) => {
 
   const checkToken = async () => {
     const token = await storage.getItem('userToken');
-    const data = await storage.getStrItem('userData');
     console.log('loginToken: ' + token);
-    console.log('logindata: ' + data);
-    if (token !== null) navigation.navigate('Home');
+    if (token !== null) {
+      const data = await storage.getStrItem('userData');
+      console.log('logindata: ' + data);
+      axios.defaults.headers.common['Authorization'] = token;
+      navigation.navigate('Home');
+    }
   };
 
   // 항목을 전부 입력했는지 체크
