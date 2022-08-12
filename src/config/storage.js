@@ -19,7 +19,7 @@ const getItem = async key => {
 
 const setStrItem = async (key, value) => {
   try {
-    await AsyncStorage.setItem(key, JSON.parse(value));
+    await AsyncStorage.setItem(key, JSON.stringify(value));
   } catch (e) {
     console.log(e);
   }
@@ -28,7 +28,7 @@ const setStrItem = async (key, value) => {
 const getStrItem = async key => {
   try {
     const value = await AsyncStorage.getItem(key);
-    return JSON.stringify(value);
+    return value;
   } catch (e) {
     console.log(e);
   }

@@ -1,19 +1,14 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {FontStyle} from '../utils/GlobalFonts';
 import {BasicHeader} from '../components/WithHeader';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {useGetUserData} from '../hooks/useUserData';
-import {useMutation, useQuery} from '@tanstack/react-query';
-import {storage} from '../config/storage';
-import axios from 'axios';
-import {API} from '@/config/api';
+import {useRecoilState} from 'recoil';
+import UserData from '../state/UserData';
 
 export const HomeScreen = ({navigation}) => {
-  const {status, data, error} = useGetUserData();
-  // console.log('status: ' + status);
-  // if (error) console.log('error: ' + error);
-  // if (status != 'loading') console.log('data: ' + data);
+  const [userData, setUserData] = useRecoilState(UserData);
+  console.log('리코일: ' + userData);
 
   return (
     <BasicHeader title="온정" navigation={navigation}>

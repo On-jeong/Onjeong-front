@@ -5,8 +5,9 @@ import {FontStyle} from '@/utils/GlobalFonts';
 import {AppColors} from '@/utils/GlobalStyles';
 import {AppButtons} from '../../components/buttons';
 import {AppInputs} from '../../components/inputs';
-import {useSignIn} from '../../hooks/useUserData';
+import {useGetUserData, useSignIn} from '../../hooks/useUserData';
 import {storage} from '../../config/storage';
+
 //
 // 로그인
 //
@@ -40,14 +41,23 @@ const SignInScreen = ({navigation}) => {
   const [userId, setUserId] = useState('');
   const [userPassword, setUserPassword] = useState('');
 
+  const {status, data, error} = useGetUserData();
+
+  if (error) console.log('error: ' + error);
+  if (status == 'success') {
+    storage.setStrItem('userData', data.data);
+  }
+
   // 로그인 되어있는 상태이면 바로 홈화면으로 이동, 없으면 로그인 화면으로
   useEffect(() => {
-    //checkToken();
+    checkToken();
   }, []);
 
   const checkToken = async () => {
     const token = await storage.getItem('userToken');
+    const data = await storage.getStrItem('userData');
     console.log('loginToken: ' + token);
+    console.log('logindata: ' + data);
     if (token !== null) navigation.navigate('Home');
   };
 

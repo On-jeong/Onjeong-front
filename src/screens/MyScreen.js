@@ -44,6 +44,7 @@ const MyScreen = ({navigation}) => {
       <Components.HorizonLine />
       <Menu
         onPress={() => {
+          navigation.navigate('SignIn');
           const {status, error, data} = useSignOut(navigation);
           console.log('status: ' + status);
           if (error) console.log('error: ' + error);

@@ -26,6 +26,7 @@
     "react-native-screens": "^3.13.1",
     "react-native-splash-screen": "^3.3.0",
     "react-native-vector-icons": "^9.2.0",
+    "recoil": "^0.7.4",
     "redux-devtools-extension": "^2.13.9",
     "rn-flipper-async-storage-advanced": "^1.0.4",
     "styled-components": "^5.3.5"
