@@ -41,9 +41,12 @@ export const useGetSendMails = () => {
 };
 
 // 메일 보내기
-export const usePostMail = () => {
+export const usePostMail = navigation => {
   return useMutation(postMailData, {
     onError: error => console.log(error),
+    onSuccess: () => {
+      navigation.navigate('Mail');
+    },
   });
 };
 

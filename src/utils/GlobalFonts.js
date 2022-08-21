@@ -20,7 +20,7 @@ const SubTitle = styled.Text`
 `;
 
 const Content = styled.Text`
-  font-family: 'GangwonLight';
+  font-family: ${props => (props?.bold ? 'GangwonBold' : 'GangwonLight')};
   font-size: 20px;
   color: ${props => (props.color ? props.color : AppColors.font)};
 `;
