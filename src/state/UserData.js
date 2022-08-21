@@ -1,11 +1,12 @@
 import {atom} from 'recoil';
 import {storage} from '../config/storage';
 
+
 // asyncstorage와 데이터 연동
 const asyncStorageEffect =
   key =>
-  ({setSelf, onSet}) => {
-    const savedValue = storage.getItem(key);
+  async ({setSelf, onSet}) => {
+    const savedValue = await storage.getStrItem(key);
 
     if (savedValue !== null) {
       // 초기화
@@ -20,6 +21,6 @@ const asyncStorageEffect =
 
 export default atom({
   key: 'userData',
-  default: {},
+  default: {userId: '', userName: '', userStatus: '', userBirth: ''},
   effects: [asyncStorageEffect('userData')],
 });
