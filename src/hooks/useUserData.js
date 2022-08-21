@@ -4,7 +4,6 @@ import {API} from '@/config/api';
 import {storage} from '../config/storage';
 
 const fetchUserData = async () => {
-  const token = await storage.getItem('userToken');
   return axios.get(`${API}/users`);
 };
 
@@ -21,8 +20,15 @@ const postSignInData = userData => {
 };
 
 const reqSignOut = async () => {
-  const token = await storage.getItem('userToken');
   return axios.get(`${API}/logout`);
+};
+
+const modifyAccount = userData => {
+  return axios.put(`${API}/accounts/user`, userData);
+};
+
+const deleteAccount = () => {
+  return axios.delete(`${API}/accounts`);
 };
 
 // 유저 데이터 불러오기
@@ -36,8 +42,8 @@ export const useGetUserData = () => {
 export const useSignUpNoJoined = navigation => {
   return useMutation(postSignUpNoJoined, {
     // 성공시 로그인 페이지로 이동
-    onSuccess: data => navigation.navigate('SignIn'),
-    onError: error => alert('회원가입에 실패했습니다.'),
+    onSuccess: () => navigation.navigate('SignIn'),
+    onError: () => alert('회원가입에 실패했습니다.'),
   });
 };
 
@@ -45,8 +51,8 @@ export const useSignUpNoJoined = navigation => {
 export const useSignUpWithJoined = navigation => {
   return useMutation(postSignUpWithJoined, {
     // 성공시 로그인 페이지로 이동
-    onSuccess: data => navigation.navigate('SignIn'),
-    onError: error => alert('회원가입에 실패했습니다.'),
+    onSuccess: () => navigation.navigate('SignIn'),
+    onError: () => alert('회원가입에 실패했습니다.'),
   });
 };
 
@@ -76,5 +82,19 @@ export const useSignOut = navigation => {
       // );
     },
     onError: error => alert('로그아웃에 실패했습니다.'),
+  });
+};
+
+// 회원정보 수정
+export const useModifyAccount = userData => {
+  return useMutation(modifyAccount(userData), {
+    onError: error => console.log(error),
+  });
+};
+
+// 회원탈퇴
+export const useDeleteAccount = () => {
+  return useMutation(deleteAccount(), {
+    onError: error => console.log(error),
   });
 };
