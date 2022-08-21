@@ -91,11 +91,11 @@ const ProfileDetailScreen = ({navigation, route}) => {
           <>
             <TopContainer>
               <Image
-                source={{
-                  uri: data.data.profileImageUrl
-                    ? checkProfileImage
-                    : 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTEyMTRfMjIz%2FMDAxNjM5NDcyNTY1MTYw.eZq3xw951hO9XplL50Q6j1Ir7SEGp8ZBRenxxao0RFUg.8HoXLtv1V5qdprl1_O-v2s85c5YbHfLNMLbqooTueWMg.JPEG.dhfhwlwodnjs%2F832982630_1639462263.039.jpg&type=sc960_832',
-                }}
+                source={
+                  data.data.profileImageUrl
+                    ? {uri: checkProfileImage}
+                    : require('@/assets/image/profileImage.png')
+                }
               />
               <BasicInfos>
                 <BasicInfo>
