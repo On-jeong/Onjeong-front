@@ -28,7 +28,7 @@ const setStrItem = async (key, value) => {
 const getStrItem = async key => {
   try {
     const value = await AsyncStorage.getItem(key);
-    return value;
+    return JSON.parse(value);
   } catch (e) {
     console.log(e);
   }
