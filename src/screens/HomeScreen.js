@@ -8,7 +8,7 @@ import UserData from '../state/UserData';
 
 export const HomeScreen = ({navigation}) => {
   const [userData, setUserData] = useRecoilState(UserData);
-  console.log('리코일: ' + userData);
+  console.log('리코일: ' + JSON.stringify(userData));
 
   return (
     <BasicHeader title="온정" navigation={navigation}>

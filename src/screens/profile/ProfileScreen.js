@@ -36,7 +36,7 @@ export default function ProfileScreen({navigation}) {
           {isLoading && <FontStyle.Content>Loading...</FontStyle.Content>}
           {status == 'success' && (
             <>
-              {data.data.map(fm => (
+              {data?.data.map(fm => (
                 <Profile
                   onPress={() =>
                     navigation.navigate('ProfileDetail', {
