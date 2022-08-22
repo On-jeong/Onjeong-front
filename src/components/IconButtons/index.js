@@ -2,6 +2,7 @@ import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import PropTypes from 'prop-types';
 
 const Pencil = ({
@@ -66,7 +67,39 @@ Alert.PropTypes = {
   },
 };
 
+const Cancel = ({
+  onPress,
+  size = 22,
+  margin = {marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0},
+}) => {
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <MaterialIcons
+        name="cancel"
+        size={size}
+        style={{
+          marginTop: margin.marginTop,
+          marginBottom: margin.marginBottom,
+          marginLeft: margin.marginLeft,
+          marginRight: margin.marginRight,
+        }}
+      />
+    </TouchableOpacity>
+  );
+};
+Cancel.PropTypes = {
+  onPress: PropTypes.func,
+  size: PropTypes.number,
+  margin: {
+    marginTop: PropTypes.number,
+    marginBottom: PropTypes.number,
+    marginLeft: PropTypes.number,
+    marginRight: PropTypes.number,
+  },
+};
+
+
 export const AppIconButtons = {
   Pencil,
-  Alert,
+  Alert,Cancel
 };

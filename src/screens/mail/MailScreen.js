@@ -2,7 +2,7 @@ import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
 import NoHeader from '@/components/NoHeader';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 import {ScrollView} from 'react-native-gesture-handler';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {TouchableOpacity} from 'react-native';
@@ -167,7 +167,7 @@ const MailScreen = ({navigation}) => {
                             mails.filter(it => it.mailId !== mail.mailId),
                           );
                         }}>
-                        <MaterialIcons name="cancel" size={22} />
+                        <AppIconButtons.Cancel/>
                       </IconBox>
                     )}
                     <FontStyle.Content numberOfLines={2} ellipsizeMode="tail">
