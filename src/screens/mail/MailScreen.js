@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import NoHeader from '@/components/NoHeader';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -67,13 +67,18 @@ const IconBox = styled.TouchableOpacity`
 `;
 
 const MailScreen = ({navigation}) => {
+
+  useEffect(() => {
+    setMails(data.data);
+  }, [data]);
+
   //뒤로가기로 화면이 포커스 됐을 때도 업데이트
   useFocusEffect(
     useCallback(() => {
       refetch();
       sendRefetch();
     }, []),
-    [],
+    [data],
   );
 
   const {data, isLoading, status, error, refetch} = useGetReceiveMails();
@@ -92,17 +97,18 @@ const MailScreen = ({navigation}) => {
   const [isReceive, setIsReceive] = useState(true);
   const [isDelete, setIsDelete] = useState(false);
 
+  console.log(mails);
+
   const receiveMails = () => {
     setIsReceive(true);
     refetch();
     setMails(data.data);
   };
 
-  const sendMails = async () => {
+  const sendMails = () => {
     setIsReceive(false);
-    await sendRefetch();
-    console.log(sendIsRefetching);
-    if (!sendIsRefetching) setMails(sendData.data);
+    sendRefetch();
+    setMails(sendData.data);
   };
 
   return (
@@ -167,7 +173,7 @@ const MailScreen = ({navigation}) => {
                             mails.filter(it => it.mailId !== mail.mailId),
                           );
                         }}>
-                        <AppIconButtons.Cancel/>
+                        <AppIconButtons.Cancel />
                       </IconBox>
                     )}
                     <FontStyle.Content numberOfLines={2} ellipsizeMode="tail">
@@ -177,7 +183,7 @@ const MailScreen = ({navigation}) => {
                       <FontStyle.ContentB>
                         {isReceive ? 'From. ' : 'To. '}
                         <FontStyle.ContentB>
-                        {isReceive ?  mail.sendUserName :  mail.receiveUserName}
+                          {isReceive ? mail.sendUserName : mail.receiveUserName}
                         </FontStyle.ContentB>
                       </FontStyle.ContentB>
                     </FromBox>
