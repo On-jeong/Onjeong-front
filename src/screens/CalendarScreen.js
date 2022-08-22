@@ -122,6 +122,7 @@ const getCalender = ({curDate, setCurDate, navigation}) => {
             onPress={() => {
               navigation.navigate('Post', {
                 date: format(date, 'yyyy년 MM월 dd일'),
+                barDate: format(date, 'yyyy-MM-dd'),
               });
             }}>
             <Circle color={true}>

@@ -27,7 +27,7 @@ const TopBar = styled.View`
   margin-bottom: 20px;
 `;
 
-const Filter = styled.View`
+export const Filter = styled.View`
   flex-direction: row;
   justify-content: flex-end;
 `;
@@ -67,7 +67,6 @@ const IconBox = styled.TouchableOpacity`
 `;
 
 const MailScreen = ({navigation}) => {
-
   //뒤로가기로 화면이 포커스 됐을 때도 업데이트
   useFocusEffect(
     useCallback(() => {
@@ -76,9 +75,11 @@ const MailScreen = ({navigation}) => {
     }, []),
     [data],
   );
-  const {data, isLoading, status, error, refetch} = useGetReceiveMails({onSuccess:(data)=>{
-    setMails(data?.data);
-  }});
+  const {data, isLoading, status, error, refetch} = useGetReceiveMails({
+    onSuccess: data => {
+      setMails(data?.data);
+    },
+  });
   const {
     data: sendData,
     isLoading: sendIsLoading,
@@ -93,17 +94,18 @@ const MailScreen = ({navigation}) => {
   const [mails, setMails] = useState(data?.data);
   const [isReceive, setIsReceive] = useState(true);
   const [isDelete, setIsDelete] = useState(false);
-  
+  console.log(mails);
+
   const receiveMails = () => {
     setIsReceive(true);
     refetch();
-    setMails(data.data);
+    setMails(data?.data);
   };
 
   const sendMails = () => {
     setIsReceive(false);
     sendRefetch();
-    setMails(sendData.data);
+    setMails(sendData?.data);
   };
 
   return (
@@ -127,24 +129,24 @@ const MailScreen = ({navigation}) => {
             </Alert>
           </Filter>
           <Filter>
-            <TouchableOpacity>
-              <AppIconButtons.Pencil
-                margin={{marginRight: 8}}
-                onPress={() => {
-                  navigation.navigate('MailWrite');
-                }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => setIsDelete(!isDelete)}>
-              <AntDesign name="delete" size={20} />
-            </TouchableOpacity>
+            <AppIconButtons.Pencil
+              margin={{marginRight: 8}}
+              onPress={() => {
+                navigation.navigate('MailWrite');
+              }}
+            />
+            <AppIconButtons.Delete onPress={() => setIsDelete(!isDelete)} />
           </Filter>
         </TopBar>
         <ScrollView>
           <MailBox>
             {!mails && <FontStyle.Content>Loading...</FontStyle.Content>}
-            {mails?.size == 0 ? (
-              <FontStyle.Content>받은 메일이 없습니다.</FontStyle.Content>
+            {mails?.length === 0 ? (
+              isReceive ? (
+                <FontStyle.Content>받은 메일이 없습니다.</FontStyle.Content>
+              ) : (
+                <FontStyle.Content>보낸 메일이 없습니다.</FontStyle.Content>
+              )
             ) : (
               mails?.map(mail => (
                 <Mail

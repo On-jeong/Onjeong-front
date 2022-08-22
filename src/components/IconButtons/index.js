@@ -1,6 +1,7 @@
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import PropTypes from 'prop-types';
@@ -98,8 +99,40 @@ Cancel.PropTypes = {
   },
 };
 
+const Delete = ({
+  onPress,
+  size = 20,
+  margin = {marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0},
+}) => {
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <AntDesign
+        name="delete"
+        size={size}
+        style={{
+          marginTop: margin.marginTop,
+          marginBottom: margin.marginBottom,
+          marginLeft: margin.marginLeft,
+          marginRight: margin.marginRight,
+        }}
+      />
+    </TouchableOpacity>
+  );
+};
+Delete.PropTypes = {
+  onPress: PropTypes.func,
+  size: PropTypes.number,
+  margin: {
+    marginTop: PropTypes.number,
+    marginBottom: PropTypes.number,
+    marginLeft: PropTypes.number,
+    marginRight: PropTypes.number,
+  },
+};
 
 export const AppIconButtons = {
   Pencil,
-  Alert,Cancel
+  Alert,
+  Cancel,
+  Delete,
 };
