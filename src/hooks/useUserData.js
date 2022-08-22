@@ -72,16 +72,18 @@ export const useSignIn = navigation => {
 };
 
 // 로그아웃 요청
-export const useSignOut = navigation => {
+export const useSignOut = (navigation, enabled) => {
   return useQuery(['reqLogout'], reqSignOut, {
     onSuccess: async () => {
       await storage.removeItem('userToken');
+      await storage.removeItem('userData');
       navigation.navigate('SignIn');
       // storage.getAllKeys().then(keys =>
       //   storage.multiGet(keys).then(data => console.log(data)),
       // );
     },
     onError: error => alert('로그아웃에 실패했습니다.'),
+    enabled: enabled,
   });
 };
 

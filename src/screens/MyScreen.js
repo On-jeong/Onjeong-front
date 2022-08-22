@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {BasicHeader} from '../components/WithHeader';
 import styled from 'styled-components';
 import {FontStyle} from '../utils/GlobalFonts';
 import {Components} from '../utils/Components';
 import {useSignOut} from '../hooks/useUserData';
+import {storage} from '../config/storage';
 
 const Menu = styled.TouchableOpacity`
   width: 100%;
@@ -24,6 +25,9 @@ export const Email = styled.View`
 `;
 
 const MyScreen = ({navigation}) => {
+  const [signOut, setSignOut] = useState(false);
+  const {error} = useSignOut(navigation, signOut);
+  console.log(error);
   return (
     <BasicHeader title={'온정'} isBack={true} navigation={navigation}>
       <Menu>
@@ -44,11 +48,7 @@ const MyScreen = ({navigation}) => {
       <Components.HorizonLine />
       <Menu
         onPress={() => {
-          navigation.navigate('SignIn');
-          const {status, error, data} = useSignOut(navigation);
-          console.log('status: ' + status);
-          if (error) console.log('error: ' + error);
-          if (status != 'loading') console.log('data: ' + data);
+          setSignOut(true);
         }}>
         <FontStyle.SubTitle>로그아웃</FontStyle.SubTitle>
       </Menu>
