@@ -27,9 +27,10 @@ const deleteSendMail = mailIds => {
 };
 
 // 받은 메일 리스트 데이터 불러오기
-export const useGetReceiveMails = () => {
+export const useGetReceiveMails = ({onSuccess}) => {
   return useQuery(['getReceiveMails'], fetchReceiveMails, {
     onError: error => console.log(error),
+    onSuccess: onSuccess,
     refetchOnMount: true,
   });
 };

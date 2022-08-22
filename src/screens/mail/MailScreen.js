@@ -68,10 +68,6 @@ const IconBox = styled.TouchableOpacity`
 
 const MailScreen = ({navigation}) => {
 
-  useEffect(() => {
-    setMails(data.data);
-  }, [data]);
-
   //뒤로가기로 화면이 포커스 됐을 때도 업데이트
   useFocusEffect(
     useCallback(() => {
@@ -80,8 +76,9 @@ const MailScreen = ({navigation}) => {
     }, []),
     [data],
   );
-
-  const {data, isLoading, status, error, refetch} = useGetReceiveMails();
+  const {data, isLoading, status, error, refetch} = useGetReceiveMails({onSuccess:(data)=>{
+    setMails(data?.data);
+  }});
   const {
     data: sendData,
     isLoading: sendIsLoading,
@@ -96,9 +93,7 @@ const MailScreen = ({navigation}) => {
   const [mails, setMails] = useState(data?.data);
   const [isReceive, setIsReceive] = useState(true);
   const [isDelete, setIsDelete] = useState(false);
-
-  console.log(mails);
-
+  
   const receiveMails = () => {
     setIsReceive(true);
     refetch();
@@ -147,49 +142,46 @@ const MailScreen = ({navigation}) => {
         </TopBar>
         <ScrollView>
           <MailBox>
-            {isLoading && <FontStyle.Content>Loading...</FontStyle.Content>}
-            {status == 'success' &&
-              (mails?.size == 0 ? (
-                <FontStyle.Content>받은 메일이 없습니다.</FontStyle.Content>
-              ) : (
-                mails?.map(mail => (
-                  <Mail
-                    key={mail.mailId}
-                    disabled={isDelete}
-                    onPress={() => {
-                      navigation.navigate('MailDetail', {
-                        mailContent: mail.mailContent,
-                        receiveUserName: mail.receiveUserName,
-                        sendUserName: mail.sendUserName,
-                      });
-                    }}>
-                    {isDelete && (
-                      <IconBox
-                        onPress={() => {
-                          // 메일 삭제 요청
-                          if (isReceive) delReceiveMail(mail.mailId);
-                          else delSendMail(mail.mailId);
-                          setMails(
-                            mails.filter(it => it.mailId !== mail.mailId),
-                          );
-                        }}>
-                        <AppIconButtons.Cancel />
-                      </IconBox>
-                    )}
-                    <FontStyle.Content numberOfLines={2} ellipsizeMode="tail">
-                      {mail.mailContent}
-                    </FontStyle.Content>
-                    <FromBox>
+            {!mails && <FontStyle.Content>Loading...</FontStyle.Content>}
+            {mails?.size == 0 ? (
+              <FontStyle.Content>받은 메일이 없습니다.</FontStyle.Content>
+            ) : (
+              mails?.map(mail => (
+                <Mail
+                  key={mail.mailId}
+                  disabled={isDelete}
+                  onPress={() => {
+                    navigation.navigate('MailDetail', {
+                      mailContent: mail.mailContent,
+                      receiveUserName: mail.receiveUserName,
+                      sendUserName: mail.sendUserName,
+                    });
+                  }}>
+                  {isDelete && (
+                    <IconBox
+                      onPress={() => {
+                        // 메일 삭제 요청
+                        if (isReceive) delReceiveMail(mail.mailId);
+                        else delSendMail(mail.mailId);
+                        setMails(mails.filter(it => it.mailId !== mail.mailId));
+                      }}>
+                      <AppIconButtons.Cancel />
+                    </IconBox>
+                  )}
+                  <FontStyle.Content numberOfLines={2} ellipsizeMode="tail">
+                    {mail.mailContent}
+                  </FontStyle.Content>
+                  <FromBox>
+                    <FontStyle.ContentB>
+                      {isReceive ? 'From. ' : 'To. '}
                       <FontStyle.ContentB>
-                        {isReceive ? 'From. ' : 'To. '}
-                        <FontStyle.ContentB>
-                          {isReceive ? mail.sendUserName : mail.receiveUserName}
-                        </FontStyle.ContentB>
+                        {isReceive ? mail.sendUserName : mail.receiveUserName}
                       </FontStyle.ContentB>
-                    </FromBox>
-                  </Mail>
-                ))
-              ))}
+                    </FontStyle.ContentB>
+                  </FromBox>
+                </Mail>
+              ))
+            )}
             <Components.EmptyBox height={50} />
           </MailBox>
         </ScrollView>
