@@ -113,7 +113,7 @@ const MailWriteScreen = ({navigation}) => {
                 {data?.data.map(family => {
                   return (
                     <>
-                      {family.userId == userData.userId && (
+                      {family.userId !== userData.userId && (
                         <SelectItem
                           onPress={() => {
                             setToUserStatus(family.userStatus);

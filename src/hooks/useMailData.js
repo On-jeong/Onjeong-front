@@ -19,7 +19,7 @@ const fetchMailDetail = mailId => {
 };
 
 const deleteReceiveMail = mailIds => {
-  return axios.post(`${API}/mails/receive/delete`, mailIds);
+  return axios.post(`${API}/mails/receive/delete?mailIds=${mailIds}`);
 };
 
 const deleteSendMail = mailIds => {
@@ -57,16 +57,16 @@ export const useGetMailDetail = mailId => {
   });
 };
 
-// 보낸 메일 삭제
-export const useDeleteReceiveMail = mailIds => {
-  return useMutation(deleteReceiveMail(mailIds), {
+// 받은 메일 삭제
+export const useDeleteReceiveMail = () => {
+  return useMutation(deleteReceiveMail, {
     onError: error => console.log(error),
   });
 };
 
-// 받은 메일 삭제
-export const useDeleteSendMail = mailIds => {
-  return useMutation(deleteSendMail(mailIds), {
+// 보낸 메일 삭제
+export const useDeleteSendMail = () => {
+  return useMutation(deleteSendMail, {
     onError: error => console.log(error),
   });
 };

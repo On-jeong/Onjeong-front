@@ -2,14 +2,20 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import NoHeader from '@/components/NoHeader';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {ScrollView} from 'react-native-gesture-handler';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {TouchableOpacity} from 'react-native';
 import {AppColors} from '@/utils/GlobalStyles';
 import {AppIconButtons} from '@/components/IconButtons';
-import {useGetReceiveMails, useGetSendMails} from '../../hooks/useMailData';
+import {
+  useDeleteReceiveMail,
+  useGetReceiveMails,
+  useGetSendMails,
+} from '../../hooks/useMailData';
 import {useIsFocused} from '@react-navigation/native';
 import {useQueryClient} from '@tanstack/react-query';
+import { Components } from '../../utils/Components';
 
 const TopBar = styled.View`
   width: 100%;
@@ -37,14 +43,14 @@ const MailBox = styled.View`
   padding-right: 7%;
 `;
 
-const Mail = styled.View`
+const Mail = styled.TouchableOpacity`
   width: 100%;
   height: 100px;
   border-width: 2px;
   border-color: ${AppColors.border};
   background-color: ${AppColors.white};
   margin-top: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
   padding: 10px;
 `;
 
@@ -52,6 +58,12 @@ const FromBox = styled.View`
   position: absolute;
   bottom: 10px;
   right: 10px;
+`;
+
+const IconBox = styled.TouchableOpacity`
+  position: absolute;
+  top: -10px;
+  left: -10px;
 `;
 
 const MailScreen = ({navigation}) => {
@@ -71,9 +83,12 @@ const MailScreen = ({navigation}) => {
     error: sendError,
     refetch: sendRefetch,
   } = useGetSendMails();
+  const {mutate: delReceiveMail} = useDeleteReceiveMail();
+  const {mutate: delSendMail} = useDeleteReceiveMail();
 
   const [mails, setMails] = useState(data?.data);
   const [isReceive, setIsReceive] = useState(true);
+  const [isDelete, setIsDelete] = useState(false);
 
   const receiveMails = () => {
     setIsReceive(true);
@@ -114,7 +129,7 @@ const MailScreen = ({navigation}) => {
                 }}
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => setIsDelete(!isDelete)}>
               <AntDesign name="delete" size={20} />
             </TouchableOpacity>
           </Filter>
@@ -126,14 +141,26 @@ const MailScreen = ({navigation}) => {
               (mails?.size == 0 ? (
                 <FontStyle.Content>받은 메일이 없습니다.</FontStyle.Content>
               ) : (
-                mails.map(mail => (
-                  <Mail key={mail.mailId}>
+                mails?.map(mail => (
+                  <Mail key={mail.mailId} disabled={isDelete}>
+                    {isDelete && (
+                      <IconBox
+                        onPress={() => {
+                          // 메일 삭제 요청
+                          delReceiveMail(mail.mailId);
+                          setMails(
+                            mails.filter(it => it.mailId !== mail.mailId),
+                          );
+                        }}>
+                        <MaterialIcons name="cancel" size={22} />
+                      </IconBox>
+                    )}
                     <FontStyle.Content numberOfLines={2} ellipsizeMode="tail">
                       {mail.mailContent}
                     </FontStyle.Content>
                     <FromBox>
                       <FontStyle.ContentB>
-                        {isReceive?'From. ':'To. '}
+                        {isReceive ? 'From. ' : 'To. '}
                         <FontStyle.ContentB>
                           {mail.receiveUserName}
                         </FontStyle.ContentB>
@@ -142,6 +169,7 @@ const MailScreen = ({navigation}) => {
                   </Mail>
                 ))
               ))}
+              <Components.EmptyBox height={50}/>
           </MailBox>
         </ScrollView>
       </>
