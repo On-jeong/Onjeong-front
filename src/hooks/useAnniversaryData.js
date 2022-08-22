@@ -39,22 +39,22 @@ export const useGetDateAnn = anniversaryDate => {
 };
 
 // 해당 일의 특수일정 등록하기
-export const useAddAnn = anniversaryId => {
-  return useMutation(addAnn(anniversaryId), {
+export const useAddAnn = () => {
+  return useMutation(addAnn, {
     onError: error => console.log(error),
   });
 };
 
 // 해당 특수일정 삭제하기
-export const useDeleteAnn = anniversaryId => {
-  return useMutation(deleteAnn(anniversaryId), {
+export const useDeleteAnn = () => {
+  return useMutation(deleteAnn, {
     onError: error => console.log(error),
   });
 };
 
 // 해당 특수일정 수정하기
-export const useModifyAnn = anniversaryId => {
-  return useMutation(modifyAnn(anniversaryId), {
+export const useModifyAnn = () => {
+  return useMutation(modifyAnn, {
     onError: error => console.log(error),
   });
 };

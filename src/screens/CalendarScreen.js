@@ -81,113 +81,107 @@ const Week = styled.View`
 export default function CalendarScreen({navigation}) {
   const isFocus = useIsFocused();
   const [curDate, setCurDate] = useState(new Date());
-  const [curMonth, setCurMonth] = useState(getMonth(curDate) + 1);
-  const [curYear, setCurYear] = useState(getYear(curDate));
 
-  useEffect(() => {}, [isFocus, curMonth]);
+  useEffect(() => {}, [isFocus]);
 
-  // 달력
-  const getCalender = ({curDate}) => {
-    const monthStart = startOfMonth(curDate); //이번 달 시작 날짜
-    const monthEnd = endOfMonth(curDate); //이번 달 마지막 날짜
-    const startDate = startOfWeek(monthStart); // 이번 달 시작 주의 첫번째 날짜
-    const endDate = endOfWeek(monthEnd); // 이번 달 마지막 주의 마지막 날짜
-    const curMonth = getMonth(curDate) + 1; // 이번 달
-    const curYear = getYear(curDate); // 이번 달
-    const today = format(new Date(), 'yy-MM-dd');
-
-    let date = startDate;
-    let month = [];
-    let week = [];
-
-    while (date <= endDate) {
-      for (let i = 0; i < 7; i++) {
-        let formattedDate = format(date, 'd'); // 날짜만 format
-        let formattedMonth = date.getMonth() + 1;
-        let formattedDay = date.getDay();
-
-        // 색깔 지정
-        let color = AppColors.black;
-        if (formattedMonth == curMonth) {
-          // 이번 달 일 경우
-          if (formattedDay == 0) color = '#DD4A48';
-          else if (formattedDay == 6) color = '#35589A';
-        } else color = AppColors.blur; // 이번 달이 아닐 경우
-
-        // 하루 추가 - 오늘인 경우 표시하기
-        if (format(date, 'yy-MM-dd') == today) {
-          week.push(
-            <DateBox
-              onPress={() => {
-                navigation.navigate('Post', {
-                  date: format(date, 'yyyy년 MM월 dd일'),
-                });
-              }}>
-              <Circle color={true}>
-                <FontStyle.ContentB style={{color: color}}>
-                  {formattedDate}
-                </FontStyle.ContentB>
-              </Circle>
-              {/* 기념일은 3개까지만 들어가게 하기 */}
-              <Anniversary>
-                <FontStyle.CalendarFont numberOfLines={1} ellipsizeMode="tail">
-                  엄마 생신이다
-                </FontStyle.CalendarFont>
-              </Anniversary>
-              <Plan>
-                <FontStyle.CalendarFont>바다 여행</FontStyle.CalendarFont>
-              </Plan>
-              <Plan>
-                <FontStyle.CalendarFont>바다 여행</FontStyle.CalendarFont>
-              </Plan>
-            </DateBox>,
-          );
-        } else {
-          let clickDate = format(date, 'yyyy년 MM월 dd일');
-          week.push(
-            <DateBox
-              onPress={() => {
-                navigation.navigate('Post', {
-                  date: clickDate,
-                });
-              }}>
-              <Circle color={false}>
-                <FontStyle.ContentB style={{color: color}}>
-                  {formattedDate}
-                </FontStyle.ContentB>
-              </Circle>
-            </DateBox>,
-          );
-        }
-        date = addDays(date, 1); // 다음날
-      }
-      month.push(<Week>{week}</Week>); // 한 주 추가
-      week = []; // 한 주 초기화
-    }
-
-    return (
-      <>
-        <WithHeader
-          title={curYear + '년 ' + curMonth + '월'}
-          leftIcon={<MaterialIcons name="keyboard-arrow-left" size={30} />}
-          rightIcon2={<MaterialIcons name="keyboard-arrow-right" size={30} />}
-          leftOnPress={() => {
-            setCurDate(subMonths(curDate, 1));
-            setCurYear(getYear(curDate));
-            setCurMonth(getMonth(curDate));
-            getCalender({curDate});
-          }}
-          rightOnPress2={() => {
-            setCurDate(addMonths(curDate, 1));
-            setCurYear(getYear(curDate));
-            setCurMonth(getMonth(curDate));
-            getCalender({curDate});
-          }}>
-          <Calendar>{month}</Calendar>
-        </WithHeader>
-      </>
-    );
-  };
-
-  return <>{getCalender({curDate})}</>;
+  return <>{getCalender({curDate, setCurDate, navigation})}</>;
 }
+
+// 달력
+const getCalender = ({curDate, setCurDate, navigation}) => {
+  const monthStart = startOfMonth(curDate); //이번 달 시작 날짜
+  const monthEnd = endOfMonth(curDate); //이번 달 마지막 날짜
+  const startDate = startOfWeek(monthStart); // 이번 달 시작 주의 첫번째 날짜
+  const endDate = endOfWeek(monthEnd); // 이번 달 마지막 주의 마지막 날짜
+  const curMonth = getMonth(curDate) + 1; // 이번 달
+  const curYear = getYear(curDate); // 이번 달
+  const today = format(new Date(), 'yy-MM-dd');
+
+  let date = startDate;
+  let month = [];
+  let week = [];
+
+  while (date <= endDate) {
+    for (let i = 0; i < 7; i++) {
+      let formattedDate = format(date, 'd'); // 날짜만 format
+      let formattedMonth = date.getMonth() + 1;
+      let formattedDay = date.getDay();
+
+      // 색깔 지정
+      let color = AppColors.black;
+      if (formattedMonth == curMonth) {
+        // 이번 달 일 경우
+        if (formattedDay == 0) color = '#DD4A48';
+        else if (formattedDay == 6) color = '#35589A';
+      } else color = AppColors.blur; // 이번 달이 아닐 경우
+
+      // 하루 추가 - 오늘인 경우 표시하기
+      if (format(date, 'yy-MM-dd') == today) {
+        week.push(
+          <DateBox
+            onPress={() => {
+              navigation.navigate('Post', {
+                date: format(date, 'yyyy년 MM월 dd일'),
+              });
+            }}>
+            <Circle color={true}>
+              <FontStyle.ContentB style={{color: color}}>
+                {formattedDate}
+              </FontStyle.ContentB>
+            </Circle>
+            {/* 기념일은 3개까지만 들어가게 하기 */}
+            <Anniversary>
+              <FontStyle.CalendarFont numberOfLines={1} ellipsizeMode="tail">
+                엄마 생신이다
+              </FontStyle.CalendarFont>
+            </Anniversary>
+            <Plan>
+              <FontStyle.CalendarFont>바다 여행</FontStyle.CalendarFont>
+            </Plan>
+            <Plan>
+              <FontStyle.CalendarFont>바다 여행</FontStyle.CalendarFont>
+            </Plan>
+          </DateBox>,
+        );
+      } else {
+        let clickDate = format(date, 'yyyy년 MM월 dd일');
+        week.push(
+          <DateBox
+            onPress={() => {
+              navigation.navigate('Post', {
+                date: clickDate,
+              });
+            }}>
+            <Circle color={false}>
+              <FontStyle.ContentB style={{color: color}}>
+                {formattedDate}
+              </FontStyle.ContentB>
+            </Circle>
+          </DateBox>,
+        );
+      }
+      date = addDays(date, 1); // 다음날
+    }
+    month.push(<Week>{week}</Week>); // 한 주 추가
+    week = []; // 한 주 초기화
+  }
+
+  return (
+    <>
+      <WithHeader
+        title={curYear + '년 ' + curMonth + '월'}
+        leftIcon={<MaterialIcons name="keyboard-arrow-left" size={30} />}
+        rightIcon2={<MaterialIcons name="keyboard-arrow-right" size={30} />}
+        leftOnPress={() => {
+          setCurDate(subMonths(curDate, 1));
+          getCalender({curDate});
+        }}
+        rightOnPress2={() => {
+          setCurDate(addMonths(curDate, 1));
+          getCalender({curDate});
+        }}>
+        <Calendar>{month}</Calendar>
+      </WithHeader>
+    </>
+  );
+};
