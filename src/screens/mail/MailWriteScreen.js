@@ -7,7 +7,7 @@ import {useRecoilValue} from 'recoil';
 import UserData from '../../state/UserData';
 import {usePostMail} from '../../hooks/useMailData';
 import {useGetFamilyList} from '../../hooks/useProFileData';
-import {useQueryClient} from '@tanstack/react-query';
+import {AppButtons} from '../../components/buttons';
 
 export const PaperContainer = styled.View`
   flex: 1;
@@ -43,10 +43,6 @@ export const MainInput = styled.TextInput`
 export const SendBox = styled.View`
   width: 100%;
   align-items: flex-end;
-`;
-
-export const SendBtn = styled.TouchableOpacity`
-  margin: 5px;
 `;
 
 const SelectBox = styled.View`
@@ -139,9 +135,10 @@ const MailWriteScreen = ({navigation}) => {
             </SendBox>
           </Paper>
           <SendBox>
-            <SendBtn onPress={() => sendMail()}>
-              <FontStyle.ContentB>보내기</FontStyle.ContentB>
-            </SendBtn>
+            <AppButtons.TextButton
+              title={'보내기'}
+              onPress={() => sendMail()}
+            />
           </SendBox>
         </PaperContainer>
       </>
