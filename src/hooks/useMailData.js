@@ -23,13 +23,14 @@ const deleteReceiveMail = mailIds => {
 };
 
 const deleteSendMail = mailIds => {
-  return axios.post(`${API}/mails/send/delete`, mailIds);
+  return axios.post(`${API}/mails/send/delete?mailIds=${mailIds}`);
 };
 
 // 받은 메일 리스트 데이터 불러오기
 export const useGetReceiveMails = () => {
   return useQuery(['getReceiveMails'], fetchReceiveMails, {
     onError: error => console.log(error),
+    refetchOnMount: true,
   });
 };
 
@@ -37,6 +38,7 @@ export const useGetReceiveMails = () => {
 export const useGetSendMails = () => {
   return useQuery(['getSendMails'], fetchSendMails, {
     onError: error => console.log(error),
+    refetchOnMount: true,
   });
 };
 

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
 import NoHeader from '@/components/NoHeader';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -10,12 +10,12 @@ import {AppColors} from '@/utils/GlobalStyles';
 import {AppIconButtons} from '@/components/IconButtons';
 import {
   useDeleteReceiveMail,
+  useDeleteSendMail,
   useGetReceiveMails,
   useGetSendMails,
 } from '../../hooks/useMailData';
-import {useIsFocused} from '@react-navigation/native';
-import {useQueryClient} from '@tanstack/react-query';
-import { Components } from '../../utils/Components';
+import {useFocusEffect} from '@react-navigation/native';
+import {Components} from '../../utils/Components';
 
 const TopBar = styled.View`
   width: 100%;
@@ -67,24 +67,26 @@ const IconBox = styled.TouchableOpacity`
 `;
 
 const MailScreen = ({navigation}) => {
-  const isFocus = useIsFocused();
-  const queryClient = useQueryClient();
-
-  useEffect(() => {
-    refetch();
-    sendRefetch();
-  }, [isFocus]);
+  //뒤로가기로 화면이 포커스 됐을 때도 업데이트
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+      sendRefetch();
+    }, []),
+    [],
+  );
 
   const {data, isLoading, status, error, refetch} = useGetReceiveMails();
   const {
     data: sendData,
-    isLoading: sendLoading,
+    isLoading: sendIsLoading,
     status: sendStatus,
     error: sendError,
+    isRefetching: sendIsRefetching,
     refetch: sendRefetch,
   } = useGetSendMails();
   const {mutate: delReceiveMail} = useDeleteReceiveMail();
-  const {mutate: delSendMail} = useDeleteReceiveMail();
+  const {mutate: delSendMail} = useDeleteSendMail();
 
   const [mails, setMails] = useState(data?.data);
   const [isReceive, setIsReceive] = useState(true);
@@ -92,12 +94,15 @@ const MailScreen = ({navigation}) => {
 
   const receiveMails = () => {
     setIsReceive(true);
+    refetch();
     setMails(data.data);
   };
 
-  const sendMails = () => {
+  const sendMails = async () => {
     setIsReceive(false);
-    setMails(sendData.data);
+    await sendRefetch();
+    console.log(sendIsRefetching);
+    if (!sendIsRefetching) setMails(sendData.data);
   };
 
   return (
@@ -142,12 +147,22 @@ const MailScreen = ({navigation}) => {
                 <FontStyle.Content>받은 메일이 없습니다.</FontStyle.Content>
               ) : (
                 mails?.map(mail => (
-                  <Mail key={mail.mailId} disabled={isDelete}>
+                  <Mail
+                    key={mail.mailId}
+                    disabled={isDelete}
+                    onPress={() => {
+                      navigation.navigate('MailDetail', {
+                        mailContent: mail.mailContent,
+                        receiveUserName: mail.receiveUserName,
+                        sendUserName: mail.sendUserName,
+                      });
+                    }}>
                     {isDelete && (
                       <IconBox
                         onPress={() => {
                           // 메일 삭제 요청
-                          delReceiveMail(mail.mailId);
+                          if (isReceive) delReceiveMail(mail.mailId);
+                          else delSendMail(mail.mailId);
                           setMails(
                             mails.filter(it => it.mailId !== mail.mailId),
                           );
@@ -162,14 +177,14 @@ const MailScreen = ({navigation}) => {
                       <FontStyle.ContentB>
                         {isReceive ? 'From. ' : 'To. '}
                         <FontStyle.ContentB>
-                          {mail.receiveUserName}
+                        {isReceive ?  mail.sendUserName :  mail.receiveUserName}
                         </FontStyle.ContentB>
                       </FontStyle.ContentB>
                     </FromBox>
                   </Mail>
                 ))
               ))}
-              <Components.EmptyBox height={50}/>
+            <Components.EmptyBox height={50} />
           </MailBox>
         </ScrollView>
       </>

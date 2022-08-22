@@ -5,7 +5,7 @@ import {AppColors, windowHeight} from '@/utils/GlobalStyles';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {useRecoilValue} from 'recoil';
 import UserData from '../../state/UserData';
-import {useGetSendMails, usePostMail} from '../../hooks/useMailData';
+import {usePostMail} from '../../hooks/useMailData';
 import {useGetFamilyList} from '../../hooks/useProFileData';
 import {useQueryClient} from '@tanstack/react-query';
 
@@ -31,14 +31,6 @@ export const Paper = styled.View`
 const PaperTop = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
-`;
-
-const ToInput = styled.TextInput`
-  width: 80%;
-  padding-left: 10px;
-  font-family: 'GangwonLight';
-  font-size: 20px;
-  caret-color: ${AppColors.black};
 `;
 
 export const MainInput = styled.TextInput`
@@ -70,7 +62,6 @@ const SelectItem = styled.TouchableOpacity`
 `;
 
 const MailWriteScreen = ({navigation}) => {
-  const queryClient = useQueryClient();
   const userData = useRecoilValue(UserData);
 
   const [mainText, setMainText] = useState('');
@@ -136,6 +127,9 @@ const MailWriteScreen = ({navigation}) => {
               textAlignVertical="top"
               value={mainText}
               onChangeText={setMainText}
+              onFocus={() => {
+                setIsOpen(false);
+              }}
             />
             <SendBox>
               <FontStyle.ContentB>
