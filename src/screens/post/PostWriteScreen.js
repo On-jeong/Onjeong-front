@@ -5,6 +5,7 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {MainInput, Paper, PaperContainer} from '@/screens/mail/MailWriteScreen';
 import {useAddBoard} from '../../hooks/useBoardData';
+import {useQueryClient} from '@tanstack/react-query';
 
 const SendBox = styled.View`
   width: 100%;
@@ -19,11 +20,11 @@ const SendBtn = styled.TouchableOpacity`
 `;
 
 const PostWriteScreen = ({navigation, route}) => {
+  const queryClient = useQueryClient();
+
   const [mainText, setMainText] = useState('');
 
   const {mutate} = useAddBoard();
-
- 
 
   return (
     <NoHeader title={route.params.date} isBack={true} navigation={navigation}>
@@ -45,7 +46,22 @@ const PostWriteScreen = ({navigation, route}) => {
             </SendBtn>
             <SendBtn
               onPress={() => {
-                mutate({boardDate: route.params.date, boardContent: mainText});
+                mutate(
+                  {boardDate: route.params.barDate, boardContent: mainText},
+                  {
+                    onSuccess: () => {
+                      // 받아왔던 포스트 데이터 리패치
+                      queryClient.invalidateQueries(
+                        'getTodayBoards',
+                        route.params.barDate,
+                      );
+                      navigation.navigate('Post', {
+                        date: route.params.date,
+                        barDate: route.params.barDate,
+                      });
+                    },
+                  },
+                );
               }}>
               <FontStyle.ContentB>작성</FontStyle.ContentB>
             </SendBtn>

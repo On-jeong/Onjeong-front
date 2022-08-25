@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import NoHeader from '@/components/NoHeader';
 import {useQueryClient} from '@tanstack/react-query';
 import {FontStyle} from '@/utils/GlobalFonts';
-import {AppColors, windowHeight} from '@/utils/GlobalStyles';
+import {AppColors} from '@/utils/GlobalStyles';
 import {Components} from '../../utils/Components';
 import {AppIconButtons} from '../../components/IconButtons';
 import {AppButtons} from '../../components/buttons';
@@ -15,6 +15,7 @@ import {
 } from '../../hooks/useAnniversaryData';
 import {Filter} from '../mail/MailScreen';
 import {useGetTodayBoards} from '../../hooks/useBoardData';
+import {ScrollView} from 'react-native';
 
 const PlanContainer = styled.View`
   padding: 7%;
@@ -50,25 +51,30 @@ const PlanText = styled.TextInput`
   line-height: 30px;
 `;
 
+const PaperContainer = styled.View`
+  margin-top: 5px;
+  margin-bottom: 10px;
+`;
+
 const Paper = styled.View`
   width: 100%;
-  height: ${windowHeight * 0.2};
   border-width: 2px;
   border-color: ${AppColors.border};
   background-color: ${AppColors.white};
   padding: 20px;
   padding-top: 10px;
   margin-top: 5px;
-  margin-bottom: 5px;
 `;
 
 const PaperHeader = styled.View`
-  align-items: flex-end;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
 `;
 const PaperBottom = styled.View`
   position: absolute;
-  bottom: 5px;
-  right: 5px;
+  bottom: 10px;
+  right: 20px;
 `;
 
 const PostScreen = ({navigation, route}) => {
@@ -77,7 +83,6 @@ const PostScreen = ({navigation, route}) => {
   const [isDelPlan, setIsDelPlan] = useState(false);
   const [newPlan, setNewPlan] = useState('');
 
-  console.log(route.params);
 
   const {mutate: addAnn} = useAddAnn({
     onSuccess: () => {
@@ -131,96 +136,105 @@ const PostScreen = ({navigation, route}) => {
     <NoHeader title={route.params.date} isBack={true} navigation={navigation}>
       <>
         <Components.HorizonLine />
-
-        <PlanContainer>
-          <PlanTitle>
-            <FontStyle.SubTitle>오늘의 행사</FontStyle.SubTitle>
-            <Filter>
-              <AppIconButtons.Pencil
-                margin={{marginRight: 8}}
-                onPress={() => {
-                  setNewPlan('');
-                  setIsAddPlan(!isAddPlan);
-                  if (!isAddPlan && isDelPlan) setIsDelPlan(!isDelPlan);
-                }}
-              />
-              <AppIconButtons.Delete
-                onPress={() => {
-                  setIsDelPlan(!isDelPlan);
-                  if (isAddPlan && !isDelPlan) setIsAddPlan(!isAddPlan);
-                }}
-              />
-            </Filter>
-          </PlanTitle>
-          {AnnIsLoading && <FontStyle.Content>Loading...</FontStyle.Content>}
-          {AnnData?.data.length === 0 && (
-            <FontStyle.Content>오늘의 행사가 없습니다.</FontStyle.Content>
-          )}
-          {AnnData?.data.map(ann => (
-            <PlanBox key={ann.anniversaryId}>
-              {isDelPlan ? (
-                <AppIconButtons.Cancel
-                  size={18}
-                  margin={{marginRight: 5}}
+        <ScrollView>
+          <PlanContainer>
+            <PlanTitle>
+              <FontStyle.SubTitle>오늘의 행사</FontStyle.SubTitle>
+              <Filter>
+                <AppIconButtons.Pencil
+                  margin={{marginRight: 8}}
                   onPress={() => {
-                    delAnn(ann.anniversaryId);
+                    setNewPlan('');
+                    setIsAddPlan(!isAddPlan);
+                    if (!isAddPlan && isDelPlan) setIsDelPlan(!isDelPlan);
                   }}
                 />
-              ) : (
-                <FontStyle.ContentB>{number++}. </FontStyle.ContentB>
-              )}
-              <FontStyle.ContentB>{ann.anniversaryContent}</FontStyle.ContentB>
-            </PlanBox>
-          ))}
-
-          {/* 기념일 추가 */}
-          {isAddPlan && (
-            <>
-              <PlanTextBox>
-                <FontStyle.ContentB>{number++}. </FontStyle.ContentB>
-                <PlanText
-                  value={newPlan}
-                  onChangeText={setNewPlan}
-                  maxLength={20}
+                <AppIconButtons.Delete
+                  onPress={() => {
+                    setIsDelPlan(!isDelPlan);
+                    if (isAddPlan && !isDelPlan) setIsAddPlan(!isAddPlan);
+                  }}
                 />
-              </PlanTextBox>
-              <SendBox>
-                <AppButtons.TextButton title="추가" onPress={() => addPlan()} />
-              </SendBox>
-            </>
-          )}
-        </PlanContainer>
+              </Filter>
+            </PlanTitle>
+            {AnnIsLoading && <FontStyle.Content>Loading...</FontStyle.Content>}
+            {AnnData?.data.length === 0 && (
+              <FontStyle.Content>오늘의 행사가 없습니다.</FontStyle.Content>
+            )}
+            {AnnData?.data.map(ann => (
+              <PlanBox key={ann.anniversaryId}>
+                {isDelPlan ? (
+                  <AppIconButtons.Cancel
+                    size={18}
+                    margin={{marginRight: 5}}
+                    onPress={() => {
+                      delAnn(ann.anniversaryId);
+                    }}
+                  />
+                ) : (
+                  <FontStyle.ContentB>{number++}. </FontStyle.ContentB>
+                )}
+                <FontStyle.ContentB>
+                  {ann.anniversaryContent}
+                </FontStyle.ContentB>
+              </PlanBox>
+            ))}
 
-        <Components.HorizonLine />
-        <PlanContainer>
-          <PlanTitle>
-            <FontStyle.SubTitle>오늘의 기록</FontStyle.SubTitle>
-            <AppIconButtons.Pencil
-              onPress={() => {
-                navigation.navigate('PostWrite', {date: route.params.barDate});
-              }}
-            />
-          </PlanTitle>
-          {BoardIsLoading && <FontStyle.Content>Loading...</FontStyle.Content>}
-          {BoardData?.data.length === 0 && (
-            <FontStyle.Content>오늘의 기록이 없습니다.</FontStyle.Content>
-          )}
-          {BoardData?.data.map(board => (
-            <>
-              <PaperHeader>
-                <FontStyle.SubContent>수정 | 삭제</FontStyle.SubContent>
-              </PaperHeader>
-              <Paper key={board.boardId}>
-                <FontStyle.Content>{board.boardContent}</FontStyle.Content>
-                <PaperBottom>
-                  <FontStyle.SubContent>
-                    작성자 : {board.userStatus}
-                  </FontStyle.SubContent>
-                </PaperBottom>
-              </Paper>
-            </>
-          ))}
-        </PlanContainer>
+            {/* 기념일 추가 */}
+            {isAddPlan && (
+              <>
+                <PlanTextBox>
+                  <FontStyle.ContentB>{number++}. </FontStyle.ContentB>
+                  <PlanText
+                    value={newPlan}
+                    onChangeText={setNewPlan}
+                    maxLength={20}
+                  />
+                </PlanTextBox>
+                <SendBox>
+                  <AppButtons.TextButton
+                    title="추가"
+                    onPress={() => addPlan()}
+                  />
+                </SendBox>
+              </>
+            )}
+          </PlanContainer>
+          <Components.HorizonLine />
+          <PlanContainer>
+            <PlanTitle>
+              <FontStyle.SubTitle>오늘의 기록</FontStyle.SubTitle>
+              <AppIconButtons.Pencil
+                onPress={() => {
+                  navigation.navigate('PostWrite', {
+                    date: route.params.date,
+                    barDate: route.params.barDate,
+                  });
+                }}
+              />
+            </PlanTitle>
+            {BoardIsLoading && (
+              <FontStyle.Content>Loading...</FontStyle.Content>
+            )}
+            {BoardData?.data.length === 0 && (
+              <FontStyle.Content>오늘의 기록이 없습니다.</FontStyle.Content>
+            )}
+
+            {BoardData?.data.map(board => (
+              <PaperContainer>
+                <Paper key={board.boardId}>
+                  <PaperHeader>
+                    <FontStyle.SubContent>
+                      작성자 : {board.userStatus}
+                    </FontStyle.SubContent>
+                    <FontStyle.SubContent>수정 | 삭제</FontStyle.SubContent>
+                  </PaperHeader>
+                  <FontStyle.Content>{board.boardContent}</FontStyle.Content>
+                </Paper>
+              </PaperContainer>
+            ))}
+          </PlanContainer>
+        </ScrollView>
       </>
     </NoHeader>
   );

@@ -45,9 +45,10 @@ export const useGetBoardDetail = BoardId => {
 };
 
 // 오늘의 기록 작성하기
-export const useAddBoard = () => {
+export const useAddBoard = onSuccess => {
   return useMutation(addBoard, {
     onError: error => console.log(error),
+    onSuccess: onSuccess,
   });
 };
 
