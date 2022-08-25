@@ -7,7 +7,7 @@ const Button = styled.TouchableOpacity`
   margin: ${props => props.margin}px;
 `;
 
-export const TextButton = ({title, onPress, bold, margin}) => {
+const Content = ({title, onPress, bold, margin}) => {
   return (
     <>
       <Button onPress={onPress} margin={margin ? margin : 0}>
@@ -21,7 +21,35 @@ export const TextButton = ({title, onPress, bold, margin}) => {
   );
 };
 
-TextButton.PropTypes = {
+Content.PropTypes = {
   title: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
+  bold: PropTypes.bool,
+  margin: PropTypes.number,
+};
+
+const SubContent = ({title, onPress, bold, margin}) => {
+  return (
+    <>
+      <Button onPress={onPress} margin={margin ? margin : 0}>
+        {bold ? (
+          <FontStyle.ContentB>{title}</FontStyle.ContentB>
+        ) : (
+          <FontStyle.Content>{title}</FontStyle.Content>
+        )}
+      </Button>
+    </>
+  );
+};
+
+SubContent.PropTypes = {
+  title: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired,
+  bold: PropTypes.bool,
+  margin: PropTypes.number,
+};
+
+export const TextButton = {
+  Content,
+  SubContent,
 };

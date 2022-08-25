@@ -143,7 +143,7 @@ const MailWriteScreen = ({navigation}) => {
             </SendBox>
           </Paper>
           <SendBox>
-            <AppButtons.TextButton
+            <AppButtons.TextButton.Content
               title={'보내기'}
               margin={5}
               onPress={() => sendMail()}
