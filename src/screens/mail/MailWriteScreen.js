@@ -97,6 +97,10 @@ const MailWriteScreen = ({navigation}) => {
             </PaperTop>
             {isOpen && (
               <SelectBox>
+                {data?.data.length === 1 && (<>
+                  <FontStyle.Content>보낼 가족이 없습니다.</FontStyle.Content>
+                  <FontStyle.Content>가족 구성원을 추가해 주세요.</FontStyle.Content></>
+                )}
                 {data?.data.map(family => {
                   return (
                     <>

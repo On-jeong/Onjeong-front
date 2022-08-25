@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import NoHeader from '@/components/NoHeader';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {ScrollView} from 'react-native-gesture-handler';
 import {FontStyle} from '@/utils/GlobalFonts';
@@ -60,13 +59,17 @@ const FromBox = styled.View`
   right: 10px;
 `;
 
-const IconBox = styled.TouchableOpacity`
+const IconBox = styled.View`
   position: absolute;
   top: -10px;
   left: -10px;
 `;
 
 const MailScreen = ({navigation}) => {
+  useEffect(() => {
+    setIsReceive(true);
+  }, []);
+
   //뒤로가기로 화면이 포커스 됐을 때도 업데이트
   useFocusEffect(
     useCallback(() => {
@@ -160,14 +163,17 @@ const MailScreen = ({navigation}) => {
                     });
                   }}>
                   {isDelete && (
-                    <IconBox
-                      onPress={() => {
-                        // 메일 삭제 요청
-                        if (isReceive) delReceiveMail(mail.mailId);
-                        else delSendMail(mail.mailId);
-                        setMails(mails.filter(it => it.mailId !== mail.mailId));
-                      }}>
-                      <AppIconButtons.Cancel />
+                    <IconBox>
+                      <AppIconButtons.Cancel
+                        onPress={() => {
+                          // 메일 삭제 요청
+                          if (isReceive) delReceiveMail(mail.mailId);
+                          else delSendMail(mail.mailId);
+                          setMails(
+                            mails.filter(it => it.mailId !== mail.mailId),
+                          );
+                        }}
+                      />
                     </IconBox>
                   )}
                   <FontStyle.Content numberOfLines={2} ellipsizeMode="tail">
