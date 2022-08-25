@@ -67,6 +67,8 @@ const PostScreen = ({navigation, route}) => {
   const [isDelPlan, setIsDelPlan] = useState(false);
   const [newPlan, setNewPlan] = useState('');
 
+  console.log(route.params);
+
   const {mutate: addAnn} = useAddAnn({
     onSuccess: () => {
       setIsAddPlan(false);
@@ -137,9 +139,13 @@ const PostScreen = ({navigation, route}) => {
           {AnnData?.data.map(ann => (
             <PlanBox key={ann.anniversaryId}>
               {isDelPlan ? (
-                <AppIconButtons.Cancel size={18} margin={{marginRight: 5}} onPress={()=>{
-                  delAnn(ann.anniversaryId)
-                }}/>
+                <AppIconButtons.Cancel
+                  size={18}
+                  margin={{marginRight: 5}}
+                  onPress={() => {
+                    delAnn(ann.anniversaryId);
+                  }}
+                />
               ) : (
                 <FontStyle.ContentB>{number++}. </FontStyle.ContentB>
               )}

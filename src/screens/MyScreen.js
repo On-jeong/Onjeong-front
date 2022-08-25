@@ -49,6 +49,7 @@ const MyScreen = ({navigation}) => {
       <Menu
         onPress={() => {
           setSignOut(true);
+          navigation.navigate('SignIn');
         }}>
         <FontStyle.SubTitle>로그아웃</FontStyle.SubTitle>
       </Menu>
