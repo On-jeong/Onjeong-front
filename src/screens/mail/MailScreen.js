@@ -15,6 +15,8 @@ import {
 } from '../../hooks/useMailData';
 import {useFocusEffect} from '@react-navigation/native';
 import {Components} from '../../utils/Components';
+import {TextButton} from '../../components/buttons/TextButton';
+import {AppButtons} from '../../components/buttons';
 
 const TopBar = styled.View`
   width: 100%;
@@ -116,17 +118,18 @@ const MailScreen = ({navigation}) => {
       <>
         <TopBar>
           <Filter>
-            <TouchableOpacity onPress={() => receiveMails()}>
-              <FontStyle.Content bold={isReceive}>
-                받은 우편함
-              </FontStyle.Content>
-            </TouchableOpacity>
+            <AppButtons.TextButton
+              title={'받은 우편함'}
+              bold={isReceive}
+              onPress={() => receiveMails()}
+            />
             <FontStyle.Content> / </FontStyle.Content>
-            <TouchableOpacity onPress={() => sendMails()}>
-              <FontStyle.Content bold={!isReceive}>
-                보낸 우편함
-              </FontStyle.Content>
-            </TouchableOpacity>
+            <AppButtons.TextButton
+              title={'받은 우편함'}
+              bold={!isReceive}
+              onPress={() => sendMails()}>
+              보낸 우편함
+            </AppButtons.TextButton>
             <Alert>
               <AppIconButtons.Alert onPress={() => {}} />
             </Alert>
