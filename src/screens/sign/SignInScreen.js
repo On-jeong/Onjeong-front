@@ -49,22 +49,6 @@ const SignInScreen = ({navigation}) => {
     storage.setStrItem('userData', data.data);
   }
 
-  // 로그인 되어있는 상태이면 바로 홈화면으로 이동, 없으면 로그인 화면으로
-  useEffect(() => {
-    checkToken();
-  }, []);
-
-  const checkToken = async () => {
-    const token = await storage.getItem('userToken');
-    console.log('loginToken: ' + token);
-    if (token !== null) {
-      const data = await storage.getStrItem('userData');
-      console.log('logindata: ' + data);
-      axios.defaults.headers.common['Authorization'] = token;
-      navigation.navigate('Home');
-    }
-  };
-
   // 항목을 전부 입력했는지 체크
   useEffect(() => {
     if (userId && userPassword) setInputCheck(true);

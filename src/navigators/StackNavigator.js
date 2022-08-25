@@ -12,15 +12,16 @@ import SignUpScreen from '@/screens/sign/SignUpScreen';
 import SignInScreen from '@/screens/sign/SignInScreen';
 import ProfileDetailScreen from '../screens/profile/ProfileDetailScreen';
 import MailDetailScreen from '../screens/mail/MailDetailScreen';
+import WelcomeScreen from '../screens/WelcomeScreen';
 
 const Stack = createStackNavigator();
 
 export function StackNavigator(navigation) {
-
   return (
     <Stack.Navigator
-      initialRouteName={'SignIn'}
+      initialRouteName={'Welcome'}
       screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="Home" component={BottomNavigator} />
