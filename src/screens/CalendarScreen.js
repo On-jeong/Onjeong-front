@@ -49,7 +49,7 @@ const Circle = styled.View`
   height: 25px;
   margin-bottom: 2px;
   border-radius: 50px;
-  background-color: ${props => props.color? AppColors.main:AppColors.body};
+  background-color: ${props => (props.color ? AppColors.main : AppColors.body)};
   justify-content: center;
   align-items: center;
 `;
@@ -103,8 +103,6 @@ const getCalender = ({curDate, setCurDate, navigation}) => {
 
   while (date <= endDate) {
     for (let i = 0; i < 7; i++) {
-      console.log(date);
-
       // 하루씩 추가
       week = pushDate({week, date, curMonth, today, navigation});
 
@@ -139,8 +137,6 @@ const pushDate = ({week, date, curMonth, today, navigation}) => {
   let formattedMonth = date.getMonth() + 1;
   let formattedDay = date.getDay();
 
-  console.log(today);
-
   // 색깔 지정
   let color = AppColors.black;
   if (formattedMonth == curMonth) {
@@ -148,8 +144,6 @@ const pushDate = ({week, date, curMonth, today, navigation}) => {
     if (formattedDay == 0) color = '#DD4A48';
     else if (formattedDay == 6) color = '#35589A';
   } else color = AppColors.blur; // 이번 달이 아닐 경우
-
-  console.log(format(date, 'yy-MM-dd') + '==' + today);
 
   week.push(
     <DateBox
