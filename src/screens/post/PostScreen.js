@@ -14,6 +14,7 @@ import {
   useGetDateAnn,
 } from '../../hooks/useAnniversaryData';
 import {Filter} from '../mail/MailScreen';
+import {useGetTodayBoards} from '../../hooks/useBoardData';
 
 const PlanContainer = styled.View`
   padding: 7%;
@@ -61,6 +62,15 @@ const Paper = styled.View`
   margin-bottom: 5px;
 `;
 
+const PaperHeader = styled.View`
+  align-items: flex-end;
+`;
+const PaperBottom = styled.View`
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+`;
+
 const PostScreen = ({navigation, route}) => {
   const queryClient = useQueryClient();
   const [isAddPlan, setIsAddPlan] = useState(false);
@@ -89,8 +99,18 @@ const PostScreen = ({navigation, route}) => {
     isLoading: AnnIsLoading,
     status: AnnStatus,
     refetch: AnnRefetch,
-  } = useGetDateAnn(route.params.barDate);
+  } = useGetDateAnn(route.params.barDate); // 기념일 데이터 받아오기
 
+  const {
+    data: BoardData,
+    isLoading: BoardIsLoading,
+    status: BoardStatus,
+    refetch: BoardRefetch,
+  } = useGetTodayBoards(route.params.barDate); // 포스트 데이터 받아오기
+
+  console.log(BoardData);
+
+  // 기념일 번호 매기기
   let number = 1;
 
   const addPlan = () => {
@@ -177,11 +197,29 @@ const PostScreen = ({navigation, route}) => {
             <FontStyle.SubTitle>오늘의 기록</FontStyle.SubTitle>
             <AppIconButtons.Pencil
               onPress={() => {
-                navigation.navigate('PostWrite', {date: route.params.date});
+                navigation.navigate('PostWrite', {date: route.params.barDate});
               }}
             />
           </PlanTitle>
-          <Paper></Paper>
+          {BoardIsLoading && <FontStyle.Content>Loading...</FontStyle.Content>}
+          {BoardData?.data.length === 0 && (
+            <FontStyle.Content>오늘의 기록이 없습니다.</FontStyle.Content>
+          )}
+          {BoardData?.data.map(board => (
+            <>
+              <PaperHeader>
+                <FontStyle.SubContent>수정 | 삭제</FontStyle.SubContent>
+              </PaperHeader>
+              <Paper key={board.boardId}>
+                <FontStyle.Content>{board.boardContent}</FontStyle.Content>
+                <PaperBottom>
+                  <FontStyle.SubContent>
+                    작성자 : {board.userStatus}
+                  </FontStyle.SubContent>
+                </PaperBottom>
+              </Paper>
+            </>
+          ))}
         </PlanContainer>
       </>
     </NoHeader>

@@ -4,6 +4,7 @@ import NoHeader from '@/components/NoHeader';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {MainInput, Paper, PaperContainer} from '@/screens/mail/MailWriteScreen';
+import {useAddBoard} from '../../hooks/useBoardData';
 
 const SendBox = styled.View`
   width: 100%;
@@ -19,6 +20,10 @@ const SendBtn = styled.TouchableOpacity`
 
 const PostWriteScreen = ({navigation, route}) => {
   const [mainText, setMainText] = useState('');
+
+  const {mutate} = useAddBoard();
+
+ 
 
   return (
     <NoHeader title={route.params.date} isBack={true} navigation={navigation}>
@@ -38,7 +43,10 @@ const PostWriteScreen = ({navigation, route}) => {
               <EvilIcons name="paperclip" size={22} />
               <FontStyle.SubContent>첨부파일</FontStyle.SubContent>
             </SendBtn>
-            <SendBtn>
+            <SendBtn
+              onPress={() => {
+                mutate({boardDate: route.params.date, boardContent: mainText});
+              }}>
               <FontStyle.ContentB>작성</FontStyle.ContentB>
             </SendBtn>
           </SendBox>
