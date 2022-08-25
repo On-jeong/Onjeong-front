@@ -28,15 +28,11 @@ Content.PropTypes = {
   margin: PropTypes.number,
 };
 
-const SubContent = ({title, onPress, bold, margin}) => {
+const SubContent = ({title, onPress, margin}) => {
   return (
     <>
       <Button onPress={onPress} margin={margin ? margin : 0}>
-        {bold ? (
-          <FontStyle.ContentB>{title}</FontStyle.ContentB>
-        ) : (
-          <FontStyle.Content>{title}</FontStyle.Content>
-        )}
+        <FontStyle.SubContent>{title}</FontStyle.SubContent>
       </Button>
     </>
   );
@@ -45,7 +41,6 @@ const SubContent = ({title, onPress, bold, margin}) => {
 SubContent.PropTypes = {
   title: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
-  bold: PropTypes.bool,
   margin: PropTypes.number,
 };
 
