@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import NoHeader from '@/components/NoHeader';
 import {storage} from '../config/storage';
 import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
 
 const Center = styled.View`
   flex: 0.8;
@@ -15,6 +16,10 @@ export const WelcomeScreen = ({navigation}) => {
   
   // 로그인 되어있는 상태이면 바로 홈화면으로 이동, 없으면 로그인 화면으로
   useEffect(() => {
+    checkToken();
+  }, []);
+
+  useFocusEffect(() => {
     checkToken();
   }, []);
 
