@@ -10,8 +10,18 @@ const fetchBoardDetail = BoardId => {
   return axios.get(`${API}/boards/${BoardId}/one`);
 };
 
-const addBoard = ({boardDate, boardContent}) => {
-  return axios.post(`${API}/boards/${boardDate}?boardContent=${boardContent}`);
+const addBoard = ({boardDate, boardContent, formData}) => {
+  console.log(formData);
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  };
+  return axios.post(
+    `${API}/boards/${boardDate}?boardContent=${boardContent}`,
+    formData,
+    config,
+  );
 };
 
 const deleteBoard = BoardId => {
@@ -53,9 +63,10 @@ export const useAddBoard = onSuccess => {
 };
 
 // 오늘의 기록 삭제하기
-export const useDeleteBoard = () => {
+export const useDeleteBoard = ({onSuccess}) => {
   return useMutation(deleteBoard, {
     onError: error => console.log(error),
+    onSuccess: onSuccess,
   });
 };
 

@@ -14,7 +14,7 @@ import {
   useGetDateAnn,
 } from '../../hooks/useAnniversaryData';
 import {Filter} from '../mail/MailScreen';
-import {useGetTodayBoards} from '../../hooks/useBoardData';
+import {useDeleteBoard, useGetTodayBoards} from '../../hooks/useBoardData';
 import {ScrollView} from 'react-native';
 
 const PlanContainer = styled.View`
@@ -71,6 +71,11 @@ const PaperHeader = styled.View`
   justify-content: space-between;
   margin-bottom: 10px;
 `;
+
+const RightHeader = styled.View`
+  flex-direction: row;
+`;
+
 const PaperBottom = styled.View`
   position: absolute;
   bottom: 10px;
@@ -82,7 +87,6 @@ const PostScreen = ({navigation, route}) => {
   const [isAddPlan, setIsAddPlan] = useState(false);
   const [isDelPlan, setIsDelPlan] = useState(false);
   const [newPlan, setNewPlan] = useState('');
-
 
   const {mutate: addAnn} = useAddAnn({
     onSuccess: () => {
@@ -96,6 +100,14 @@ const PostScreen = ({navigation, route}) => {
     onSuccess: () => {
       // 받아왔던 기념일 데이터 리패치
       queryClient.invalidateQueries('getDateAnn', route.params.barDate);
+    },
+  });
+
+  const {mutate: delBoard} = useDeleteBoard({
+    onSuccess: () => {
+      // 받아왔던 포스트 데이터 리패치
+      queryClient.invalidateQueries('getTodayBoards', route.params.barDate);
+      console.log('작동중');
     },
   });
 
@@ -113,7 +125,7 @@ const PostScreen = ({navigation, route}) => {
     refetch: BoardRefetch,
   } = useGetTodayBoards(route.params.barDate); // 포스트 데이터 받아오기
 
-  console.log(BoardData);
+  console.log(BoardData)
 
   // 기념일 번호 매기기
   let number = 1;
@@ -192,8 +204,9 @@ const PostScreen = ({navigation, route}) => {
                   />
                 </PlanTextBox>
                 <SendBox>
-                  <AppButtons.TextButton
+                  <AppButtons.TextButton.Content
                     title="추가"
+                    margin={5}
                     onPress={() => addPlan()}
                   />
                 </SendBox>
@@ -227,7 +240,16 @@ const PostScreen = ({navigation, route}) => {
                     <FontStyle.SubContent>
                       작성자 : {board.userStatus}
                     </FontStyle.SubContent>
-                    <FontStyle.SubContent>수정 | 삭제</FontStyle.SubContent>
+                    <RightHeader>
+                      <AppButtons.TextButton.SubContent title={'수정'} />
+                      <FontStyle.SubContent> | </FontStyle.SubContent>
+                      <AppButtons.TextButton.SubContent
+                        title={'삭제'}
+                        onPress={() => {
+                          delBoard(board.boardId);
+                        }}
+                      />
+                    </RightHeader>
                   </PaperHeader>
                   <FontStyle.Content>{board.boardContent}</FontStyle.Content>
                 </Paper>
