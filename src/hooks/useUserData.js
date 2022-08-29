@@ -57,16 +57,9 @@ export const useSignUpWithJoined = navigation => {
 };
 
 // 로그인 데이터 전송
-export const useSignIn = navigation => {
+export const useSignIn = onSuccess => {
   return useMutation(postSignInData, {
-    onSuccess: async data => {
-      // 로그인 토큰 저장
-      await storage.setItem(
-        'userToken',
-        data.headers.authorization.substring(4),
-      );
-      navigation.navigate('Home');
-    },
+    onSuccess: onSuccess,
     onError: error => alert('로그인에 실패했습니다.'),
   });
 };

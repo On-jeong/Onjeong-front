@@ -70,10 +70,24 @@ const SignInScreen = ({navigation}) => {
     }
 
     // 서버에 로그인 요청
-    mutate({
-      userNickname: userId,
-      userPassword,
-    });
+    mutate(
+      {
+        userNickname: userId,
+        userPassword,
+      },
+      {
+        onSuccess: async data => {
+          // 로그인 토큰 저장
+          await storage.setItem(
+            'userToken',
+            data.headers.authorization.substring(4),
+          );
+          setUserId('');
+          setUserPassword('');
+          navigation.navigate('Home');
+        },
+      },
+    );
   };
 
   return (
