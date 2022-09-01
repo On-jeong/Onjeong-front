@@ -10,7 +10,7 @@ const fetchBoardDetail = BoardId => {
   return axios.get(`${API}/boards/${BoardId}/one`);
 };
 
-const addBoard = ({boardDate, boardContent, formData}) => {
+const addBoard = ({boardDate, formData}) => {
   console.log(formData);
   const config = {
     headers: {
@@ -18,7 +18,7 @@ const addBoard = ({boardDate, boardContent, formData}) => {
     },
   };
   return axios.post(
-    `${API}/boards/${boardDate}?boardContent=${boardContent}`,
+    `${API}/boards/${boardDate}`,
     formData,
     config,
   );

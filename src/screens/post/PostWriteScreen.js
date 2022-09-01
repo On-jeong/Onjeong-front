@@ -68,6 +68,7 @@ const PostWriteScreen = ({navigation, route}) => {
     const formData = new FormData();
 
     formData.append('images', image);
+    formData.append('boardContent', mainText);
 
     mutate(
       {boardDate: route.params.barDate, boardContent: mainText, formData},

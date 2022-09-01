@@ -38,6 +38,7 @@ const PlanTextBox = styled.View`
   flex-direction: row;
   align-items: center;
   align-self: flex-start;
+  margin-top: 5px;
   border-bottom-width: 1px;
   border-bottom-color: ${AppColors.border};
 `;
@@ -139,6 +140,7 @@ const PostScreen = ({navigation, route}) => {
       annDate: route.params.barDate,
       annData: {
         anniversaryContent: newPlan,
+        //SPECIAL_SCHEDULE / ANNIVERSARY
         anniversaryType: 'ANNIVERSARY',
       },
     });
