@@ -6,7 +6,12 @@ import {FontStyle} from '../../utils/GlobalFonts';
 import {Components} from '../../utils/Components';
 import {AppIconButtons} from '@/components/IconButtons';
 import PropTypes from 'prop-types';
-import {useGetFamilyDetail} from '../../hooks/useProFileData';
+import {
+  useAddProfileImage,
+  useGetFamilyDetail,
+} from '../../hooks/useProFileData';
+import {TouchableOpacity} from 'react-native';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 const Image = styled.Image`
   width: ${windowWidth * 0.3};
@@ -81,8 +86,34 @@ const ProfileDetailScreen = ({navigation, route}) => {
     route.params.userId,
   );
   if (status == 'success') console.log(data.data);
-  console.log(status);
-  console.log(error);
+  // console.log(status);
+  // console.log(error);
+
+  const {mutate: addImage} = useAddProfileImage();
+
+  const getImage = async () => {
+    const data = await launchImageLibrary({
+      mediaTypes: 'photo',
+    });
+
+    // 이미지 업로드 취소한 경우
+    if (data.cancelled) {
+      return 0;
+    }
+
+    // 에러 발생
+    if (data.errorMessage) {
+      console.log(data.errorMessage);
+    }
+
+    const formData = new FormData();
+
+    formData.append('images', data.assets[0].uri);
+    console.log(formData)
+
+    addImage(formData);
+  };
+
   return (
     <NoHeader title={route.params.role} isBack={true} navigation={navigation}>
       <Container>
@@ -90,13 +121,18 @@ const ProfileDetailScreen = ({navigation, route}) => {
         {status == 'success' && (
           <>
             <TopContainer>
-              <Image
-                source={
-                  data.data.profileImageUrl
-                    ? {uri: checkProfileImage}
-                    : require('@/assets/image/profileImage.png')
-                }
-              />
+              <TouchableOpacity
+                onPress={() => {
+                  getImage();
+                }}>
+                <Image
+                  source={
+                    data.data.profileImageUrl
+                      ? {uri: checkProfileImage}
+                      : require('@/assets/image/profileImage.png')
+                  }
+                />
+              </TouchableOpacity>
               <BasicInfos>
                 <BasicInfo>
                   <FontStyle.Content>

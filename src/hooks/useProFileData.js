@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {useMutation, useQuery} from '@tanstack/react-query';
 import {API} from '@/config/api';
-import {storage} from '../config/storage';
 
 const fetchFamilyList = () => {
   return axios.get(`${API}/families`);
@@ -9,6 +8,15 @@ const fetchFamilyList = () => {
 
 const fetchFamilyDetail = userId => {
   return axios.get(`${API}/profiles/${userId}`);
+};
+
+const addProfileImage = (formData) => {
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  };
+  return axios.post(`${API}/profiles/image`, formData, config);
 };
 
 // 가족 리스트 데이터 불러오기
@@ -29,11 +37,9 @@ export const useGetFamilyDetail = userId => {
   );
 };
 
-// // 가족이 없는 회원가입 데이터 전송
-// export const useSignUpNoJoined = navigation => {
-//   return useMutation(postSignUpNoJoined, {
-//     // 성공시 로그인 페이지로 이동
-//     onSuccess: data => navigation.navigate('SignIn'),
-//     onError: error => alert('회원가입에 실패했습니다.'),
-//   });
-// };
+// 프로필 사진 등록
+export const useAddProfileImage = () => {
+  return useMutation(addProfileImage, {
+    onError: error => console.log(error),
+  });
+};
