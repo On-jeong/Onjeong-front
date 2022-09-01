@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import NoHeader from '@/components/NoHeader';
 import {storage} from '../config/storage';
 import axios from 'axios';
-import { useFocusEffect } from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 
 const Center = styled.View`
   flex: 0.8;
@@ -13,7 +13,6 @@ const Center = styled.View`
 `;
 
 export const WelcomeScreen = ({navigation}) => {
-  
   // 로그인 되어있는 상태이면 바로 홈화면으로 이동, 없으면 로그인 화면으로
   useEffect(() => {
     checkToken();
@@ -24,12 +23,12 @@ export const WelcomeScreen = ({navigation}) => {
   }, []);
 
   const checkToken = async () => {
-    const token = await storage.getItem('userToken');
+    const token = await storage.getItem('accessToken');
     console.log('loginToken: ' + token);
     if (token !== null) {
       const data = await storage.getStrItem('userData');
       console.log('logindata: ' + data);
-      axios.defaults.headers.common['Authorization'] = token;
+      axios.defaults.headers.common['AuthorizationAccess'] = token;
       navigation.navigate('Home');
     } else navigation.navigate('SignIn');
   };

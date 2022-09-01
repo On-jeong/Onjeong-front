@@ -41,13 +41,9 @@ const SignInScreen = ({navigation}) => {
   const [inputCheck, setInputCheck] = useState(false);
   const [userId, setUserId] = useState('');
   const [userPassword, setUserPassword] = useState('');
+  const [success, setSuccess] = useState(false);
 
-  const {status, data, error} = useGetUserData();
-
-  if (error) console.log('error: ' + error);
-  if (status == 'success') {
-    storage.setStrItem('userData', data.data);
-  }
+  const {status, data: userData, error: userError} = useGetUserData(success);
 
   // 항목을 전부 입력했는지 체크
   useEffect(() => {
@@ -77,13 +73,18 @@ const SignInScreen = ({navigation}) => {
       },
       {
         onSuccess: async data => {
-          // 로그인 토큰 저장
-          await storage.setItem(
-            'userToken',
-            data.headers.authorization.substring(4),
-          );
+          //로그인 토큰 저장
+          await storage.setItem('accessToken', data.headers.authorizationaccess);
+          await storage.setItem('refreshToken', data.headers.authorizationrefresh);
           setUserId('');
           setUserPassword('');
+          //유저정보 가져오기
+          setSuccess(true)
+          if (userError) console.log('error: ' + userError);
+          if (status == 'success') {
+            // 유저정보 저장
+            storage.setStrItem('userData', userData.data);
+          }
           navigation.navigate('Home');
         },
       },

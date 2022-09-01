@@ -32,9 +32,10 @@ const deleteAccount = () => {
 };
 
 // 유저 데이터 불러오기
-export const useGetUserData = () => {
+export const useGetUserData = enabled => {
   return useQuery(['getUserData'], fetchUserData, {
     onError: error => console.log(error),
+    enabled: enabled,
   });
 };
 
@@ -59,8 +60,8 @@ export const useSignUpWithJoined = navigation => {
 // 로그인 데이터 전송
 export const useSignIn = onSuccess => {
   return useMutation(postSignInData, {
-    onSuccess: onSuccess,
-    onError: error => alert('로그인에 실패했습니다.'),
+    onSuccess: () => onSuccess,
+    onError: error => console.log(error),
   });
 };
 
@@ -68,7 +69,7 @@ export const useSignIn = onSuccess => {
 export const useSignOut = (navigation, enabled) => {
   return useQuery(['reqLogout'], reqSignOut, {
     onSuccess: async () => {
-      await storage.removeItem('userToken');
+      await storage.removeItem('accessToken');
       await storage.removeItem('userData');
       navigation.navigate('SignIn');
       // storage.getAllKeys().then(keys =>
