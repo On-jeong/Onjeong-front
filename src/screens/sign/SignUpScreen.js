@@ -24,6 +24,10 @@ const BirthButton = styled.TouchableOpacity`
   padding-bottom: 10px;
 `;
 
+const ID_REG = /^[a-z]+[a-z0-9]{5,19}$/g; //영문자 또는 숫자 6 ~ 20자 - 영문자로 시작해야 함
+const PW_REG = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,16}$/; // 영문, 숫자 조합 8 ~ 16자
+const NAME_REG = /[ㄱ-힣]/; // 한글만
+
 const SignUpScreen = ({navigation}) => {
   const [inputCheck, setInputCheck] = useState(false);
   const [userId, setUserId] = useState('');
@@ -50,15 +54,15 @@ const SignUpScreen = ({navigation}) => {
     else setInputCheck(false);
   }, [userId, userName, userPassword, pwCheck, userBirth, userStatus]);
 
-  const validationCheck = () => {
+  const emptyCheck = () => {
     if (!userId) {
-      alert('아이디를 입력해주세요.');
+      alert('아이디를 입력해주세요. (6~20자리)');
       return 0;
     } else if (!userName) {
       alert('이름을 입력해주세요.');
       return 0;
     } else if (!userPassword) {
-      alert('비밀번호를 입력해주세요.');
+      alert('비밀번호를 입력해주세요. (8~16자리)');
       return 0;
     } else if (!pwCheck) {
       alert('비밀번호 확인을 입력해주세요.');
@@ -75,6 +79,18 @@ const SignUpScreen = ({navigation}) => {
     } else return 1;
   };
 
+  const validationCheck = () => {
+    if (!ID_REG.test(userName)) {
+      alert('이름은 한글만 입력 가능합니다.');
+    } else if (!ID_REG.test(userId)) {
+      alert('아이디 형식이 맞지 않습니다.');
+    } else if (!PW_REG.test(userPassword)) {
+      alert('비밀번호는 영문과 숫자 조합 8~16 자리로 설정해 주세요.');
+    } else if (!NAME_REG.test(userStatus)) {
+      alert('가족 내 역할은 한글만 입력 가능합니다.');
+    }
+  };
+
   const {mutate: addNoJoined} = useSignUpNoJoined(navigation);
   const {mutate: addWithJoined} = useSignUpWithJoined(navigation);
 
@@ -87,9 +103,8 @@ const SignUpScreen = ({navigation}) => {
     console.log('role: ' + userStatus);
     console.log('invite: ' + joinedNickname);
 
-
     // 서버에 회원가입 요청
-    if (validationCheck()) {
+    if (emptyCheck() && validationCheck()) {
       // 가족회원이 없는 회원가입
       if (!joinedNickname) {
         addNoJoined({
@@ -123,7 +138,7 @@ const SignUpScreen = ({navigation}) => {
           </Title>
           <InputContainer>
             <AppInputs.BorderBottomInput
-              maxLength={15}
+              maxLength={20}
               placeholder="아이디"
               value={userId}
               onChangeText={setUserId}
@@ -135,14 +150,14 @@ const SignUpScreen = ({navigation}) => {
               onChangeText={setUserName}
             />
             <AppInputs.BorderBottomInput
-              maxLength={15}
+              maxLength={16}
               placeholder="비밀번호"
               value={userPassword}
               onChangeText={setUserPassWord}
               secureTextEntry={true}
             />
             <AppInputs.BorderBottomInput
-              maxLength={15}
+              maxLength={16}
               placeholder="비밀번호 확인"
               value={pwCheck}
               onChangeText={setPwCheck}
@@ -161,7 +176,7 @@ const SignUpScreen = ({navigation}) => {
               onChangeText={setUserStatus}
             />
             <AppInputs.BorderBottomInput
-              maxLength={15}
+              maxLength={20}
               placeholder="초대가족 아이디"
               value={joinedNickname}
               onChangeText={setJoinedNickname}
