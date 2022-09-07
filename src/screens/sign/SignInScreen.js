@@ -7,7 +7,6 @@ import {AppButtons} from '../../components/buttons';
 import {AppInputs} from '../../components/inputs';
 import {useGetUserData, useSignIn} from '../../hooks/useUserData';
 import {storage} from '../../config/storage';
-import axios from 'axios';
 
 //
 // 로그인

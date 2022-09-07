@@ -1,25 +1,24 @@
-import axios from 'axios';
+import axios from '@/api/axios';
 import {useMutation, useQuery} from '@tanstack/react-query';
-import {API} from '@/config/api';
 
 const fetchQuest = () => {
-  return axios.get(`${API}/questions`);
+  return axios.get(`/questions`);
 };
 
 const fetchAnswers = () => {
-  return axios.get(`${API}/answers`);
+  return axios.get(`/answers`);
 };
 
 const addAnswer = questData => {
-  return axios.post(`${API}/answers/register`, questData);
+  return axios.post(`/answers/register`, questData);
 };
 
 const modifyAnswer = questData => {
-  return axios.put(`${API}/answers`, questData);
+  return axios.put(`/answers`, questData);
 };
 
 const deleteAnswer = () => {
-  return axios.delete(`${API}/answers`);
+  return axios.delete(`/answers`);
 };
 
 // 이주의 문답 질문 보여주기

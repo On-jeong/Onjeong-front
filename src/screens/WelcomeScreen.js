@@ -3,7 +3,7 @@ import {FontStyle} from '../utils/GlobalFonts';
 import styled from 'styled-components';
 import NoHeader from '@/components/NoHeader';
 import {storage} from '../config/storage';
-import axios from 'axios';
+import axios from '@/api/axios';
 import {useFocusEffect} from '@react-navigation/native';
 
 const Center = styled.View`

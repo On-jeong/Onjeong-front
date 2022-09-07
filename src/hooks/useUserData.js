@@ -1,35 +1,35 @@
-import axios from 'axios';
+import axios from '@/api/axios';
 import {useMutation, useQuery} from '@tanstack/react-query';
-import {API} from '@/config/api';
 import {storage} from '../config/storage';
 
 const fetchUserData = async () => {
-  return axios.get(`${API}/users`);
+  return axios.get(`/users`);
 };
 
 const postSignUpNoJoined = userData => {
-  return axios.post(`${API}/accounts`, userData);
+  return axios.post(`/accounts`, userData);
 };
 
 const postSignUpWithJoined = userData => {
-  return axios.post(`${API}/accounts/joined`, userData);
+  return axios.post(`/accounts/joined`, userData);
 };
 
 const postSignInData = userData => {
-  return axios.post(`${API}/login`, userData);
+  return axios.post(`/login`, userData);
 };
 
 const reqSignOut = async () => {
-  return axios.get(`${API}/logout`);
+  return axios.get(`/logout`);
 };
 
 const modifyAccount = userData => {
-  return axios.put(`${API}/accounts/user`, userData);
+  return axios.put(`/accounts/user`, userData);
 };
 
 const deleteAccount = () => {
-  return axios.delete(`${API}/accounts`);
+  return axios.delete(`/accounts`);
 };
+
 
 // 유저 데이터 불러오기
 export const useGetUserData = enabled => {

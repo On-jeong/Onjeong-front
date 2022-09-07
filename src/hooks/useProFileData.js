@@ -1,13 +1,12 @@
-import axios from 'axios';
+import axios from '@/api/axios';
 import {useMutation, useQuery} from '@tanstack/react-query';
-import {API} from '@/config/api';
 
 const fetchFamilyList = () => {
-  return axios.get(`${API}/families`);
+  return axios.get(`/families`);
 };
 
 const fetchFamilyDetail = userId => {
-  return axios.get(`${API}/profiles/${userId}`);
+  return axios.get(`/profiles/${userId}`);
 };
 
 const addProfileImage = (formData) => {
@@ -16,7 +15,7 @@ const addProfileImage = (formData) => {
       'Content-Type': 'multipart/form-data',
     },
   };
-  return axios.post(`${API}/profiles/image`, formData, config);
+  return axios.post(`/profiles/image`, formData, config);
 };
 
 // 가족 리스트 데이터 불러오기
