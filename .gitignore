@@ -66,3 +66,6 @@ buck-out/
 
 #api
 src/config/api.js
+
+# firebase - fmc 파일
+google-services.json
