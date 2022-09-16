@@ -1,8 +1,6 @@
 import axios from 'axios';
 import {BASE_URL} from '@/config/api';
 import {storage} from '@/config/storage';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useNavigation} from '@react-navigation/native';
 
 export default axios.create({
   baseURL: BASE_URL,
@@ -32,25 +30,20 @@ axios.interceptors.response.use(
   async err => {
     console.log(err);
     const refresh = useRefreshToken();
-    const navigation = useNavigation();
 
     const prevRequest = err?.config;
-    // 기간이 만료된 access토큰일 경우 -> 403에러
-    // 존재하지 않는 access토큰일 경우 -> !prevRequest?.sent
-    if (err?.response?.status === 403 && !prevRequest?.sent) {
+    // 401에러 -> 기간이 만료된 access토큰이라고 판단
+    // !prevRequest?.sent -> 존재하지 않는 access토큰일 경우
+    if (err?.response?.status === 401 && !prevRequest?.sent) {
       prevRequest.sent = true;
+      // 새로운 refresh token 받아오기
       const newAccessToken = await refresh();
       prevRequest.headers['AuthorizationAccess'] = newAccessToken;
       console.log('prevRequest: ', prevRequest);
       console.log('newAccessToken: ', newAccessToken);
       return axios(prevRequest);
     }
-    // refresh 토큰이 만료된 경우
-    else if (err?.response?.status === 460) {
-      await AsyncStorage.clear();
-      alert('세션이 만료되어 로그인 화면으로 이동합니다.');
-      navigation.navigate('SignIn');
-    }
+
     return Promise.reject(err);
   },
 );
