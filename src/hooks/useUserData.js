@@ -1,6 +1,6 @@
 import axios from '@/api/axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useMutation, useQuery} from '@tanstack/react-query';
-import {storage} from '../config/storage';
 
 const fetchUserData = async () => {
   return axios.get(`/users`);
@@ -69,14 +69,12 @@ export const useSignIn = onSuccess => {
 export const useSignOut = (navigation, enabled) => {
   return useQuery(['reqLogout'], reqSignOut, {
     onSuccess: async () => {
-      await storage.removeItem('accessToken');
-      await storage.removeItem('userData');
-      navigation.navigate('SignIn');
+      await AsyncStorage.clear();
       // storage.getAllKeys().then(keys =>
       //   storage.multiGet(keys).then(data => console.log(data)),
       // );
     },
-    onError: error => alert('로그아웃에 실패했습니다.'),
+    onError: () => alert('로그아웃에 실패했습니다.'),
     enabled: enabled,
   });
 };

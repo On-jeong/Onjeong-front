@@ -108,7 +108,6 @@ const PostScreen = ({navigation, route}) => {
     onSuccess: () => {
       // 받아왔던 포스트 데이터 리패치
       queryClient.invalidateQueries('getTodayBoards', route.params.barDate);
-      console.log('작동중');
     },
   });
 
@@ -126,7 +125,7 @@ const PostScreen = ({navigation, route}) => {
     refetch: BoardRefetch,
   } = useGetTodayBoards(route.params.barDate); // 포스트 데이터 받아오기
 
-  console.log(BoardData)
+  console.log('post: ',BoardData);
 
   // 기념일 번호 매기기
   let number = 1;
@@ -172,7 +171,7 @@ const PostScreen = ({navigation, route}) => {
               </Filter>
             </PlanTitle>
             {AnnIsLoading && <FontStyle.Content>Loading...</FontStyle.Content>}
-            {AnnData?.data.length === 0 && (
+            {AnnData?.data.length === 0 && !isAddPlan && (
               <FontStyle.Content>오늘의 행사가 없습니다.</FontStyle.Content>
             )}
             {AnnData?.data.map(ann => (
@@ -210,6 +209,11 @@ const PostScreen = ({navigation, route}) => {
                     title="추가"
                     margin={5}
                     onPress={() => addPlan()}
+                  />
+                  <AppButtons.TextButton.Content
+                    title="취소"
+                    margin={5}
+                    onPress={() => setIsAddPlan(false)}
                   />
                 </SendBox>
               </>

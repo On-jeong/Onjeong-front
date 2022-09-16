@@ -45,7 +45,8 @@ export const useGetSendMails = () => {
 // 메일 보내기
 export const usePostMail = navigation => {
   return useMutation(postMailData, {
-    onError: error => console.log(error),
+    onError: error => {console.log(error)
+    alert('편지 보내기에 실패했습니다.')},
     onSuccess: () => {
       navigation.navigate('Mail');
     },

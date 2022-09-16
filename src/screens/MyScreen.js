@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import {FontStyle} from '../utils/GlobalFonts';
 import {Components} from '../utils/Components';
 import {useSignOut} from '../hooks/useUserData';
-import {storage} from '../config/storage';
 
 const Menu = styled.TouchableOpacity`
   width: 100%;
@@ -26,8 +25,8 @@ export const Email = styled.View`
 
 const MyScreen = ({navigation}) => {
   const [signOut, setSignOut] = useState(false);
-  const {error} = useSignOut(navigation, signOut);
-  console.log(error);
+  const {error, status} = useSignOut(navigation, signOut);
+
   return (
     <BasicHeader title={'온정'} isBack={true} navigation={navigation}>
       <Menu>
@@ -49,7 +48,8 @@ const MyScreen = ({navigation}) => {
       <Menu
         onPress={() => {
           setSignOut(true);
-          navigation.navigate('SignIn');
+          if (status === 'success') navigation.navigate('SignIn');
+          else alert('로그아웃에 실패했습니다.');
         }}>
         <FontStyle.SubTitle>로그아웃</FontStyle.SubTitle>
       </Menu>

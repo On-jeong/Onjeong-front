@@ -29,12 +29,12 @@ export default function App({navigation}) {
   // fcm token 가져오기
   const getFCMToken = async () => {
     let fcmToken = await storage.getItem('fcmToken');
-    console.log('old token: ', fcmToken);
+    console.log('old fcmToken: ', fcmToken);
     if (!fcmToken) {
       try {
         const fcmToken = await messaging().getToken();
         if (fcmToken) {
-          console.log('new token: ', fcmToken);
+          console.log('new fcmToken: ', fcmToken);
           await storage.setItem('fcmToken', fcmToken);
         }
       } catch (err) {

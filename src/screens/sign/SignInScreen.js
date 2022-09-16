@@ -7,6 +7,7 @@ import {AppButtons} from '../../components/buttons';
 import {AppInputs} from '../../components/inputs';
 import {useGetUserData, useSignIn} from '../../hooks/useUserData';
 import {storage} from '../../config/storage';
+import axios from '@/api/axios';
 
 //
 // 로그인
@@ -42,7 +43,7 @@ const SignInScreen = ({navigation}) => {
   const [userPassword, setUserPassword] = useState('');
   const [success, setSuccess] = useState(false);
 
-  const {status, data: userData, error: userError} = useGetUserData(success);
+  const {mutate} = useSignIn(navigation);
 
   // 항목을 전부 입력했는지 체크
   useEffect(() => {
@@ -50,7 +51,6 @@ const SignInScreen = ({navigation}) => {
     else setInputCheck(false);
   }, [userId, userPassword]);
 
-  const {mutate} = useSignIn(navigation);
 
   const onSubmit = () => {
     console.log('id: ' + userId);
@@ -72,18 +72,24 @@ const SignInScreen = ({navigation}) => {
       },
       {
         onSuccess: async data => {
+          // 헤더 등록
+          axios.defaults.headers.common['AuthorizationAccess'] =
+            data.headers.authorizationaccess;
+          //axios.defaults.headers.common['AuthorizationRefresh '] = data.headers.authorizationrefresh;
           //로그인 토큰 저장
-          await storage.setItem('accessToken', data.headers.authorizationaccess);
-          await storage.setItem('refreshToken', data.headers.authorizationrefresh);
+          await storage.setItem(
+            'accessToken',
+            data.headers.authorizationaccess,
+          );
+          await storage.setItem(
+            'refreshToken',
+            data.headers.authorizationrefresh,
+          );
           setUserId('');
           setUserPassword('');
-          //유저정보 가져오기
-          setSuccess(true)
-          if (userError) console.log('error: ' + userError);
-          if (status == 'success') {
-            // 유저정보 저장
-            storage.setStrItem('userData', userData.data);
-          }
+          // 유저정보 저장
+          storage.setStrItem('userData', data.data);
+          console.log(data.data)
           navigation.navigate('Home');
         },
       },

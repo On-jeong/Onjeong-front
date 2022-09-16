@@ -4,7 +4,6 @@ import NoHeader from '@/components/NoHeader';
 
 import {ScrollView} from 'react-native-gesture-handler';
 import {FontStyle} from '@/utils/GlobalFonts';
-import {TouchableOpacity} from 'react-native';
 import {AppColors} from '@/utils/GlobalStyles';
 import {AppIconButtons} from '@/components/IconButtons';
 import {
@@ -124,11 +123,10 @@ const MailScreen = ({navigation}) => {
             />
             <FontStyle.Content> / </FontStyle.Content>
             <AppButtons.TextButton.Content
-              title={'받은 우편함'}
+              title={'보낸 우편함'}
               bold={!isReceive}
-              onPress={() => sendMails()}>
-              보낸 우편함
-            </AppButtons.TextButton.Content>
+              onPress={() => sendMails()}
+            />
             <Alert>
               <AppIconButtons.Alert onPress={() => {}} />
             </Alert>

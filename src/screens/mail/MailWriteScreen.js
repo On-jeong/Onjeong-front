@@ -42,7 +42,8 @@ export const MainInput = styled.TextInput`
 
 export const SendBox = styled.View`
   width: 100%;
-  align-items: flex-end;
+  flex-direction: row;
+  justify-content: flex-end;
 `;
 
 const SelectBox = styled.View`
@@ -66,9 +67,9 @@ const MailWriteScreen = ({navigation}) => {
   const [isOpen, setIsOpen] = useState(false); // 보낼 가족 선택창 열기 여부
 
   const {data, status, isLoading, error} = useGetFamilyList();
+  if(error) console.log(error);
 
   const {mutate} = usePostMail(navigation);
-  console.log(error);
 
   const sendMail = () => {
     if (!toUserId) {
@@ -101,7 +102,7 @@ const MailWriteScreen = ({navigation}) => {
                   <>
                     <FontStyle.Content>보낼 가족이 없습니다.</FontStyle.Content>
                     <FontStyle.Content>
-                      가족 구성원을 추가해 주세요.
+                      가족 구성원을 초대해 주세요.
                     </FontStyle.Content>
                   </>
                 )}

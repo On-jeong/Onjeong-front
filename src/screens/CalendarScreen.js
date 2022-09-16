@@ -62,7 +62,8 @@ const MiniText = styled.View`
   margin-top: 2px;
   border-width: 1px;
   border-radius: 12px;
-  border-color: ${(props)=>props.type==='ANNIVERSARY'?AppColors.red1:AppColors.green2};
+  border-color: ${props =>
+    props.type === 'ANNIVERSARY' ? AppColors.red1 : AppColors.green2};
 `;
 
 const Week = styled.View`
@@ -73,13 +74,16 @@ export default function CalendarScreen({navigation}) {
   const isFocus = useIsFocused();
   const [curDate, setCurDate] = useState(new Date());
 
-  useEffect(() => {}, [isFocus]);
+  const {data} = useGetMonthAnn(format(new Date(), 'yyyy-MM-dd'));
+  console.log(data);
 
-  return <>{getCalender({curDate, setCurDate, navigation})}</>;
+  useEffect(() => {}, [isFocus, data]);
+
+  return <>{getCalender({curDate, setCurDate, navigation, data})}</>;
 }
 
 // 달력
-const getCalender = ({curDate, setCurDate, navigation}) => {
+const getCalender = ({curDate, setCurDate, navigation, data}) => {
   const monthStart = startOfMonth(curDate); //이번 달 시작 날짜
   const monthEnd = endOfMonth(curDate); //이번 달 마지막 날짜
   const startDate = startOfWeek(monthStart); // 이번 달 시작 주의 첫번째 날짜
@@ -87,8 +91,6 @@ const getCalender = ({curDate, setCurDate, navigation}) => {
   const curMonth = getMonth(curDate) + 1; // 이번 달
   const curYear = getYear(curDate); // 이번 달
   const today = format(new Date(), 'yy-MM-dd');
-
-  const {data} = useGetMonthAnn(format(new Date(), 'yyyy-MM-dd'));
 
   let date = startDate;
   let month = [];
@@ -155,11 +157,11 @@ const pushDate = ({week, date, curMonth, today, navigation, data}) => {
       {/* 기념일은 3개까지만 들어가게 하기 */}
       {data?.data.map(
         plan =>
-          Object.keys(plan)[0] == format(date, 'yyyy-MM-dd') && (
+          plan.anniversaryDate == format(date, 'yyyy-MM-dd') && (
             // 기념일은 빨간색, 일정은 파란색으로 표시
-            <MiniText type={plan[Object.keys(plan)[0]].anniversaryType}>
+            <MiniText type={plan.anniversaryType}>
               <FontStyle.CalendarFont numberOfLines={1} ellipsizeMode="tail">
-                {plan[Object.keys(plan)[0]].anniversaryContent}
+                {plan.anniversaryContent}
               </FontStyle.CalendarFont>
             </MiniText>
           ),
