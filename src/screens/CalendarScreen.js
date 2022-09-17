@@ -159,7 +159,7 @@ const pushDate = ({week, date, curMonth, today, navigation, data}) => {
         plan =>
           plan.anniversaryDate == format(date, 'yyyy-MM-dd') && (
             // 기념일은 빨간색, 일정은 파란색으로 표시
-            <MiniText type={plan.anniversaryType}>
+            <MiniText type={plan.anniversaryType} key={plan.anniversaryId}>
               <FontStyle.CalendarFont numberOfLines={1} ellipsizeMode="tail">
                 {plan.anniversaryContent}
               </FontStyle.CalendarFont>
