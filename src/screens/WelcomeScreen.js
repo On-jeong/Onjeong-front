@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {FontStyle} from '../utils/GlobalFonts';
 import styled from 'styled-components';
 import NoHeader from '@/components/NoHeader';
@@ -21,9 +21,11 @@ export const WelcomeScreen = ({navigation}) => {
     checkToken();
   }, []);
 
-  useFocusEffect(() => {
-    checkToken();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      checkToken();
+    }, []),
+  );
 
   const {newUserData, status} = useGetUserData(isUserData);
 
