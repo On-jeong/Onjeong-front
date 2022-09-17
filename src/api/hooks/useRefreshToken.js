@@ -18,10 +18,16 @@ const useRefreshToken = () => {
         return res.data;
       })
       .catch(async err => {
-        // 리프레쉬 토큰이 만료된 걸로 간주
-        await AsyncStorage.clear();
-        alert('세션이 만료되어 로그인 화면으로 이동합니다.');
-        navigation.navigate('SignIn');
+        // 리프레쉬 토큰이 만료됐을 경우
+        console.log(err?.response.data);
+        if (
+          err?.response?.data?.status === 401 &&
+          err?.response?.data?.message === 'REFRESH TOKEN EXPIRED'
+        ) {
+          await AsyncStorage.clear();
+          alert('세션이 만료되어 로그인 화면으로 이동합니다.');
+          navigation.navigate('SignIn');
+        }
         return false;
       });
   };
