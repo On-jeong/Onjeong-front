@@ -7,7 +7,7 @@ import {AppButtons} from '../../components/buttons';
 import {AppInputs} from '../../components/inputs';
 import {useGetUserData, useSignIn} from '../../hooks/useUserData';
 import {storage} from '../../config/storage';
-import axios from '@/api/axios';
+import axios, {refreshAxios} from '@/api/axios';
 
 //
 // 로그인
@@ -51,7 +51,6 @@ const SignInScreen = ({navigation}) => {
     else setInputCheck(false);
   }, [userId, userPassword]);
 
-
   const onSubmit = () => {
     console.log('id: ' + userId);
     console.log('pw: ' + userPassword);
@@ -75,7 +74,11 @@ const SignInScreen = ({navigation}) => {
           // 헤더 등록
           axios.defaults.headers.common['AuthorizationAccess'] =
             data.headers.authorizationaccess;
-          //axios.defaults.headers.common['AuthorizationRefresh '] = data.headers.authorizationrefresh;
+          refreshAxios.defaults.headers.common['AuthorizationAccess'] =
+            data.headers.authorizationaccess;
+          refreshAxios.defaults.headers.common['AuthorizationRefresh'] =
+            data.headers.authorizationrefresh;
+
           //로그인 토큰 저장
           await storage.setItem(
             'accessToken',
@@ -87,9 +90,10 @@ const SignInScreen = ({navigation}) => {
           );
           setUserId('');
           setUserPassword('');
+
           // 유저정보 저장
           storage.setStrItem('userData', data.data);
-          console.log(data.data)
+          console.log(data.data);
           navigation.navigate('Home');
         },
       },

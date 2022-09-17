@@ -3,7 +3,7 @@ import {FontStyle} from '../utils/GlobalFonts';
 import styled from 'styled-components';
 import NoHeader from '@/components/NoHeader';
 import {storage} from '../config/storage';
-import axios from '@/api/axios';
+import axios, {refreshAxios} from '@/api/axios';
 import {useFocusEffect} from '@react-navigation/native';
 import {useGetUserData} from '@/hooks/useUserData';
 
@@ -40,6 +40,9 @@ export const WelcomeScreen = ({navigation}) => {
         console.log('newUserData: ' + newUserData);
       }
       axios.defaults.headers.common['AuthorizationAccess'] = accessToken;
+      refreshAxios.defaults.headers.common['AuthorizationAccess'] = accessToken;
+      refreshAxios.defaults.headers.common['AuthorizationRefresh'] =
+        refreshToken;
       navigation.navigate('Home');
     } else navigation.navigate('SignIn');
   };
