@@ -48,8 +48,6 @@ const MyScreen = ({navigation}) => {
       <Menu
         onPress={() => {
           setSignOut(true);
-          if (status === 'success') navigation.navigate('SignIn');
-          else alert('로그아웃에 실패했습니다.');
         }}>
         <FontStyle.SubTitle>로그아웃</FontStyle.SubTitle>
       </Menu>
