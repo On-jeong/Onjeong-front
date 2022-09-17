@@ -67,7 +67,7 @@ const MailWriteScreen = ({navigation}) => {
   const [isOpen, setIsOpen] = useState(false); // 보낼 가족 선택창 열기 여부
 
   const {data, status, isLoading, error} = useGetFamilyList();
-  if(error) console.log(error);
+  if (error) console.log(error);
 
   const {mutate} = usePostMail(navigation);
 
@@ -111,6 +111,7 @@ const MailWriteScreen = ({navigation}) => {
                     <>
                       {family.userId !== userData.userId && (
                         <SelectItem
+                          key={family.userId}
                           onPress={() => {
                             setToUserStatus(family.userStatus);
                             setToUserId(family.userId);
