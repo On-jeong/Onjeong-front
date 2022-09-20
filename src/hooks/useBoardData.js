@@ -1,12 +1,12 @@
-import axios from '@/api/axios';
+import customAxios from '@/api/axios';
 import {useMutation, useQuery} from '@tanstack/react-query';
 
 const fetchTodayBoards = boardDate => {
-  return axios.get(`/boards/${boardDate}`);
+  return customAxios.get(`/boards/${boardDate}`);
 };
 
 const fetchBoardDetail = BoardId => {
-  return axios.get(`/boards/${BoardId}/one`);
+  return customAxios.get(`/boards/${BoardId}/one`);
 };
 
 const addBoard = ({boardDate, formData}) => {
@@ -16,7 +16,7 @@ const addBoard = ({boardDate, formData}) => {
       'Content-Type': 'multipart/form-data',
     },
   };
-  return axios.post(
+  return customAxios.post(
     `/boards/${boardDate}`,
     formData,
     config,
@@ -24,11 +24,11 @@ const addBoard = ({boardDate, formData}) => {
 };
 
 const deleteBoard = BoardId => {
-  return axios.delete(`/boards/${BoardId}`);
+  return customAxios.delete(`/boards/${BoardId}`);
 };
 
 const modifyBoard = (BoardId, BoardData) => {
-  return axios.patch(`/boards/${BoardId}`, BoardData);
+  return customAxios.patch(`/boards/${BoardId}`, BoardData);
 };
 
 // 오늘의 기록 모두 가져오기

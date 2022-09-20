@@ -10,16 +10,11 @@ import {FontStyle} from './src/utils/GlobalFonts';
 //fcm
 import messaging from '@react-native-firebase/messaging';
 import {storage} from '@/config/storage';
-
-const queryClient = new QueryClient();
-
-if (__DEV__) {
-  import('react-query-native-devtools').then(({addPlugin}) => {
-    addPlugin({queryClient});
-  });
-}
+import {Interceptor} from '@/api/intercepter';
 
 export default function App({navigation}) {
+  const queryClient = new QueryClient();
+
   const foregroundListener = React.useCallback(() => {
     messaging().onMessage(async remoteMessage => {
       alert(JSON.stringify(remoteMessage));
@@ -49,8 +44,8 @@ export default function App({navigation}) {
   }, []);
 
   return (
-    <>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <Interceptor>
         <RecoilRoot>
           <React.Suspense
             fallback={<FontStyle.Content>Loading</FontStyle.Content>}>
@@ -60,7 +55,7 @@ export default function App({navigation}) {
             </NavigationContainer>
           </React.Suspense>
         </RecoilRoot>
-      </QueryClientProvider>
-    </>
+      </Interceptor>
+    </QueryClientProvider>
   );
 }
