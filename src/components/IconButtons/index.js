@@ -26,15 +26,10 @@ const Pencil = ({
     </TouchableOpacity>
   );
 };
-Pencil.PropTypes = {
+Pencil.propTypes = {
   onPress: PropTypes.func,
   size: PropTypes.number,
-  margin: {
-    marginTop: PropTypes.number,
-    marginBottom: PropTypes.number,
-    marginLeft: PropTypes.number,
-    marginRight: PropTypes.number,
-  },
+  margin: PropTypes.objectOf(PropTypes.number),
 };
 
 const Alert = ({
@@ -57,15 +52,10 @@ const Alert = ({
     </TouchableOpacity>
   );
 };
-Alert.PropTypes = {
+Alert.propTypes = {
   onPress: PropTypes.func,
   size: PropTypes.number,
-  margin: {
-    marginTop: PropTypes.number,
-    marginBottom: PropTypes.number,
-    marginLeft: PropTypes.number,
-    marginRight: PropTypes.number,
-  },
+  margin: PropTypes.objectOf(PropTypes.number)
 };
 
 const Cancel = ({
@@ -88,15 +78,10 @@ const Cancel = ({
     </TouchableOpacity>
   );
 };
-Cancel.PropTypes = {
+Cancel.propTypes = {
   onPress: PropTypes.func,
   size: PropTypes.number,
-  margin: {
-    marginTop: PropTypes.number,
-    marginBottom: PropTypes.number,
-    marginLeft: PropTypes.number,
-    marginRight: PropTypes.number,
-  },
+  margin: PropTypes.objectOf(PropTypes.number)
 };
 
 const Delete = ({
@@ -119,15 +104,10 @@ const Delete = ({
     </TouchableOpacity>
   );
 };
-Delete.PropTypes = {
+Delete.propTypes = {
   onPress: PropTypes.func,
   size: PropTypes.number,
-  margin: {
-    marginTop: PropTypes.number,
-    marginBottom: PropTypes.number,
-    marginLeft: PropTypes.number,
-    marginRight: PropTypes.number,
-  },
+  margin: PropTypes.objectOf(PropTypes.number)
 };
 
 export const AppIconButtons = {

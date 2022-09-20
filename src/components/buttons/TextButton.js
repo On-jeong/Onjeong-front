@@ -21,7 +21,7 @@ const Content = ({title, onPress, bold, margin}) => {
   );
 };
 
-Content.PropTypes = {
+Content.propTypes = {
   title: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
   bold: PropTypes.bool,
@@ -38,7 +38,7 @@ const SubContent = ({title, onPress, margin}) => {
   );
 };
 
-SubContent.PropTypes = {
+SubContent.propTypes = {
   title: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
   margin: PropTypes.number,

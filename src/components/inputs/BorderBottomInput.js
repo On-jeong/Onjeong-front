@@ -32,7 +32,7 @@ export const BorderBottomInput = ({
   );
 };
 
-BorderBottomInput.PropTypes = {
+BorderBottomInput.propTypes = {
   value: PropTypes.string,
   onChangeText: PropTypes.func,
   placeholder: PropTypes.string,
