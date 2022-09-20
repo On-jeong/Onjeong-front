@@ -1,16 +1,16 @@
-import axios from '@/api/axios';
+import customAxios from '@/api/axios';
 import {useMutation, useQuery} from '@tanstack/react-query';
 
 const fetchCoins = () => {
-  return axios.get(`/coins`);
+  return customAxios.get(`/coins`);
 };
 
 const AddRandCoins = () => {
-  return axios.post(`/coins-random`);
+  return customAxios.post(`/coins-random`);
 };
 
 const fetchCoinHistory = () => {
-  return axios.get(`/histories`, );
+  return customAxios.get(`/histories`, );
 };
 
 // 패밀리 코인 보여주기

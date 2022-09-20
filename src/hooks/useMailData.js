@@ -1,28 +1,28 @@
-import axios from '@/api/axios';
+import customAxios from '@/api/axios';
 import {useMutation, useQuery} from '@tanstack/react-query';
 
 const fetchReceiveMails = () => {
-  return axios.get(`/mailList/receive`);
+  return customAxios.get(`/mailList/receive`);
 };
 
 const fetchSendMails = () => {
-  return axios.get(`/mailList/send`);
+  return customAxios.get(`/mailList/send`);
 };
 
 const postMailData = mailData => {
-  return axios.post(`/mails`, mailData);
+  return customAxios.post(`/mails`, mailData);
 };
 
 const fetchMailDetail = mailId => {
-  return axios.get(`/mails/${mailId}`);
+  return customAxios.get(`/mails/${mailId}`);
 };
 
 const deleteReceiveMail = mailIds => {
-  return axios.post(`/mails/receive/delete?mailIds=${mailIds}`);
+  return customAxios.post(`/mails/receive/delete?mailIds=${mailIds}`);
 };
 
 const deleteSendMail = mailIds => {
-  return axios.post(`/mails/send/delete?mailIds=${mailIds}`);
+  return customAxios.post(`/mails/send/delete?mailIds=${mailIds}`);
 };
 
 // 받은 메일 리스트 데이터 불러오기

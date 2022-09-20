@@ -1,33 +1,33 @@
-import axios from '@/api/axios';
+import customAxios from '@/api/axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useMutation, useQuery} from '@tanstack/react-query';
 
 const fetchUserData = async () => {
-  return axios.get(`/users`);
+  return customAxios.get(`/users`);
 };
 
 const postSignUpNoJoined = userData => {
-  return axios.post(`/accounts`, userData);
+  return customAxios.post(`/accounts`, userData);
 };
 
 const postSignUpWithJoined = userData => {
-  return axios.post(`/accounts/joined`, userData);
+  return customAxios.post(`/accounts/joined`, userData);
 };
 
 const postSignInData = userData => {
-  return axios.post(`/login`, userData);
+  return customAxios.post(`/login`, userData);
 };
 
 const reqSignOut = async () => {
-  return axios.get(`/logout`);
+  return customAxios.get(`/logout`);
 };
 
 const modifyAccount = userData => {
-  return axios.put(`/accounts/user`, userData);
+  return customAxios.put(`/accounts/user`, userData);
 };
 
 const deleteAccount = () => {
-  return axios.delete(`/accounts`);
+  return customAxios.delete(`/accounts`);
 };
 
 

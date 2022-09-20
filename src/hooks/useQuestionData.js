@@ -1,24 +1,24 @@
-import axios from '@/api/axios';
+import customAxios from '@/api/axios';
 import {useMutation, useQuery} from '@tanstack/react-query';
 
 const fetchQuest = () => {
-  return axios.get(`/questions`);
+  return customAxios.get(`/questions`);
 };
 
 const fetchAnswers = () => {
-  return axios.get(`/answers`);
+  return customAxios.get(`/answers`);
 };
 
 const addAnswer = questData => {
-  return axios.post(`/answers/register`, questData);
+  return customAxios.post(`/answers/register`, questData);
 };
 
 const modifyAnswer = questData => {
-  return axios.put(`/answers`, questData);
+  return customAxios.put(`/answers`, questData);
 };
 
 const deleteAnswer = () => {
-  return axios.delete(`/answers`);
+  return customAxios.delete(`/answers`);
 };
 
 // 이주의 문답 질문 보여주기
@@ -36,15 +36,16 @@ export const useGetAnswers = () => {
 };
 
 // 이주의 문답 답변 작성하기
-export const useAddAnswer = questData => {
-  return useMutation(addAnswer(questData), {
+export const useAddAnswer = onSuccess => {
+  return useMutation(addAnswer, {
     onError: error => console.log(error),
+    onSuccess:onSuccess
   });
 };
 
 // 이주의 문답 답변 수정하기
-export const useModifyAnswer = questData => {
-  return useMutation(modifyAnswer(questData), {
+export const useModifyAnswer = () => {
+  return useMutation(modifyAnswer, {
     onError: error => console.log(error),
   });
 };
