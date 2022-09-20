@@ -60,9 +60,9 @@ const NoHeader = ({
 
 export default NoHeader;
 
-NoHeader.PropTypes = {
+NoHeader.propTypes = {
   isBack: PropTypes.bool,
-  children: PropTypes.PropTypes.oneOfType([
+  children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),

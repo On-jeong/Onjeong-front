@@ -119,9 +119,9 @@ export const BasicHeader = ({
   );
 };
 
-WithHeader.PropTypes = {
+WithHeader.propTypes = {
   isBack: PropTypes.bool,
-  children: PropTypes.PropTypes.oneOfType([
+  children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
@@ -137,9 +137,9 @@ WithHeader.PropTypes = {
   }),
 };
 
-BasicHeader.PropTypes = {
+BasicHeader.propTypes = {
   isBack: PropTypes.bool,
-  children: PropTypes.PropTypes.oneOfType([
+  children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),

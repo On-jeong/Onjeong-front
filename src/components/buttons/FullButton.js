@@ -30,7 +30,7 @@ export const FullButton = ({title, inputCheck, onPress, borderColor}) => {
   );
 };
 
-FullButton.PropTypes = {
+FullButton.propTypes = {
   title: PropTypes.string.isRequired,
   inputCheck: PropTypes.bool,
   onPress: PropTypes.func.isRequired,

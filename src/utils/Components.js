@@ -25,14 +25,9 @@ const HorizonLine = ({
     />
   );
 };
-HorizonLine.PropTypes = {
+HorizonLine.propTypes = {
   height: PropTypes.number,
-  margin: {
-    marginTop: PropTypes.number,
-    marginBottom: PropTypes.number,
-    marginLeft: PropTypes.number,
-    marginRight: PropTypes.number,
-  },
+  margin: PropTypes.objectOf(PropTypes.number)
 };
 
 const Box = styled.View`
@@ -42,7 +37,7 @@ const Box = styled.View`
 const EmptyBox = ({height}) => {
   return <Box height={height} />;
 };
-EmptyBox.PropTypes = {
+EmptyBox.propTypes = {
   height: PropTypes.number,
 };
 
