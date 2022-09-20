@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {useRecoilValue} from 'recoil';
 import NoHeader from '@/components/NoHeader';
 import styled from 'styled-components';
 import {AppColors, windowWidth} from '../../utils/GlobalStyles';
@@ -8,10 +9,19 @@ import {AppIconButtons} from '@/components/IconButtons';
 import PropTypes from 'prop-types';
 import {
   useAddProfileImage,
-  useGetFamilyDetail,
+  useGetFamilyProfile,
+  useGetFamilyInfo,
+  useAddMessage,
+  useDelFavorite,
+  useDelHate,
+  useDelInterest,
+  useDelExpression,
+  useModMessage,
 } from '../../hooks/useProFileData';
 import {TouchableOpacity} from 'react-native';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
+import UserData from '@/state/UserData';
+import {useQueryClient} from '@tanstack/react-query';
 
 const Image = styled.Image`
   width: ${windowWidth * 0.3};
@@ -49,6 +59,9 @@ const BasicInfo = styled.View`
 
 const ArrowBox = styled.View`
   position: relative;
+  flex-direction: row;
+  align-items: center;
+  min-width: 50;
   padding: 8px;
   margin-left: 5px;
   margin-right: 5px;
@@ -75,21 +88,63 @@ const TopArrow = styled.View`
   left: 20px;
 `;
 
+const MessageInput = styled.TextInput`
+  font-family: 'GangwonLight';
+  font-size: 15px;
+  margin: 0;
+  padding: 0;
+`;
+
 const TagContainer = styled.View`
   flex-direction: row;
   align-items: center;
   flex-wrap: wrap;
+  margin-top: 5px;
+`;
+
+const CancelBox = styled.View`
+  position: absolute;
+  top: -10;
+  right: -10;
 `;
 
 const ProfileDetailScreen = ({navigation, route}) => {
-  const {data, isLoading, status, error} = useGetFamilyDetail(
-    route.params.userId,
-  );
-  if (status == 'success') console.log(data.data);
-  // console.log(status);
-  // console.log(error);
+  const userData = useRecoilValue(UserData);
+  const queryClient = useQueryClient();
+
+  const [isMessageWrite, setIsMessageWrite] = useState(false);
+  const [messageValue, setMessageValue] = useState(detailData?.data.message);
+  const [tagValue, setTagValue] = useState(detailData?.data.message);
+
+  const [isFavoritesMod, setIsFavoritesMod] = useState(false);
+  const [isHatesMod, setIsHatesMod] = useState(false);
+  const [isInterestsMod, setIsInterestsMod] = useState(false);
+  const [isExpressionsMod, setIsExpressionsMod] = useState(false);
+
+  const {
+    data: detailData,
+    isLoading: detailIsLoading,
+    status: detailStatus,
+  } = useGetFamilyProfile(route.params.userId, () => {
+    setMessageValue(detailData?.data.message);
+  });
+
+  const {
+    data: infoData,
+    isLoading: infoIsLoading,
+    status: infoStatus,
+  } = useGetFamilyInfo(route.params.userId);
+  if (detailStatus == 'success') console.log(detailData.data);
+  if (infoStatus == 'success') console.log(infoData.data);
 
   const {mutate: addImage} = useAddProfileImage();
+  const {mutate: addMessage} = useAddMessage();
+  const {mutate: modMessage} = useModMessage();
+
+  const {mutate: delFavorite} = useDelFavorite();
+  const {mutate: delHate} = useDelHate();
+  const {mutate: delInterest} = useDelInterest();
+  const {mutate: delExpression} = useDelExpression();
 
   const getImage = async () => {
     const data = await launchImageLibrary({
@@ -109,16 +164,18 @@ const ProfileDetailScreen = ({navigation, route}) => {
     const formData = new FormData();
 
     formData.append('images', data.assets[0].uri);
-    console.log(formData)
+    console.log(formData);
 
     addImage(formData);
   };
 
+ 
+
   return (
     <NoHeader title={route.params.role} isBack={true} navigation={navigation}>
       <Container>
-        {isLoading && <FontStyle.Content>Loading...</FontStyle.Content>}
-        {status == 'success' && (
+        {detailIsLoading && <FontStyle.Content>Loading...</FontStyle.Content>}
+        {detailStatus == 'success' ? (
           <>
             <TopContainer>
               <TouchableOpacity
@@ -127,7 +184,7 @@ const ProfileDetailScreen = ({navigation, route}) => {
                 }}>
                 <Image
                   source={
-                    data.data.profileImageUrl
+                    detailData?.data.profileImageUrl
                       ? {uri: checkProfileImage}
                       : require('@/assets/image/profileImage.png')
                   }
@@ -137,18 +194,25 @@ const ProfileDetailScreen = ({navigation, route}) => {
                 <BasicInfo>
                   <FontStyle.Content>
                     이름:{' '}
-                    <FontStyle.Content>{data.data.name}</FontStyle.Content>
+                    <FontStyle.Content>
+                      {detailData?.data.name}
+                    </FontStyle.Content>
                   </FontStyle.Content>
                 </BasicInfo>
                 <BasicInfo>
                   <FontStyle.Content>
-                    나이: <FontStyle.Content>{data.data.age}</FontStyle.Content>
+                    나이:{' '}
+                    <FontStyle.Content>
+                      {detailData?.data.age}
+                    </FontStyle.Content>
                   </FontStyle.Content>
                 </BasicInfo>
                 <BasicInfo>
                   <FontStyle.Content>
                     생일:{' '}
-                    <FontStyle.Content>{data.data.birth}</FontStyle.Content>
+                    <FontStyle.Content>
+                      {detailData?.data.birth}
+                    </FontStyle.Content>
                   </FontStyle.Content>
                 </BasicInfo>
               </BasicInfos>
@@ -157,48 +221,125 @@ const ProfileDetailScreen = ({navigation, route}) => {
             {/* 상태메시지 */}
             <ArrowBox>
               <TopArrow />
-              <FontStyle.SubContent>
-                하잉~ 다들 오늘도 행복하게!
-              </FontStyle.SubContent>
+              {isMessageWrite ? (
+                <MessageInput
+                  value={messageValue}
+                  onChangeText={setMessageValue}
+                  autoFocus={true}
+                />
+              ) : (
+                <FontStyle.SubContent>
+                  {messageValue ? messageValue : '...'}
+                </FontStyle.SubContent>
+              )}
+              <AppIconButtons.Pencil
+                onPress={() => {
+                  if (isMessageWrite && !messageValue) {
+                    addMessage(messageValue);
+                  } else if (isMessageWrite && messageValue) {
+                    modMessage(messageValue);
+                  }
+                  setIsMessageWrite(!isMessageWrite);
+                }}
+                size={17}
+                margin={{marginLeft: 20}}
+              />
             </ArrowBox>
           </>
+        ) : (
+          <FontStyle.Content>
+            데이터를 불러오는데 실패했습니다.
+          </FontStyle.Content>
         )}
       </Container>
 
       <Components.HorizonLine margin={{marginBottom: 10}} />
 
       <ContentsContainer>
-        <CategoryTitle title="좋아하는 것들" />
-        <TagContainer>
-          <Tag title="노래" />
-          <Tag title="춤" />
-          <Tag title="게임" />
-        </TagContainer>
-        <CategoryTitle title="싫어하는 것들" />
-        <TagContainer>
-          <Tag title="벌레" />
-          <Tag title="무서운 거" />
-          <Tag title="공부" />
-        </TagContainer>
-        <CategoryTitle title="요즘 관심사" />
-        <TagContainer>
-          <Tag title="놀기" />
-          <Tag title="눞기" />
-          <Tag title="케이크" />
-        </TagContainer>
-        <CategoryTitle
-          title={`'${route.params.role}'을(를) 한단어로 표현한다면?`}
-        />
-        <TagContainer>
-          <Tag title="사랑" />
-          <Tag title="이쁨" />
-          <Tag title="isfp" />
-          <Tag title="isfp" />
-          <Tag title="isfp" />
-          <Tag title="isfp" />
-          <Tag title="isfp" />
-          <Tag title="isfp" />
-        </TagContainer>
+        {infoIsLoading && <FontStyle.Content>Loading...</FontStyle.Content>}
+        {infoStatus === 'success' ? (
+          <>
+            <CategoryTitle
+              title="좋아하는 것들"
+              onPress={() => {
+                setIsFavoritesMod(!isFavoritesMod);
+                // 유저 정보 리패치
+                queryClient.invalidateQueries('getFamilyInfo');
+              }}
+            />
+            <TagContainer>
+              <>{
+                 <Tag
+                 title={tagValue}
+                 isModify={isFavoritesMod}
+                 onPress={() => {
+                   delFavorite({
+                     userId: userData.userId,
+                     dataId: info.favoriteId,
+                   });
+                 }}
+               />
+              }
+                {infoData?.data.favorites.length === 0 ? (
+                  <FontStyle.Content>...</FontStyle.Content>
+                ) : (
+                  infoData?.data.favorites.map(info => (
+                    <Tag
+                      key={info.favoriteId}
+                      title={info.favoriteContent}
+                      isModify={isFavoritesMod}
+                      onPress={() => {
+                        delFavorite({
+                          userId: userData.userId,
+                          dataId: info.favoriteId,
+                        });
+                      }}
+                    />
+                  ))
+                )}
+              </>
+            </TagContainer>
+            <CategoryTitle title="싫어하는 것들" />
+            <TagContainer>
+              {infoData?.data.hates.length === 0 ? (
+                <FontStyle.Content>...</FontStyle.Content>
+              ) : (
+                infoData?.data.hates.map(info => {
+                  <Tag key={info.hateId} title={info.hateContent} />;
+                })
+              )}
+            </TagContainer>
+            <CategoryTitle title="요즘 관심사" />
+            <TagContainer>
+              {infoData?.data.interests.length === 0 ? (
+                <FontStyle.Content>...</FontStyle.Content>
+              ) : (
+                infoData?.data.interests.map(info => {
+                  <Tag key={info.interestId} title={info.interestContent} />;
+                })
+              )}
+            </TagContainer>
+            <CategoryTitle
+              title={`'${route.params.role}'을(를) 한단어로 표현한다면?`}
+            />
+            <TagContainer>
+              {infoData?.data.expressions.length === 0 ? (
+                <FontStyle.Content>...</FontStyle.Content>
+              ) : (
+                infoData?.data.expressions.map(info => {
+                  <Tag
+                    key={info.expressionId}
+                    title={info.expressionContent}
+                  />;
+                })
+              )}
+            </TagContainer>
+          </>
+        ) : (
+          <FontStyle.Content>
+            데이터를 불러오는데 실패했습니다.
+          </FontStyle.Content>
+        )}
       </ContentsContainer>
     </NoHeader>
   );
@@ -225,7 +366,7 @@ const CategoryTitle = ({title, onPress}) => {
     </>
   );
 };
-CategoryTitle.ProtoTypes = {
+CategoryTitle.propTypes = {
   title: PropTypes.string,
   onPress: PropTypes.func,
 };
@@ -241,16 +382,21 @@ const TagBox = styled.View`
   border-radius: 12px;
 `;
 
-const Tag = ({title}) => {
+const Tag = ({title, isModify, onPress}) => {
   return (
     <>
       <TagBox>
+        {isModify && (
+          <CancelBox>
+            <AppIconButtons.Cancel onPress={onPress} />
+          </CancelBox>
+        )}
         <FontStyle.SubContent>{title}</FontStyle.SubContent>
       </TagBox>
     </>
   );
 };
-Tag.ProtoTypes = {
+Tag.propTypes = {
   title: PropTypes.string,
 };
 
