@@ -37,6 +37,7 @@ export default function App({navigation}) {
       }
     }
   };
+  
 
   React.useEffect(() => {
     getFCMToken();
