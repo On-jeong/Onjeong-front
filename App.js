@@ -43,6 +43,7 @@ export default function App({navigation}) {
     foregroundListener();
   }, []);
 
+  
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
