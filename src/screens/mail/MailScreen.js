@@ -75,8 +75,7 @@ const MailScreen = ({navigation}) => {
     useCallback(() => {
       refetch();
       sendRefetch();
-    }, []),
-    [data],
+    }, [data]),
   );
   const {data, isLoading, status, error, refetch} = useGetReceiveMails({
     onSuccess: data => {
