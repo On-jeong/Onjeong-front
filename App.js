@@ -10,7 +10,7 @@ import {FontStyle} from './src/utils/GlobalFonts';
 //fcm
 import messaging from '@react-native-firebase/messaging';
 import {storage} from '@/config/storage';
-import {Interceptor} from '@/api/intercepter';
+import {Interceptor} from '@/api/interceptor';
 
 export default function App({navigation}) {
   const queryClient = new QueryClient();
@@ -37,7 +37,6 @@ export default function App({navigation}) {
       }
     }
   };
-  
 
   React.useEffect(() => {
     getFCMToken();
@@ -46,17 +45,17 @@ export default function App({navigation}) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Interceptor>
-        <RecoilRoot>
-          <React.Suspense
-            fallback={<FontStyle.Content>Loading</FontStyle.Content>}>
-            <FlipperAsyncStorage />
-            <NavigationContainer>
+      <RecoilRoot>
+        <React.Suspense
+          fallback={<FontStyle.Content>Loading...</FontStyle.Content>}>
+          <NavigationContainer>
+            <Interceptor>
+              <FlipperAsyncStorage />
               <StackNavigator />
-            </NavigationContainer>
-          </React.Suspense>
-        </RecoilRoot>
-      </Interceptor>
+            </Interceptor>
+          </NavigationContainer>
+        </React.Suspense>
+      </RecoilRoot>
     </QueryClientProvider>
   );
 }
