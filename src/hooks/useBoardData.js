@@ -5,8 +5,8 @@ const fetchTodayBoards = boardDate => {
   return customAxios.get(`/boards/${boardDate}`);
 };
 
-const fetchBoardDetail = BoardId => {
-  return customAxios.get(`/boards/${BoardId}/one`);
+const fetchBoardDetail = boardId => {
+  return customAxios.get(`/boards/${boardId}/one`);
 };
 
 const addBoard = ({boardDate, formData}) => {
@@ -16,19 +16,20 @@ const addBoard = ({boardDate, formData}) => {
       'Content-Type': 'multipart/form-data',
     },
   };
-  return customAxios.post(
-    `/boards/${boardDate}`,
-    formData,
-    config,
-  );
+  return customAxios.post(`/boards/${boardDate}`, formData, config);
 };
 
-const deleteBoard = BoardId => {
-  return customAxios.delete(`/boards/${BoardId}`);
+const deleteBoard = boardId => {
+  return customAxios.delete(`/boards/${boardId}`);
 };
 
-const modifyBoard = (BoardId, BoardData) => {
-  return customAxios.patch(`/boards/${BoardId}`, BoardData);
+const modifyBoard = ({boardId, formData}) => {
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  };
+  return customAxios.patch(`/boards/${boardId}`, formData, config);
 };
 
 // 오늘의 기록 모두 가져오기
@@ -70,8 +71,9 @@ export const useDeleteBoard = ({onSuccess}) => {
 };
 
 // 오늘의 기록 수정하기
-export const useModifyBoard = () => {
+export const useModifyBoard = ({onSuccess}) => {
   return useMutation(modifyBoard, {
     onError: error => console.log(error),
+    onSuccess: onSuccess,
   });
 };
