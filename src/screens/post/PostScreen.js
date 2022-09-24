@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import NoHeader from '@/components/NoHeader';
 import {useQueryClient} from '@tanstack/react-query';
 import {FontStyle} from '@/utils/GlobalFonts';
-import {AppColors} from '@/utils/GlobalStyles';
+import {AppColors, windowHeight, windowWidth} from '@/utils/GlobalStyles';
 import {Components} from '../../utils/Components';
 import {AppIconButtons} from '../../components/IconButtons';
 import {AppButtons} from '../../components/buttons';
@@ -15,7 +15,8 @@ import {
 } from '../../hooks/useAnniversaryData';
 import {Filter} from '../mail/MailScreen';
 import {useDeleteBoard, useGetTodayBoards} from '../../hooks/useBoardData';
-import {ScrollView} from 'react-native';
+import {Image, ScrollView} from 'react-native';
+import AutoHeightImage from 'react-native-auto-height-image';
 
 const PlanContainer = styled.View`
   padding: 7%;
@@ -73,14 +74,13 @@ const PaperHeader = styled.View`
   margin-bottom: 10px;
 `;
 
-const RightHeader = styled.View`
-  flex-direction: row;
+const ImageContainer = styled.View`
+  margin-top: 5px;
+  margin-bottom: 5px;
 `;
 
-const PaperBottom = styled.View`
-  position: absolute;
-  bottom: 10px;
-  right: 20px;
+const RightHeader = styled.View`
+  flex-direction: row;
 `;
 
 const PostScreen = ({navigation, route}) => {
@@ -125,7 +125,7 @@ const PostScreen = ({navigation, route}) => {
     refetch: BoardRefetch,
   } = useGetTodayBoards(route.params.barDate); // 포스트 데이터 받아오기
 
-  console.log('post: ',BoardData);
+  console.log('post: ', BoardData);
 
   // 기념일 번호 매기기
   let number = 1;
@@ -162,12 +162,14 @@ const PostScreen = ({navigation, route}) => {
                     if (!isAddPlan && isDelPlan) setIsDelPlan(!isDelPlan);
                   }}
                 />
-                <AppIconButtons.Delete
-                  onPress={() => {
-                    setIsDelPlan(!isDelPlan);
-                    if (isAddPlan && !isDelPlan) setIsAddPlan(!isAddPlan);
-                  }}
-                />
+                {AnnData?.data.length !== 0 && (
+                  <AppIconButtons.Delete
+                    onPress={() => {
+                      setIsDelPlan(!isDelPlan);
+                      if (isAddPlan && !isDelPlan) setIsAddPlan(!isAddPlan);
+                    }}
+                  />
+                )}
               </Filter>
             </PlanTitle>
             {AnnIsLoading && <FontStyle.Content>Loading...</FontStyle.Content>}
@@ -240,14 +242,23 @@ const PostScreen = ({navigation, route}) => {
             )}
 
             {BoardData?.data.map(board => (
-              <PaperContainer>
-                <Paper key={board.boardId}>
+              <PaperContainer key={board.boardId}>
+                <Paper>
                   <PaperHeader>
                     <FontStyle.SubContent>
                       작성자 : {board.userStatus}
                     </FontStyle.SubContent>
                     <RightHeader>
-                      <AppButtons.TextButton.SubContent title={'수정'} />
+                      <AppButtons.TextButton.SubContent
+                        title={'수정'}
+                        onPress={() => {
+                          navigation.navigate('PostWrite', {
+                            boardId: board.boardId,
+                            boardImageUrl: board.boardImageUrl,
+                            boardContent: board.boardContent,
+                          });
+                        }}
+                      />
                       <FontStyle.SubContent> | </FontStyle.SubContent>
                       <AppButtons.TextButton.SubContent
                         title={'삭제'}
@@ -257,6 +268,14 @@ const PostScreen = ({navigation, route}) => {
                       />
                     </RightHeader>
                   </PaperHeader>
+                  {board.boardImageUrl && (
+                    <ImageContainer>
+                      <AutoHeightImage
+                        width={windowWidth - 44 - windowWidth * 0.14}
+                        source={{uri: board.boardImageUrl}}
+                      />
+                    </ImageContainer>
+                  )}
                   <FontStyle.Content>{board.boardContent}</FontStyle.Content>
                 </Paper>
               </PaperContainer>

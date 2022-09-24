@@ -4,36 +4,36 @@ import NoHeader from '@/components/NoHeader';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {MainInput, Paper, PaperContainer} from '@/screens/mail/MailWriteScreen';
-import {useAddBoard} from '../../hooks/useBoardData';
+import {useAddBoard, useModifyBoard} from '../../hooks/useBoardData';
 import {useQueryClient} from '@tanstack/react-query';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {windowWidth} from '../../utils/GlobalStyles';
 import {AppButtons} from '../../components/buttons';
 import {AppIconButtons} from '../../components/IconButtons';
 
-const SendBox = styled.View`
+export const SendBox = styled.View`
   width: 100%;
   flex-direction: row;
   justify-content: space-between;
 `;
 
-const SendBtn = styled.TouchableOpacity`
+export const SendBtn = styled.TouchableOpacity`
   margin: 5px;
   flex-direction: row;
   align-items: center;
 `;
 
-const ImageBox = styled.View`
+export const ImageBox = styled.View`
   margin-top: 10px;
 `;
 
-const IconBox = styled.View`
+export const IconBox = styled.View`
   position: absolute;
   top: -10px;
   left: -10px;
 `;
 
-const PreImage = styled.Image`
+export const PreImage = styled.Image`
   width: ${windowWidth * 0.3};
   height: ${windowWidth * 0.3};
 `;
@@ -41,14 +41,41 @@ const PreImage = styled.Image`
 const PostWriteScreen = ({navigation, route}) => {
   const queryClient = useQueryClient();
 
-  const [mainText, setMainText] = useState('');
-  const [image, setImage] = useState(null);
+  console.log(route.params)
 
-  const {mutate} = useAddBoard();
+  // 수정에서 넘어온 경우 기존 컨텐츠 보여주기
+  const [mainText, setMainText] = useState(
+    route.params.boardContent ? route.params.boardContent : '',
+  );
+  const [image, setImage] = useState(route.params.boardImageUrl);
+
+  const {mutate: addBoard} = useAddBoard({
+    onSuccess: () => {
+      // 받아왔던 포스트 데이터 리패치
+      queryClient.invalidateQueries('getTodayBoards', route.params.barDate);
+      navigation.navigate('Post', {
+        date: route.params.date,
+        barDate: route.params.barDate,
+      });
+    },
+  });
+  const {mutate: modBoard} = useModifyBoard({
+    onSuccess: () => {
+      // 받아왔던 포스트 데이터 리패치
+      queryClient.invalidateQueries('getTodayBoards', route.params.barDate);
+      navigation.navigate('Post', {
+        date: route.params.date,
+        barDate: route.params.barDate,
+      });
+    },
+  });
 
   const getImage = async () => {
     const data = await launchImageLibrary({
       mediaTypes: 'photo',
+      maxWidth: 600,
+      maxHeight: 600,
+      rotation: 360,
     });
 
     // 이미지 업로드 취소한 경우
@@ -70,19 +97,14 @@ const PostWriteScreen = ({navigation, route}) => {
     formData.append('images', image);
     formData.append('boardContent', mainText);
 
-    mutate(
-      {boardDate: route.params.barDate, boardContent: mainText, formData},
-      {
-        onSuccess: () => {
-          // 받아왔던 포스트 데이터 리패치
-          queryClient.invalidateQueries('getTodayBoards', route.params.barDate);
-          navigation.navigate('Post', {
-            date: route.params.date,
-            barDate: route.params.barDate,
-          });
-        },
-      },
-    );
+    // 수정인 경우
+    if (route.params.boardId) {
+      modBoard({boardId: route.params.boardId, formData});
+    }
+    // 새로운 포스트인 경우
+    else {
+      addBoard({boardDate: route.params.barDate, formData});
+    }
   };
 
   return (
