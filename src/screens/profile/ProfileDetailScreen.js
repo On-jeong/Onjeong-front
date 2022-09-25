@@ -114,7 +114,7 @@ const ProfileDetailScreen = ({navigation, route}) => {
 
   const [isMessageWrite, setIsMessageWrite] = useState(false);
   const [messageValue, setMessageValue] = useState(detailData?.data.message);
-  const [tagValue, setTagValue] = useState(detailData?.data.message);
+  const [tagValue, setTagValue] = useState('');
 
   const [isFavoritesMod, setIsFavoritesMod] = useState(false);
   const [isHatesMod, setIsHatesMod] = useState(false);
@@ -169,7 +169,22 @@ const ProfileDetailScreen = ({navigation, route}) => {
     addImage(formData);
   };
 
- 
+  const submitMessage = () => {
+    if (!messageValue) {
+      addMessage({message: messageValue});
+    } else if (messageValue) {
+      modMessage({message: messageValue});
+      // 상태메시지 쿼리데이터 직접 교체
+      queryClient.setQueryData(['getFamilyProfile', 26], oldData => {
+        oldData.data.message = messageValue;
+      });
+    }
+    setIsMessageWrite(!isMessageWrite);
+  };
+
+  const submitTag = ()=>{
+    
+  }
 
   return (
     <NoHeader title={route.params.role} isBack={true} navigation={navigation}>
@@ -184,7 +199,7 @@ const ProfileDetailScreen = ({navigation, route}) => {
                 }}>
                 <Image
                   source={
-                    detailData?.data.profileImageUrl
+                    detailData?.data?.profileImageUrl
                       ? {uri: checkProfileImage}
                       : require('@/assets/image/profileImage.png')
                   }
@@ -226,24 +241,20 @@ const ProfileDetailScreen = ({navigation, route}) => {
                   value={messageValue}
                   onChangeText={setMessageValue}
                   autoFocus={true}
+                  onSubmitEditing={submitMessage}
                 />
               ) : (
-                <FontStyle.SubContent>
-                  {messageValue ? messageValue : '...'}
-                </FontStyle.SubContent>
+                <FontStyle.SubContent>{detailData?.data.message}</FontStyle.SubContent>
               )}
-              <AppIconButtons.Pencil
-                onPress={() => {
-                  if (isMessageWrite && !messageValue) {
-                    addMessage(messageValue);
-                  } else if (isMessageWrite && messageValue) {
-                    modMessage(messageValue);
-                  }
-                  setIsMessageWrite(!isMessageWrite);
-                }}
-                size={17}
-                margin={{marginLeft: 20}}
-              />
+              {!isMessageWrite && (
+                <AppIconButtons.Pencil
+                  onPress={() => {
+                    setIsMessageWrite(true);
+                  }}
+                  size={17}
+                  margin={{marginLeft: 20}}
+                />
+              )}
             </ArrowBox>
           </>
         ) : (
@@ -268,18 +279,17 @@ const ProfileDetailScreen = ({navigation, route}) => {
               }}
             />
             <TagContainer>
-              <>{
-                 <Tag
-                 title={tagValue}
-                 isModify={isFavoritesMod}
-                 onPress={() => {
-                   delFavorite({
-                     userId: userData.userId,
-                     dataId: info.favoriteId,
-                   });
-                 }}
-               />
-              }
+              <>
+                {isFavoritesMod&&
+                  <TagBox>
+                    <MessageInput
+                      placeholder={'새로운 태그'}
+                      value={tagValue}
+                      onChangeText={setTagValue}
+                      onSubmitEditing={() => {}}
+                    />
+                  </TagBox>
+                }
                 {infoData?.data.favorites.length === 0 ? (
                   <FontStyle.Content>...</FontStyle.Content>
                 ) : (

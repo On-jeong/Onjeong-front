@@ -27,7 +27,6 @@ const addMessage = message => {
 };
 
 const modMessage = message => {
-  console.log(message)
   return customAxios.patch(`/profiles/messages`, message);
 };
 
@@ -95,6 +94,7 @@ export const useModMessage = () => {
   });
 };
 
+// 태그 삭제
 export const useDelFavorite = () => {
   return useMutation(delFavorite, {
     onError: error => console.log(error),
