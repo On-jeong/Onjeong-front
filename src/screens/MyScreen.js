@@ -4,6 +4,10 @@ import styled from 'styled-components';
 import {FontStyle} from '../utils/GlobalFonts';
 import {Components} from '../utils/Components';
 import {useSignOut} from '../hooks/useUserData';
+import {useDelFCM} from '@/hooks/useFCMtoken';
+import {useRecoilValue} from 'recoil';
+import {storage} from '@/config/storage';
+import UserData from '@/state/UserData';
 
 const Menu = styled.TouchableOpacity`
   width: 100%;
@@ -25,7 +29,21 @@ export const Email = styled.View`
 
 const MyScreen = ({navigation}) => {
   const [signOut, setSignOut] = useState(false);
-  const {error, status} = useSignOut(navigation, signOut);
+
+  const userData = useRecoilValue(UserData);
+
+  const {error, status} = useSignOut({
+    navigation,
+    enabled: signOut,
+    onMutate: delFCMToken,
+  });
+  const {mutate} = useDelFCM();
+
+  const delFCMToken = async () => {
+    const fcmToken = await storage.getItem('fcmToken');
+    console.log('온뮤:', userData);
+    mutate({token: fcmToken, userNickname: userData.userNickname});
+  };
 
   return (
     <BasicHeader title={'온정'} isBack={true} navigation={navigation}>
@@ -47,6 +65,7 @@ const MyScreen = ({navigation}) => {
       <Components.HorizonLine />
       <Menu
         onPress={() => {
+          delFCMToken();
           setSignOut(true);
         }}>
         <FontStyle.SubTitle>로그아웃</FontStyle.SubTitle>

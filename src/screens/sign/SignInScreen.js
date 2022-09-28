@@ -9,6 +9,8 @@ import {useGetUserData, useSignIn} from '../../hooks/useUserData';
 import {storage} from '../../config/storage';
 import axios, {refreshAxios} from '@/api/axios';
 import {useAddFCM} from '@/hooks/useFCMtoken';
+import {useRecoilState} from 'recoil';
+import UserData from '@/state/UserData';
 
 //
 // 로그인
@@ -39,6 +41,8 @@ export const InputContainer = styled.View`
 `;
 
 const SignInScreen = ({navigation}) => {
+  const setUserData = useRecoilState(UserData);
+
   const [inputCheck, setInputCheck] = useState(false);
   const [userId, setUserId] = useState('');
   const [userPassword, setUserPassword] = useState('');
@@ -96,9 +100,13 @@ const SignInScreen = ({navigation}) => {
           setUserId('');
           setUserPassword('');
 
+          const userData = {...data.data, userNickname: userId};
+          console.log(userData);
+
           // 유저정보 저장
-          storage.setStrItem('userData', data.data);
-          console.log(data.data);
+          storage.setStrItem('userData', userData);
+          setUserData(userData);
+          
           navigation.navigate('Home');
         },
         onError: err => {
@@ -116,7 +124,7 @@ const SignInScreen = ({navigation}) => {
   const getFCMToken = async () => {
     const fcmToken = await storage.getItem('fcmToken');
 
-    console.log('토큰출력:', fcmToken);
+    console.log('fcm토큰출력:', fcmToken);
 
     addFCM({
       token: fcmToken,

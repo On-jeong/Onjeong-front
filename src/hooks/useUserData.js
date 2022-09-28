@@ -30,7 +30,6 @@ const deleteAccount = () => {
   return customAxios.delete(`/accounts`);
 };
 
-
 // 유저 데이터 불러오기
 export const useGetUserData = enabled => {
   return useQuery(['getUserData'], fetchUserData, {
@@ -58,26 +57,31 @@ export const useSignUpWithJoined = navigation => {
 };
 
 // 로그인 데이터 전송
-export const useSignIn = onSuccess => {
+export const useSignIn = ({onSuccess, onError}) => {
   return useMutation(postSignInData, {
-    onSuccess: () => onSuccess,
-    onError: error => console.log(error),
+    onSuccess: onSuccess,
+    onError: onError,
   });
 };
 
 // 로그아웃 요청
-export const useSignOut = (navigation, enabled) => {
+export const useSignOut = ({navigation, enabled, onMutate}) => {
   return useQuery(['reqLogout'], reqSignOut, {
+    onMutate: onMutate,
     onSuccess: async () => {
-      await AsyncStorage.clear();
-      navigation.navigate('SignIn')
+      await AsyncStorage.removeItem('userData');
+      await AsyncStorage.removeItem('accessToken');
+      await AsyncStorage.removeItem('refreshToken');
+
+      navigation.navigate('SignIn');
       // storage.getAllKeys().then(keys =>
       //   storage.multiGet(keys).then(data => console.log(data)),
       // );
     },
-    onError: (err) => {
-      console.log(err)
-      alert('로그아웃에 실패했습니다.')},
+    onError: err => {
+      console.log(err);
+      alert('로그아웃에 실패했습니다.');
+    },
     enabled: enabled,
   });
 };
