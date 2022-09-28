@@ -13,8 +13,6 @@ export const Interceptor = ({children}) => {
   customAxios.interceptors.response.use(
     res => res,
     async err => {
-      console.log(err);
-
       const prevRequest = err?.config;
 
       // 401에러 -> 기간이 만료된 access토큰이라고 판단
@@ -22,9 +20,12 @@ export const Interceptor = ({children}) => {
       if (
         err?.response?.data?.status === 401 &&
         err?.response?.data?.error === 'Unauthorized' &&
+        err?.response?.data?.path !== '/login' &&
         !prevRequest.sent
       ) {
         prevRequest.sent = true; // 중복 요청 방지
+
+        console.log('인터셉터 캐치:', err);
 
         // 새로운 access token 받아오기
         refreshAxios
@@ -50,7 +51,9 @@ export const Interceptor = ({children}) => {
 
             if (err?.response?.data?.status === 401) {
               alert('세션이 만료되어 로그인 화면으로 이동합니다.');
-              AsyncStorage.clear();
+              AsyncStorage.removeItem('userData');
+              AsyncStorage.removeItem('accessToken');
+              AsyncStorage.removeItem('refreshToken');
               navigation.navigate('SignIn');
             }
             return Promise.reject(err);

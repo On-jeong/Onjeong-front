@@ -8,6 +8,7 @@ import {AppInputs} from '../../components/inputs';
 import {useGetUserData, useSignIn} from '../../hooks/useUserData';
 import {storage} from '../../config/storage';
 import axios, {refreshAxios} from '@/api/axios';
+import {useAddFCM} from '@/hooks/useFCMtoken';
 
 //
 // 로그인
@@ -44,6 +45,7 @@ const SignInScreen = ({navigation}) => {
   const [success, setSuccess] = useState(false);
 
   const {mutate} = useSignIn(navigation);
+  const {mutate: addFCM} = useAddFCM();
 
   // 항목을 전부 입력했는지 체크
   useEffect(() => {
@@ -79,6 +81,9 @@ const SignInScreen = ({navigation}) => {
           refreshAxios.defaults.headers.common['AuthorizationRefresh'] =
             data.headers.authorizationrefresh;
 
+          //FCM 토큰 보내기
+          getFCMToken();
+
           //로그인 토큰 저장
           await storage.setItem(
             'accessToken',
@@ -96,8 +101,27 @@ const SignInScreen = ({navigation}) => {
           console.log(data.data);
           navigation.navigate('Home');
         },
+        onError: err => {
+          console.log(err);
+          if (err?.response?.data?.error === 'Unauthorized') {
+            alert('아이디 또는 비밀번호가 맞지 않습니다.');
+            setUserId('');
+            setUserPassword('');
+          }
+        },
       },
     );
+  };
+
+  const getFCMToken = async () => {
+    const fcmToken = await storage.getItem('fcmToken');
+
+    console.log('토큰출력:', fcmToken);
+
+    addFCM({
+      token: fcmToken,
+      userNickname: userId,
+    });
   };
 
   return (
