@@ -10,7 +10,7 @@ const fetchAnswers = () => {
 };
 
 const addAnswer = questData => {
-  return customAxios.post(`/answers/register`, questData);
+  return customAxios.post(`/answers/register?answerContent=${questData}`);
 };
 
 const modifyAnswer = questData => {
@@ -29,9 +29,10 @@ export const useGetQuest = () => {
 };
 
 // 이주의 문답 답변들 보여주기
-export const useGetAnswers = () => {
+export const useGetAnswers = (onSuccess) => {
   return useQuery(['getAnswers'], fetchAnswers, {
     onError: error => console.log(error),
+    onSuccess:onSuccess
   });
 };
 
@@ -39,7 +40,7 @@ export const useGetAnswers = () => {
 export const useAddAnswer = onSuccess => {
   return useMutation(addAnswer, {
     onError: error => console.log(error),
-    onSuccess:onSuccess
+    onSuccess: onSuccess,
   });
 };
 
@@ -52,7 +53,7 @@ export const useModifyAnswer = () => {
 
 // 이주의 문답 답변 삭제하기
 export const useDeleteAnswer = () => {
-  return useMutation(deleteAnswer(), {
+  return useMutation(deleteAnswer, {
     onError: error => console.log(error),
   });
 };
