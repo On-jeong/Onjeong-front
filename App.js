@@ -4,7 +4,6 @@ import {StackNavigator} from './src/navigators/StackNavigator';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {RecoilRoot} from 'recoil';
 
-import FlipperAsyncStorage from 'rn-flipper-async-storage-advanced';
 import {FontStyle} from './src/utils/GlobalFonts';
 
 //fcm
@@ -51,7 +50,6 @@ export default function App({navigation}) {
           fallback={<FontStyle.Content>Loading...</FontStyle.Content>}>
           <NavigationContainer>
             <Interceptor>
-              <FlipperAsyncStorage />
               <StackNavigator />
             </Interceptor>
           </NavigationContainer>
