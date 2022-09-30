@@ -9,7 +9,7 @@ import {useGetUserData, useSignIn} from '../../hooks/useUserData';
 import {storage} from '../../config/storage';
 import axios, {refreshAxios} from '@/api/axios';
 import {useAddFCM} from '@/hooks/useFCMtoken';
-import {useRecoilState} from 'recoil';
+import {useSetRecoilState, useSetRecoilValue} from 'recoil';
 import UserData from '@/state/UserData';
 
 //
@@ -41,7 +41,7 @@ export const InputContainer = styled.View`
 `;
 
 const SignInScreen = ({navigation}) => {
-  const setUserData = useRecoilState(UserData);
+  const setUserData = useSetRecoilState(UserData);
 
   const [inputCheck, setInputCheck] = useState(false);
   const [userId, setUserId] = useState('');
@@ -106,7 +106,7 @@ const SignInScreen = ({navigation}) => {
           // 유저정보 저장
           storage.setStrItem('userData', userData);
           setUserData(userData);
-          
+
           navigation.navigate('Home');
         },
         onError: err => {
