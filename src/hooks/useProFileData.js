@@ -16,10 +16,11 @@ const fetchFamilyInfo = userId => {
 const addProfileImage = formData => {
   const config = {
     headers: {
-      'Content-Type': 'multipart/form-data',
+      'Content-Type':
+        'multipart/form-data; boundary=<calculated when request is sent>',
     },
   };
-  return customAxios.post(`/profiles/image`, formData, config);
+  return customAxios.post(`/profiles/image`, formData);
 };
 
 const addMessage = message => {
@@ -31,7 +32,7 @@ const modMessage = message => {
 };
 
 const delFavorite = ({userId, dataId}) => {
-  console.log('dataId',dataId)
+  console.log('dataId', dataId);
   return customAxios.delete(`/profiles/favorites/${userId}/${dataId}`);
 };
 
@@ -45,6 +46,22 @@ const delInterest = (userId, dataId) => {
 
 const delExpression = (userId, dataId) => {
   return customAxios.delete(`/profiles/expressions/${userId}/${dataId}`);
+};
+
+const addFavorite = ({userId, data}) => {
+  return customAxios.post(`/profiles/favorites/${userId}`, data);
+};
+
+const addHate = (userId, data) => {
+  return customAxios.post(`/profiles/hates/${userId}`, data);
+};
+
+const addInterest = (userId, data) => {
+  return customAxios.post(`/profiles/interests/${userId}`, data);
+};
+
+const addExpression = (userId, data) => {
+  return customAxios.post(`/profiles/expressions/${userId}`, data);
 };
 
 // 가족 리스트 데이터 불러오기
@@ -115,6 +132,31 @@ export const useDelInterest = () => {
 
 export const useDelExpression = () => {
   return useMutation(delExpression, {
+    onError: error => console.log(error),
+  });
+};
+
+// 태그 등록
+export const useAddFavorite = () => {
+  return useMutation(addFavorite, {
+    onError: error => console.log(error),
+  });
+};
+
+export const useAddHate = () => {
+  return useMutation(addHate, {
+    onError: error => console.log(error),
+  });
+};
+
+export const useAddInterest = () => {
+  return useMutation(addInterest, {
+    onError: error => console.log(error),
+  });
+};
+
+export const useAddExpression = () => {
+  return useMutation(addExpression, {
     onError: error => console.log(error),
   });
 };
