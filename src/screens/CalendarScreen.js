@@ -74,7 +74,7 @@ export default function CalendarScreen({navigation}) {
   const isFocus = useIsFocused();
   const [curDate, setCurDate] = useState(new Date());
 
-  const {data} = useGetMonthAnn(format(new Date(), 'yyyy-MM-dd'));
+  const {data} = useGetMonthAnn(format(curDate, 'yyyy-MM-dd'));
   console.log(data);
 
   useEffect(() => {}, [isFocus, data]);
