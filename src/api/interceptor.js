@@ -14,13 +14,13 @@ export const Interceptor = ({children}) => {
     res => res,
     async err => {
       const prevRequest = err?.config;
+      console.log('애로:', err);
 
-      // 401에러 -> 기간이 만료된 access토큰이라고 판단
+      // 에러코드 A004 -> 기간이 만료된 access토큰이라고 판단
       // prevRequest.sent로 중복 요청인지 판단
       if (
-        err?.response?.data?.status === 401 &&
-        err?.response?.data?.error === 'Unauthorized' &&
-        err?.response?.data?.path !== '/login' &&
+        err?.config.url !== '/login' &&
+        err?.response?.data?.code === 'A004' &&
         !prevRequest.sent
       ) {
         prevRequest.sent = true; // 중복 요청 방지
@@ -47,9 +47,9 @@ export const Interceptor = ({children}) => {
           })
           .catch(err => {
             // 리프레쉬 토큰이 만료됐거나 맞지 않을 경우
-            console.log('리프레시 만료됨:', err?.response.data);
+            if (err?.response?.data?.code === 'A002') {
+              console.log('리프레시 만료됨:', err?.response.data);
 
-            if (err?.response?.data?.status === 401) {
               alert('세션이 만료되어 로그인 화면으로 이동합니다.');
               AsyncStorage.removeItem('userData');
               AsyncStorage.removeItem('accessToken');
