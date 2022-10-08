@@ -73,6 +73,9 @@ export const useSignOut = ({navigation, enabled, onMutate}) => {
       await AsyncStorage.removeItem('accessToken');
       await AsyncStorage.removeItem('refreshToken');
 
+      // 기본 헤더 제거
+      delete customAxios.defaults.headers.common['AuthorizationAccess'];
+
       navigation.navigate('SignIn');
       // storage.getAllKeys().then(keys =>
       //   storage.multiGet(keys).then(data => console.log(data)),

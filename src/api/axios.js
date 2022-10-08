@@ -14,9 +14,12 @@ export const refreshAxios = axios.create({
 
 export default customAxios;
 
+// 엑세스 토큰 추가해서 보내기 (로그인 돼있을 때만)
 customAxios.interceptors.request.use(
   async config => {
-    if (!config.headers['AuthorizationAccess']) {
+    const accessToken = await storage.getItem('accessToken');
+
+    if (accessToken && !config.headers['AuthorizationAccess']) {
       config.headers['AuthorizationAccess'] = await storage.getItem(
         'accessToken',
       );
@@ -25,7 +28,6 @@ customAxios.interceptors.request.use(
   },
   err => Promise.reject(err),
 );
-
 
 // 엑세스 및 리프레쉬 토큰 추가해서 보내기
 refreshAxios.interceptors.request.use(
