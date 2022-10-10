@@ -11,6 +11,8 @@ import axios, {refreshAxios} from '@/api/axios';
 import {useAddFCM} from '@/hooks/useFCMtoken';
 import {useSetRecoilState, useSetRecoilValue} from 'recoil';
 import UserData from '@/state/UserData';
+import messaging from '@react-native-firebase/messaging';
+import customAxios from '@/api/axios';
 
 //
 // 로그인
@@ -78,7 +80,7 @@ const SignInScreen = ({navigation}) => {
       {
         onSuccess: async data => {
           // 헤더 등록
-          axios.defaults.headers.common['AuthorizationAccess'] =
+          customAxios.defaults.headers.common['AuthorizationAccess'] =
             data.headers.authorizationaccess;
           refreshAxios.defaults.headers.common['AuthorizationAccess'] =
             data.headers.authorizationaccess;
@@ -87,6 +89,9 @@ const SignInScreen = ({navigation}) => {
 
           //FCM 토큰 보내기
           getFCMToken();
+
+          //FCM 토큰 구독
+          subscribeTopic(data.data.data.familyId);
 
           //로그인 토큰 저장
           await storage.setItem(
@@ -100,12 +105,11 @@ const SignInScreen = ({navigation}) => {
           setUserId('');
           setUserPassword('');
 
-          const userData = {...data.data, userNickname: userId};
-          console.log(userData);
+          // 유저정보 async storage에 저장
+          storage.setStrItem('userData', data.data.data);
 
-          // 유저정보 저장
-          storage.setStrItem('userData', userData);
-          setUserData(userData);
+          // 유저정보 리코일에 저장
+          setUserData(data.data.data);
 
           navigation.navigate('Home');
         },
@@ -126,10 +130,18 @@ const SignInScreen = ({navigation}) => {
 
     console.log('fcm토큰출력:', fcmToken);
 
-    addFCM({
-      token: fcmToken,
-      userNickname: userId,
-    });
+    addFCM(fcmToken);
+  };
+
+  const subscribeTopic = topic => {
+    messaging()
+      .subscribeToTopic(String(topic))
+      .then(() => {
+        console.log(`토픽 ${topic} 구독 성공`);
+      })
+      .catch(err => {
+        console.log(`토픽 ${topic} 구독 실패 :`, err);
+      });
   };
 
   return (

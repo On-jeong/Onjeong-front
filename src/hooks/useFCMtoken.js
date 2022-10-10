@@ -2,11 +2,11 @@ import customAxios from '@/api/axios';
 import {useMutation, useQuery} from '@tanstack/react-query';
 
 const addFCM = data => {
-  return customAxios.post(`/token/generate`, data);
+  return customAxios.post(`/token/generate?token=${data}`);
 };
 
 const delAnn = data => {
-  console.log(data)
+  console.log(data);
   return customAxios.post(`/token/cancel`, data);
 };
 
@@ -19,7 +19,7 @@ export const useAddFCM = () => {
 
 // FCM 토큰 해제하기
 export const useDelFCM = data => {
-  return useMutation( delAnn, {
+  return useMutation(delAnn, {
     onError: error => console.log(error),
   });
 };
