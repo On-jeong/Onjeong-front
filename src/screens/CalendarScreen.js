@@ -75,11 +75,10 @@ export default function CalendarScreen({navigation}) {
   const [curDate, setCurDate] = useState(new Date());
 
   const {data} = useGetMonthAnn(format(curDate, 'yyyy-MM-dd'));
-  console.log(data);
 
   useEffect(() => {}, [isFocus, data]);
 
-  return <>{getCalender({curDate, setCurDate, navigation, data})}</>;
+ return <>{getCalender({curDate, setCurDate, navigation, data})}</>;
 }
 
 // 달력
@@ -155,7 +154,7 @@ const pushDate = ({week, date, curMonth, today, navigation, data}) => {
         </FontStyle.ContentB>
       </Circle>
       {/* 기념일은 3개까지만 들어가게 하기 */}
-      {data?.data.map(
+      {data?.data?.data.map(
         plan =>
           plan.anniversaryDate == format(date, 'yyyy-MM-dd') && (
             // 기념일은 빨간색, 일정은 파란색으로 표시

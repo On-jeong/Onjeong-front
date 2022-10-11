@@ -98,7 +98,7 @@ const MailWriteScreen = ({navigation}) => {
             </PaperTop>
             {isOpen && (
               <SelectBox>
-                {data?.data.length === 1 && (
+                {data?.data.data.length === 1 && (
                   <>
                     <FontStyle.Content>보낼 가족이 없습니다.</FontStyle.Content>
                     <FontStyle.Content>
@@ -106,7 +106,7 @@ const MailWriteScreen = ({navigation}) => {
                     </FontStyle.Content>
                   </>
                 )}
-                {data?.data.map(family => {
+                {data?.data.data.map(family => {
                   return (
                     <>
                       {family.userId !== userData.userId && (

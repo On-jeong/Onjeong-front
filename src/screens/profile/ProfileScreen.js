@@ -49,7 +49,7 @@ const ProfileScreen = ({navigation}) => {
           )}
           {status == 'success' && (
             <>
-              {data?.data.map(fm => (
+              {data?.data?.data.map(fm => (
                 <Profile
                   key={fm.userId}
                   onPress={() =>

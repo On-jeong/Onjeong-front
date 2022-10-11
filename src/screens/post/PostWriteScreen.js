@@ -10,6 +10,7 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {windowWidth} from '../../utils/GlobalStyles';
 import {AppButtons} from '../../components/buttons';
 import {AppIconButtons} from '../../components/IconButtons';
+import customAxios from '@/api/axios';
 
 export const SendBox = styled.View`
   width: 100%;
@@ -40,8 +41,6 @@ export const PreImage = styled.Image`
 
 const PostWriteScreen = ({navigation, route}) => {
   const queryClient = useQueryClient();
-
-  console.log(route.params)
 
   // 수정에서 넘어온 경우 기존 컨텐츠 보여주기
   const [mainText, setMainText] = useState(
@@ -88,14 +87,27 @@ const PostWriteScreen = ({navigation, route}) => {
       console.log(data.errorMessage);
     }
 
-    setImage(data.assets[0].uri);
+    // 이미지 파일 형태로 state에 저장
+    setImage(data.assets[0]);
   };
 
   const sendPost = () => {
     const formData = new FormData();
 
     formData.append('images', image);
-    formData.append('boardContent', mainText);
+    console.log(image);
+    // {
+    //   uri: image.uri,
+    //   type: image.type,
+    //   fileName: image.fileName,
+    // }
+
+    formData.append(
+      'boardContent',
+      new Blob([JSON.stringify(mainText)], {
+        type: 'application/json',
+      }),
+    );
 
     // 수정인 경우
     if (route.params.boardId) {
@@ -114,7 +126,7 @@ const PostWriteScreen = ({navigation, route}) => {
           <Paper>
             {image && (
               <ImageBox>
-                <PreImage source={{uri: image}} />
+                <PreImage source={{uri: image.uri}} />
                 <IconBox>
                   <AppIconButtons.Cancel
                     onPress={() => {
