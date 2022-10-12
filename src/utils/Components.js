@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 const HLine = styled.View`
   background-color: ${AppColors.border};
-  height: ${props => (props.height ? props.height : 1)};
+  height: ${props => (props.height ? props.height : 1)}px;
   width: 100%;
 `;
 
@@ -27,11 +27,11 @@ const HorizonLine = ({
 };
 HorizonLine.propTypes = {
   height: PropTypes.number,
-  margin: PropTypes.objectOf(PropTypes.number)
+  margin: PropTypes.objectOf(PropTypes.number),
 };
 
 const Box = styled.View`
-  height: ${props => (props.height ? props.height : 100)};
+  height: ${props => (props.height ? props.height : 100)}px;
 `;
 
 const EmptyBox = ({height}) => {

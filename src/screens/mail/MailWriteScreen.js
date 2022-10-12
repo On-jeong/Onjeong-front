@@ -18,7 +18,7 @@ export const PaperContainer = styled.View`
 
 export const Paper = styled.View`
   width: 100%;
-  height: ${windowHeight * 0.8};
+  height: ${windowHeight * 0.8}px;
   border-width: 2px;
   border-color: ${AppColors.border};
   background-color: ${AppColors.white};

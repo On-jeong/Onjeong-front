@@ -6,24 +6,24 @@ import Qa from '../screens/QaScreen';
 import Profile from '../screens/profile/ProfileScreen';
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { AppColors, bottomTabHeight } from '../utils/GlobalStyles';
+import {AppColors, bottomTabHeight} from '../utils/GlobalStyles';
 
 const Tab = createBottomTabNavigator();
 
 export function BottomNavigator() {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="HomeTab"
       screenOptions={{
         tabBarStyle: {height: bottomTabHeight, position: 'absolute'},
         tabBarActiveTintColor: AppColors.red2,
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarActiveBackgroundColor:AppColors.main,
-        tabBarInactiveBackgroundColor:AppColors.main
+        tabBarActiveBackgroundColor: AppColors.main,
+        tabBarInactiveBackgroundColor: AppColors.main,
       }}>
       <Tab.Screen
-        name="Home"
+        name="HomeTab"
         component={Home}
         options={{
           tabBarIcon: ({color, size}) => (
@@ -32,7 +32,7 @@ export function BottomNavigator() {
         }}
       />
       <Tab.Screen
-        name="Calendar"
+        name="CalendarTab"
         component={Calendar}
         options={{
           tabBarIcon: ({color, size}) => (
@@ -41,7 +41,7 @@ export function BottomNavigator() {
         }}
       />
       <Tab.Screen
-        name="Profile"
+        name="ProfileTab"
         component={Profile}
         options={{
           tabBarIcon: ({color, size}) => (
@@ -50,11 +50,15 @@ export function BottomNavigator() {
         }}
       />
       <Tab.Screen
-        name="Qa"
+        name="QaTab"
         component={Qa}
         options={{
           tabBarIcon: ({color, size}) => (
-            <MaterialCommunityIcons name="comment-question-outline" color={color} size={size} />
+            <MaterialCommunityIcons
+              name="comment-question-outline"
+              color={color}
+              size={size}
+            />
           ),
         }}
       />

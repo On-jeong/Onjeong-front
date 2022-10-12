@@ -135,7 +135,7 @@ const SignInScreen = ({navigation}) => {
 
   const subscribeTopic = topic => {
     messaging()
-      .subscribeToTopic(String(topic))
+      .subscribeToTopic(topic.toString())
       .then(() => {
         console.log(`토픽 ${topic} 구독 성공`);
       })

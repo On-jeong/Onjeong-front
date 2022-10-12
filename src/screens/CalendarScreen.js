@@ -33,12 +33,12 @@ const Calendar = styled.View`
 `;
 
 const DateBox = styled.TouchableOpacity`
-  width: ${windowWidth / 7};
+  width: ${windowWidth / 7}px;
   height: ${(windowHeight -
     navigationHeight -
     bottomTabHeight -
     statusBarHeight) /
-  6};
+  6}px;
   padding: 4px;
   border-width: 0.6px;
   border-color: ${AppColors.blur};
@@ -146,7 +146,7 @@ const pushDate = ({week, date, curMonth, today, navigation, data}) => {
           date: format(date, 'yyyy년 MM월 dd일'),
           barDate: format(date, 'yyyy-MM-dd'),
         });
-      }}>
+      }} key={date}>
       {/* 오늘인 경우 원으로 표시하기 */}
       <Circle color={format(date, 'yy-MM-dd') == today ? true : false}>
         <FontStyle.ContentB style={{color: color}}>

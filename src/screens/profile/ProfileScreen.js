@@ -17,8 +17,8 @@ const ProfileBox = styled.View`
 `;
 
 const Profile = styled.TouchableOpacity`
-  width: ${parseInt(windowWidth / 2.5)};
-  height: ${parseInt(windowHeight / 3)};
+  width: ${parseInt(windowWidth / 2.5)}px;
+  height: ${parseInt(windowHeight / 3)}px;
   margin: 10px;
   background-color: ${AppColors.white};
   border-width: 2px;

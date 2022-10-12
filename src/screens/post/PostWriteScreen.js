@@ -35,8 +35,8 @@ export const IconBox = styled.View`
 `;
 
 export const PreImage = styled.Image`
-  width: ${windowWidth * 0.3};
-  height: ${windowWidth * 0.3};
+  width: ${windowWidth * 0.3}px;
+  height: ${windowWidth * 0.3}px;
 `;
 
 const PostWriteScreen = ({navigation, route}) => {
