@@ -25,7 +25,7 @@ export const Interceptor = ({children}) => {
       ) {
         prevRequest.sent = true; // 중복 요청 방지
 
-        console.log('인터셉터 캐치:', err);
+        console.log('엑세스 토큰 만료:', err);
 
         // 새로운 access token 받아오기
         refreshAxios
@@ -46,9 +46,17 @@ export const Interceptor = ({children}) => {
             return axios(prevRequest);
           })
           .catch(err => {
+            console.log('/refresh 실패', err);
+
             // 리프레쉬 토큰이 만료됐거나 맞지 않을 경우
-            if (err?.response?.data?.code === 'A002') {
-              console.log('리프레시 만료됨:', err?.response.data);
+            if (
+              err?.response?.data?.code === 'A002' ||
+              err?.response?.data?.code === 'A001'
+            ) {
+              if (err?.response?.data?.code === 'A002')
+                console.log('리프레시 만료됨:', err?.response.data);
+              if (err?.response?.data?.code === 'A001')
+                console.log('리프레시 불일치:', err?.response.data);
 
               alert('세션이 만료되어 로그인 화면으로 이동합니다.');
               AsyncStorage.removeItem('userData');
