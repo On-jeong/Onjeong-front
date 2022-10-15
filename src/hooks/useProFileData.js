@@ -1,5 +1,8 @@
 import customAxios from '@/api/axios';
-import {useMutation, useQuery} from '@tanstack/react-query';
+import UserData from '@/state/UserData';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {useMemo} from 'react';
+import {useRecoilValue} from 'recoil';
 
 const fetchFamilyList = () => {
   return customAxios.get(`/families`);
@@ -10,17 +13,16 @@ const fetchFamilyProfile = userId => {
 };
 
 const fetchFamilyInfo = userId => {
-  return customAxios.get(`/profiles/${userId}/user-informations`);
+  return customAxios.get(`/profiles/${userId}/self-introduction`);
 };
 
 const addProfileImage = formData => {
   const config = {
     headers: {
-      'Content-Type':
-        'multipart/form-data; boundary=<calculated when request is sent>',
+      'Content-Type': 'multipart/form-data',
     },
   };
-  return customAxios.post(`/profiles/image`, formData);
+  return customAxios.post(`/profiles/image`, formData, config);
 };
 
 const addMessage = message => {
@@ -31,21 +33,28 @@ const modMessage = message => {
   return customAxios.patch(`/profiles/messages`, message);
 };
 
-const delFavorite = ({userId, dataId}) => {
-  console.log('dataId', dataId);
-  return customAxios.delete(`/profiles/favorites/${userId}/${dataId}`);
+const delFavorite = ({userId, selfIntroductionAnswerId}) => {
+  return customAxios.delete(
+    `/profiles/favorites/${userId}/${selfIntroductionAnswerId}`,
+  );
 };
 
-const delHate = (userId, dataId) => {
-  return customAxios.delete(`/profiles/hates/${userId}/${dataId}`);
+const delHate = ({userId, selfIntroductionAnswerId}) => {
+  return customAxios.delete(
+    `/profiles/hates/${userId}/${selfIntroductionAnswerId}`,
+  );
 };
 
-const delInterest = (userId, dataId) => {
-  return customAxios.delete(`/profiles/interests/${userId}/${dataId}`);
+const delInterest = ({userId, selfIntroductionAnswerId}) => {
+  return customAxios.delete(
+    `/profiles/interests/${userId}/${selfIntroductionAnswerId}`,
+  );
 };
 
-const delExpression = (userId, dataId) => {
-  return customAxios.delete(`/profiles/expressions/${userId}/${dataId}`);
+const delExpression = ({userId, selfIntroductionAnswerId}) => {
+  return customAxios.delete(
+    `/profiles/expressions/${userId}/${selfIntroductionAnswerId}`,
+  );
 };
 
 const addFavorite = ({userId, data}) => {
@@ -111,7 +120,40 @@ export const useModMessage = () => {
   });
 };
 
+//
+// 태그 등록
+//
+export const useAddFavorite = onSuccess => {
+  return useMutation(addFavorite, {
+    onError: error => console.log(error),
+    onSuccess: onSuccess,
+  });
+};
+
+export const useAddHate = onSuccess => {
+  return useMutation(addHate, {
+    onError: error => console.log(error),
+    onSuccess: onSuccess,
+  });
+};
+
+export const useAddInterest = onSuccess => {
+  return useMutation(addInterest, {
+    onError: error => console.log(error),
+    onSuccess: onSuccess,
+  });
+};
+
+export const useAddExpression = onSuccess => {
+  return useMutation(addExpression, {
+    onError: error => console.log(error),
+    onSuccess: onSuccess,
+  });
+};
+
+//
 // 태그 삭제
+//
 export const useDelFavorite = () => {
   return useMutation(delFavorite, {
     onError: error => console.log(error),
@@ -132,31 +174,6 @@ export const useDelInterest = () => {
 
 export const useDelExpression = () => {
   return useMutation(delExpression, {
-    onError: error => console.log(error),
-  });
-};
-
-// 태그 등록
-export const useAddFavorite = () => {
-  return useMutation(addFavorite, {
-    onError: error => console.log(error),
-  });
-};
-
-export const useAddHate = () => {
-  return useMutation(addHate, {
-    onError: error => console.log(error),
-  });
-};
-
-export const useAddInterest = () => {
-  return useMutation(addInterest, {
-    onError: error => console.log(error),
-  });
-};
-
-export const useAddExpression = () => {
-  return useMutation(addExpression, {
     onError: error => console.log(error),
   });
 };
