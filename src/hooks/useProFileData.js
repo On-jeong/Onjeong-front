@@ -61,15 +61,15 @@ const addFavorite = ({userId, data}) => {
   return customAxios.post(`/profiles/favorites/${userId}`, data);
 };
 
-const addHate = (userId, data) => {
+const addHate = ({userId, data}) => {
   return customAxios.post(`/profiles/hates/${userId}`, data);
 };
 
-const addInterest = (userId, data) => {
+const addInterest = ({userId, data}) => {
   return customAxios.post(`/profiles/interests/${userId}`, data);
 };
 
-const addExpression = (userId, data) => {
+const addExpression = ({userId, data}) => {
   return customAxios.post(`/profiles/expressions/${userId}`, data);
 };
 
