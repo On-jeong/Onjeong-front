@@ -20,6 +20,7 @@ import {
 import UserData from '@/state/UserData';
 import {useQueryClient} from '@tanstack/react-query';
 import {MessageInput} from './FamilyProfile';
+import {Components} from '@/utils/Components';
 
 const ContentsContainer = styled.ScrollView`
   padding-left: 7%;
@@ -43,8 +44,9 @@ const FamilyInfo = ({route}) => {
   const userData = useRecoilValue(UserData);
   const queryClient = useQueryClient();
 
-  const [tagValue, setTagValue] = useState('');
+  const [tagValue, setTagValue] = useState(''); // 새로운 태그 추가 내용
 
+  // 태그 수정중인지
   const [isFavoritesMod, setIsFavoritesMod] = useState(false);
   const [isHatesMod, setIsHatesMod] = useState(false);
   const [isInterestsMod, setIsInterestsMod] = useState(false);
@@ -56,60 +58,145 @@ const FamilyInfo = ({route}) => {
     status: infoStatus,
   } = useGetFamilyInfo(route.params.userId);
 
-  const {mutate: addFavorite} = useAddFavorite(() => {
-    queryClient.setQueryData(
-      ['getFamilyInfo', route.params.userId],
-      oldData => {
-        const data = oldData.data.data.favorites;
-        oldData.data.data.favorites = [
-          ...data,
-          {
-            selfIntroductionAnswerId:
-              data[data.length - 1].selfIntroductionAnswerId + 1,
-            selfIntroductionAnswerContent: tagValue,
-          },
-        ];
-      },
-    );
-    setIsFavoritesMod(!isFavoritesMod);
-  });
-  const {mutate: addHate} = useAddHate(onAddSuccess);
-  const {mutate: addInterest} = useAddInterest(onAddSuccess);
-  const {mutate: addExpression} = useAddExpression(onAddSuccess);
+  // 태그 추가 api
+  const {mutate: addFavorite} = useAddFavorite(() => onAddSuccess('favorites'));
+  const {mutate: addHate} = useAddHate(() => onAddSuccess('hates'));
+  const {mutate: addInterest} = useAddInterest(() => onAddSuccess('interests'));
+  const {mutate: addExpression} = useAddExpression(() =>
+    onAddSuccess('expressions'),
+  );
 
+  // 태그 삭제 api
   const {mutate: delFavorite} = useDelFavorite();
   const {mutate: delHate} = useDelHate();
   const {mutate: delInterest} = useDelInterest();
   const {mutate: delExpression} = useDelExpression();
 
-  const onAddSuccess = () => {};
+  const getId = data => {
+    if (data.length === 0) return 0;
+    else return data[data.length - 1].selfIntroductionAnswerId + 1;
+  };
 
-  const onDelSuccess = () => {
+  const onAddSuccess = category => {
     queryClient.setQueryData(
       ['getFamilyInfo', route.params.userId],
       oldData => {
-        oldData.data.data.favorites.filter(
-          it => it.selfIntroductionAnswerId == dataId,
-        );
+        let data = oldData.data.data.hates;
+        if (category === 'favorites') {
+          oldData.data.data.favorites = [
+            ...data,
+            {
+              selfIntroductionAnswerId: () => getId(data),
+              selfIntroductionAnswerContent: tagValue,
+            },
+          ];
+          setIsFavoritesMod(!isFavoritesMod);
+        } else if (category === 'hates') {
+          oldData.data.data.hates = [
+            ...data,
+            {
+              selfIntroductionAnswerId: () => getId(data),
+              selfIntroductionAnswerContent: tagValue,
+            },
+          ];
+          setIsHatesMod(!isHatesMod);
+        } else if (category === 'interests') {
+          oldData.data.data.interests = [
+            ...data,
+            {
+              selfIntroductionAnswerId: () => getId(data),
+              selfIntroductionAnswerContent: tagValue,
+            },
+          ];
+          setIsInterestsMod(!isInterestsMod);
+        } else if (category === 'expressions') {
+          oldData.data.data.expressions = [
+            ...data,
+            {
+              selfIntroductionAnswerId: () => getId(data),
+              selfIntroductionAnswerContent: tagValue,
+            },
+          ];
+          setIsExpressionsMod(!isExpressionsMod);
+        }
       },
     );
   };
 
+  // 태그 추가 - 서버로 보내는 함수
   const submitTag = (category, userId, data) => {
-    if (category === 'favorites') addFavorite({userId, data});
-    else if (category === 'hates') addHate({userId, data});
-    else if (category === 'interests') addInterest({userId, data});
-    else if (category === 'expressions') addExpression({userId, data});
+    if (tagValue === '') alert('태그를 입력해 주세요');
+    else {
+      if (category === 'favorites') addFavorite({userId, data});
+      else if (category === 'hates') addHate({userId, data});
+      else if (category === 'interests') addInterest({userId, data});
+      else if (category === 'expressions') addExpression({userId, data});
+    }
   };
 
+  // 태그 삭제 - 서버로 보내는 함수
   const deleteTag = (category, userId, selfIntroductionAnswerId) => {
-    console.log('데이터', selfIntroductionAnswerId);
-    if (category === 'favorites') delFavorite({userId, selfIntroductionAnswerId});
-    else if (category === 'hates') delHate({userId, selfIntroductionAnswerId});
-    else if (category === 'interests')
+    let filterFunc;
+
+    if (category === 'favorites') {
+      delFavorite({userId, selfIntroductionAnswerId});
+      filterFunc = oldData => {
+        oldData.data.data.favorites = oldData.data.data.favorites.filter(it => {
+          return it.selfIntroductionAnswerId !== selfIntroductionAnswerId;
+        });
+      };
+    } else if (category === 'hates') {
+      delHate({userId, selfIntroductionAnswerId});
+      filterFunc = oldData => {
+        oldData.data.data.hates = oldData.data.data.hates.filter(it => {
+          return it.selfIntroductionAnswerId !== selfIntroductionAnswerId;
+        });
+      };
+    } else if (category === 'interests') {
       delInterest({userId, selfIntroductionAnswerId});
-    else if (category === 'expressions')
+      filterFunc = oldData => {
+        oldData.data.data.interests = oldData.data.data.interests.filter(it => {
+          return it.selfIntroductionAnswerId !== selfIntroductionAnswerId;
+        });
+      };
+    } else if (category === 'expressions') {
       delExpression({userId, selfIntroductionAnswerId});
+      filterFunc = oldData => {
+        oldData.data.data.expressions = oldData.data.data.expressions.filter(
+          it => {
+            return it.selfIntroductionAnswerId !== selfIntroductionAnswerId;
+          },
+        );
+      };
+    }
+
+    queryClient.setQueryData(
+      ['getFamilyInfo', route.params.userId],
+      oldData => {
+        filterFunc(oldData);
+      },
+    );
+  };
+
+  // 태그 수정 중 다른 태그 분야 수정 누를 시 수정상태 풀리도록 하는 함수
+  const tagCheck = category => {
+    if (category === 'favorites') {
+      setIsHatesMod(false);
+      setIsInterestsMod(false);
+      setIsExpressionsMod(false);
+    } else if (category === 'hates') {
+      setIsFavoritesMod(false);
+      setIsInterestsMod(false);
+      setIsExpressionsMod(false);
+    } else if (category === 'interests') {
+      setIsFavoritesMod(false);
+      setIsHatesMod(false);
+      setIsExpressionsMod(false);
+    } else if (category === 'expressions') {
+      setIsFavoritesMod(false);
+      setIsHatesMod(false);
+      setIsInterestsMod(false);
+    }
   };
 
   const TagCategory = (
@@ -139,6 +226,7 @@ const FamilyInfo = ({route}) => {
           title={title}
           onPress={() => {
             setIsMod(!isMod);
+            tagCheck(category);
             setTagValue('');
           }}
         />
@@ -150,11 +238,11 @@ const FamilyInfo = ({route}) => {
                   placeholder={'새로운 태그'}
                   value={tagValue}
                   onChangeText={setTagValue}
-                  onSubmitEditing={() =>
+                  onSubmitEditing={() => {
                     submitTag(category, userData.userId, {
                       selfIntroductionAnswerContent: tagValue,
-                    })
-                  }
+                    });
+                  }}
                   autoFocus={true}
                   maxLength={10}
                 />
@@ -162,20 +250,20 @@ const FamilyInfo = ({route}) => {
             </TagGroup>
           )}
           {tagData.length === 0 ? (
-            <FontStyle.Content>...</FontStyle.Content>
+            <FontStyle.Content></FontStyle.Content> // 태그 없을 때 빈칸
           ) : (
-            tagData.map(info => (
+            tagData?.map(info => (
               <Tag
                 key={info.selfIntroductionAnswerId}
                 title={info.selfIntroductionAnswerContent}
                 isModify={isMod}
-                onPress={() =>
+                onPress={() => {
                   deleteTag(
                     category,
                     userData.userId,
                     info.selfIntroductionAnswerId,
-                  )
-                }
+                  );
+                }}
               />
             ))
           )}
@@ -199,38 +287,37 @@ const FamilyInfo = ({route}) => {
             setTagValue,
           )}
 
-          <CategoryTitle title="싫어하는 것들" />
-          <TagContainer>
-            {infoData?.data?.data.hates.length === 0 ? (
-              <FontStyle.Content>...</FontStyle.Content>
-            ) : (
-              infoData?.data?.data.hates.map(info => {
-                <Tag key={info.hateId} title={info.hateContent} />;
-              })
-            )}
-          </TagContainer>
-          <CategoryTitle title="요즘 관심사" />
-          <TagContainer>
-            {infoData?.data?.data.interests.length === 0 ? (
-              <FontStyle.Content>...</FontStyle.Content>
-            ) : (
-              infoData?.data?.data.interests.map(info => {
-                <Tag key={info.interestId} title={info.interestContent} />;
-              })
-            )}
-          </TagContainer>
-          <CategoryTitle
-            title={`'${route.params.role}'을(를) 한단어로 표현한다면?`}
-          />
-          <TagContainer>
-            {infoData?.data?.data.expressions.length === 0 ? (
-              <FontStyle.Content>...</FontStyle.Content>
-            ) : (
-              infoData?.data?.data.expressions.map(info => {
-                <Tag key={info.expressionId} title={info.expressionContent} />;
-              })
-            )}
-          </TagContainer>
+          {TagCategory(
+            '싫어하는 것들',
+            infoData,
+            setIsHatesMod,
+            isHatesMod,
+            'hates',
+            tagValue,
+            setTagValue,
+          )}
+
+          {TagCategory(
+            '요즘 관심사',
+            infoData,
+            setIsInterestsMod,
+            isInterestsMod,
+            'interests',
+            tagValue,
+            setTagValue,
+          )}
+
+          {TagCategory(
+            `'${route.params.role}'을(를) 한단어로 표현한다면?`,
+            infoData,
+            setIsExpressionsMod,
+            isExpressionsMod,
+            'expressions',
+            tagValue,
+            setTagValue,
+          )}
+
+          <Components.EmptyBox height={50} />
         </>
       ) : (
         <FontStyle.Content>데이터를 불러오는데 실패했습니다.</FontStyle.Content>
