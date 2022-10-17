@@ -13,10 +13,20 @@ import {FontStyle} from '@/utils/GlobalFonts';
 import {AppIconButtons} from '@/components/IconButtons';
 import {useQueryClient} from '@tanstack/react-query';
 import {useFocusEffect} from '@react-navigation/native';
+import {useRecoilValue} from 'recoil';
+import UserData from '@/state/UserData';
+
+const ImageBox = styled.TouchableOpacity``;
 
 const Image = styled.Image`
   width: ${windowWidth * 0.3}px;
   height: ${windowWidth * 0.3}px;
+`;
+
+const IconBox = styled.View`
+  position: absolute;
+  right: 5;
+  top: 5;
 `;
 
 const Container = styled.View`
@@ -83,16 +93,18 @@ export const MessageInput = styled.TextInput`
 
 const FamilyProfile = ({route}) => {
   const queryClient = useQueryClient();
+  const userData = useRecoilValue(UserData);
 
   const [isMessageWrite, setIsMessageWrite] = useState(false);
-  const [messageValue, setMessageValue] = useState('');
+  const [messageValue, setMessageValue] = useState(
+    detailData?.data?.data.message,
+  );
 
   const {
     data: detailData,
     isLoading: detailIsLoading,
     status: detailStatus,
   } = useGetFamilyProfile(route.params.userId, () => {
-    console.log('데이터:', detailData);
     setMessageValue(detailData?.data?.data.message);
   });
 
@@ -124,7 +136,8 @@ const FamilyProfile = ({route}) => {
 
     const formData = new FormData();
 
-    formData.append('images', image.assets[0]);
+    formData.append('images', image.assets[0].uri);
+    console.log(image.assets[0].uri);
 
     addImage(formData);
   };
@@ -152,10 +165,24 @@ const FamilyProfile = ({route}) => {
       ) : detailStatus == 'success' ? (
         <>
           <TopContainer>
-            <TouchableOpacity
-              onPress={() => {
-                getImage();
-              }}>
+            {/* 본인일 경우에만 프사 수정 */}
+            {route.params.userId === userData.userId ? (
+              <ImageBox
+                onPress={() => {
+                  getImage();
+                }}>
+                <Image
+                  source={
+                    detailData?.data?.data.profileImageUrl
+                      ? {uri: checkProfileImage}
+                      : require('@/assets/image/profileImage.png')
+                  }
+                />
+                <IconBox>
+                  <AppIconButtons.Pencil size={12} margin={{marginLeft: 20}} />
+                </IconBox>
+              </ImageBox>
+            ) : (
               <Image
                 source={
                   detailData?.data?.data.profileImageUrl
@@ -163,7 +190,7 @@ const FamilyProfile = ({route}) => {
                     : require('@/assets/image/profileImage.png')
                 }
               />
-            </TouchableOpacity>
+            )}
             <BasicInfos>
               <BasicInfo>
                 <FontStyle.Content>
@@ -207,12 +234,13 @@ const FamilyProfile = ({route}) => {
                 {detailData?.data?.data.message}
               </FontStyle.SubContent>
             )}
-            {!isMessageWrite && (
+            {/* 메세지 작성중이 아니고, 자신의 프로필일 경우에만 수정 버튼 보이기 */}
+            {!isMessageWrite && route.params.userId === userData.userId && (
               <AppIconButtons.Pencil
                 onPress={() => {
                   setIsMessageWrite(true);
                 }}
-                size={17}
+                size={15}
                 margin={{marginLeft: 20}}
               />
             )}

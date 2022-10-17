@@ -239,7 +239,7 @@ const FamilyInfo = ({route}) => {
                   value={tagValue}
                   onChangeText={setTagValue}
                   onSubmitEditing={() => {
-                    submitTag(category, userData.userId, {
+                    submitTag(category, route.params.userId, {
                       selfIntroductionAnswerContent: tagValue,
                     });
                   }}
@@ -260,7 +260,7 @@ const FamilyInfo = ({route}) => {
                 onPress={() => {
                   deleteTag(
                     category,
-                    userData.userId,
+                    route.params.userId,
                     info.selfIntroductionAnswerId,
                   );
                 }}
@@ -340,7 +340,7 @@ const CategoryTitle = ({title, onPress}) => {
         <FontStyle.ContentB>{title}</FontStyle.ContentB>
         <AppIconButtons.Pencil
           onPress={onPress}
-          size={17}
+          size={15}
           margin={{marginLeft: 10}}
         />
       </Title>
