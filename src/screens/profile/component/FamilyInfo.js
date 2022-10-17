@@ -81,39 +81,42 @@ const FamilyInfo = ({route}) => {
     queryClient.setQueryData(
       ['getFamilyInfo', route.params.userId],
       oldData => {
-        let data = oldData.data.data.hates;
         if (category === 'favorites') {
+          let data = oldData.data.data.favorites;
           oldData.data.data.favorites = [
             ...data,
             {
-              selfIntroductionAnswerId: () => getId(data),
+              selfIntroductionAnswerId: getId(data),
               selfIntroductionAnswerContent: tagValue,
             },
           ];
           setIsFavoritesMod(!isFavoritesMod);
         } else if (category === 'hates') {
+          let data = oldData.data.data.hates;
           oldData.data.data.hates = [
             ...data,
             {
-              selfIntroductionAnswerId: () => getId(data),
+              selfIntroductionAnswerId: (data),
               selfIntroductionAnswerContent: tagValue,
             },
           ];
           setIsHatesMod(!isHatesMod);
         } else if (category === 'interests') {
+          let data = oldData.data.data.interests;
           oldData.data.data.interests = [
             ...data,
             {
-              selfIntroductionAnswerId: () => getId(data),
+              selfIntroductionAnswerId: (data),
               selfIntroductionAnswerContent: tagValue,
             },
           ];
           setIsInterestsMod(!isInterestsMod);
         } else if (category === 'expressions') {
+          let data = oldData.data.data.expressions;
           oldData.data.data.expressions = [
             ...data,
             {
-              selfIntroductionAnswerId: () => getId(data),
+              selfIntroductionAnswerId: (data),
               selfIntroductionAnswerContent: tagValue,
             },
           ];
