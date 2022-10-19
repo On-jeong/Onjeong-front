@@ -1,8 +1,6 @@
 import axios from 'axios';
 import {BASE_URL} from '@/config/api';
 import {storage} from '@/config/storage';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useNavigation} from '@react-navigation/native';
 
 const customAxios = axios.create({
   baseURL: BASE_URL,

@@ -34,7 +34,8 @@ const Box = styled.View`
   height: ${props => (props.height ? props.height : 100)}px;
 `;
 
-const EmptyBox = ({height}) => {
+// 스크롤 할 때 맨 밑에 빈공간 만들어주는 용도
+const EmptyBox = ({height = 50}) => {
   return <Box height={height} />;
 };
 EmptyBox.propTypes = {

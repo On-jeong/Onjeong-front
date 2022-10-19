@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {
   useAddProfileImage,
@@ -6,7 +6,6 @@ import {
   useAddMessage,
   useModMessage,
 } from '@/hooks/useProFileData';
-import {TouchableOpacity} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {AppColors, windowWidth} from '@/utils/GlobalStyles';
 import {FontStyle} from '@/utils/GlobalFonts';
@@ -112,6 +111,8 @@ const FamilyProfile = ({route}) => {
   const {mutate: addMessage} = useAddMessage();
   const {mutate: modMessage} = useModMessage();
 
+  useEffect(() => {}, [messageValue]);
+
   // 화면 포커스 될 때 상태 매세지 리패치
   useFocusEffect(
     useCallback(() => {
@@ -179,7 +180,11 @@ const FamilyProfile = ({route}) => {
                   }
                 />
                 <IconBox>
-                  <AppIconButtons.Pencil size={12} margin={{marginLeft: 20}} />
+                  <AppIconButtons.Pencil
+                    size={12}
+                    margin={{marginLeft: 20}}
+                    disabled={true}
+                  />
                 </IconBox>
               </ImageBox>
             ) : (

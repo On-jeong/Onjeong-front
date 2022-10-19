@@ -162,7 +162,7 @@ const PostScreen = ({navigation, route}) => {
                     if (!isAddPlan && isDelPlan) setIsDelPlan(!isDelPlan);
                   }}
                 />
-                {AnnData?.data.length !== 0 && (
+                {AnnData?.data?.data.length !== 0 && (
                   <AppIconButtons.Delete
                     onPress={() => {
                       setIsDelPlan(!isDelPlan);
@@ -173,10 +173,10 @@ const PostScreen = ({navigation, route}) => {
               </Filter>
             </PlanTitle>
             {AnnIsLoading && <FontStyle.Content>Loading...</FontStyle.Content>}
-            {AnnData?.data.length === 0 && !isAddPlan && (
+            {AnnData?.data?.data.length === 0 && !isAddPlan && (
               <FontStyle.Content>오늘의 행사가 없습니다.</FontStyle.Content>
             )}
-            {AnnData?.data.map(ann => (
+            {AnnData?.data?.data.map(ann => (
               <PlanBox key={ann.anniversaryId}>
                 {isDelPlan ? (
                   <AppIconButtons.Cancel
@@ -237,11 +237,11 @@ const PostScreen = ({navigation, route}) => {
             {BoardIsLoading && (
               <FontStyle.Content>Loading...</FontStyle.Content>
             )}
-            {BoardData?.data.length === 0 && (
+            {BoardData?.data?.data.length === 0 && (
               <FontStyle.Content>오늘의 기록이 없습니다.</FontStyle.Content>
             )}
 
-            {BoardData?.data.map(board => (
+            {BoardData?.data?.data.map(board => (
               <PaperContainer key={board.boardId}>
                 <Paper>
                   <PaperHeader>

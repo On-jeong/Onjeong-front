@@ -11,16 +11,17 @@ import messaging from '@react-native-firebase/messaging';
 import {storage} from '@/config/storage';
 import {Interceptor} from '@/api/interceptor';
 
-export default function App({navigation}) {
+export default function App() {
   const queryClient = new QueryClient();
 
   const foregroundListener = React.useCallback(() => {
     messaging().onMessage(async remoteMessage => {
-      alert(JSON.stringify(remoteMessage));
+      console.log(JSON.stringify(remoteMessage.notification.body));
+      //alert(JSON.stringify(remoteMessage.notification.body));
     });
   }, []);
 
-  // fcm token 가져오기
+  // fcm token 가져와서 storage에 저장
   const getFCMToken = async () => {
     let fcmToken = await storage.getItem('fcmToken');
     console.log('old fcmToken: ', fcmToken);
@@ -29,7 +30,7 @@ export default function App({navigation}) {
         const fcmToken = await messaging().getToken();
         if (fcmToken) {
           console.log('new fcmToken: ', fcmToken);
-          await storage.setItem('fcmToken', fcmToken);
+          await storage.setStrItem('fcmToken', fcmToken);
         }
       } catch (err) {
         console.log(err, 'fcmtoken에서 error 발생');
@@ -42,7 +43,6 @@ export default function App({navigation}) {
     foregroundListener();
   }, []);
 
-  
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>

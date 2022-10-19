@@ -7,7 +7,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import PropTypes from 'prop-types';
 
 const NavBar = styled.View`
-  height: ${navigationHeight};
+  height: ${navigationHeight}px;
   width: 100%;
   flex-direction: row;
   justify-content: space-between;

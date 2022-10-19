@@ -7,12 +7,13 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import PropTypes from 'prop-types';
 
 const Pencil = ({
+  disabled = false,
   onPress,
   size = 18,
   margin = {marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0},
 }) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} disabled={disabled}>
       <SimpleLineIcons
         name="pencil"
         size={size}
@@ -55,7 +56,7 @@ const Alert = ({
 Alert.propTypes = {
   onPress: PropTypes.func,
   size: PropTypes.number,
-  margin: PropTypes.objectOf(PropTypes.number)
+  margin: PropTypes.objectOf(PropTypes.number),
 };
 
 const Cancel = ({
@@ -81,7 +82,7 @@ const Cancel = ({
 Cancel.propTypes = {
   onPress: PropTypes.func,
   size: PropTypes.number,
-  margin: PropTypes.objectOf(PropTypes.number)
+  margin: PropTypes.objectOf(PropTypes.number),
 };
 
 const Delete = ({
@@ -107,7 +108,7 @@ const Delete = ({
 Delete.propTypes = {
   onPress: PropTypes.func,
   size: PropTypes.number,
-  margin: PropTypes.objectOf(PropTypes.number)
+  margin: PropTypes.objectOf(PropTypes.number),
 };
 
 export const AppIconButtons = {
