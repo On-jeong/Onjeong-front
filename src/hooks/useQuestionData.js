@@ -17,8 +17,8 @@ const modifyAnswer = questData => {
   return customAxios.put(`/answers`, questData);
 };
 
-const deleteAnswer = () => {
-  return customAxios.delete(`/answers`);
+const deleteAnswer = questData => {
+  return customAxios.delete(`/answers?answerId=${questData}`);
 };
 
 // 이주의 문답 질문 보여주기
@@ -29,10 +29,10 @@ export const useGetQuest = () => {
 };
 
 // 이주의 문답 답변들 보여주기
-export const useGetAnswers = (onSuccess) => {
+export const useGetAnswers = onSuccess => {
   return useQuery(['getAnswers'], fetchAnswers, {
     onError: error => console.log(error),
-    onSuccess:onSuccess
+    onSuccess: onSuccess,
   });
 };
 
@@ -45,15 +45,17 @@ export const useAddAnswer = onSuccess => {
 };
 
 // 이주의 문답 답변 수정하기
-export const useModifyAnswer = () => {
+export const useModifyAnswer = ({onSuccess}) => {
   return useMutation(modifyAnswer, {
     onError: error => console.log(error),
+    onSuccess: onSuccess,
   });
 };
 
 // 이주의 문답 답변 삭제하기
-export const useDeleteAnswer = () => {
+export const useDeleteAnswer = ({onSuccess}) => {
   return useMutation(deleteAnswer, {
     onError: error => console.log(error),
+    onSuccess: onSuccess,
   });
 };

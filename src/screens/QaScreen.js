@@ -43,6 +43,7 @@ const MyAnsWriteBox = styled.View`
   width: 100%;
   margin-top: 10px;
   min-height: 100px;
+  margin-bottom: 10px;
   border-width: 2px;
   border-radius: 12px;
   border-color: ${AppColors.green1};
@@ -66,7 +67,6 @@ const MaxLength = styled.View`
 const SubmitButton = styled.View`
   flex-direction: row;
   justify-content: flex-end;
-  padding-top: 10px;
   padding-right: 5px;
 `;
 
@@ -85,7 +85,7 @@ const AnsBox = styled.View`
 
 const Ans = styled.View`
   width: 100%;
-  height: 100px;
+  min-height: 100px;
   border-width: 2px;
   border-radius: 12px;
   border-color: ${AppColors.border};
@@ -105,7 +105,8 @@ export default function QaScreen({navigation}) {
   const queryClient = useQueryClient();
   const userData = useRecoilValue(UserData);
 
-  const [myAns, setMyAns] = useState(true); // 내가 문답을 입력했는지 여부
+  const [isMyAns, setIsMyAns] = useState(true); // 내가 문답을 입력했는지 여부
+  const [isModAns, setIsModAns] = useState(false); // 내 문답 수정중인지 여부
   const [ansText, setAnsText] = useState('');
 
   const {
@@ -123,20 +124,35 @@ export default function QaScreen({navigation}) {
   const {mutate: addAns} = useAddAnswer(() => {
     // 문답 답변들 리패치
     queryClient.invalidateQueries('getAnswers');
-    setMyAns(true);
+    setIsMyAns(true); // 문답 입력칸 없애기
   });
-  const {mutate: modifyAns} = useModifyAnswer();
-  const {mutate: delAns} = useDeleteAnswer();
+  const {mutate: modAns} = useModifyAnswer({
+    onSuccess: () => {
+      isModAns(false);
+      queryClient.setQueryData('getAnswers', oldData => {
+        console.log(oldData);
+        // 수정된 데이터로 바꾸기
+      });
+    },
+  });
+  const {mutate: delAns} = useDeleteAnswer({
+    onSuccess: () => {
+      queryClient.setQueryData('getAnswers', oldData => {
+        console.log(oldData);
+        // 삭제한 데이터 지우기
+      });
+    },
+  });
 
   useEffect(() => {
-    isMyAns();
+    isAnswered();
   }, [ansData]);
 
   // 내가 답변을 작성했는지 여부 확인
-  const isMyAns = () => {
-    setMyAns(false);
+  const isAnswered = () => {
+    setIsMyAns(false);
     ansData?.data.map(obj => {
-      if (obj.userName == userData.userName) setMyAns(true);
+      if (obj.userName == userData.userName) setIsMyAns(true);
     });
   };
 
@@ -155,7 +171,7 @@ export default function QaScreen({navigation}) {
               </FontStyle.Content>
             </FontStyle.ContentB>
           </QuestBox>
-          {!myAns && (
+          {!isMyAns && (
             <MyAnsContainer>
               <FontStyle.ContentB>내 답변</FontStyle.ContentB>
               <MyAnsWriteBox>
@@ -197,14 +213,59 @@ export default function QaScreen({navigation}) {
                     <SpaceBetween>
                       <FontStyle.ContentB>{ans.userName}</FontStyle.ContentB>
                       {ans.userName == userData.userName && (
-                        <AppIconButtons.Pencil
-                          onPress={() => setMyAns(!myAns)}
-                        />
+                        <SpaceBetween>
+                          <AppIconButtons.Pencil
+                            onPress={() => {
+                              setIsModAns(!isModAns);
+                              setAnsText(ans.answerContent);
+                            }}
+                            margin={{marginRight: 6}}
+                          />
+                          <AppIconButtons.Delete
+                            onPress={() => delAns(ans.answerId)}
+                          />
+                        </SpaceBetween>
                       )}
                     </SpaceBetween>
                     <Ans>
-                      <FontStyle.Content>{ans.answerContent}</FontStyle.Content>
+                      {/* 수정버튼 누른 경우 내 대답 수정할 수 있게 */}
+                      {ans.userName == userData.userName && isModAns ? (
+                        <>
+                          <MyAnsInput
+                            multiline={true}
+                            numberOfLines={4}
+                            maxLength={80}
+                            textAlignVertical="top"
+                            value={ansText}
+                            onChangeText={setAnsText}
+                            autoFocus={true}
+                          />
+                          <MaxLength>
+                            <FontStyle.SubContent>
+                              {ansText.length}/80
+                            </FontStyle.SubContent>
+                          </MaxLength>
+                        </>
+                      ) : (
+                        <FontStyle.Content>
+                          {ans.answerContent}
+                        </FontStyle.Content>
+                      )}
                     </Ans>
+                    {/* 수정중인 경우 수정버튼 나타나게 */}
+                    {ans.userName == userData.userName && isModAns && (
+                      <SubmitButton>
+                        <TextButton.Content
+                          title="수정"
+                          onPress={() => {
+                            modAns({
+                              answerContent: ansText,
+                              answerId: ans.answerId,
+                            });
+                          }}
+                        />
+                      </SubmitButton>
+                    )}
                   </AnsBox>
                 </AnsContainer>
               ))}
