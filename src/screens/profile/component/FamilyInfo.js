@@ -96,7 +96,7 @@ const FamilyInfo = ({route}) => {
           oldData.data.data.hates = [
             ...data,
             {
-              selfIntroductionAnswerId: (data),
+              selfIntroductionAnswerId: getId(data),
               selfIntroductionAnswerContent: tagValue,
             },
           ];
@@ -106,7 +106,7 @@ const FamilyInfo = ({route}) => {
           oldData.data.data.interests = [
             ...data,
             {
-              selfIntroductionAnswerId: (data),
+              selfIntroductionAnswerId: getId(data),
               selfIntroductionAnswerContent: tagValue,
             },
           ];
@@ -116,7 +116,7 @@ const FamilyInfo = ({route}) => {
           oldData.data.data.expressions = [
             ...data,
             {
-              selfIntroductionAnswerId: (data),
+              selfIntroductionAnswerId: getId(data),
               selfIntroductionAnswerContent: tagValue,
             },
           ];

@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {BasicHeader} from '../components/WithHeader';
+import {BasicHeader} from '@/components/WithHeader';
 import styled from 'styled-components';
-import {FontStyle} from '../utils/GlobalFonts';
-import {Components} from '../utils/Components';
-import {useSignOut} from '../hooks/useUserData';
+import {FontStyle} from '@/utils/GlobalFonts';
+import {Components} from '@/utils/Components';
+import {useSignOut} from '@/hooks/useUserData';
 import {useDelFCM} from '@/hooks/useFCMtoken';
 import {useRecoilValue} from 'recoil';
 import {storage} from '@/config/storage';

@@ -5,7 +5,7 @@ import {BottomNavigator} from './BottomNavigator';
 import MailScreen from '@/screens/mail/MailScreen';
 import MailWriteScreen from '@/screens/mail/MailWriteScreen';
 import PostWriteScreen from '@/screens/post/PostWriteScreen';
-import MyScreen from '@/screens/MyScreen';
+import MyScreen from '@/screens/mySetting/MyScreen';
 import AlertScreen from '@/screens/AlertScreen';
 import PostScreen from '@/screens/post/PostScreen';
 import SignUpScreen from '@/screens/sign/SignUpScreen';
