@@ -95,19 +95,19 @@ const PostWriteScreen = ({navigation, route}) => {
     const formData = new FormData();
 
     formData.append('images', image);
-    console.log(image);
+
+    // console.log({
+    //   uri: image.uri,
+    //   type: image.type,
+    //   fileName: image.fileName,
+    // });
     // {
     //   uri: image.uri,
     //   type: image.type,
     //   fileName: image.fileName,
     // }
 
-    formData.append(
-      'boardContent',
-      new Blob([JSON.stringify(mainText)], {
-        type: 'application/json',
-      }),
-    );
+    formData.append('boardContent', mainText);
 
     // 수정인 경우
     if (route.params.boardId) {
