@@ -59,8 +59,11 @@ const MyScreen = ({navigation}) => {
       {/* 공백 */}
       <Menu />
       <Components.HorizonLine />
-      <Menu>
-        <FontStyle.SubTitle>비밀번호 변경</FontStyle.SubTitle>
+      <Menu
+        onPress={() => {
+          navigation.navigate('AccountMod');
+        }}>
+        <FontStyle.SubTitle>회원정보 변경</FontStyle.SubTitle>
       </Menu>
       <Components.HorizonLine />
       <Menu

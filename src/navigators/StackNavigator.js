@@ -10,9 +10,10 @@ import AlertScreen from '@/screens/AlertScreen';
 import PostScreen from '@/screens/post/PostScreen';
 import SignUpScreen from '@/screens/sign/SignUpScreen';
 import SignInScreen from '@/screens/sign/SignInScreen';
-import ProfileDetailScreen from '../screens/profile/ProfileDetailScreen';
-import MailDetailScreen from '../screens/mail/MailDetailScreen';
-import WelcomeScreen from '../screens/WelcomeScreen';
+import ProfileDetailScreen from '@/screens/profile/ProfileDetailScreen';
+import MailDetailScreen from '@/screens/mail/MailDetailScreen';
+import WelcomeScreen from '@/screens/WelcomeScreen';
+import AccountModScreen from '@/screens/mySetting/AccountModScreen';
 
 const Stack = createStackNavigator();
 
@@ -33,6 +34,7 @@ export function StackNavigator(navigation) {
       <Stack.Screen name="My" component={MyScreen} />
       <Stack.Screen name="Alert" component={AlertScreen} />
       <Stack.Screen name="ProfileDetail" component={ProfileDetailScreen} />
+      <Stack.Screen name="AccountMod" component={AccountModScreen} />
     </Stack.Navigator>
   );
 }
