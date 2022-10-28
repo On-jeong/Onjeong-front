@@ -17,7 +17,7 @@ import {
 import {TextButton} from '@/components/buttons/TextButton';
 import {useQueryClient} from '@tanstack/react-query';
 import {useRecoilValue} from 'recoil';
-import UserData from '@/state/UserData';
+import {UserNameState} from '@/state/UserData';
 
 const SpaceBetween = styled.View`
   flex-direction: row;
@@ -103,7 +103,7 @@ const MessageBox = styled.View`
 
 export default function QaScreen({navigation}) {
   const queryClient = useQueryClient();
-  const userData = useRecoilValue(UserData);
+  const userName = useRecoilValue(UserNameState);
 
   const [isMyAns, setIsMyAns] = useState(true); // 내가 문답을 입력했는지 여부
   const [isModAns, setIsModAns] = useState(false); // 내 문답 수정중인지 여부
@@ -152,7 +152,7 @@ export default function QaScreen({navigation}) {
   const isAnswered = () => {
     setIsMyAns(false);
     ansData?.data.map(obj => {
-      if (obj.userName == userData.userName) setIsMyAns(true);
+      if (obj.userName == userName) setIsMyAns(true);
     });
   };
 
@@ -212,7 +212,7 @@ export default function QaScreen({navigation}) {
                   <AnsBox>
                     <SpaceBetween>
                       <FontStyle.ContentB>{ans.userName}</FontStyle.ContentB>
-                      {ans.userName == userData.userName && (
+                      {ans.userName == userName && (
                         <SpaceBetween>
                           <AppIconButtons.Pencil
                             onPress={() => {
@@ -229,7 +229,7 @@ export default function QaScreen({navigation}) {
                     </SpaceBetween>
                     <Ans>
                       {/* 수정버튼 누른 경우 내 대답 수정할 수 있게 */}
-                      {ans.userName == userData.userName && isModAns ? (
+                      {ans.userName == userName && isModAns ? (
                         <>
                           <MyAnsInput
                             multiline={true}
@@ -253,7 +253,7 @@ export default function QaScreen({navigation}) {
                       )}
                     </Ans>
                     {/* 수정중인 경우 수정버튼 나타나게 */}
-                    {ans.userName == userData.userName && isModAns && (
+                    {ans.userName == userName && isModAns && (
                       <SubmitButton>
                         <TextButton.Content
                           title="수정"

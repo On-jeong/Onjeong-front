@@ -17,7 +17,6 @@ import {
   useAddExpression,
 } from '@/hooks/useProFileData';
 
-import UserData from '@/state/UserData';
 import {useQueryClient} from '@tanstack/react-query';
 import {MessageInput} from './FamilyProfile';
 import {Components} from '@/utils/Components';
@@ -41,7 +40,6 @@ const CancelBox = styled.View`
 `;
 
 const FamilyInfo = ({route}) => {
-  const userData = useRecoilValue(UserData);
   const queryClient = useQueryClient();
 
   const [tagValue, setTagValue] = useState(''); // 새로운 태그 추가 내용

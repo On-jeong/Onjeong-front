@@ -13,7 +13,7 @@ import {AppIconButtons} from '@/components/IconButtons';
 import {useQueryClient} from '@tanstack/react-query';
 import {useFocusEffect} from '@react-navigation/native';
 import {useRecoilValue} from 'recoil';
-import UserData from '@/state/UserData';
+import {UserIdState} from '@/state/UserData';
 
 const ImageBox = styled.TouchableOpacity``;
 
@@ -92,7 +92,7 @@ export const MessageInput = styled.TextInput`
 
 const FamilyProfile = ({route}) => {
   const queryClient = useQueryClient();
-  const userData = useRecoilValue(UserData);
+  const userId = useRecoilValue(UserIdState);
 
   const [isMessageWrite, setIsMessageWrite] = useState(false);
   const [messageValue, setMessageValue] = useState(
@@ -167,7 +167,7 @@ const FamilyProfile = ({route}) => {
         <>
           <TopContainer>
             {/* 본인일 경우에만 프사 수정 */}
-            {route.params.userId === userData.userId ? (
+            {route.params.userId === userId ? (
               <ImageBox
                 onPress={() => {
                   getImage();
@@ -240,7 +240,7 @@ const FamilyProfile = ({route}) => {
               </FontStyle.SubContent>
             )}
             {/* 메세지 작성중이 아니고, 자신의 프로필일 경우에만 수정 버튼 보이기 */}
-            {!isMessageWrite && route.params.userId === userData.userId && (
+            {!isMessageWrite && route.params.userId === userId && (
               <AppIconButtons.Pencil
                 onPress={() => {
                   setIsMessageWrite(true);

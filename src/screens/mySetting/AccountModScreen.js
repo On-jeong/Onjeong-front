@@ -1,9 +1,9 @@
 import {AppButtons} from '@/components/buttons';
 import NoHeader from '@/components/NoHeader';
-import UserData from '@/state/UserData';
+import {UserIdState} from '@/state/UserData';
 import {FontStyle} from '@/utils/GlobalFonts';
 import React, {useState} from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import { useRecoilValue} from 'recoil';
 import styled from 'styled-components';
 
 const Container = styled.View`
@@ -44,14 +44,14 @@ function AccountModScreen() {
   const [pw, setPw] = useState('');
   const [pwCheck, setPwCheck] = useState('');
 
-  const [userData, setUserData] = useRecoilState(UserData);
+  const userId = useRecoilValue(UserIdState);
 
   return (
     <NoHeader title="회원정보 변경" isBack={true}>
       <InfoBox
         title={'아이디'}
         modAvailable={false}
-        value={userData.userId}
+        value={userId}
         maxLength={20}
         secureTextEntry={false}
       />

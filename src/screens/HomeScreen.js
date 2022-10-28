@@ -4,11 +4,26 @@ import {BasicHeader} from '../components/WithHeader';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useRecoilState} from 'recoil';
-import UserData from '../state/UserData';
+import {
+  UserBirthState,
+  UserIdState,
+  UserNameState,
+  UserStatusState,
+} from '../state/UserData';
 
 export const HomeScreen = ({navigation}) => {
-  const [userData, setUserData] = useRecoilState(UserData);
-  console.log('리코일: ' + JSON.stringify(userData));
+  const [userId, setUserId] = useRecoilState(UserIdState);
+  const [userName, setUserName] = useRecoilState(UserNameState);
+  const [userBirth, setUserBirth] = useRecoilState(UserBirthState);
+  const [userStatus, setUserStatus] = useRecoilState(UserStatusState);
+
+  console.log(
+    '리코일: ' + JSON.stringify(userId),
+    JSON.stringify(userName),
+    JSON.stringify(userBirth),
+    JSON.stringify(userStatus),
+    JSON.stringify(userId),
+  );
 
   return (
     <BasicHeader title="온정" navigation={navigation}>

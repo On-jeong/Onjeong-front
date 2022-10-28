@@ -7,7 +7,7 @@ import {useSignOut} from '@/hooks/useUserData';
 import {useDelFCM} from '@/hooks/useFCMtoken';
 import {useRecoilValue} from 'recoil';
 import {storage} from '@/config/storage';
-import UserData from '@/state/UserData';
+import {UserNicknameState} from '@/state/UserData';
 
 const Menu = styled.TouchableOpacity`
   width: 100%;
@@ -30,7 +30,7 @@ export const Email = styled.View`
 const MyScreen = ({navigation}) => {
   const [signOut, setSignOut] = useState(false);
 
-  const userData = useRecoilValue(UserData);
+  const userNickname = useRecoilValue(UserNicknameState);
 
   const {error, status} = useSignOut({
     navigation,
@@ -41,8 +41,8 @@ const MyScreen = ({navigation}) => {
 
   const delFCMToken = async () => {
     const fcmToken = await storage.getItem('fcmToken');
-    console.log('온뮤:', userData);
-    mutate({token: fcmToken, userNickname: userData.userNickname});
+
+    mutate({token: fcmToken, userNickname: userNickname});
   };
 
   return (

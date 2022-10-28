@@ -4,7 +4,7 @@ import NoHeader from '@/components/NoHeader';
 import {AppColors, windowHeight} from '@/utils/GlobalStyles';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {useRecoilValue} from 'recoil';
-import UserData from '../../state/UserData';
+import {UserIdState, UserNameState} from '../../state/UserData';
 import {usePostMail} from '../../hooks/useMailData';
 import {useGetFamilyList} from '../../hooks/useProFileData';
 import {AppButtons} from '../../components/buttons';
@@ -59,7 +59,8 @@ const SelectItem = styled.TouchableOpacity`
 `;
 
 const MailWriteScreen = ({navigation}) => {
-  const userData = useRecoilValue(UserData);
+  const userId = useRecoilValue(UserIdState);
+  const userName = useRecoilValue(UserNameState);
 
   const [mainText, setMainText] = useState('');
   const [toUserStatus, setToUserStatus] = useState(''); // 보낼 가족 별명
@@ -109,7 +110,7 @@ const MailWriteScreen = ({navigation}) => {
                 {data?.data.data.map(family => {
                   return (
                     <>
-                      {family.userId !== userData.userId && (
+                      {family.userId !== userId && (
                         <SelectItem
                           key={family.userId}
                           onPress={() => {
@@ -139,8 +140,7 @@ const MailWriteScreen = ({navigation}) => {
             />
             <SendBox>
               <FontStyle.ContentB>
-                From.{' '}
-                <FontStyle.ContentB>{userData.userName}</FontStyle.ContentB>
+                From. <FontStyle.ContentB>{userName}</FontStyle.ContentB>
               </FontStyle.ContentB>
             </SendBox>
           </Paper>

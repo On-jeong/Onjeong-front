@@ -5,12 +5,19 @@ import {FontStyle} from '@/utils/GlobalFonts';
 import {AppColors} from '@/utils/GlobalStyles';
 import {AppButtons} from '../../components/buttons';
 import {AppInputs} from '../../components/inputs';
-import {useGetUserData, useSignIn} from '../../hooks/useUserData';
+import {useSignIn} from '../../hooks/useUserData';
 import {storage} from '../../config/storage';
-import axios, {refreshAxios} from '@/api/axios';
+import {refreshAxios} from '@/api/axios';
 import {useAddFCM} from '@/hooks/useFCMtoken';
-import {useSetRecoilState, useSetRecoilValue} from 'recoil';
-import UserData from '@/state/UserData';
+import {useSetRecoilState} from 'recoil';
+import UserData, {
+  FamilyIdState,
+  UserBirthState,
+  UserIdState,
+  UserNameState,
+  UserNicknameState,
+  UserStatusState,
+} from '@/state/UserData';
 import messaging from '@react-native-firebase/messaging';
 import customAxios from '@/api/axios';
 
@@ -43,12 +50,16 @@ export const InputContainer = styled.View`
 `;
 
 const SignInScreen = ({navigation}) => {
-  const setUserData = useSetRecoilState(UserData);
+  const setUserIdState = useSetRecoilState(UserIdState);
+  const setUserNameState = useSetRecoilState(UserNameState);
+  const setUserBirthState = useSetRecoilState(UserBirthState);
+  const setUserStatusState = useSetRecoilState(UserStatusState);
+  const setUserNicknameState = useSetRecoilState(UserNicknameState);
+  const setFamilyIdState = useSetRecoilState(FamilyIdState);
 
   const [inputCheck, setInputCheck] = useState(false);
   const [userId, setUserId] = useState('');
   const [userPassword, setUserPassword] = useState('');
-  const [success, setSuccess] = useState(false);
 
   const {mutate} = useSignIn(navigation);
   const {mutate: addFCM} = useAddFCM();
@@ -107,9 +118,15 @@ const SignInScreen = ({navigation}) => {
 
           // 유저정보 async storage에 저장
           storage.setStrItem('userData', data.data.data);
+          console.log(data.data.data);
 
           // 유저정보 리코일에 저장
-          setUserData(data.data.data);
+          setUserIdState(data.data.data.userId);
+          setUserNameState(data.data.data.userId);
+          setUserNicknameState(data.data.data.userId);
+          setUserStatusState(data.data.data.userId);
+          setUserBirthState(data.data.data.userId);
+          setFamilyIdState(data.data.data.familyId);
 
           navigation.navigate('Home');
         },
