@@ -12,8 +12,9 @@ import {FontStyle} from '@/utils/GlobalFonts';
 import {AppIconButtons} from '@/components/IconButtons';
 import {useQueryClient} from '@tanstack/react-query';
 import {useFocusEffect} from '@react-navigation/native';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {UserIdState} from '@/state/UserData';
+import { ProfileMessageState } from '@/state/ProfileData';
 
 const ImageBox = styled.TouchableOpacity``;
 
@@ -92,26 +93,23 @@ export const MessageInput = styled.TextInput`
 
 const FamilyProfile = ({route}) => {
   const queryClient = useQueryClient();
+  
   const userId = useRecoilValue(UserIdState);
-
+  const [profileMessageState, setProfileMessageState] = useRecoilState(ProfileMessageState);
   const [isMessageWrite, setIsMessageWrite] = useState(false);
-  const [messageValue, setMessageValue] = useState(
-    detailData?.data?.data.message,
-  );
 
   const {
     data: detailData,
     isLoading: detailIsLoading,
     status: detailStatus,
   } = useGetFamilyProfile(route.params.userId, () => {
-    setMessageValue(detailData?.data?.data.message);
+    setProfileMessageState(detailData?.data?.data.message);
   });
 
   const {mutate: addImage} = useAddProfileImage();
   const {mutate: addMessage} = useAddMessage();
   const {mutate: modMessage} = useModMessage();
 
-  useEffect(() => {}, [messageValue]);
 
   // 화면 포커스 될 때 상태 매세지 리패치
   useFocusEffect(
@@ -144,15 +142,15 @@ const FamilyProfile = ({route}) => {
   };
 
   const submitMessage = () => {
-    if (!messageValue) {
-      addMessage({message: messageValue});
-    } else if (messageValue) {
-      modMessage({message: messageValue});
+    if (!profileMessageState) {
+      addMessage({message: profileMessageState});
+    } else if (profileMessageState) {
+      modMessage({message: profileMessageState});
       // 상태메시지 쿼리데이터 직접 교체
       queryClient.setQueryData(
         ['getFamilyProfile', route.params.userId],
         oldData => {
-          oldData.data.data.message = messageValue;
+          oldData.data.data.message = profileMessageState;
         },
       );
     }
@@ -229,8 +227,8 @@ const FamilyProfile = ({route}) => {
             <TopArrow />
             {isMessageWrite ? (
               <MessageInput
-                value={messageValue}
-                onChangeText={setMessageValue}
+                value={profileMessageState}
+                onChangeText={setProfileMessageState}
                 autoFocus={true}
                 onSubmitEditing={submitMessage}
               />
