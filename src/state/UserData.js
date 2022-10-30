@@ -1,7 +1,7 @@
 import {atom} from 'recoil';
 import {storage} from '../config/storage';
 
-// asyncstorage와 데이터 연동
+// asyncstorage와 데이터 연동 (userData에 있는 값들 가져오기)
 const asyncStorageEffect =
   (key, detail) =>
   async ({setSelf, onSet}) => {
@@ -13,9 +13,9 @@ const asyncStorageEffect =
     }
 
     // 해당하는 atom 값 변경시 실행
-    onSet((newValue, _, isReset) => {
-      isReset ? storage.removeItem(key) : storage.setItem(key, newValue);
-    });
+    // onSet((newValue, _, isReset) => {
+    //   isReset ? storage.removeItem(key) : storage.setItem(key, newValue);
+    // });
   };
 
 export const UserIdState = atom({

@@ -5,7 +5,7 @@ const addFCM = data => {
   return customAxios.post(`/token/generate?token=${data}`);
 };
 
-const delAnn = data => {
+const delFCM = data => {
   console.log(data);
   return customAxios.post(`/token/cancel`, data);
 };
@@ -19,7 +19,7 @@ export const useAddFCM = () => {
 
 // FCM 토큰 해제하기
 export const useDelFCM = data => {
-  return useMutation(delAnn, {
+  return useMutation(delFCM, {
     onError: error => console.log(error),
   });
 };

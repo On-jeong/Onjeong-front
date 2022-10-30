@@ -122,10 +122,10 @@ const SignInScreen = ({navigation}) => {
 
           // 유저정보 리코일에 저장
           setUserIdState(data.data.data.userId);
-          setUserNameState(data.data.data.userId);
-          setUserNicknameState(data.data.data.userId);
-          setUserStatusState(data.data.data.userId);
-          setUserBirthState(data.data.data.userId);
+          setUserNameState(data.data.data.userName);
+          setUserNicknameState(data.data.data.userNickname);
+          setUserStatusState(data.data.data.userStatus);
+          setUserBirthState(data.data.data.userBirth);
           setFamilyIdState(data.data.data.familyId);
 
           navigation.navigate('Home');

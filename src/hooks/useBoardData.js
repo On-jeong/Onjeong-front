@@ -12,11 +12,7 @@ const fetchBoardDetail = boardId => {
 const addBoard = ({boardDate, formData}) => {
   const config = {
     headers: {
-      'Content-Type':
-        'multipart/form-data; boundary=<calculated when request is sent>',
-    },
-    transformRequest: (data, headers) => {
-      return data;
+      'Content-Type': 'multipart/form-data',
     },
   };
   return customAxios.post(`/boards/${boardDate}`, formData, config);
