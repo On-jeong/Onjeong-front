@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {useRecoilValue} from 'recoil';
 import styled from 'styled-components';
 import {AppColors} from '@/utils/GlobalStyles';
 import {FontStyle} from '@/utils/GlobalFonts';
@@ -79,45 +78,22 @@ const FamilyInfo = ({route}) => {
     queryClient.setQueryData(
       ['getFamilyInfo', route.params.userId],
       oldData => {
+        let data = oldData.data.data[category];
+        oldData.data.data[category] = [
+          ...data,
+          {
+            selfIntroductionAnswerId: getId(data),
+            selfIntroductionAnswerContent: tagValue,
+          },
+        ];
+
         if (category === 'favorites') {
-          let data = oldData.data.data.favorites;
-          oldData.data.data.favorites = [
-            ...data,
-            {
-              selfIntroductionAnswerId: getId(data),
-              selfIntroductionAnswerContent: tagValue,
-            },
-          ];
           setIsFavoritesMod(!isFavoritesMod);
         } else if (category === 'hates') {
-          let data = oldData.data.data.hates;
-          oldData.data.data.hates = [
-            ...data,
-            {
-              selfIntroductionAnswerId: getId(data),
-              selfIntroductionAnswerContent: tagValue,
-            },
-          ];
           setIsHatesMod(!isHatesMod);
         } else if (category === 'interests') {
-          let data = oldData.data.data.interests;
-          oldData.data.data.interests = [
-            ...data,
-            {
-              selfIntroductionAnswerId: getId(data),
-              selfIntroductionAnswerContent: tagValue,
-            },
-          ];
           setIsInterestsMod(!isInterestsMod);
         } else if (category === 'expressions') {
-          let data = oldData.data.data.expressions;
-          oldData.data.data.expressions = [
-            ...data,
-            {
-              selfIntroductionAnswerId: getId(data),
-              selfIntroductionAnswerContent: tagValue,
-            },
-          ];
           setIsExpressionsMod(!isExpressionsMod);
         }
       },
@@ -137,44 +113,22 @@ const FamilyInfo = ({route}) => {
 
   // 태그 삭제 - 서버로 보내는 함수
   const deleteTag = (category, userId, selfIntroductionAnswerId) => {
-    let filterFunc;
-
     if (category === 'favorites') {
       delFavorite({userId, selfIntroductionAnswerId});
-      filterFunc = oldData => {
-        oldData.data.data.favorites = oldData.data.data.favorites.filter(it => {
-          return it.selfIntroductionAnswerId !== selfIntroductionAnswerId;
-        });
-      };
     } else if (category === 'hates') {
       delHate({userId, selfIntroductionAnswerId});
-      filterFunc = oldData => {
-        oldData.data.data.hates = oldData.data.data.hates.filter(it => {
-          return it.selfIntroductionAnswerId !== selfIntroductionAnswerId;
-        });
-      };
     } else if (category === 'interests') {
       delInterest({userId, selfIntroductionAnswerId});
-      filterFunc = oldData => {
-        oldData.data.data.interests = oldData.data.data.interests.filter(it => {
-          return it.selfIntroductionAnswerId !== selfIntroductionAnswerId;
-        });
-      };
     } else if (category === 'expressions') {
       delExpression({userId, selfIntroductionAnswerId});
-      filterFunc = oldData => {
-        oldData.data.data.expressions = oldData.data.data.expressions.filter(
-          it => {
-            return it.selfIntroductionAnswerId !== selfIntroductionAnswerId;
-          },
-        );
-      };
     }
 
     queryClient.setQueryData(
       ['getFamilyInfo', route.params.userId],
       oldData => {
-        filterFunc(oldData);
+        oldData.data.data[category] = oldData.data.data[category].filter(it => {
+          return it.selfIntroductionAnswerId !== selfIntroductionAnswerId;
+        });
       },
     );
   };
@@ -209,17 +163,7 @@ const FamilyInfo = ({route}) => {
     tagValue,
     setTagValue,
   ) => {
-    let tagData;
-
-    if (category === 'favorites') {
-      tagData = infoData?.data?.data.favorites;
-    } else if (category === 'hates') {
-      tagData = infoData?.data?.data.hates;
-    } else if (category === 'interests') {
-      tagData = infoData?.data?.data.interests;
-    } else if (category === 'expressions') {
-      tagData = infoData?.data?.data.expressions;
-    }
+    let tagData = infoData?.data?.data[category];
 
     return (
       <>
