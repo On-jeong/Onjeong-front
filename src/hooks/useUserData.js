@@ -31,7 +31,8 @@ const deleteAccount = () => {
 };
 
 // 유저 데이터 불러오기
-export const useGetUserData = enabled => {
+export const useGetUserData = ({enabled: enabled = true}) => {
+  console.log(enabled)
   return useQuery(['getUserData'], fetchUserData, {
     onError: error => console.log(error),
     enabled: enabled,
@@ -90,9 +91,10 @@ export const useSignOut = ({navigation, enabled, onMutate}) => {
 };
 
 // 회원정보 수정
-export const useModifyAccount = userData => {
-  return useMutation(modifyAccount(userData), {
-    onError: error => console.log(error),
+export const useModifyAccount = ({onError, onSuccess}) => {
+  return useMutation(modifyAccount, {
+    onError: onError,
+    onSuccess: onSuccess,
   });
 };
 

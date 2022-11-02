@@ -1,9 +1,15 @@
 import {AppButtons} from '@/components/buttons';
 import NoHeader from '@/components/NoHeader';
-import {UserIdState} from '@/state/UserData';
+import {useModifyAccount} from '@/hooks/useUserData';
+import {
+  UserBirthState,
+  UserIdState,
+  UserNameState,
+  UserStatusState,
+} from '@/state/UserData';
 import {FontStyle} from '@/utils/GlobalFonts';
-import React, {useState} from 'react';
-import { useRecoilValue} from 'recoil';
+import React, {useEffect, useState} from 'react';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import styled from 'styled-components';
 
 const Container = styled.View`
@@ -23,14 +29,6 @@ const Input = styled.TextInput`
   margin: 0;
 `;
 
-const InfoText = styled.Text`
-  font-family: 'GangwonLight';
-  font-size: 20px;
-  margin-bottom: 10px;
-  padding: 0;
-  margin: 0;
-`;
-
 const ButtonContainer = styled.View`
   flex-direction: row;
   justify-content: flex-end;
@@ -38,27 +36,72 @@ const ButtonContainer = styled.View`
   padding-right: 30px;
 `;
 
-function AccountModScreen() {
-  const [name, setName] = useState();
-  const [status, setStatus] = useState();
+function AccountModScreen({navigation}) {
+  const [name, setName] = useState(useRecoilValue(UserNameState));
+  const [status, setStatus] = useState(useRecoilValue(UserStatusState));
   const [pw, setPw] = useState('');
   const [pwCheck, setPwCheck] = useState('');
 
-  const userId = useRecoilValue(UserIdState);
+  const userIdState = useRecoilValue(UserIdState);
+  const setUserNameState = useSetRecoilState(UserNameState);
+  const setUserStatusState = useSetRecoilState(UserStatusState);
+  const setUserBirthState = useSetRecoilState(UserBirthState);
+
+  const {mutate} = useModifyAccount({
+    onSuccess: () => {
+      alert('회원정보 변경이 완료되었습니다.');
+      setUserNameState(name);
+      setUserStatusState(status);
+    },
+    onError: () => {
+      alert('회원정보 변경에 실패했습니다.');
+      setName(UserNameState);
+      setStatus(UserStatusState);
+    },
+  });
+
+  useEffect(() => {}, [name, status]);
+
+  const onSubmit = () => {
+    if (name === '') {
+      alert('이름을 입력해 주세요');
+      return 0;
+    } else if (status == '') {
+      alert('역할을 입력해 주세요');
+      return 0;
+    } else if (pw == '') {
+      alert('비밀번호를 입력해 주세요');
+      return 0;
+    } else if (pwCheck == '') {
+      alert('비밀번호 확인을 입력해 주세요');
+      return 0;
+    } else if (pw !== pwCheck) {
+      alert('비밀번호 확인이 맞지 않습니다.');
+      return 0;
+    }
+    mutate({
+      userBirth: '2022-01-01',
+      userName: name,
+      userPassword: pw,
+      userStatus: status,
+    });
+    setPw('');
+    setPwCheck('');
+  };
 
   return (
-    <NoHeader title="회원정보 변경" isBack={true}>
+    <NoHeader title="회원정보 변경" isBack={true} navigation={navigation}>
       <InfoBox
         title={'아이디'}
         modAvailable={false}
-        value={userId}
+        value={userIdState}
         maxLength={20}
         secureTextEntry={false}
       />
       <InfoBox
         title={'이름'}
         modAvailable={true}
-        value={'현진'}
+        value={name}
         setValue={setName}
         maxLength={20}
         secureTextEntry={false}
@@ -66,7 +109,7 @@ function AccountModScreen() {
       <InfoBox
         title={'역할'}
         modAvailable={true}
-        value={'딸1'}
+        value={status}
         setValue={setStatus}
         maxLength={20}
         secureTextEntry={false}
@@ -88,7 +131,11 @@ function AccountModScreen() {
         secureTextEntry={true}
       />
       <ButtonContainer>
-        <AppButtons.TextButton.Content title={'변경하기'} bold={true} />
+        <AppButtons.TextButton.Content
+          title={'변경하기'}
+          bold={true}
+          onPress={onSubmit}
+        />
       </ButtonContainer>
     </NoHeader>
   );
