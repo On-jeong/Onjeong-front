@@ -24,7 +24,7 @@ const BirthButton = styled.TouchableOpacity`
   padding-bottom: 10px;
 `;
 
-const ID_REG = /^[a-z]+[a-z0-9]{5,19}$/g; //영문자 또는 숫자 6 ~ 20자 - 영문자로 시작해야 함
+const ID_REG = /^[A-Za-z]{1}[A-Za-z0-9]{5,19}$/; //영문자 또는 숫자 6 ~ 20자 - 영문자로 시작해야 함
 const PW_REG = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,16}$/; // 영문, 숫자 조합 8 ~ 16자
 const NAME_REG = /[ㄱ-힣]/; // 한글만
 
@@ -80,15 +80,20 @@ const SignUpScreen = ({navigation}) => {
   };
 
   const validationCheck = () => {
-    if (!ID_REG.test(userName)) {
-      alert('이름은 한글만 입력 가능합니다.');
-    } else if (!ID_REG.test(userId)) {
+    if (!ID_REG.test(userId)) {
       alert('아이디 형식이 맞지 않습니다.');
+      return 0;
+    } else if (!NAME_REG.test(userName)) {
+      alert('이름은 한글만 입력 가능합니다.');
+      return 0;
     } else if (!PW_REG.test(userPassword)) {
       alert('비밀번호는 영문과 숫자 조합 8~16 자리로 설정해 주세요.');
+      return 0;
     } else if (!NAME_REG.test(userStatus)) {
       alert('가족 내 역할은 한글만 입력 가능합니다.');
+      return 0;
     }
+    return 1;
   };
 
   const {mutate: addNoJoined} = useSignUpNoJoined(navigation);
@@ -105,6 +110,7 @@ const SignUpScreen = ({navigation}) => {
 
     // 서버에 회원가입 요청
     if (emptyCheck() && validationCheck()) {
+      console.log('됨!!!!!!!!!!');
       // 가족회원이 없는 회원가입
       if (!joinedNickname) {
         addNoJoined({
