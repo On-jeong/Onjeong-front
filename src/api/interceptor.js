@@ -63,6 +63,9 @@ export const Interceptor = ({children}) => {
               AsyncStorage.removeItem('accessToken');
               AsyncStorage.removeItem('refreshToken');
               navigation.navigate('SignIn');
+        
+              // 기본 헤더 제거
+              delete customAxios.defaults.headers.common['AuthorizationAccess'];
             }
             return Promise.reject(err);
           });

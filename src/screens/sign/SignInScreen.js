@@ -70,6 +70,12 @@ const SignInScreen = ({navigation}) => {
     else setInputCheck(false);
   }, [userId, userPassword]);
 
+  useEffect(() => {
+    // 기본 헤더 제거
+    delete customAxios.defaults.headers.common['AuthorizationAccess'];
+  }, [])
+  
+
   const onSubmit = () => {
     console.log('id: ' + userId);
     console.log('pw: ' + userPassword);
