@@ -14,7 +14,7 @@ import {useQueryClient} from '@tanstack/react-query';
 import {useFocusEffect} from '@react-navigation/native';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {UserIdState} from '@/state/UserData';
-import { ProfileMessageState } from '@/state/ProfileData';
+import {ProfileMessageState} from '@/state/ProfileData';
 
 const ImageBox = styled.TouchableOpacity``;
 
@@ -93,9 +93,10 @@ export const MessageInput = styled.TextInput`
 
 const FamilyProfile = ({route}) => {
   const queryClient = useQueryClient();
-  
+
   const userId = useRecoilValue(UserIdState);
-  const [profileMessageState, setProfileMessageState] = useRecoilState(ProfileMessageState);
+  const [profileMessageState, setProfileMessageState] =
+    useRecoilState(ProfileMessageState);
   const [isMessageWrite, setIsMessageWrite] = useState(false);
 
   const {
@@ -109,7 +110,6 @@ const FamilyProfile = ({route}) => {
   const {mutate: addImage} = useAddProfileImage();
   const {mutate: addMessage} = useAddMessage();
   const {mutate: modMessage} = useModMessage();
-
 
   // 화면 포커스 될 때 상태 매세지 리패치
   useFocusEffect(
@@ -135,8 +135,20 @@ const FamilyProfile = ({route}) => {
 
     const formData = new FormData();
 
-    formData.append('images', image.assets[0].uri);
-    console.log(image.assets[0].uri);
+    formData.append('images', {
+      uri: image.assets[0].uri,
+      name: image.assets[0].fileName,
+      type: image.assets[0].type,
+    });
+
+    console.log(
+      'uri:',
+      image.assets[0].uri,
+      'name:',
+      image.assets[0].fileName,
+      'type:',
+      image.assets[0].type,
+    );
 
     addImage(formData);
   };
@@ -173,7 +185,7 @@ const FamilyProfile = ({route}) => {
                 <Image
                   source={
                     detailData?.data?.data.profileImageUrl
-                      ? {uri: checkProfileImage}
+                      ? {uri: detailData?.data?.data.profileImageUrl}
                       : require('@/assets/image/profileImage.png')
                   }
                 />
@@ -189,7 +201,7 @@ const FamilyProfile = ({route}) => {
               <Image
                 source={
                   detailData?.data?.data.profileImageUrl
-                    ? {uri: checkProfileImage}
+                    ? {uri: detailData?.data?.data.profileImageUrl}
                     : require('@/assets/image/profileImage.png')
                 }
               />

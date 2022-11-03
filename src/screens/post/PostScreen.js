@@ -7,7 +7,6 @@ import {AppColors, windowHeight, windowWidth} from '@/utils/GlobalStyles';
 import {Components} from '../../utils/Components';
 import {AppIconButtons} from '../../components/IconButtons';
 import {AppButtons} from '../../components/buttons';
-import {SendBox} from '../mail/MailWriteScreen';
 import {
   useAddAnn,
   useDeleteAnn,
@@ -17,6 +16,8 @@ import {Filter} from '../mail/MailScreen';
 import {useDeleteBoard, useGetTodayBoards} from '../../hooks/useBoardData';
 import {Image, ScrollView} from 'react-native';
 import AutoHeightImage from 'react-native-auto-height-image';
+import {SpaceBetween} from '../QaScreen';
+import Octicons from 'react-native-vector-icons/Octicons';
 
 const PlanContainer = styled.View`
   padding: 7%;
@@ -26,6 +27,17 @@ const PlanBox = styled.View`
   flex-direction: row;
   align-items: center;
   margin-bottom: 5px;
+`;
+
+const SendBox = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
+const IconBox = styled.View`
+  margin-right: 5px;
+  flex-direction: row;
+  align-items: center;
 `;
 
 const PlanTitle = styled.View`
@@ -88,6 +100,7 @@ const PostScreen = ({navigation, route}) => {
   const [isAddPlan, setIsAddPlan] = useState(false);
   const [isDelPlan, setIsDelPlan] = useState(false);
   const [newPlan, setNewPlan] = useState('');
+  const [isAnniversary, setIsAnniversary] = useState(true);
 
   const {mutate: addAnn} = useAddAnn({
     onSuccess: () => {
@@ -140,7 +153,7 @@ const PostScreen = ({navigation, route}) => {
       annData: {
         anniversaryContent: newPlan,
         //SPECIAL_SCHEDULE / ANNIVERSARY
-        anniversaryType: 'ANNIVERSARY',
+        anniversaryType: isAnniversary ? 'ANNIVERSARY' : 'SPECIAL_SCHEDULE',
       },
     });
   };
@@ -152,7 +165,7 @@ const PostScreen = ({navigation, route}) => {
         <ScrollView>
           <PlanContainer>
             <PlanTitle>
-              <FontStyle.SubTitle>오늘의 행사</FontStyle.SubTitle>
+              <FontStyle.SubTitle>오늘의 일정</FontStyle.SubTitle>
               <Filter>
                 <AppIconButtons.Pencil
                   margin={{marginRight: 8}}
@@ -174,7 +187,7 @@ const PostScreen = ({navigation, route}) => {
             </PlanTitle>
             {AnnIsLoading && <FontStyle.Content>Loading...</FontStyle.Content>}
             {AnnData?.data?.data.length === 0 && !isAddPlan && (
-              <FontStyle.Content>오늘의 행사가 없습니다.</FontStyle.Content>
+              <FontStyle.Content>오늘의 일정이 없습니다.</FontStyle.Content>
             )}
             {AnnData?.data?.data.map(ann => (
               <PlanBox key={ann.anniversaryId}>
@@ -189,9 +202,10 @@ const PostScreen = ({navigation, route}) => {
                 ) : (
                   <FontStyle.ContentB>{number++}. </FontStyle.ContentB>
                 )}
-                <FontStyle.ContentB>
+
+                <FontStyle.Content bold={ann.anniversaryType === 'ANNIVERSARY'}>
                   {ann.anniversaryContent}
-                </FontStyle.ContentB>
+                </FontStyle.Content>
               </PlanBox>
             ))}
 
@@ -203,21 +217,47 @@ const PostScreen = ({navigation, route}) => {
                   <PlanText
                     value={newPlan}
                     onChangeText={setNewPlan}
-                    maxLength={20}
+                    maxLength={15}
                   />
                 </PlanTextBox>
-                <SendBox>
-                  <AppButtons.TextButton.Content
-                    title="추가"
-                    margin={5}
-                    onPress={() => addPlan()}
-                  />
-                  <AppButtons.TextButton.Content
-                    title="취소"
-                    margin={5}
-                    onPress={() => setIsAddPlan(false)}
-                  />
-                </SendBox>
+                <SpaceBetween>
+                  <SendBox>
+                    <IconBox>
+                      <Octicons
+                        name="check"
+                        style={{opacity: isAnniversary ? 1 : 0}} // 영역 그대로 안보이게
+                      />
+                      <AppButtons.TextButton.Content
+                        title="기념일"
+                        margin={5}
+                        onPress={() => setIsAnniversary(true)}
+                      />
+                    </IconBox>
+                    <IconBox>
+                      <Octicons
+                        name="check"
+                        style={{opacity: isAnniversary ? 0 : 1}}
+                      />
+                      <AppButtons.TextButton.Content
+                        title="일정"
+                        margin={5}
+                        onPress={() => setIsAnniversary(false)}
+                      />
+                    </IconBox>
+                  </SendBox>
+                  <SendBox>
+                    <AppButtons.TextButton.Content
+                      title="추가"
+                      margin={5}
+                      onPress={() => addPlan()}
+                    />
+                    <AppButtons.TextButton.Content
+                      title="취소"
+                      margin={5}
+                      onPress={() => setIsAddPlan(false)}
+                    />
+                  </SendBox>
+                </SpaceBetween>
               </>
             )}
           </PlanContainer>

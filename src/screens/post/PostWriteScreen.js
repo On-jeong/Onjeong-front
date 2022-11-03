@@ -50,6 +50,8 @@ const PostWriteScreen = ({navigation, route}) => {
 
   const {mutate: addBoard} = useAddBoard({
     onSuccess: () => {
+      alert('게시물 작성이 완료되었습니다.');
+
       // 받아왔던 포스트 데이터 리패치
       queryClient.invalidateQueries('getTodayBoards', route.params.barDate);
       navigation.navigate('Post', {
@@ -94,20 +96,17 @@ const PostWriteScreen = ({navigation, route}) => {
   const sendPost = () => {
     const formData = new FormData();
 
-    formData.append('images', image);
-
-    // console.log({
-    //   uri: image.uri,
-    //   type: image.type,
-    //   fileName: image.fileName,
-    // });
-    // {
-    //   uri: image.uri,
-    //   type: image.type,
-    //   fileName: image.fileName,
-    // }
-
     formData.append('boardContent', mainText);
+
+    if (!image) {
+      formData.append('images', undefined);
+    } else {
+      formData.append('images', {
+        uri: image.uri,
+        name: image.fileName,
+        type: image.type,
+      });
+    }
 
     // 수정인 경우
     if (route.params.boardId) {
