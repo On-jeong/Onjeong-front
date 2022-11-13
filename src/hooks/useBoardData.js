@@ -54,9 +54,9 @@ export const useGetBoardDetail = BoardId => {
 };
 
 // 오늘의 기록 작성하기
-export const useAddBoard = onSuccess => {
+export const useAddBoard = ({onSuccess}) => {
   return useMutation(addBoard, {
-    onError: error => console.log(error),
+    onError: error => alert('게시물 작성에 실패했습니다.'),
     onSuccess: onSuccess,
   });
 };
@@ -64,7 +64,7 @@ export const useAddBoard = onSuccess => {
 // 오늘의 기록 삭제하기
 export const useDeleteBoard = ({onSuccess}) => {
   return useMutation(deleteBoard, {
-    onError: error => console.log(error),
+    onError: error => alert('게시물 삭제에 실패했습니다.'),
     onSuccess: onSuccess,
   });
 };
@@ -72,7 +72,7 @@ export const useDeleteBoard = ({onSuccess}) => {
 // 오늘의 기록 수정하기
 export const useModifyBoard = ({onSuccess}) => {
   return useMutation(modifyBoard, {
-    onError: error => console.log(error),
+    onError: error => alert('게시물 수정에 실패했습니다.'),
     onSuccess: onSuccess,
   });
 };

@@ -169,6 +169,7 @@ const PostScreen = ({navigation, route}) => {
               <Filter>
                 <AppIconButtons.Pencil
                   margin={{marginRight: 8}}
+                  active={isAddPlan}
                   onPress={() => {
                     setNewPlan('');
                     setIsAddPlan(!isAddPlan);
@@ -177,6 +178,7 @@ const PostScreen = ({navigation, route}) => {
                 />
                 {AnnData?.data?.data.length !== 0 && (
                   <AppIconButtons.Delete
+                    active={isDelPlan}
                     onPress={() => {
                       setIsDelPlan(!isDelPlan);
                       if (isAddPlan && !isDelPlan) setIsAddPlan(!isAddPlan);
@@ -293,6 +295,8 @@ const PostScreen = ({navigation, route}) => {
                         title={'수정'}
                         onPress={() => {
                           navigation.navigate('PostWrite', {
+                            date: route.params.date,
+                            barDate: route.params.barDate,
                             boardId: board.boardId,
                             boardImageUrl: board.boardImageUrl,
                             boardContent: board.boardContent,

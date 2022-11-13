@@ -62,6 +62,8 @@ const PostWriteScreen = ({navigation, route}) => {
   });
   const {mutate: modBoard} = useModifyBoard({
     onSuccess: () => {
+      alert('게시물 수정이 완료되었습니다.');
+
       // 받아왔던 포스트 데이터 리패치
       queryClient.invalidateQueries('getTodayBoards', route.params.barDate);
       navigation.navigate('Post', {
@@ -90,7 +92,7 @@ const PostWriteScreen = ({navigation, route}) => {
     }
 
     // 이미지 파일 형태로 state에 저장
-    setImage(data.assets[0]);
+    setImage(data.assets[0].uri);
   };
 
   const sendPost = () => {
@@ -98,13 +100,16 @@ const PostWriteScreen = ({navigation, route}) => {
 
     formData.append('boardContent', mainText);
 
-    if (!image) {
-      formData.append('images', undefined);
-    } else {
+    if (image) {
+      // uri 마지막 부분에서 image name 추출하기
+      // 수정일 경우 이미지 uri 정보밖에 없으므로 uri에서 name을 알아내는 과정이 필요함
+      let imgName = image.split('/');
+      imgName = imgName[imgName.length - 1];
+
       formData.append('images', {
-        uri: image.uri,
-        name: image.fileName,
-        type: image.type,
+        uri: image,
+        name: imgName,
+        type: 'image/jpeg',
       });
     }
 
@@ -125,7 +130,7 @@ const PostWriteScreen = ({navigation, route}) => {
           <Paper>
             {image && (
               <ImageBox>
-                <PreImage source={{uri: image.uri}} />
+                <PreImage source={{uri: image}} />
                 <IconBox>
                   <AppIconButtons.Cancel
                     onPress={() => {
