@@ -39,7 +39,7 @@ export const useGetAnswers = onSuccess => {
 // 이주의 문답 답변 작성하기
 export const useAddAnswer = onSuccess => {
   return useMutation(addAnswer, {
-    onError: error => console.log(error),
+    onError: error => alert('작성에 실패했습니다.'),
     onSuccess: onSuccess,
   });
 };
@@ -47,7 +47,7 @@ export const useAddAnswer = onSuccess => {
 // 이주의 문답 답변 수정하기
 export const useModifyAnswer = ({onSuccess}) => {
   return useMutation(modifyAnswer, {
-    onError: error => console.log(error),
+    onError: error => alert('수정에 실패했습니다.'),
     onSuccess: onSuccess,
   });
 };
@@ -55,7 +55,7 @@ export const useModifyAnswer = ({onSuccess}) => {
 // 이주의 문답 답변 삭제하기
 export const useDeleteAnswer = ({onSuccess}) => {
   return useMutation(deleteAnswer, {
-    onError: error => console.log(error),
+    onError: error => alert('삭제에 실패했습니다.'),
     onSuccess: onSuccess,
   });
 };
