@@ -43,11 +43,8 @@ const FamilyInfo = ({route}) => {
 
   const [tagValue, setTagValue] = useState(''); // 새로운 태그 추가 내용
 
-  // 태그 수정중인지
-  const [isFavoritesMod, setIsFavoritesMod] = useState(false);
-  const [isHatesMod, setIsHatesMod] = useState(false);
-  const [isInterestsMod, setIsInterestsMod] = useState(false);
-  const [isExpressionsMod, setIsExpressionsMod] = useState(false);
+  // 수정중인 태그 카테고리 표시
+  const [modiCategory, setModiCategory] = useState('');
 
   const {
     data: infoData,
@@ -87,15 +84,7 @@ const FamilyInfo = ({route}) => {
           },
         ];
 
-        if (category === 'favorites') {
-          setIsFavoritesMod(!isFavoritesMod);
-        } else if (category === 'hates') {
-          setIsHatesMod(!isHatesMod);
-        } else if (category === 'interests') {
-          setIsInterestsMod(!isInterestsMod);
-        } else if (category === 'expressions') {
-          setIsExpressionsMod(!isExpressionsMod);
-        }
+        setModiCategory('');
       },
     );
   };
@@ -113,15 +102,13 @@ const FamilyInfo = ({route}) => {
 
   // 태그 삭제 - 서버로 보내는 함수
   const deleteTag = (category, userId, selfIntroductionAnswerId) => {
-    if (category === 'favorites') {
+    if (category === 'favorites')
       delFavorite({userId, selfIntroductionAnswerId});
-    } else if (category === 'hates') {
-      delHate({userId, selfIntroductionAnswerId});
-    } else if (category === 'interests') {
+    else if (category === 'hates') delHate({userId, selfIntroductionAnswerId});
+    else if (category === 'interests')
       delInterest({userId, selfIntroductionAnswerId});
-    } else if (category === 'expressions') {
+    else if (category === 'expressions')
       delExpression({userId, selfIntroductionAnswerId});
-    }
 
     queryClient.setQueryData(
       ['getFamilyInfo', route.params.userId],
@@ -133,50 +120,23 @@ const FamilyInfo = ({route}) => {
     );
   };
 
-  // 태그 수정 중 다른 태그 분야 수정 누를 시 수정상태 풀리도록 하는 함수
-  const tagCheck = category => {
-    if (category === 'favorites') {
-      setIsHatesMod(false);
-      setIsInterestsMod(false);
-      setIsExpressionsMod(false);
-    } else if (category === 'hates') {
-      setIsFavoritesMod(false);
-      setIsInterestsMod(false);
-      setIsExpressionsMod(false);
-    } else if (category === 'interests') {
-      setIsFavoritesMod(false);
-      setIsHatesMod(false);
-      setIsExpressionsMod(false);
-    } else if (category === 'expressions') {
-      setIsFavoritesMod(false);
-      setIsHatesMod(false);
-      setIsInterestsMod(false);
-    }
-  };
-
-  const TagCategory = (
-    title,
-    infoData,
-    setIsMod,
-    isMod,
-    category,
-    tagValue,
-    setTagValue,
-  ) => {
+  const TagCategory = (title, infoData, category, tagValue, setTagValue) => {
     let tagData = infoData?.data?.data[category];
 
     return (
       <>
         <CategoryTitle
           title={title}
+          isActive={modiCategory === category}
           onPress={() => {
-            setIsMod(!isMod);
-            tagCheck(category);
+            if (modiCategory === '') setModiCategory(category);
+            else setModiCategory('');
+
             setTagValue('');
           }}
         />
         <TagContainer>
-          {isMod && (
+          {modiCategory === category && (
             <TagGroup>
               <TagBox>
                 <MessageInput
@@ -201,7 +161,7 @@ const FamilyInfo = ({route}) => {
               <Tag
                 key={info.selfIntroductionAnswerId}
                 title={info.selfIntroductionAnswerContent}
-                isModify={isMod}
+                isModify={category === modiCategory}
                 onPress={() => {
                   deleteTag(
                     category,
@@ -225,8 +185,6 @@ const FamilyInfo = ({route}) => {
           {TagCategory(
             '좋아하는 것들',
             infoData,
-            setIsFavoritesMod,
-            isFavoritesMod,
             'favorites',
             tagValue,
             setTagValue,
@@ -235,8 +193,6 @@ const FamilyInfo = ({route}) => {
           {TagCategory(
             '싫어하는 것들',
             infoData,
-            setIsHatesMod,
-            isHatesMod,
             'hates',
             tagValue,
             setTagValue,
@@ -245,8 +201,6 @@ const FamilyInfo = ({route}) => {
           {TagCategory(
             '요즘 관심사',
             infoData,
-            setIsInterestsMod,
-            isInterestsMod,
             'interests',
             tagValue,
             setTagValue,
@@ -255,8 +209,6 @@ const FamilyInfo = ({route}) => {
           {TagCategory(
             `'${route.params.role}'을(를) 한단어로 표현한다면?`,
             infoData,
-            setIsExpressionsMod,
-            isExpressionsMod,
             'expressions',
             tagValue,
             setTagValue,
@@ -278,12 +230,13 @@ const Title = styled.View`
   margin-bottom: 10px;
 `;
 
-const CategoryTitle = ({title, onPress}) => {
+const CategoryTitle = ({title, onPress, isActive}) => {
   return (
     <>
       <Title>
         <FontStyle.ContentB>{title}</FontStyle.ContentB>
         <AppIconButtons.Pencil
+          active={isActive}
           onPress={onPress}
           size={15}
           margin={{marginLeft: 10}}
