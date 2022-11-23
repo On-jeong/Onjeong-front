@@ -14,7 +14,7 @@ import {useQueryClient} from '@tanstack/react-query';
 import {useFocusEffect} from '@react-navigation/native';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {UserIdState} from '@/state/UserData';
-import {ProfileMessageState} from '@/state/ProfileData';
+import {ProfileImageUrIState, ProfileMessageState} from '@/state/ProfileData';
 
 const ImageBox = styled.TouchableOpacity``;
 
@@ -95,9 +95,14 @@ const FamilyProfile = ({route}) => {
   const queryClient = useQueryClient();
 
   const userId = useRecoilValue(UserIdState);
+
   const [profileMessageState, setProfileMessageState] =
     useRecoilState(ProfileMessageState);
+  const [profileImageUrIState, setProfileImageUrIState] =
+    useRecoilState(ProfileImageUrIState);
+
   const [isMessageWrite, setIsMessageWrite] = useState(false);
+  const [tempProfileImgUri, setTempProfileImgUri] = useState(''); // uri 임시 저장용 - 서버에 데이터 전송 후 recoil에 업데이트
 
   const {
     data: detailData,
@@ -105,9 +110,16 @@ const FamilyProfile = ({route}) => {
     status: detailStatus,
   } = useGetFamilyProfile(route.params.userId, () => {
     setProfileMessageState(detailData?.data?.data.message);
+    setProfileImageUrIState(detailData?.data?.data.profileImageUrl);
+    console.log('데이터', detailData?.data?.data);
   });
 
-  const {mutate: addImage} = useAddProfileImage();
+  const {mutate: addImage} = useAddProfileImage({
+    onSuccess: () => {
+      console.log('성공' + tempProfileImgUri);
+      setProfileImageUrIState(tempProfileImgUri);
+    },
+  });
   const {mutate: addMessage} = useAddMessage();
   const {mutate: modMessage} = useModMessage();
 
@@ -150,6 +162,7 @@ const FamilyProfile = ({route}) => {
       image.assets[0].type,
     );
 
+    setTempProfileImgUri(image.assets[0].uri); // 이미지 uri 임시 저장
     addImage(formData);
   };
 
@@ -184,8 +197,8 @@ const FamilyProfile = ({route}) => {
                 }}>
                 <Image
                   source={
-                    detailData?.data?.data.profileImageUrl
-                      ? {uri: detailData?.data?.data.profileImageUrl}
+                    profileImageUrIState
+                      ? {uri: profileImageUrIState}
                       : require('@/assets/image/profileImage.png')
                   }
                 />
@@ -200,8 +213,8 @@ const FamilyProfile = ({route}) => {
             ) : (
               <Image
                 source={
-                  detailData?.data?.data.profileImageUrl
-                    ? {uri: detailData?.data?.data.profileImageUrl}
+                  profileImageUrIState
+                    ? {uri: profileImageUrIState}
                     : require('@/assets/image/profileImage.png')
                 }
               />

@@ -97,9 +97,10 @@ export const useGetFamilyInfo = userId => {
 };
 
 // 프로필 사진 등록
-export const useAddProfileImage = () => {
+export const useAddProfileImage = ({onSuccess}) => {
   return useMutation(addProfileImage, {
     onError: error => console.log(error),
+    onSuccess,
   });
 };
 
