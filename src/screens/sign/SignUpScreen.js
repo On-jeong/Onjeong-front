@@ -81,7 +81,7 @@ const SignUpScreen = ({navigation}) => {
 
   const validationCheck = () => {
     if (!ID_REG.test(userId)) {
-      alert('아이디 형식이 맞지 않습니다.');
+      alert('아이디는 영문과 숫자 조합 6 ~ 20자리로 설정해 주세요.');
       return 0;
     } else if (!NAME_REG.test(userName)) {
       alert('이름은 한글만 입력 가능합니다.');
@@ -110,7 +110,6 @@ const SignUpScreen = ({navigation}) => {
 
     // 서버에 회원가입 요청
     if (emptyCheck() && validationCheck()) {
-      console.log('됨!!!!!!!!!!');
       // 가족회원이 없는 회원가입
       if (!joinedNickname) {
         addNoJoined({
@@ -148,6 +147,7 @@ const SignUpScreen = ({navigation}) => {
               placeholder="아이디"
               value={userId}
               onChangeText={setUserId}
+              autoCapitalize="none"
             />
             <AppInputs.BorderBottomInput
               maxLength={15}
@@ -161,6 +161,7 @@ const SignUpScreen = ({navigation}) => {
               value={userPassword}
               onChangeText={setUserPassWord}
               secureTextEntry={true}
+              autoCapitalize="none"
             />
             <AppInputs.BorderBottomInput
               maxLength={16}
@@ -168,6 +169,7 @@ const SignUpScreen = ({navigation}) => {
               value={pwCheck}
               onChangeText={setPwCheck}
               secureTextEntry={true}
+              autoCapitalize="none"
             />
             {/* 생년월일 선택 버튼 */}
             <BirthButton onPress={() => setBirthOpen(true)}>

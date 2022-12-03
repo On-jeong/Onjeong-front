@@ -27,7 +27,7 @@ export const WelcomeScreen = ({navigation}) => {
     }, []),
   );
 
-  const {newUserData, status} = useGetUserData(isUserData);
+  const {newUserData, status} = useGetUserData({enabled: isUserData});
 
   const checkToken = async () => {
     const accessToken = await storage.getItem('accessToken');

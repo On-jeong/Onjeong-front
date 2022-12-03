@@ -5,9 +5,11 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import PropTypes from 'prop-types';
+import {AppColors} from '@/utils/GlobalStyles';
 
 const Pencil = ({
   disabled = false,
+  active = false,
   onPress,
   size = 18,
   margin = {marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0},
@@ -16,6 +18,7 @@ const Pencil = ({
     <TouchableOpacity onPress={onPress} disabled={disabled}>
       <SimpleLineIcons
         name="pencil"
+        color={active ? AppColors.border : AppColors.font}
         size={size}
         style={{
           marginTop: margin.marginTop,
@@ -87,6 +90,7 @@ Cancel.propTypes = {
 
 const Delete = ({
   onPress,
+  active = false,
   size = 20,
   margin = {marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0},
 }) => {
@@ -95,6 +99,7 @@ const Delete = ({
       <AntDesign
         name="delete"
         size={size}
+        color={active ? AppColors.border : AppColors.font}
         style={{
           marginTop: margin.marginTop,
           marginBottom: margin.marginBottom,
