@@ -14,8 +14,9 @@ const fetchCoinHistory = () => {
 };
 
 // 패밀리 코인 보여주기
-export const useGetCoins = () => {
+export const useGetCoins = ({onSuccess}) => {
   return useQuery(['getCoin'], fetchCoins, {
+    onSuccess:onSuccess,
     onError: error => console.log(error),
   });
 };
