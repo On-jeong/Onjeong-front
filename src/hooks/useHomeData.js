@@ -5,6 +5,10 @@ const fetchCoins = () => {
   return customAxios.get(`/coins`);
 };
 
+const fetchFlowerInfo = () => {
+  return customAxios.get(`/flowers`);
+};
+
 const AddRandCoins = () => {
   return customAxios.post(`/coins-random`);
 };
@@ -20,6 +24,15 @@ export const useGetCoins = ({onSuccess}) => {
     onError: error => console.log(error),
   });
 };
+
+// 패밀리 꽃 종류
+export const useGetFlowerInfo = ({onSuccess}) => {
+  return useQuery(['getFlowerInfo'], fetchFlowerInfo, {
+    onSuccess:onSuccess,
+    onError: error => console.log(error),
+  });
+};
+
 
 // 패밀리 코인 랜덤 지급
 export const useAddRandCoins = () => {

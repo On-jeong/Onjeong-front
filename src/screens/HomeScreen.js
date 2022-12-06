@@ -1,8 +1,6 @@
 import React from 'react';
 import {FontStyle} from '../utils/GlobalFonts';
 import {BasicHeader} from '../components/WithHeader';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useRecoilState} from 'recoil';
 import {
   UserBirthState,
@@ -13,8 +11,15 @@ import {
 import styled from 'styled-components';
 import {windowHeight, windowWidth} from '@/utils/GlobalStyles';
 import AutoHeightImage from 'react-native-auto-height-image';
-import {useGetCoins} from '@/hooks/useHomeData';
-import {FamilyCoinState} from '@/state/FamilyData';
+import {useGetCoins, useGetFlowerInfo} from '@/hooks/useHomeData';
+import {
+  FamilyCoinState,
+  FlowerBloomDateState,
+  FlowerColorState,
+  FlowerKindState,
+  FlowerLevelState,
+} from '@/state/FamilyData';
+import {flower, seed} from '@/utils/FlowerImagePath';
 
 const Background = styled.ImageBackground`
   flex: 1;
@@ -65,10 +70,27 @@ export const HomeScreen = ({navigation}) => {
   const [userStatus, setUserStatus] = useRecoilState(UserStatusState);
 
   const [familyCoinState, setFamilyCoinState] = useRecoilState(FamilyCoinState);
+  const [flowerLevelState, setFlowerLevelState] =
+    useRecoilState(FlowerLevelState);
+  const [flowerColorState, setFlowerColorState] =
+    useRecoilState(FlowerColorState);
+  const [flowerKindState, setFlowerKindState] = useRecoilState(FlowerKindState);
+  const [flowerBloomState, setFlowerBloomState] =
+    useRecoilState(FlowerBloomDateState);
 
-  const {data} = useGetCoins({
+  const {CoinData} = useGetCoins({
     onSuccess: data => {
       setFamilyCoinState(data.data);
+    },
+  });
+
+  const {FlowerInfoData, status: flowerStatus} = useGetFlowerInfo({
+    onSuccess: data => {
+      //setFlowerKindState(data.data.flowerKind);
+      setFlowerKindState('camellia');
+      setFlowerLevelState(data.data.flowerLevel);
+      setFlowerColorState(data.data.flowerColor);
+      setFlowerBloomState(data.data.flowerBloomDate);
     },
   });
 
@@ -83,27 +105,43 @@ export const HomeScreen = ({navigation}) => {
   return (
     <BasicHeader title="온정" navigation={navigation}>
       <Background
-        source={require('@/assets/image/background_cloud_sky_grace_ground.png')}
+        source={require('@/assets/image/background/background_cloud_sky_grace_ground.png')}
         resizeMode="stretch">
-        <BackgroundSun source={require('@/assets/image/background_sun.png')} />
+        <BackgroundSun
+          source={require('@/assets/image/background/background_sun.png')}
+        />
         <FamilyCoinView>
           <FontStyle.ContentB>코인 : {familyCoinState}</FontStyle.ContentB>
+          <FontStyle.ContentB>꽃 레벨 : {flowerLevelState}</FontStyle.ContentB>
         </FamilyCoinView>
       </Background>
-      <FlowerBoxTouchable onPress={() => navigation.navigate('Mail')}>
+      <FlowerBoxTouchable
+        //onPress={() => navigation.navigate('Mail')}
+        activeOpacity={0.5}>
         <AutoHeightImage
           width={windowWidth * 0.2}
-          source={require('@/assets/image/background_flowerbox.png')}
+          source={require('@/assets/image/background/background_flowerbox.png')}
         />
       </FlowerBoxTouchable>
-      <PostBoxTouchable onPress={() => navigation.navigate('Mail')}>
+      <PostBoxTouchable
+        onPress={() => navigation.navigate('Mail')}
+        activeOpacity={0.5}>
         <AutoHeightImage
           width={windowWidth * 0.13}
-          source={require('@/assets/image/background_postbox.png')}
+          source={require('@/assets/image/background/background_postbox.png')}
         />
       </PostBoxTouchable>
-      <Flower source={require('@/assets/image/seed_1.png')} flower={false} />
-      {/* <Flower source={require('@/assets/image/flower_10.png')} flower={true} /> */}
+      {/* 레벨3 까지는 공통 씨앗 형태 */}
+      {flowerStatus == 'success' && (
+        <Flower
+          source={
+            flowerLevelState > 3
+              ? flower[flowerKindState][flowerLevelState]
+              : seed[flowerLevelState]
+          }
+          flower={flowerLevelState > 3}
+        />
+      )}
     </BasicHeader>
   );
 };
