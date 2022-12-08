@@ -14,13 +14,13 @@ const AddRandCoins = () => {
 };
 
 const fetchCoinHistory = () => {
-  return customAxios.get(`/histories`, );
+  return customAxios.get(`/histories`);
 };
 
 // 패밀리 코인 보여주기
 export const useGetCoins = ({onSuccess}) => {
   return useQuery(['getCoin'], fetchCoins, {
-    onSuccess:onSuccess,
+    onSuccess: onSuccess,
     onError: error => console.log(error),
   });
 };
@@ -28,15 +28,15 @@ export const useGetCoins = ({onSuccess}) => {
 // 패밀리 꽃 종류
 export const useGetFlowerInfo = ({onSuccess}) => {
   return useQuery(['getFlowerInfo'], fetchFlowerInfo, {
-    onSuccess:onSuccess,
+    onSuccess: onSuccess,
     onError: error => console.log(error),
   });
 };
 
-
 // 패밀리 코인 랜덤 지급
-export const useAddRandCoins = () => {
+export const useAddRandCoins = ({onSuccess}) => {
   return useMutation(AddRandCoins, {
+    onSuccess: onSuccess,
     onError: error => console.log(error),
   });
 };
