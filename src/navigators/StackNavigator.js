@@ -14,6 +14,8 @@ import ProfileDetailScreen from '@/screens/profile/ProfileDetailScreen';
 import MailDetailScreen from '@/screens/mail/MailDetailScreen';
 import WelcomeScreen from '@/screens/WelcomeScreen';
 import AccountModScreen from '@/screens/mySetting/AccountModScreen';
+import CoinHistoryScreen from '@/screens/home/CoinHistoryScreen';
+import CoinGuideScreen from '@/screens/home/CoinGuideScreen';
 
 const Stack = createStackNavigator();
 
@@ -26,6 +28,8 @@ export function StackNavigator(navigation) {
       <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="Home" component={BottomNavigator} />
+      <Stack.Screen name="History" component={CoinHistoryScreen} />
+      <Stack.Screen name="Guide" component={CoinGuideScreen} />
       <Stack.Screen name="Mail" component={MailScreen} />
       <Stack.Screen name="MailWrite" component={MailWriteScreen} />
       <Stack.Screen name="MailDetail" component={MailDetailScreen} />

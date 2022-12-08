@@ -37,6 +37,12 @@ const SubContent = styled.Text`
   color: ${props => (props.color ? props.color : AppColors.font)};
 `;
 
+const SubContentB = styled.Text`
+  font-family: 'GangwonBold';
+  font-size: 15px;
+  color: ${props => (props.color ? props.color : AppColors.font)};
+`;
+
 const CalendarFont = styled.Text`
   font-family: 'GangwonBold';
   font-size: 12px;
@@ -50,5 +56,6 @@ export const FontStyle = {
   Content,
   ContentB,
   SubContent,
+  SubContentB,
   CalendarFont,
 };
