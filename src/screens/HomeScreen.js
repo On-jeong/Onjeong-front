@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {FontStyle} from '../utils/GlobalFonts';
 import {BasicHeader} from '../components/WithHeader';
 import {useRecoilState} from 'recoil';
@@ -11,7 +11,11 @@ import {
 import styled from 'styled-components';
 import {windowHeight, windowWidth} from '@/utils/GlobalStyles';
 import AutoHeightImage from 'react-native-auto-height-image';
-import {useGetCoins, useGetFlowerInfo} from '@/hooks/useHomeData';
+import {
+  useAddRandCoins,
+  useGetCoins,
+  useGetFlowerInfo,
+} from '@/hooks/useHomeData';
 import {
   FamilyCoinState,
   FlowerBloomDateState,
@@ -20,6 +24,9 @@ import {
   FlowerLevelState,
 } from '@/state/FamilyData';
 import {flower, seed} from '@/utils/FlowerImagePath';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {storage} from '@/config/storage';
+import {format} from 'date-fns';
 
 const Background = styled.ImageBackground`
   flex: 1;
@@ -27,10 +34,10 @@ const Background = styled.ImageBackground`
 
 const BackgroundSun = styled.Image`
   position: absolute;
-  top: ${windowHeight * 0.15}%;
-  left: 5%;
-  width: 100px;
-  height: 100px;
+  top: ${windowHeight * 0.02}px;
+  left: ${windowWidth * 0.02}px;
+  width: 90px;
+  height: 0px;
 `;
 
 const FamilyCoinView = styled.View`
@@ -42,7 +49,7 @@ const FamilyCoinView = styled.View`
 
 const Flower = styled.Image`
   position: absolute;
-  bottom: ${windowHeight * 0.15}px;
+  bottom: ${windowHeight * 0.25}px;
   left: ${props =>
     props.flower
       ? windowWidth / 2 - (windowWidth * 0.6) / 2
@@ -53,17 +60,20 @@ const Flower = styled.Image`
 
 const FlowerBoxTouchable = styled.TouchableOpacity`
   position: absolute;
-  bottom: ${windowHeight * 0.25}px;
+  bottom: ${windowHeight * 0.17}px;
   left: 3%;
 `;
 
 const PostBoxTouchable = styled.TouchableOpacity`
   position: absolute;
-  bottom: ${windowHeight * 0.25}px;
+  bottom: ${windowHeight * 0.22}px;
   right: 2%;
 `;
 
 export const HomeScreen = ({navigation}) => {
+  const curDate = new Date();
+  const formatDate = format(curDate, 'yyyy-MM-dd');
+
   const [userId, setUserId] = useRecoilState(UserIdState);
   const [userName, setUserName] = useRecoilState(UserNameState);
   const [userBirth, setUserBirth] = useRecoilState(UserBirthState);
@@ -78,19 +88,29 @@ export const HomeScreen = ({navigation}) => {
   const [flowerBloomState, setFlowerBloomState] =
     useRecoilState(FlowerBloomDateState);
 
-  const {CoinData} = useGetCoins({
+  const {data: coinData} = useGetCoins({
     onSuccess: data => {
       setFamilyCoinState(data.data);
     },
   });
 
-  const {FlowerInfoData, status: flowerStatus} = useGetFlowerInfo({
+  const {data: flowerInfoData, status: flowerStatus} = useGetFlowerInfo({
     onSuccess: data => {
       //setFlowerKindState(data.data.flowerKind);
       setFlowerKindState('camellia');
+      // setFlowerLevelState(8);
       setFlowerLevelState(data.data.flowerLevel);
       setFlowerColorState(data.data.flowerColor);
       setFlowerBloomState(data.data.flowerBloomDate);
+    },
+  });
+
+  const {mutate: addRandCoins} = useAddRandCoins({
+    onSuccess: (data) => {
+      console.log(data.data)
+      setFamilyCoinState(familyCoinState + data.data);
+      storage.setStrItem('DailyCoin', formatDate);
+      alert(`데일리코인이 ${data.data}만큼 적립됐어요!`);
     },
   });
 
@@ -102,19 +122,40 @@ export const HomeScreen = ({navigation}) => {
     JSON.stringify(userId),
   );
 
+  useEffect(() => {
+    getDailyCoinInfo();
+  }, []);
+
+  const getDailyCoinInfo = async () => {
+    const dailyCoin = await storage.getStrItem('DailyCoin');
+
+    console.log(dailyCoin);
+    console.log(formatDate);
+
+    if (dailyCoin == null && dailyCoin !== formatDate) {
+      addRandCoins();
+      console.log('널');
+    } else if (dailyCoin === formatDate) {
+    }
+  };
+
   return (
     <BasicHeader title="온정" navigation={navigation}>
       <Background
         source={require('@/assets/image/background/background_cloud_sky_grace_ground.png')}
         resizeMode="stretch">
-        <BackgroundSun
+        {/* <BackgroundSun
           source={require('@/assets/image/background/background_sun.png')}
-        />
-        <FamilyCoinView>
-          <FontStyle.ContentB>코인 : {familyCoinState}</FontStyle.ContentB>
-          <FontStyle.ContentB>꽃 레벨 : {flowerLevelState}</FontStyle.ContentB>
-        </FamilyCoinView>
+        /> */}
       </Background>
+      <FamilyCoinView>
+        <TouchableOpacity onPress={() => navigation.navigate('History')}>
+          <FontStyle.ContentB>꽃 레벨 : {flowerLevelState}</FontStyle.ContentB>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Guide')}>
+          <FontStyle.ContentB>영양제 : {familyCoinState}</FontStyle.ContentB>
+        </TouchableOpacity>
+      </FamilyCoinView>
       <FlowerBoxTouchable
         //onPress={() => navigation.navigate('Mail')}
         activeOpacity={0.5}>
