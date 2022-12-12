@@ -109,7 +109,7 @@ const MailWriteScreen = ({navigation}) => {
                 )}
                 {data?.data.data.map(family => {
                   return (
-                    <>
+                    <React.Fragment key={family.userId}>
                       {family.userId !== userId && (
                         <SelectItem
                           key={family.userId}
@@ -123,7 +123,7 @@ const MailWriteScreen = ({navigation}) => {
                           </FontStyle.Content>
                         </SelectItem>
                       )}
-                    </>
+                    </React.Fragment>
                   );
                 })}
               </SelectBox>

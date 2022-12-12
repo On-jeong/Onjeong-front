@@ -78,7 +78,7 @@ export default function CalendarScreen({navigation}) {
 
   useEffect(() => {}, [isFocus, data]);
 
- return <>{getCalender({curDate, setCurDate, navigation, data})}</>;
+  return <>{getCalender({curDate, setCurDate, navigation, data})}</>;
 }
 
 // 달력
@@ -102,7 +102,7 @@ const getCalender = ({curDate, setCurDate, navigation, data}) => {
 
       date = addDays(date, 1); // 다음날
     }
-    month.push(<Week>{week}</Week>); // 한 주 추가
+    month.push(<Week key={date}>{week}</Week>); // 한 주 추가
     week = []; // 한 주 초기화
   }
 
@@ -141,12 +141,13 @@ const pushDate = ({week, date, curMonth, today, navigation, data}) => {
 
   week.push(
     <DateBox
+      key={date}
       onPress={() => {
         navigation.navigate('Post', {
           date: format(date, 'yyyy년 MM월 dd일'),
           barDate: format(date, 'yyyy-MM-dd'),
         });
-      }} key={date}>
+      }}>
       {/* 오늘인 경우 원으로 표시하기 */}
       <Circle color={format(date, 'yy-MM-dd') == today ? true : false}>
         <FontStyle.ContentB style={{color: color}}>
