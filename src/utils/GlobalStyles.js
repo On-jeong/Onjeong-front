@@ -6,7 +6,7 @@ import {Dimensions} from 'react-native';
 export const windowWidth = Dimensions.get('window').width;
 export const windowHeight = Dimensions.get('window').height;
 
-export const navigationHeight = 50;
+export const navigationHeight = 55;
 export const bottomTabHeight = 66;
 export const statusBarHeight = 24;
 

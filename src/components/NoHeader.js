@@ -20,9 +20,18 @@ const NavContainer = styled.View`
   margin-right: 15px;
 `;
 
+const LeftNavTouchable = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+`;
+
 const LeftNav = styled.View`
   flex-direction: row;
   align-items: center;
+`;
+
+const RightMargin = styled.View`
+  margin-right: 10px;
 `;
 
 const NoHeader = ({
@@ -38,19 +47,21 @@ const NoHeader = ({
   return (
     <Container>
       <NavContainer>
-        <LeftNav>
-          {isBack ? (
-            <IconBox
-              onPress={() => {
-                navigation.goBack();
-              }}>
+        {isBack ? (
+          <LeftNavTouchable
+            onPress={() => {
+              navigation.goBack();
+            }}>
+            <RightMargin>
               <Entypo name="chevron-left" size={20} />
-            </IconBox>
-          ) : (
+            </RightMargin>
+            <FontStyle.Title>{title}</FontStyle.Title>
+          </LeftNavTouchable>
+        ) : (
+          <LeftNav>
             <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
-          )}
-          <FontStyle.Title>{title}</FontStyle.Title>
-        </LeftNav>
+          </LeftNav>
+        )}
         <IconBox onPress={rightOnPress}>{rightIcon}</IconBox>
       </NavContainer>
       <Body>{children}</Body>

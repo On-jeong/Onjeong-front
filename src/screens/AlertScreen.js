@@ -5,8 +5,9 @@ import {Email} from './mySetting/MyScreen';
 import styled from 'styled-components';
 import {Components} from '../utils/Components';
 import {AppIconButtons} from '../components/IconButtons';
+import {ScrollView} from 'react-native';
 
-const Menu = styled.TouchableOpacity`
+export const MessageBox = styled.TouchableOpacity`
   width: 100%;
   height: 45px;
   justify-content: center;
@@ -17,10 +18,12 @@ const Menu = styled.TouchableOpacity`
 const AlertScreen = ({navigation}) => {
   return (
     <BasicHeader title={'온정'} isBack={true} navigation={navigation}>
-      <Menu>
-        <FontStyle.ContentB>온정에 오신 것을 환영합니다!</FontStyle.ContentB>
-      </Menu>
-      <Components.HorizonLine />
+      <ScrollView>
+        <MessageBox>
+          <FontStyle.ContentB>온정에 오신 것을 환영합니다!</FontStyle.ContentB>
+        </MessageBox>
+        <Components.HorizonLine />
+      </ScrollView>
       <Email>
         <AppIconButtons.Alert size={15} />
         <FontStyle.SubContent>

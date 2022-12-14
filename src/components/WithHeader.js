@@ -19,7 +19,7 @@ const RightNav = styled.View`
   width: 70px;
   flex-direction: row;
   justify-content: flex-end;
-  margin-right: 10px;
+  margin-right: 15px;
 `;
 
 export const LeftNav = styled.View`
@@ -29,7 +29,7 @@ export const LeftNav = styled.View`
 `;
 
 export const IconBox = styled.TouchableOpacity`
-  margin: 8px;
+  padding: 12px;
 `;
 
 export const Body = styled.View`
@@ -92,7 +92,7 @@ export const BasicHeader = ({
               onPress={() => {
                 navigation.goBack();
               }}>
-              <Entypo name="chevron-left" size={20} />
+              <Entypo name="chevron-left" size={22} />
             </IconBox>
           ) : (
             <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
@@ -104,13 +104,13 @@ export const BasicHeader = ({
             onPress={() => {
               navigation.navigate('Alert');
             }}>
-            <Octicons name="bell" size={20} />
+            <Octicons name="bell" size={22} />
           </IconBox>
           <IconBox
             onPress={() => {
               navigation.navigate('My');
             }}>
-            <Octicons name="person" size={21} />
+            <Octicons name="person" size={23} />
           </IconBox>
         </RightNav>
       </NavBar>
