@@ -115,9 +115,9 @@ const FamilyProfile = ({route}) => {
   });
 
   const {mutate: addImage} = useAddProfileImage({
-    onSuccess: () => {
-      console.log('성공' + tempProfileImgUri);
-      setProfileImageUrIState(tempProfileImgUri);
+    onSuccess: data => {
+      console.log('성공' + JSON.stringify(data.data));
+      setProfileImageUrIState(data.profileImageUrl);
     },
   });
   const {mutate: addMessage} = useAddMessage();
