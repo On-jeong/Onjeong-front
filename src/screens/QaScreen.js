@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {BasicHeader} from '../components/WithHeader';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import styled from 'styled-components';
-import {ScrollView, TouchableOpacity} from 'react-native';
+import {KeyboardAvoidingView, ScrollView, TouchableOpacity} from 'react-native';
 import {FontStyle} from '../utils/GlobalFonts';
 import {AppColors} from '../utils/GlobalStyles';
 import {Components} from '../utils/Components';
@@ -18,8 +18,9 @@ import {TextButton} from '@/components/buttons/TextButton';
 import {useQueryClient} from '@tanstack/react-query';
 import {useRecoilValue} from 'recoil';
 import {UserNameState} from '@/state/UserData';
+import {useFocusEffect} from '@react-navigation/native';
 
-const SpaceBetween = styled.View`
+export const SpaceBetween = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -104,10 +105,18 @@ const MessageBox = styled.View`
 export default function QaScreen({navigation}) {
   const queryClient = useQueryClient();
   const userName = useRecoilValue(UserNameState);
+  console.log(userName);
 
   const [isMyAns, setIsMyAns] = useState(true); // 내가 문답을 입력했는지 여부
   const [isModAns, setIsModAns] = useState(false); // 내 문답 수정중인지 여부
   const [ansText, setAnsText] = useState('');
+
+  // 수정 중 다른 페이지로 이동 시 수정 다시 false
+  useFocusEffect(
+    useCallback(() => {
+      setIsModAns(false);
+    }, []),
+  );
 
   const {
     data: questData,
@@ -121,10 +130,30 @@ export default function QaScreen({navigation}) {
   } = useGetAnswers();
   console.log(ansData);
 
+  const getId = data => {
+    if (data.length === 0) return 0;
+    else return data[data.length - 1].answerId + 1;
+  };
+
   const {mutate: addAns} = useAddAnswer(() => {
     // 문답 답변들 리패치
     queryClient.invalidateQueries('getAnswers');
     setIsMyAns(true); // 문답 입력칸 없애기
+    setAnsText('');
+
+    queryClient.setQueryData('getAnswers', oldData => {
+      console.log('데이타', oldData.data);
+      // 데이터 추가
+      oldData.data = [
+        ...oldData.data,
+        {
+          answerId: getId(oldData.data),
+          answerContent: ansText,
+          userName: UserNameState,
+          answerTime: '',
+        },
+      ];
+    });
   });
   const {mutate: modAns} = useModifyAnswer({
     onSuccess: () => {
@@ -137,9 +166,12 @@ export default function QaScreen({navigation}) {
   });
   const {mutate: delAns} = useDeleteAnswer({
     onSuccess: () => {
+      setAnsText('');
+
       queryClient.setQueryData('getAnswers', oldData => {
-        console.log(oldData);
+        console.log('삭제', oldData.data);
         // 삭제한 데이터 지우기
+        oldData.data.filter(it => it.userName !== UserNameState);
       });
     },
   });
@@ -151,9 +183,11 @@ export default function QaScreen({navigation}) {
   // 내가 답변을 작성했는지 여부 확인
   const isAnswered = () => {
     setIsMyAns(false);
+    console.log(ansData);
     ansData?.data.map(obj => {
       if (obj.userName == userName) setIsMyAns(true);
     });
+    console.log(isMyAns);
   };
 
   return (
@@ -194,6 +228,22 @@ export default function QaScreen({navigation}) {
                   title="제출"
                   onPress={() => {
                     addAns(ansText);
+                    setIsMyAns(true); // 문답 입력칸 없애기
+                    setAnsText('');
+
+                    queryClient.setQueryData(['getAnswers'], oldData => {
+                      console.log('데이타', oldData.data);
+                      // 데이터 추가
+                      oldData.data = [
+                        ...oldData.data,
+                        {
+                          answerId: getId(oldData.data),
+                          answerContent: ansText,
+                          userName: UserNameState,
+                          answerTime: '',
+                        },
+                      ];
+                    });
                   }}
                 />
               </SubmitButton>
@@ -208,13 +258,14 @@ export default function QaScreen({navigation}) {
           ) : (
             <ScrollView>
               {ansData?.data.map(ans => (
-                <AnsContainer>
+                <AnsContainer key={ans.answerId}>
                   <AnsBox>
                     <SpaceBetween>
                       <FontStyle.ContentB>{ans.userName}</FontStyle.ContentB>
                       {ans.userName == userName && (
                         <SpaceBetween>
                           <AppIconButtons.Pencil
+                            active={isModAns}
                             onPress={() => {
                               setIsModAns(!isModAns);
                               setAnsText(ans.answerContent);
@@ -222,7 +273,21 @@ export default function QaScreen({navigation}) {
                             margin={{marginRight: 6}}
                           />
                           <AppIconButtons.Delete
-                            onPress={() => delAns(ans.answerId)}
+                            onPress={() => {
+                              delAns(ans.answerId);
+                              setAnsText('');
+
+                              queryClient.setQueryData(
+                                ['getAnswers'],
+                                oldData => {
+                                  console.log('삭제', oldData.data);
+                                  // 삭제한 데이터 지우기
+                                  oldData.data.filter(
+                                    it => it.userName !== UserNameState,
+                                  );
+                                },
+                              );
+                            }}
                           />
                         </SpaceBetween>
                       )}
@@ -269,7 +334,7 @@ export default function QaScreen({navigation}) {
                   </AnsBox>
                 </AnsContainer>
               ))}
-              <Components.EmptyBox />
+              <Components.EmptyBox height={30} />
             </ScrollView>
           )}
         </>
