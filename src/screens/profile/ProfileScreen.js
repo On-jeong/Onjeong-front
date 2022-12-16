@@ -6,7 +6,6 @@ import {ScrollView} from 'react-native';
 import {Components} from '@/utils/Components';
 import {useGetFamilyList} from '../../hooks/useProFileData';
 import {FontStyle} from '../../utils/GlobalFonts';
-import {useQueryClient} from '@tanstack/react-query';
 import {useFocusEffect} from '@react-navigation/native';
 
 const ProfileBox = styled.View`
@@ -29,9 +28,7 @@ const Profile = styled.TouchableOpacity`
 `;
 
 const ProfileScreen = ({navigation}) => {
-  const {data, isLoading, status, error, refetch} = useGetFamilyList();
-  const queryClient = useQueryClient();
-  console.log(status);
+  const {data, isLoading, isError, refetch} = useGetFamilyList();
 
   useFocusEffect(
     useCallback(() => {
@@ -40,29 +37,27 @@ const ProfileScreen = ({navigation}) => {
   );
 
   return (
-    <BasicHeader title="가족 프로필" navigation={navigation}>
+    <BasicHeader
+      title="가족 프로필"
+      navigation={navigation}
+      isLoading={isLoading}
+      isError={isError}>
       <ScrollView>
         <ProfileBox>
-          {isLoading && <FontStyle.Content>Loading...</FontStyle.Content>}
-          {error && (
-            <FontStyle.Content>데이터 로딩에 실패했습니다.</FontStyle.Content>
-          )}
-          {status == 'success' && (
-            <>
-              {data?.data?.data.map(fm => (
-                <Profile
-                  key={fm.userId}
-                  onPress={() =>
-                    navigation.navigate('ProfileDetail', {
-                      userId: fm.userId,
-                      role: fm.userStatus,
-                    })
-                  }>
-                  <FontStyle.SubTitle>{fm.userStatus}</FontStyle.SubTitle>
-                </Profile>
-              ))}
-            </>
-          )}
+          <>
+            {data?.data?.data.map(fm => (
+              <Profile
+                key={fm.userId}
+                onPress={() =>
+                  navigation.navigate('ProfileDetail', {
+                    userId: fm.userId,
+                    role: fm.userStatus,
+                  })
+                }>
+                <FontStyle.SubTitle>{fm.userStatus}</FontStyle.SubTitle>
+              </Profile>
+            ))}
+          </>
         </ProfileBox>
         <Components.EmptyBox />
       </ScrollView>

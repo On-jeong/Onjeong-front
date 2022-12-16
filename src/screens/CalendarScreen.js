@@ -74,15 +74,28 @@ export default function CalendarScreen({navigation}) {
   const isFocus = useIsFocused();
   const [curDate, setCurDate] = useState(new Date());
 
-  const {data} = useGetMonthAnn(format(curDate, 'yyyy-MM-dd'));
+  const {data, isLoading, isError} = useGetMonthAnn(
+    format(curDate, 'yyyy-MM-dd'),
+  );
 
   useEffect(() => {}, [isFocus, data]);
 
-  return <>{getCalender({curDate, setCurDate, navigation, data})}</>;
+  return (
+    <>
+      {getCalender({curDate, setCurDate, navigation, data, isLoading, isError})}
+    </>
+  );
 }
 
 // 달력
-const getCalender = ({curDate, setCurDate, navigation, data}) => {
+const getCalender = ({
+  curDate,
+  setCurDate,
+  navigation,
+  data,
+  isLoading,
+  isError,
+}) => {
   const monthStart = startOfMonth(curDate); //이번 달 시작 날짜
   const monthEnd = endOfMonth(curDate); //이번 달 마지막 날짜
   const startDate = startOfWeek(monthStart); // 이번 달 시작 주의 첫번째 날짜
@@ -106,9 +119,12 @@ const getCalender = ({curDate, setCurDate, navigation, data}) => {
     week = []; // 한 주 초기화
   }
 
+
   return (
     <>
       <WithHeader
+        isLoading={isLoading}
+        isError={isError}
         title={curYear + '년 ' + curMonth + '월'}
         leftIcon={<MaterialIcons name="keyboard-arrow-left" size={30} />}
         rightIcon2={<MaterialIcons name="keyboard-arrow-right" size={30} />}

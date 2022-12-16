@@ -84,10 +84,6 @@ const MailScreen = ({navigation}) => {
   });
   const {
     data: sendData,
-    isLoading: sendIsLoading,
-    status: sendStatus,
-    error: sendError,
-    isRefetching: sendIsRefetching,
     refetch: sendRefetch,
   } = useGetSendMails();
   const {mutate: delReceiveMail} = useDeleteReceiveMail();

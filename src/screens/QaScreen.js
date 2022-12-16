@@ -121,12 +121,12 @@ export default function QaScreen({navigation}) {
   const {
     data: questData,
     isLoading: questIsLoading,
-    status: questStatus,
+    isError: questIsError,
   } = useGetQuest();
   const {
     data: ansData,
     isLoading: ansIsLoading,
-    status: ansStatus,
+    isError: ansIsError,
   } = useGetAnswers();
   console.log(ansData);
 
@@ -191,159 +191,147 @@ export default function QaScreen({navigation}) {
   };
 
   return (
-    <BasicHeader title="이 주의 문답" navigation={navigation}>
-      {(questIsLoading || ansIsLoading) && (
-        <FontStyle.Content>Loading...</FontStyle.Content>
-      )}
-      {questStatus == 'success' && ansStatus == 'success' ? (
-        <>
-          <QuestBox>
-            <FontStyle.ContentB>
-              질문 :{' '}
-              <FontStyle.Content>
-                {questData?.data.questionContent}
-              </FontStyle.Content>
-            </FontStyle.ContentB>
-          </QuestBox>
-          {!isMyAns && (
-            <MyAnsContainer>
-              <FontStyle.ContentB>내 답변</FontStyle.ContentB>
-              <MyAnsWriteBox>
-                <MyAnsInput
-                  multiline={true}
-                  numberOfLines={4}
-                  maxLength={80}
-                  textAlignVertical="top"
-                  value={ansText}
-                  onChangeText={setAnsText}
-                />
-                <MaxLength>
-                  <FontStyle.SubContent>
-                    {ansText.length}/80
-                  </FontStyle.SubContent>
-                </MaxLength>
-              </MyAnsWriteBox>
-              <SubmitButton>
-                <TextButton.Content
-                  title="제출"
-                  onPress={() => {
-                    addAns(ansText);
-                    setIsMyAns(true); // 문답 입력칸 없애기
-                    setAnsText('');
+    <BasicHeader
+      title="이 주의 문답"
+      navigation={navigation}
+      isLoading={questIsLoading || ansIsLoading}
+      isError={questIsError || ansIsError}>
+      <>
+        <QuestBox>
+          <FontStyle.ContentB>
+            질문 :{' '}
+            <FontStyle.Content>
+              {questData?.data.questionContent}
+            </FontStyle.Content>
+          </FontStyle.ContentB>
+        </QuestBox>
+        {!isMyAns && (
+          <MyAnsContainer>
+            <FontStyle.ContentB>내 답변</FontStyle.ContentB>
+            <MyAnsWriteBox>
+              <MyAnsInput
+                multiline={true}
+                numberOfLines={4}
+                maxLength={80}
+                textAlignVertical="top"
+                value={ansText}
+                onChangeText={setAnsText}
+              />
+              <MaxLength>
+                <FontStyle.SubContent>{ansText.length}/80</FontStyle.SubContent>
+              </MaxLength>
+            </MyAnsWriteBox>
+            <SubmitButton>
+              <TextButton.Content
+                title="제출"
+                onPress={() => {
+                  addAns(ansText);
+                  setIsMyAns(true); // 문답 입력칸 없애기
+                  setAnsText('');
 
-                    queryClient.setQueryData(['getAnswers'], oldData => {
-                      console.log('데이타', oldData.data);
-                      // 데이터 추가
-                      oldData.data = [
-                        ...oldData.data,
-                        {
-                          answerId: getId(oldData.data),
-                          answerContent: ansText,
-                          userName: UserNameState,
-                          answerTime: '',
-                        },
-                      ];
-                    });
-                  }}
-                />
-              </SubmitButton>
-            </MyAnsContainer>
-          )}
-          {ansData?.data.length === 0 ? (
-            <MessageBox>
-              <FontStyle.Content>
-                문답을 첫번째로 작성해보세요!
-              </FontStyle.Content>
-            </MessageBox>
-          ) : (
-            <ScrollView>
-              {ansData?.data.map(ans => (
-                <AnsContainer key={ans.answerId}>
-                  <AnsBox>
-                    <SpaceBetween>
-                      <FontStyle.ContentB>{ans.userName}</FontStyle.ContentB>
-                      {ans.userName == userName && (
-                        <SpaceBetween>
-                          <AppIconButtons.Pencil
-                            active={isModAns}
-                            onPress={() => {
-                              setIsModAns(!isModAns);
-                              setAnsText(ans.answerContent);
-                            }}
-                            margin={{marginRight: 6}}
-                          />
-                          <AppIconButtons.Delete
-                            onPress={() => {
-                              delAns(ans.answerId);
-                              setAnsText('');
-
-                              queryClient.setQueryData(
-                                ['getAnswers'],
-                                oldData => {
-                                  console.log('삭제', oldData.data);
-                                  // 삭제한 데이터 지우기
-                                  oldData.data.filter(
-                                    it => it.userName !== UserNameState,
-                                  );
-                                },
-                              );
-                            }}
-                          />
-                        </SpaceBetween>
-                      )}
-                    </SpaceBetween>
-                    <Ans>
-                      {/* 수정버튼 누른 경우 내 대답 수정할 수 있게 */}
-                      {ans.userName == userName && isModAns ? (
-                        <>
-                          <MyAnsInput
-                            multiline={true}
-                            numberOfLines={4}
-                            maxLength={80}
-                            textAlignVertical="top"
-                            value={ansText}
-                            onChangeText={setAnsText}
-                            autoFocus={true}
-                          />
-                          <MaxLength>
-                            <FontStyle.SubContent>
-                              {ansText.length}/80
-                            </FontStyle.SubContent>
-                          </MaxLength>
-                        </>
-                      ) : (
-                        <FontStyle.Content>
-                          {ans.answerContent}
-                        </FontStyle.Content>
-                      )}
-                    </Ans>
-                    {/* 수정중인 경우 수정버튼 나타나게 */}
-                    {ans.userName == userName && isModAns && (
-                      <SubmitButton>
-                        <TextButton.Content
-                          title="수정"
+                  queryClient.setQueryData(['getAnswers'], oldData => {
+                    console.log('데이타', oldData.data);
+                    // 데이터 추가
+                    oldData.data = [
+                      ...oldData.data,
+                      {
+                        answerId: getId(oldData.data),
+                        answerContent: ansText,
+                        userName: UserNameState,
+                        answerTime: '',
+                      },
+                    ];
+                  });
+                }}
+              />
+            </SubmitButton>
+          </MyAnsContainer>
+        )}
+        {ansData?.data.length === 0 ? (
+          <MessageBox>
+            <FontStyle.Content>문답을 첫번째로 작성해보세요!</FontStyle.Content>
+          </MessageBox>
+        ) : (
+          <ScrollView>
+            {ansData?.data.map(ans => (
+              <AnsContainer key={ans.answerId}>
+                <AnsBox>
+                  <SpaceBetween>
+                    <FontStyle.ContentB>{ans.userName}</FontStyle.ContentB>
+                    {ans.userName == userName && (
+                      <SpaceBetween>
+                        <AppIconButtons.Pencil
+                          active={isModAns}
                           onPress={() => {
-                            modAns({
-                              answerContent: ansText,
-                              answerId: ans.answerId,
-                            });
+                            setIsModAns(!isModAns);
+                            setAnsText(ans.answerContent);
+                          }}
+                          margin={{marginRight: 6}}
+                        />
+                        <AppIconButtons.Delete
+                          onPress={() => {
+                            delAns(ans.answerId);
+                            setAnsText('');
+
+                            queryClient.setQueryData(
+                              ['getAnswers'],
+                              oldData => {
+                                console.log('삭제', oldData.data);
+                                // 삭제한 데이터 지우기
+                                oldData.data.filter(
+                                  it => it.userName !== UserNameState,
+                                );
+                              },
+                            );
                           }}
                         />
-                      </SubmitButton>
+                      </SpaceBetween>
                     )}
-                  </AnsBox>
-                </AnsContainer>
-              ))}
-              <Components.EmptyBox height={30} />
-            </ScrollView>
-          )}
-        </>
-      ) : (
-        !questIsLoading &&
-        !ansIsLoading && (
-          <FontStyle.Content>데이터 로딩에 실패했습니다.</FontStyle.Content>
-        )
-      )}
+                  </SpaceBetween>
+                  <Ans>
+                    {/* 수정버튼 누른 경우 내 대답 수정할 수 있게 */}
+                    {ans.userName == userName && isModAns ? (
+                      <>
+                        <MyAnsInput
+                          multiline={true}
+                          numberOfLines={4}
+                          maxLength={80}
+                          textAlignVertical="top"
+                          value={ansText}
+                          onChangeText={setAnsText}
+                          autoFocus={true}
+                        />
+                        <MaxLength>
+                          <FontStyle.SubContent>
+                            {ansText.length}/80
+                          </FontStyle.SubContent>
+                        </MaxLength>
+                      </>
+                    ) : (
+                      <FontStyle.Content>{ans.answerContent}</FontStyle.Content>
+                    )}
+                  </Ans>
+                  {/* 수정중인 경우 수정버튼 나타나게 */}
+                  {ans.userName == userName && isModAns && (
+                    <SubmitButton>
+                      <TextButton.Content
+                        title="수정"
+                        onPress={() => {
+                          modAns({
+                            answerContent: ansText,
+                            answerId: ans.answerId,
+                          });
+                        }}
+                      />
+                    </SubmitButton>
+                  )}
+                </AnsBox>
+              </AnsContainer>
+            ))}
+            <Components.EmptyBox height={30} />
+          </ScrollView>
+        )}
+      </>
     </BasicHeader>
   );
 }

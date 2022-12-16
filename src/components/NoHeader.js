@@ -43,7 +43,19 @@ const NoHeader = ({
   rightIcon,
   rightOnPress,
   navigation,
+  isLoading,
+  isError,
 }) => {
+  if (isError) {
+    return (
+      <Body>
+        <LoadingBox>
+          <FontStyle.Content>에러가 발생했습니다!</FontStyle.Content>
+          <FontStyle.Content>잠시 후 다시 시도해 주세요.</FontStyle.Content>
+        </LoadingBox>
+      </Body>
+    );
+  }
   return (
     <Container>
       <NavContainer>
@@ -64,7 +76,15 @@ const NoHeader = ({
         )}
         <IconBox onPress={rightOnPress}>{rightIcon}</IconBox>
       </NavContainer>
-      <Body>{children}</Body>
+      <Body>
+        {isLoading ? (
+          <LoadingBox>
+            <FontStyle.Content>Loading...</FontStyle.Content>
+          </LoadingBox>
+        ) : (
+          <>{children}</>
+        )}
+      </Body>
     </Container>
   );
 };

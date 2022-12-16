@@ -184,9 +184,6 @@ const FamilyProfile = ({route}) => {
 
   return (
     <Container>
-      {detailIsLoading ? (
-        <FontStyle.Content>Loading...</FontStyle.Content>
-      ) : detailStatus == 'success' ? (
         <>
           <TopContainer>
             {/* 본인일 경우에만 프사 수정 */}
@@ -274,9 +271,6 @@ const FamilyProfile = ({route}) => {
             )}
           </ArrowBox>
         </>
-      ) : (
-        <FontStyle.Content>데이터를 불러오는데 실패했습니다.</FontStyle.Content>
-      )}
     </Container>
   );
 };
