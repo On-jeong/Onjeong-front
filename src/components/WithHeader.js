@@ -38,7 +38,7 @@ export const Body = styled.View`
   background-color: ${AppColors.body};
 `;
 
-const LoadingBox = styled.View`
+export const LoadingBox = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
@@ -60,12 +60,33 @@ export const WithHeader = ({
 }) => {
   if (isError) {
     return (
-      <Body>
-        <LoadingBox>
-          <FontStyle.Content>에러가 발생했습니다!</FontStyle.Content>
-          <FontStyle.Content>잠시 후 다시 시도해 주세요.</FontStyle.Content>
-        </LoadingBox>
-      </Body>
+      <>
+        <NavBar>
+          <LeftNav>
+            {isBack ? (
+              <IconBox
+                onPress={() => {
+                  navigation.goBack();
+                }}>
+                <Entypo name="chevron-left" size={20} />
+              </IconBox>
+            ) : (
+              <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
+            )}
+          </LeftNav>
+          <FontStyle.Title>{title}</FontStyle.Title>
+          <RightNav>
+            <IconBox onPress={rightOnPress1}>{rightIcon1}</IconBox>
+            <IconBox onPress={rightOnPress2}>{rightIcon2}</IconBox>
+          </RightNav>
+        </NavBar>
+        <Body>
+          <LoadingBox>
+            <FontStyle.Content>에러가 발생했습니다!</FontStyle.Content>
+            <FontStyle.Content>잠시 후 다시 시도해 주세요.</FontStyle.Content>
+          </LoadingBox>
+        </Body>
+      </>
     );
   }
 
@@ -115,12 +136,43 @@ export const BasicHeader = ({
 }) => {
   if (isError) {
     return (
-      <Body>
-        <LoadingBox>
-          <FontStyle.Content>에러가 발생했습니다!</FontStyle.Content>
-          <FontStyle.Content>잠시 후 다시 시도해 주세요.</FontStyle.Content>
-        </LoadingBox>
-      </Body>
+      <>
+        <NavBar>
+          <LeftNav>
+            {isBack ? (
+              <IconBox
+                onPress={() => {
+                  navigation.goBack();
+                }}>
+                <Entypo name="chevron-left" size={22} />
+              </IconBox>
+            ) : (
+              <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
+            )}
+          </LeftNav>
+          <FontStyle.Title>{title}</FontStyle.Title>
+          <RightNav>
+            <IconBox
+              onPress={() => {
+                navigation.navigate('Alert');
+              }}>
+              <Octicons name="bell" size={22} />
+            </IconBox>
+            <IconBox
+              onPress={() => {
+                navigation.navigate('My');
+              }}>
+              <Octicons name="person" size={23} />
+            </IconBox>
+          </RightNav>
+        </NavBar>
+        <Body>
+          <LoadingBox>
+            <FontStyle.Content>에러가 발생했습니다!</FontStyle.Content>
+            <FontStyle.Content>잠시 후 다시 시도해 주세요.</FontStyle.Content>
+          </LoadingBox>
+        </Body>
+      </>
     );
   }
 

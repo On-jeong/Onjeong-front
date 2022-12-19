@@ -2,7 +2,7 @@ import React from 'react';
 import {FontStyle} from '../utils/GlobalFonts';
 import styled from 'styled-components';
 import {AppColors} from '../utils/GlobalStyles';
-import {Body, IconBox} from './WithHeader';
+import {Body, IconBox, LoadingBox} from './WithHeader';
 import Entypo from 'react-native-vector-icons/Entypo';
 import PropTypes from 'prop-types';
 
@@ -49,6 +49,24 @@ const NoHeader = ({
   if (isError) {
     return (
       <Body>
+        <NavContainer>
+          {isBack ? (
+            <LeftNavTouchable
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <RightMargin>
+                <Entypo name="chevron-left" size={20} />
+              </RightMargin>
+              <FontStyle.Title>{title}</FontStyle.Title>
+            </LeftNavTouchable>
+          ) : (
+            <LeftNav>
+              <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
+            </LeftNav>
+          )}
+          <IconBox onPress={rightOnPress}>{rightIcon}</IconBox>
+        </NavContainer>
         <LoadingBox>
           <FontStyle.Content>에러가 발생했습니다!</FontStyle.Content>
           <FontStyle.Content>잠시 후 다시 시도해 주세요.</FontStyle.Content>

@@ -22,33 +22,34 @@ const script = {
 };
 
 const CoinHistoryScreen = ({navigation}) => {
-  const {data, status} = useGetCoinHistory();
+  const {data, status, isLoading, isError} = useGetCoinHistory();
 
   return (
-    <NoHeader isBack={true} title={'꽃 성장 일기'} navigation={navigation}>
-      {status != 'success' ? (
-        <FontStyle.Content>Loading...</FontStyle.Content>
-      ) : (
-        <ScrollView>
-          {data?.data?.map((data, index) => (
-            <React.Fragment key={index}>
-              <MessageBox>
-                {data.type == 'USED' ? (
-                  <FontStyle.SubContentB>
-                    {data.amount * -1}의 영양제를 사용해서 꽃이 성장했어요!
-                  </FontStyle.SubContentB>
-                ) : (
-                  <FontStyle.SubContent>
-                    {script[data.type]} {data.amount}의 영양제를 얻었어요.
-                  </FontStyle.SubContent>
-                )}
-              </MessageBox>
-              <Components.HorizonLine />
-            </React.Fragment>
-          ))}
-          <Components.EmptyBox />
-        </ScrollView>
-      )}
+    <NoHeader
+      isBack={true}
+      title={'꽃 성장 일기'}
+      navigation={navigation}
+      isLoading={isLoading}
+      isError={isError}>
+      <ScrollView>
+        {data?.data?.map((data, index) => (
+          <React.Fragment key={index}>
+            <MessageBox>
+              {data.type == 'USED' ? (
+                <FontStyle.SubContentB>
+                  {data.amount * -1}의 영양제를 사용해서 꽃이 성장했어요!
+                </FontStyle.SubContentB>
+              ) : (
+                <FontStyle.SubContent>
+                  {script[data.type]} {data.amount}의 영양제를 얻었어요.
+                </FontStyle.SubContent>
+              )}
+            </MessageBox>
+            <Components.HorizonLine />
+          </React.Fragment>
+        ))}
+        <Components.EmptyBox />
+      </ScrollView>
     </NoHeader>
   );
 };
