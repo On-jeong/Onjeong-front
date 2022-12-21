@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useMutation, useQuery} from '@tanstack/react-query';
 
 const fetchUserData = async () => {
-  return customAxios.get(`/users`);
+  return customAxios.get(`/user-information`);
 };
 
 const postSignUpNoJoined = userData => {
@@ -23,7 +23,7 @@ const reqSignOut = async () => {
 };
 
 const modifyAccount = userData => {
-  return customAxios.put(`/accounts/user`, userData);
+  return customAxios.put(`/accounts`, userData);
 };
 
 const deleteAccount = () => {
@@ -32,7 +32,7 @@ const deleteAccount = () => {
 
 // 유저 데이터 불러오기
 export const useGetUserData = ({enabled: enabled = true}) => {
-  console.log(enabled)
+  console.log(enabled);
   return useQuery(['getUserData'], fetchUserData, {
     onError: error => console.log(error),
     enabled: enabled,

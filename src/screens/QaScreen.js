@@ -184,7 +184,7 @@ export default function QaScreen({navigation}) {
   const isAnswered = () => {
     setIsMyAns(false);
     console.log(ansData);
-    ansData?.data.map(obj => {
+    ansData?.data?.data.map(obj => {
       if (obj.userName == userName) setIsMyAns(true);
     });
     console.log(isMyAns);
@@ -201,7 +201,7 @@ export default function QaScreen({navigation}) {
           <FontStyle.ContentB>
             질문 :{' '}
             <FontStyle.Content>
-              {questData?.data.questionContent}
+              {questData?.data?.data.questionContent}
             </FontStyle.Content>
           </FontStyle.ContentB>
         </QuestBox>
@@ -247,13 +247,13 @@ export default function QaScreen({navigation}) {
             </SubmitButton>
           </MyAnsContainer>
         )}
-        {ansData?.data.length === 0 ? (
+        {ansData?.data?.data.length === 0 ? (
           <MessageBox>
             <FontStyle.Content>문답을 첫번째로 작성해보세요!</FontStyle.Content>
           </MessageBox>
         ) : (
           <ScrollView>
-            {ansData?.data.map(ans => (
+            {ansData?.data?.data.map(ans => (
               <AnsContainer key={ans.answerId}>
                 <AnsBox>
                   <SpaceBetween>

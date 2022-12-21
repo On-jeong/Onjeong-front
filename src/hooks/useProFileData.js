@@ -23,11 +23,11 @@ const addProfileImage = formData => {
 };
 
 const addMessage = message => {
-  return customAxios.post(`/profiles/messages`, message);
+  return customAxios.post(`/profiles/message`, message);
 };
 
 const modMessage = message => {
-  return customAxios.patch(`/profiles/messages`, message);
+  return customAxios.patch(`/profiles/message`, message);
 };
 
 const delFavorite = ({userId, selfIntroductionAnswerId}) => {

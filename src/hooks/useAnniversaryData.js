@@ -2,23 +2,23 @@ import customAxios from '@/api/axios';
 import {useMutation, useQuery} from '@tanstack/react-query';
 
 const fetchMonthAnn = annDate => {
-  return customAxios.get(`/anniversaries/${annDate}`);
+  return customAxios.get(`/months/anniversaries/${annDate}`);
 };
 
 const fetchDateAnn = annDate => {
-  return customAxios.get(`/anniversaries/days/${annDate}`);
+  return customAxios.get(`/days/anniversaries/${annDate}`);
 };
 
 const addAnn = ({annDate: annDate, annData}) => {
-  return customAxios.post(`/anniversaries/days/${annDate}`, annData);
+  return customAxios.post(`/days/anniversaries/${annDate}`, annData);
 };
 
 const deleteAnn = annId => {
-  return customAxios.delete(`/anniversaries/days/${annId}`);
+  return customAxios.delete(`/days/anniversaries/${annId}`);
 };
 
 const modifyAnn = (annId, annData) => {
-  return customAxios.put(`/anniversaries/days/${annId}`, annData);
+  return customAxios.put(`/days/anniversaries/${annId}`, annData);
 };
 
 // 월별 모든 특수일정 불러오기

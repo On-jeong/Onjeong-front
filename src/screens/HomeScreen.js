@@ -90,7 +90,7 @@ export const HomeScreen = ({navigation}) => {
 
   const {data: coinData} = useGetCoins({
     onSuccess: data => {
-      setFamilyCoinState(data.data);
+      setFamilyCoinState(data?.data?.data);
     },
   });
 
@@ -99,18 +99,18 @@ export const HomeScreen = ({navigation}) => {
       //setFlowerKindState(data.data.flowerKind);
       setFlowerKindState('camellia');
       // setFlowerLevelState(8);
-      setFlowerLevelState(data.data.flowerLevel);
-      setFlowerColorState(data.data.flowerColor);
-      setFlowerBloomState(data.data.flowerBloomDate);
+      setFlowerLevelState(data?.data?.data.flowerLevel);
+      setFlowerColorState(data?.data?.data.flowerColor);
+      setFlowerBloomState(data?.data?.data.flowerBloomDate);
     },
   });
 
   const {mutate: addRandCoins} = useAddRandCoins({
     onSuccess: (data) => {
-      console.log(data.data)
-      setFamilyCoinState(familyCoinState + data.data);
+      console.log(data?.data?.data)
+      setFamilyCoinState(familyCoinState + data?.data?.data);
       storage.setStrItem('DailyCoin', formatDate);
-      alert(`데일리코인이 ${data.data}만큼 적립됐어요!`);
+      alert(`데일리코인이 ${data?.data?.data}만큼 적립됐어요!`);
     },
   });
 

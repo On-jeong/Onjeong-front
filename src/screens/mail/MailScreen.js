@@ -79,7 +79,7 @@ const MailScreen = ({navigation}) => {
   );
   const {data, isLoading, status, error, refetch} = useGetReceiveMails({
     onSuccess: data => {
-      setMails(data?.data);
+      setMails(data?.data?.data);
     },
   });
   const {
@@ -89,7 +89,7 @@ const MailScreen = ({navigation}) => {
   const {mutate: delReceiveMail} = useDeleteReceiveMail();
   const {mutate: delSendMail} = useDeleteSendMail();
 
-  const [mails, setMails] = useState(data?.data);
+  const [mails, setMails] = useState(data?.data?.data);
   const [isReceive, setIsReceive] = useState(true);
   const [isDelete, setIsDelete] = useState(false);
   console.log(mails);
@@ -97,7 +97,7 @@ const MailScreen = ({navigation}) => {
   const receiveMails = () => {
     setIsReceive(true);
     refetch();
-    setMails(data?.data);
+    setMails(data?.data?.data);
   };
 
   const sendMails = () => {

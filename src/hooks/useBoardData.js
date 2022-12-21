@@ -2,7 +2,7 @@ import customAxios from '@/api/axios';
 import {useMutation, useQuery} from '@tanstack/react-query';
 
 const fetchTodayBoards = boardDate => {
-  return customAxios.get(`/boards/${boardDate}`);
+  return customAxios.get(`/boards/all/${boardDate}`);
 };
 
 const fetchBoardDetail = boardId => {
@@ -28,7 +28,7 @@ const modifyBoard = ({boardId, formData}) => {
       'Content-Type': 'multipart/form-data',
     },
   };
-  return customAxios.patch(`/boards/${boardId}`, formData, config);
+  return customAxios.put(`/boards/${boardId}`, formData, config);
 };
 
 // 오늘의 기록 모두 가져오기

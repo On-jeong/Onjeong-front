@@ -24,6 +24,8 @@ const script = {
 const CoinHistoryScreen = ({navigation}) => {
   const {data, status, isLoading, isError} = useGetCoinHistory();
 
+  console.log(data?.data?.data);
+
   return (
     <NoHeader
       isBack={true}
@@ -32,7 +34,7 @@ const CoinHistoryScreen = ({navigation}) => {
       isLoading={isLoading}
       isError={isError}>
       <ScrollView>
-        {data?.data?.map((data, index) => (
+        {data?.data?.data?.map((data, index) => (
           <React.Fragment key={index}>
             <MessageBox>
               {data.type == 'USED' ? (
