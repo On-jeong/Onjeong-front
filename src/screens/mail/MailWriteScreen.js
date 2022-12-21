@@ -7,6 +7,7 @@ import {useRecoilValue} from 'recoil';
 import {UserIdState, UserNameState} from '../../state/UserData';
 import {usePostMail} from '../../hooks/useMailData';
 import {useGetFamilyList} from '../../hooks/useProFileData';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {AppButtons} from '../../components/buttons';
 
 export const PaperContainer = styled.View`
@@ -30,7 +31,12 @@ export const Paper = styled.View`
 
 const PaperTop = styled.TouchableOpacity`
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
+`;
+
+const ToBox = styled.View`
+  height: 38px;
+  justify-content: center;
 `;
 
 export const MainInput = styled.TextInput`
@@ -47,12 +53,15 @@ export const SendBox = styled.View`
 `;
 
 const SelectBox = styled.View`
-  margin-left: 30px;
-  margin-top: 5px;
-  align-self: flex-start;
+  margin-left: 10px;
 `;
 
 const SelectItem = styled.TouchableOpacity`
+  width: 110px;
+  height: 38px;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
   padding: 5px;
   border: 1px solid ${AppColors.border};
   margin-bottom: -1px;
@@ -63,7 +72,7 @@ const MailWriteScreen = ({navigation}) => {
   const userName = useRecoilValue(UserNameState);
 
   const [mainText, setMainText] = useState('');
-  const [toUserStatus, setToUserStatus] = useState(''); // 보낼 가족 별명
+  const [toUserStatus, setToUserStatus] = useState('가족선택'); // 보낼 가족 별명
   const [toUserId, setToUserId] = useState(''); // 보낼 가족 아이디
   const [isOpen, setIsOpen] = useState(false); // 보낼 가족 선택창 열기 여부
 
@@ -89,45 +98,20 @@ const MailWriteScreen = ({navigation}) => {
       <>
         <PaperContainer>
           <Paper>
-            <PaperTop
-              onPress={() => {
-                setIsOpen(!isOpen);
-              }}>
-              <FontStyle.ContentB>
-                To. <FontStyle.ContentB>{toUserStatus}</FontStyle.ContentB>
-              </FontStyle.ContentB>
+            <PaperTop>
+              <ToBox>
+                <FontStyle.ContentB>To.</FontStyle.ContentB>
+              </ToBox>
+              <CustomSelectBox
+                data={data}
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                toUserStatus={toUserStatus}
+                setToUserStatus={setToUserStatus}
+                userId={userId}
+                setToUserId={setToUserId}
+              />
             </PaperTop>
-            {isOpen && (
-              <SelectBox>
-                {data?.data?.data.length === 1 && (
-                  <>
-                    <FontStyle.Content>보낼 가족이 없습니다.</FontStyle.Content>
-                    <FontStyle.Content>
-                      가족 구성원을 초대해 주세요.
-                    </FontStyle.Content>
-                  </>
-                )}
-                {data?.data?.data.map(family => {
-                  return (
-                    <React.Fragment key={family.userId}>
-                      {family.userId !== userId && (
-                        <SelectItem
-                          key={family.userId}
-                          onPress={() => {
-                            setToUserStatus(family.userStatus);
-                            setToUserId(family.userId);
-                            setIsOpen(!isOpen);
-                          }}>
-                          <FontStyle.Content>
-                            {family.userStatus}
-                          </FontStyle.Content>
-                        </SelectItem>
-                      )}
-                    </React.Fragment>
-                  );
-                })}
-              </SelectBox>
-            )}
             <MainInput
               multiline={true}
               numberOfLines={20}
@@ -154,6 +138,64 @@ const MailWriteScreen = ({navigation}) => {
         </PaperContainer>
       </>
     </NoHeader>
+  );
+};
+
+const CustomSelectBox = ({
+  data,
+  isOpen,
+  setIsOpen,
+  toUserStatus,
+  setToUserStatus,
+  userId,
+  setToUserId,
+}) => {
+  return (
+    <>
+      <SelectBox>
+        <SelectItem
+          onPress={() => {
+            setIsOpen(!isOpen);
+          }}>
+          <FontStyle.ContentB>{toUserStatus}</FontStyle.ContentB>
+          <AntDesign
+            name="down"
+            size={15}
+            color={AppColors.border}
+            style={{marginLeft: 10}}
+          />
+        </SelectItem>
+        {isOpen && (
+          <>
+            {data?.data?.data.length === 1 && (
+              <>
+                <FontStyle.Content>보낼 가족이 없습니다.</FontStyle.Content>
+                <FontStyle.Content>
+                  가족 구성원을 초대해 주세요.
+                </FontStyle.Content>
+              </>
+            )}
+            {data?.data?.data?.map(family => {
+              return (
+                <React.Fragment key={family.userId}>
+                  {family.userId !== userId && (
+                    <SelectItem
+                      key={family.userId}
+                      onPress={() => {
+                        setToUserStatus(family.userStatus);
+                        setToUserId(family.userId);
+                        setIsOpen(!isOpen);
+                      }}>
+                      <FontStyle.Content>{family.userStatus}</FontStyle.Content>
+                    </SelectItem>
+                  )}
+                </React.Fragment>
+              );
+            })}
+          </>
+        )}
+      </SelectBox>
+    </>
   );
 };
 
