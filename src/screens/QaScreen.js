@@ -142,12 +142,12 @@ export default function QaScreen({navigation}) {
     setAnsText('');
 
     queryClient.setQueryData('getAnswers', oldData => {
-      console.log('데이타', oldData.data);
+      console.log('데이타', oldData?.data?.data);
       // 데이터 추가
-      oldData.data = [
-        ...oldData.data,
+      oldData.data.data = [
+        ...oldData?.data?.data,
         {
-          answerId: getId(oldData.data),
+          answerId: getId(oldData?.data?.data),
           answerContent: ansText,
           userName: UserNameState,
           answerTime: '',
@@ -159,7 +159,7 @@ export default function QaScreen({navigation}) {
     onSuccess: () => {
       isModAns(false);
       queryClient.setQueryData('getAnswers', oldData => {
-        console.log(oldData);
+        console.log(oldData?.data?.data);
         // 수정된 데이터로 바꾸기
       });
     },
@@ -169,9 +169,9 @@ export default function QaScreen({navigation}) {
       setAnsText('');
 
       queryClient.setQueryData('getAnswers', oldData => {
-        console.log('삭제', oldData.data);
+        console.log('삭제', oldData?.data?.data);
         // 삭제한 데이터 지우기
-        oldData.data.filter(it => it.userName !== UserNameState);
+        oldData?.data?.data.filter(it => it.userName !== UserNameState);
       });
     },
   });
@@ -230,12 +230,12 @@ export default function QaScreen({navigation}) {
                   setAnsText('');
 
                   queryClient.setQueryData(['getAnswers'], oldData => {
-                    console.log('데이타', oldData.data);
+                    console.log('데이타', oldData?.data?.data);
                     // 데이터 추가
-                    oldData.data = [
-                      ...oldData.data,
+                    oldData.data.data = [
+                      ...oldData?.data?.data,
                       {
-                        answerId: getId(oldData.data),
+                        answerId: getId(oldData?.data?.data),
                         answerContent: ansText,
                         userName: UserNameState,
                         answerTime: '',
@@ -276,9 +276,9 @@ export default function QaScreen({navigation}) {
                             queryClient.setQueryData(
                               ['getAnswers'],
                               oldData => {
-                                console.log('삭제', oldData.data);
+                                console.log('삭제', oldData?.data?.data);
                                 // 삭제한 데이터 지우기
-                                oldData.data.filter(
+                                oldData?.data?.data.filter(
                                   it => it.userName !== UserNameState,
                                 );
                               },
