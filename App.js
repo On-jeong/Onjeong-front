@@ -33,7 +33,7 @@ export default function App() {
         const fcmToken = await messaging().getToken();
         if (fcmToken) {
           console.log('new fcmToken: ', fcmToken);
-          await storage.setStrItem('fcmToken', fcmToken);
+          await storage.setItem('fcmToken', fcmToken);
         }
       } catch (err) {
         console.log(err, 'fcmtoken에서 error 발생');
