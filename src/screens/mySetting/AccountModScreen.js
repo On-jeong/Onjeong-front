@@ -8,9 +8,12 @@ import {
   UserStatusState,
 } from '@/state/UserData';
 import {FontStyle} from '@/utils/GlobalFonts';
+import {format} from 'date-fns';
 import React, {useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import styled from 'styled-components';
+import DatePicker from 'react-native-date-picker';
+import {AppColors} from '@/utils/GlobalStyles';
 
 const Container = styled.View`
   flex-direction: row;
@@ -21,7 +24,8 @@ const Container = styled.View`
 `;
 
 const Input = styled.TextInput`
-  min-width: 50px;
+  flex: 1;
+  //width: 50px;
   font-family: 'GangwonLight';
   font-size: 20px;
   margin-bottom: 10px;
@@ -36,22 +40,38 @@ const ButtonContainer = styled.View`
   padding-right: 30px;
 `;
 
+const BirthButton = styled.TouchableOpacity`
+  flex: 1;
+`;
+
 function AccountModScreen({navigation}) {
+  // 변경값 임시저장
   const [name, setName] = useState(useRecoilValue(UserNameState));
   const [status, setStatus] = useState(useRecoilValue(UserStatusState));
+  const [birth, setBirth] = useState(new Date(useRecoilValue(UserBirthState)));
   const [pw, setPw] = useState('');
   const [pwCheck, setPwCheck] = useState('');
+  console.log(new Date());
+
+  const [birthOpen, setBirthOpen] = useState(false);
 
   const userIdState = useRecoilValue(UserIdState);
+  // 변경값 영구저장
   const setUserNameState = useSetRecoilState(UserNameState);
   const setUserStatusState = useSetRecoilState(UserStatusState);
   const setUserBirthState = useSetRecoilState(UserBirthState);
+
+  const PW_REG = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,16}$/; // 영문, 숫자 조합 8 ~ 16자
+  const NAME_REG = /[ㄱ-힣]/; // 한글만
 
   const {mutate} = useModifyAccount({
     onSuccess: () => {
       alert('회원정보 변경이 완료되었습니다.');
       setUserNameState(name);
       setUserStatusState(status);
+      setUserBirthState(birth);
+      setPw('');
+      setPwCheck('');
     },
     onError: () => {
       alert('회원정보 변경에 실패했습니다.');
@@ -79,14 +99,28 @@ function AccountModScreen({navigation}) {
       alert('비밀번호 확인이 맞지 않습니다.');
       return 0;
     }
+
+    //if (validationCheck())
     mutate({
-      userBirth: '2022-01-01',
+      userBirth: birth,
       userName: name,
       userPassword: pw,
       userStatus: status,
     });
-    setPw('');
-    setPwCheck('');
+  };
+
+  const validationCheck = () => {
+    if (!NAME_REG.test(name)) {
+      alert('이름은 한글만 입력 가능합니다.');
+      return 0;
+    } else if (!PW_REG.test(pw)) {
+      alert('비밀번호는 영문과 숫자 조합 8~16 자리로 설정해 주세요.');
+      return 0;
+    } else if (!NAME_REG.test(status)) {
+      alert('가족 내 역할은 한글만 입력 가능합니다.');
+      return 0;
+    }
+    return 1;
   };
 
   return (
@@ -106,6 +140,16 @@ function AccountModScreen({navigation}) {
         maxLength={20}
         secureTextEntry={false}
       />
+      {/* 생년월일 선택 버튼 */}
+      <Container>
+        <FontStyle.SubTitle>
+          {'생년월일'}
+          <FontStyle.SubTitle> : </FontStyle.SubTitle>
+        </FontStyle.SubTitle>
+        <BirthButton onPress={() => setBirthOpen(true)}>
+          <FontStyle.Content>{format(birth, 'yyyy-MM-dd')}</FontStyle.Content>
+        </BirthButton>
+      </Container>
       <InfoBox
         title={'역할'}
         modAvailable={true}
@@ -129,6 +173,24 @@ function AccountModScreen({navigation}) {
         setValue={setPwCheck}
         maxLength={20}
         secureTextEntry={true}
+      />
+      {/* 생일 선택 모달 */}
+      <DatePicker
+        modal
+        mode="date"
+        open={birthOpen}
+        date={birth}
+        onConfirm={date => {
+          setBirthOpen(false);
+          setBirth(date);
+        }}
+        onCancel={() => {
+          setBirthOpen(false);
+        }}
+        confirmText="확인"
+        cancelText="취소"
+        title={null}
+        androidVariant="iosClone"
       />
       <ButtonContainer>
         <AppButtons.TextButton.Content
