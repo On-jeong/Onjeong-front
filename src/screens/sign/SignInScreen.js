@@ -122,10 +122,6 @@ const SignInScreen = ({navigation}) => {
           setUserId('');
           setUserPassword('');
 
-          // 유저정보 async storage에 저장
-          storage.setStrItem('userData', data.data.data);
-          console.log(data.data.data);
-
           // 유저정보 리코일에 저장
           setUserIdState(data.data.data.userId);
           setUserNameState(data.data.data.userName);

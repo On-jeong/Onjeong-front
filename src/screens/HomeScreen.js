@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {FontStyle} from '../utils/GlobalFonts';
 import {BasicHeader} from '../components/WithHeader';
 import {useRecoilState} from 'recoil';
 import {
+  DailyCoinState,
   UserBirthState,
   UserIdState,
   UserNameState,
@@ -25,7 +26,6 @@ import {
 } from '@/state/FamilyData';
 import {flower, seed} from '@/utils/FlowerImagePath';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {storage} from '@/config/storage';
 import {format} from 'date-fns';
 
 const Background = styled.ImageBackground`
@@ -80,6 +80,7 @@ export const HomeScreen = ({navigation}) => {
   const [userStatus, setUserStatus] = useRecoilState(UserStatusState);
 
   const [familyCoinState, setFamilyCoinState] = useRecoilState(FamilyCoinState);
+  const [dailyCoinState, setDailyCoinState] = useRecoilState(DailyCoinState);
   const [flowerLevelState, setFlowerLevelState] =
     useRecoilState(FlowerLevelState);
   const [flowerColorState, setFlowerColorState] =
@@ -96,9 +97,7 @@ export const HomeScreen = ({navigation}) => {
 
   const {data: flowerInfoData, status: flowerStatus} = useGetFlowerInfo({
     onSuccess: data => {
-      //setFlowerKindState(data.data.flowerKind);
       setFlowerKindState('camellia');
-      // setFlowerLevelState(8);
       setFlowerLevelState(data?.data?.data.flowerLevel);
       setFlowerColorState(data?.data?.data.flowerColor);
       setFlowerBloomState(data?.data?.data.flowerBloomDate);
@@ -106,10 +105,9 @@ export const HomeScreen = ({navigation}) => {
   });
 
   const {mutate: addRandCoins} = useAddRandCoins({
-    onSuccess: (data) => {
-      console.log(data?.data?.data)
+    onSuccess: data => {
       setFamilyCoinState(familyCoinState + data?.data?.data);
-      storage.setStrItem('DailyCoin', formatDate);
+      setDailyCoinState(formatDate);
       alert(`데일리코인이 ${data?.data?.data}만큼 적립됐어요!`);
     },
   });
@@ -127,14 +125,11 @@ export const HomeScreen = ({navigation}) => {
   }, []);
 
   const getDailyCoinInfo = async () => {
-    const dailyCoin = await storage.getStrItem('DailyCoin');
-
-    console.log(dailyCoin);
+    console.log(dailyCoinState);
     console.log(formatDate);
 
-    if (dailyCoin == null && dailyCoin !== formatDate) {
+    if (dailyCoinState == null && dailyCoinState !== formatDate) {
       addRandCoins();
-    } else if (dailyCoin === formatDate) {
     }
   };
 
@@ -156,7 +151,7 @@ export const HomeScreen = ({navigation}) => {
         </TouchableOpacity>
       </FamilyCoinView>
       <FlowerBoxTouchable
-        //onPress={() => navigation.navigate('Mail')}
+        //onPress={() => navigation.navigate('')}
         activeOpacity={0.5}>
         <AutoHeightImage
           width={windowWidth * 0.2}

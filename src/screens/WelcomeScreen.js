@@ -6,6 +6,15 @@ import {storage} from '../config/storage';
 import axios, {refreshAxios} from '@/api/axios';
 import {useFocusEffect} from '@react-navigation/native';
 import {useGetUserData} from '@/hooks/useUserData';
+import {
+  FamilyIdState,
+  UserBirthState,
+  UserIdState,
+  UserNameState,
+  UserNicknameState,
+  UserStatusState,
+} from '@/state/UserData';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 const Center = styled.View`
   flex: 0.8;
@@ -15,6 +24,13 @@ const Center = styled.View`
 
 export const WelcomeScreen = ({navigation}) => {
   const [isUserData, setIsUserData] = useState(false);
+
+  const [userIdState, setUserIdState] = useRecoilState(UserIdState);
+  const setUserNameState = useSetRecoilState(UserNameState);
+  const setUserBirthState = useSetRecoilState(UserBirthState);
+  const setUserStatusState = useSetRecoilState(UserStatusState);
+  const setUserNicknameState = useSetRecoilState(UserNicknameState);
+  const setFamilyIdState = useSetRecoilState(FamilyIdState);
 
   // 로그인 되어있는 상태이면 바로 홈화면으로 이동, 없으면 로그인 화면으로
   useEffect(() => {
@@ -35,10 +51,18 @@ export const WelcomeScreen = ({navigation}) => {
     console.log('accessToken: ' + accessToken);
     console.log('refreshToken: ' + refreshToken);
     if (accessToken !== null) {
-      const data = await storage.getStrItem('userData');
-      if (!data) {
+      // 유저 데이터가 저장되어있지 않은 경우
+      if (userIdState === '') {
         setIsUserData(true);
-        if (status === 'success') storage.setStrItem('userData', newUserData);
+        if (status === 'success') {
+          // 새로 받은 유저정보 리코일에 저장
+          setUserIdState(data.data.data.userId);
+          setUserNameState(data.data.data.userName);
+          setUserNicknameState(data.data.data.userNickname);
+          setUserStatusState(data.data.data.userStatus);
+          setUserBirthState(data.data.data.userBirth);
+          setFamilyIdState(data.data.data.familyId);
+        }
         console.log('newUserData: ' + newUserData);
       }
       axios.defaults.headers.common['AuthorizationAccess'] = accessToken;
