@@ -1,4 +1,7 @@
 import * as React from 'react';
+import ReactNativeRecoilPersist, {
+  ReactNativeRecoilPersistGate,
+} from 'react-native-recoil-persist';
 import {NavigationContainer} from '@react-navigation/native';
 import {StackNavigator} from './src/navigators/StackNavigator';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
@@ -46,14 +49,16 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        <React.Suspense
-          fallback={<FontStyle.Content>Loading...</FontStyle.Content>}>
-          <NavigationContainer>
-            <Interceptor>
-              <StackNavigator />
-            </Interceptor>
-          </NavigationContainer>
-        </React.Suspense>
+        <ReactNativeRecoilPersistGate store={ReactNativeRecoilPersist}>
+          <React.Suspense
+            fallback={<FontStyle.Content>Loading...</FontStyle.Content>}>
+            <NavigationContainer>
+              <Interceptor>
+                <StackNavigator />
+              </Interceptor>
+            </NavigationContainer>
+          </React.Suspense>
+        </ReactNativeRecoilPersistGate>
       </RecoilRoot>
     </QueryClientProvider>
   );

@@ -134,7 +134,6 @@ export const HomeScreen = ({navigation}) => {
 
     if (dailyCoin == null && dailyCoin !== formatDate) {
       addRandCoins();
-      console.log('널');
     } else if (dailyCoin === formatDate) {
     }
   };
