@@ -12,7 +12,13 @@ const Pencil = ({
   active = false,
   onPress,
   size = 18,
-  margin = {marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0},
+  padding = {
+    padding: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
 }) => {
   return (
     <TouchableOpacity onPress={onPress} disabled={disabled}>
@@ -21,10 +27,11 @@ const Pencil = ({
         color={active ? AppColors.border : AppColors.font}
         size={size}
         style={{
-          marginTop: margin.marginTop,
-          marginBottom: margin.marginBottom,
-          marginLeft: margin.marginLeft,
-          marginRight: margin.marginRight,
+          padding: padding.padding,
+          paddingTop: padding.paddingTop,
+          paddingBottom: padding.paddingBottom,
+          paddingLeft: padding.paddingLeft,
+          paddingRight: padding.paddingRight,
         }}
       />
     </TouchableOpacity>
@@ -33,13 +40,19 @@ const Pencil = ({
 Pencil.propTypes = {
   onPress: PropTypes.func,
   size: PropTypes.number,
-  margin: PropTypes.objectOf(PropTypes.number),
+  padding: PropTypes.objectOf(PropTypes.number),
 };
 
 const Alert = ({
   onPress,
   size = 16,
-  margin = {marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0},
+  padding = {
+    padding: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
 }) => {
   return (
     <TouchableOpacity onPress={onPress}>
@@ -47,10 +60,11 @@ const Alert = ({
         name="alert-circle-outline"
         size={size}
         style={{
-          marginTop: margin.marginTop,
-          marginBottom: margin.marginBottom,
-          marginLeft: margin.marginLeft,
-          marginRight: margin.marginRight,
+          padding: padding.padding,
+          paddingTop: padding.paddingTop,
+          paddingBottom: padding.paddingBottom,
+          paddingLeft: padding.paddingLeft,
+          paddingRight: padding.paddingRight,
         }}
       />
     </TouchableOpacity>
@@ -59,13 +73,19 @@ const Alert = ({
 Alert.propTypes = {
   onPress: PropTypes.func,
   size: PropTypes.number,
-  margin: PropTypes.objectOf(PropTypes.number),
+  padding: PropTypes.objectOf(PropTypes.number),
 };
 
 const Cancel = ({
   onPress,
   size = 22,
-  margin = {marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0},
+  padding = {
+    padding: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
 }) => {
   return (
     <TouchableOpacity onPress={onPress}>
@@ -73,10 +93,11 @@ const Cancel = ({
         name="cancel"
         size={size}
         style={{
-          marginTop: margin.marginTop,
-          marginBottom: margin.marginBottom,
-          marginLeft: margin.marginLeft,
-          marginRight: margin.marginRight,
+          padding: padding.padding,
+          paddingTop: padding.paddingTop,
+          paddingBottom: padding.paddingBottom,
+          paddingLeft: padding.paddingLeft,
+          paddingRight: padding.paddingRight,
         }}
       />
     </TouchableOpacity>
@@ -85,14 +106,20 @@ const Cancel = ({
 Cancel.propTypes = {
   onPress: PropTypes.func,
   size: PropTypes.number,
-  margin: PropTypes.objectOf(PropTypes.number),
+  padding: PropTypes.objectOf(PropTypes.number),
 };
 
 const Delete = ({
   onPress,
   active = false,
   size = 20,
-  margin = {marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0},
+  padding = {
+    padding: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
 }) => {
   return (
     <TouchableOpacity onPress={onPress}>
@@ -101,10 +128,11 @@ const Delete = ({
         size={size}
         color={active ? AppColors.border : AppColors.font}
         style={{
-          marginTop: margin.marginTop,
-          marginBottom: margin.marginBottom,
-          marginLeft: margin.marginLeft,
-          marginRight: margin.marginRight,
+          padding: padding.padding,
+          paddingTop: padding.paddingTop,
+          paddingBottom: padding.paddingBottom,
+          paddingLeft: padding.paddingLeft,
+          paddingRight: padding.paddingRight,
         }}
       />
     </TouchableOpacity>
@@ -113,7 +141,7 @@ const Delete = ({
 Delete.propTypes = {
   onPress: PropTypes.func,
   size: PropTypes.number,
-  margin: PropTypes.objectOf(PropTypes.number),
+  padding: PropTypes.objectOf(PropTypes.number),
 };
 
 export const AppIconButtons = {

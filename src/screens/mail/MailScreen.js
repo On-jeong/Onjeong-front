@@ -128,7 +128,7 @@ const MailScreen = ({navigation}) => {
           </Filter>
           <Filter>
             <AppIconButtons.Pencil
-              margin={{marginRight: 8}}
+              padding={{paddingRight: 8}}
               onPress={() => {
                 navigation.navigate('MailWrite');
               }}

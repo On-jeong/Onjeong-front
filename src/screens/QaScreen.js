@@ -1,8 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {BasicHeader} from '../components/WithHeader';
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import styled from 'styled-components';
-import {KeyboardAvoidingView, ScrollView, TouchableOpacity} from 'react-native';
+import {ScrollView} from 'react-native';
 import {FontStyle} from '../utils/GlobalFonts';
 import {AppColors} from '../utils/GlobalStyles';
 import {Components} from '../utils/Components';
@@ -266,7 +265,7 @@ export default function QaScreen({navigation}) {
                             setIsModAns(!isModAns);
                             setAnsText(ans.answerContent);
                           }}
-                          margin={{marginRight: 6}}
+                          padding={{padding: 6}}
                         />
                         <AppIconButtons.Delete
                           onPress={() => {
@@ -284,6 +283,7 @@ export default function QaScreen({navigation}) {
                               },
                             );
                           }}
+                          padding={{padding: 6}}
                         />
                       </SpaceBetween>
                     )}

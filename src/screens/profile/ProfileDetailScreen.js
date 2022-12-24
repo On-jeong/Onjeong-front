@@ -8,7 +8,7 @@ import FamilyInfo from './component/FamilyInfo';
 const ProfileDetailScreen = ({navigation, route}) => {
   return (
     <NoHeader title={route.params.role} isBack={true} navigation={navigation}>
-      <Components.HorizonLine margin={{marginBottom: 10}} />
+      <Components.HorizonLine padding={{paddingBottom: 10}} />
 
       {/* 유저 프로필 부분 */}
       <FamilyProfile route={route} />

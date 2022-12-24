@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import {
   useAddProfileImage,
@@ -11,7 +11,6 @@ import {AppColors, windowWidth} from '@/utils/GlobalStyles';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {AppIconButtons} from '@/components/IconButtons';
 import {useQueryClient} from '@tanstack/react-query';
-import {useFocusEffect} from '@react-navigation/native';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {UserIdState} from '@/state/UserData';
 import {ProfileImageUrIState, ProfileMessageState} from '@/state/ProfileData';
@@ -102,33 +101,20 @@ const FamilyProfile = ({route}) => {
     useRecoilState(ProfileImageUrIState);
 
   const [isMessageWrite, setIsMessageWrite] = useState(false);
-  const [tempProfileImgUri, setTempProfileImgUri] = useState(''); // uri 임시 저장용 - 서버에 데이터 전송 후 recoil에 업데이트
 
-  const {
-    data: detailData,
-    isLoading: detailIsLoading,
-    status: detailStatus,
-  } = useGetFamilyProfile(route.params.userId, () => {
-    setProfileMessageState(detailData?.data?.data.message);
-    setProfileImageUrIState(detailData?.data?.data.profileImageUrl);
-    console.log('데이터', detailData?.data?.data);
+  const {data: detailData} = useGetFamilyProfile(route.params.userId, data => {
+    setProfileMessageState(data?.data?.data.message);
+    setProfileImageUrIState(data?.data?.data.profileImageUrl);
+    console.log('데이터 가져옴', data);
   });
 
   const {mutate: addImage} = useAddProfileImage({
     onSuccess: data => {
-      console.log('성공' + JSON.stringify(data.data));
-      setProfileImageUrIState(data.profileImageUrl);
+      setProfileImageUrIState(data?.data?.data.profileImageUrl);
     },
   });
   const {mutate: addMessage} = useAddMessage();
   const {mutate: modMessage} = useModMessage();
-
-  // 화면 포커스 될 때 상태 매세지 리패치
-  useFocusEffect(
-    useCallback(() => {
-      queryClient.invalidateQueries('getFamilyProfile', route.params.userId);
-    }, []),
-  );
 
   const getImage = async () => {
     const image = await launchImageLibrary({
@@ -142,6 +128,7 @@ const FamilyProfile = ({route}) => {
 
     // 에러 발생
     if (image.errorMessage) {
+      alert('이미지를 업로드하지 못했습니다.');
       console.log(image.errorMessage);
     }
 
@@ -153,16 +140,6 @@ const FamilyProfile = ({route}) => {
       type: image.assets[0].type,
     });
 
-    console.log(
-      'uri:',
-      image.assets[0].uri,
-      'name:',
-      image.assets[0].fileName,
-      'type:',
-      image.assets[0].type,
-    );
-
-    setTempProfileImgUri(image.assets[0].uri); // 이미지 uri 임시 저장
     addImage(formData);
   };
 
@@ -184,30 +161,14 @@ const FamilyProfile = ({route}) => {
 
   return (
     <Container>
-        <>
-          <TopContainer>
-            {/* 본인일 경우에만 프사 수정 */}
-            {route.params.userId === userId ? (
-              <ImageBox
-                onPress={() => {
-                  getImage();
-                }}>
-                <Image
-                  source={
-                    profileImageUrIState
-                      ? {uri: profileImageUrIState}
-                      : require('@/assets/image/profileImage.png')
-                  }
-                />
-                <IconBox>
-                  <AppIconButtons.Pencil
-                    size={12}
-                    margin={{marginLeft: 20}}
-                    disabled={true}
-                  />
-                </IconBox>
-              </ImageBox>
-            ) : (
+      <>
+        <TopContainer>
+          {/* 본인일 경우에만 프사 수정 */}
+          {route.params.userId === userId ? (
+            <ImageBox
+              onPress={() => {
+                getImage();
+              }}>
               <Image
                 source={
                   profileImageUrIState
@@ -215,63 +176,69 @@ const FamilyProfile = ({route}) => {
                     : require('@/assets/image/profileImage.png')
                 }
               />
-            )}
-            <BasicInfos>
-              <BasicInfo>
-                <FontStyle.Content>
-                  이름:{' '}
-                  <FontStyle.Content>
-                    {detailData?.data?.data.name}
-                  </FontStyle.Content>
-                </FontStyle.Content>
-              </BasicInfo>
-              <BasicInfo>
-                <FontStyle.Content>
-                  나이:{' '}
-                  <FontStyle.Content>
-                    {detailData?.data?.data.age}
-                  </FontStyle.Content>
-                </FontStyle.Content>
-              </BasicInfo>
-              <BasicInfo>
-                <FontStyle.Content>
-                  생일:{' '}
-                  <FontStyle.Content>
-                    {detailData?.data?.data.birth}
-                  </FontStyle.Content>
-                </FontStyle.Content>
-              </BasicInfo>
-            </BasicInfos>
-          </TopContainer>
+              <IconBox>
+                <AppIconButtons.Pencil
+                  size={12}
+                  padding={{paddingLeft: 20}}
+                  disabled={true}
+                />
+              </IconBox>
+            </ImageBox>
+          ) : (
+            <Image
+              source={
+                profileImageUrIState
+                  ? {uri: profileImageUrIState}
+                  : require('@/assets/image/profileImage.png')
+              }
+            />
+          )}
 
-          {/* 상태메시지 */}
-          <ArrowBox>
-            <TopArrow />
-            {isMessageWrite ? (
-              <MessageInput
-                value={profileMessageState}
-                onChangeText={setProfileMessageState}
-                autoFocus={true}
-                onSubmitEditing={submitMessage}
-              />
-            ) : (
-              <FontStyle.SubContent>
-                {detailData?.data?.data.message}
-              </FontStyle.SubContent>
-            )}
-            {/* 메세지 작성중이 아니고, 자신의 프로필일 경우에만 수정 버튼 보이기 */}
-            {!isMessageWrite && route.params.userId === userId && (
-              <AppIconButtons.Pencil
-                onPress={() => {
-                  setIsMessageWrite(true);
-                }}
-                size={15}
-                margin={{marginLeft: 20}}
-              />
-            )}
-          </ArrowBox>
-        </>
+          <BasicInfos>
+            <Infos title={'이름'} content={detailData?.data?.data.name} />
+            <Infos title={'나이'} content={detailData?.data?.data.age} />
+            <Infos title={'생일'} content={detailData?.data?.data.birth} />
+          </BasicInfos>
+        </TopContainer>
+
+        {/* 상태메시지 */}
+        <ArrowBox>
+          <TopArrow />
+          {isMessageWrite ? (
+            <MessageInput
+              value={profileMessageState}
+              onChangeText={setProfileMessageState}
+              autoFocus={true}
+              onSubmitEditing={submitMessage}
+            />
+          ) : (
+            <FontStyle.SubContent>
+              {detailData?.data?.data.message}
+            </FontStyle.SubContent>
+          )}
+          {/* 메세지 작성중이 아니고, 자신의 프로필일 경우에만 수정 버튼 보이기 */}
+          {!isMessageWrite && route.params.userId === userId && (
+            <AppIconButtons.Pencil
+              onPress={() => {
+                setIsMessageWrite(true);
+              }}
+              size={15}
+              padding={{paddingLeft: 20}}
+            />
+          )}
+        </ArrowBox>
+      </>
     </Container>
+  );
+};
+
+const Infos = ({title, content}) => {
+  return (
+    <BasicInfo>
+      <FontStyle.Content>
+        {title}: <FontStyle.Content>{content}</FontStyle.Content>
+      </FontStyle.Content>
+    </BasicInfo>
   );
 };
 

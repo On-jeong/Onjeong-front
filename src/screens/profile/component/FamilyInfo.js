@@ -238,8 +238,8 @@ const CategoryTitle = ({title, onPress, isActive}) => {
         <AppIconButtons.Pencil
           active={isActive}
           onPress={onPress}
-          size={15}
-          margin={{marginLeft: 10}}
+          size={16}
+          padding={{padding: 10}}
         />
       </Title>
     </>

@@ -168,7 +168,7 @@ const PostScreen = ({navigation, route}) => {
               <FontStyle.SubTitle>오늘의 일정</FontStyle.SubTitle>
               <Filter>
                 <AppIconButtons.Pencil
-                  margin={{marginRight: 8}}
+                  padding={{paddingRight: 8}}
                   active={isAddPlan}
                   onPress={() => {
                     setNewPlan('');
@@ -196,7 +196,7 @@ const PostScreen = ({navigation, route}) => {
                 {isDelPlan ? (
                   <AppIconButtons.Cancel
                     size={18}
-                    margin={{marginRight: 5}}
+                    padding={{paddingRight: 5}}
                     onPress={() => {
                       delAnn(ann.anniversaryId);
                     }}
