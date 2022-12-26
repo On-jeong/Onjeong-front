@@ -9,24 +9,24 @@ export const FamilyCoinState = atom({
 
 export const FlowerLevelState = atom({
   key: 'flowerLevel',
-  default: '',
+  default: null,
   effects_UNSTABLE: [ReactNativeRecoilPersist.persistAtom],
 });
 
 export const FlowerColorState = atom({
   key: 'flowerColor',
-  default: '',
+  default: null,
   effects_UNSTABLE: [ReactNativeRecoilPersist.persistAtom],
 });
 
 export const FlowerKindState = atom({
   key: 'flowerKind',
-  default: '',
+  default: null,
   effects_UNSTABLE: [ReactNativeRecoilPersist.persistAtom],
 });
 
 export const FlowerBloomDateState = atom({
   key: 'flowerBloomDate',
-  default: '',
+  default: null,
   effects_UNSTABLE: [ReactNativeRecoilPersist.persistAtom],
 });
