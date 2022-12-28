@@ -4,38 +4,38 @@ import {atom} from 'recoil';
 
 export const UserIdState = atom({
   key: 'userId',
-  default: null,
+  default: '',
   effects_UNSTABLE: [ReactNativeRecoilPersist.persistAtom],
 });
 
 export const UserNameState = atom({
   key: 'userName',
-  default: null,
+  default: '',
   effects_UNSTABLE: [ReactNativeRecoilPersist.persistAtom],
 });
 
 export const UserStatusState = atom({
   key: 'userStatus',
-  default: null,
+  default: '',
   effects_UNSTABLE: [ReactNativeRecoilPersist.persistAtom],
 });
 
 export const UserBirthState = atom({
   key: 'userBirth',
-  default: null,
+  default: '',
   effects_UNSTABLE: [ReactNativeRecoilPersist.persistAtom],
 });
 
 export const UserNicknameState = atom({
   key: 'userNickname',
-  default: null,
+  default: '',
   effects_UNSTABLE: [ReactNativeRecoilPersist.persistAtom],
 });
 
 
 export const FamilyIdState = atom({
   key: 'familyId',
-  default: null,
+  default: '',
   effects_UNSTABLE: [ReactNativeRecoilPersist.persistAtom],
 });
 
