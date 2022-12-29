@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import NoHeader from '@/components/NoHeader';
+import NoHeader from '@/components/headers/NoHeader';
 import {AppColors, windowHeight} from '@/utils/GlobalStyles';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {useRecoilValue} from 'recoil';

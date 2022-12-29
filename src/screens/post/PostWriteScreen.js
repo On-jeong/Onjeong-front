@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import NoHeader from '@/components/NoHeader';
+import NoHeader from '@/components/headers/NoHeader';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {MainInput, Paper, PaperContainer} from '@/screens/mail/MailWriteScreen';

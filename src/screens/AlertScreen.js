@@ -1,4 +1,4 @@
-import {BasicHeader} from '../components/WithHeader';
+import {BasicHeader} from '../components/headers/WithHeader';
 import React from 'react';
 import {FontStyle} from '../utils/GlobalFonts';
 import {Email} from './mySetting/MyScreen';

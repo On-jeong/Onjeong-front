@@ -1,11 +1,10 @@
 import React from 'react';
-import {FontStyle} from '../utils/GlobalFonts';
+import {FontStyle} from '@/utils/GlobalFonts';
 import styled from 'styled-components';
-import {AppColors, navigationHeight} from '../utils/GlobalStyles';
+import {AppColors, navigationHeight} from '@/utils/GlobalStyles';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import PropTypes from 'prop-types';
-import {Alert} from 'react-native';
 
 const NavBar = styled.View`
   height: ${navigationHeight}px;

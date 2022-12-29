@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {FontStyle} from '../utils/GlobalFonts';
-import {BasicHeader} from '../components/WithHeader';
+import {BasicHeader} from '../components/headers/WithHeader';
 import {useRecoilState} from 'recoil';
 import {
   DailyCoinState,

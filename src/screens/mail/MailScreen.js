@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
-import NoHeader from '@/components/NoHeader';
+import NoHeader from '@/components/headers/NoHeader';
 
 import {ScrollView} from 'react-native-gesture-handler';
 import {FontStyle} from '@/utils/GlobalFonts';
@@ -75,39 +75,51 @@ const MailScreen = ({navigation}) => {
     useCallback(() => {
       refetch();
       sendRefetch();
-    }, [data]),
+    }, [receiveData]),
   );
-  const {data, isLoading, status, error, refetch} = useGetReceiveMails({
+  const {
+    data: receiveData,
+    isLoading: receiveIsLoading,
+    isError: receiveIsError,
+    refetch,
+  } = useGetReceiveMails({
     onSuccess: data => {
       setMails(data?.data?.data);
     },
   });
   const {
     data: sendData,
+    isLoading: sendIsLoading,
+    isError: sendIsError,
     refetch: sendRefetch,
   } = useGetSendMails();
   const {mutate: delReceiveMail} = useDeleteReceiveMail();
   const {mutate: delSendMail} = useDeleteSendMail();
 
-  const [mails, setMails] = useState(data?.data?.data);
-  const [isReceive, setIsReceive] = useState(true);
+  const [mails, setMails] = useState(receiveData?.data?.data);
+  const [isReceive, setIsReceive] = useState(true); // 받은 우편함인지 보낸 우편함인지 구분
   const [isDelete, setIsDelete] = useState(false);
-  console.log(mails);
+  console.log('mails', mails);
 
   const receiveMails = () => {
     setIsReceive(true);
     refetch();
-    setMails(data?.data?.data);
+    setMails(receiveData?.data?.data);
   };
 
   const sendMails = () => {
     setIsReceive(false);
     sendRefetch();
-    setMails(sendData?.data);
+    setMails(sendData?.data?.data);
   };
 
   return (
-    <NoHeader title={'우편함'} isBack={true} navigation={navigation}>
+    <NoHeader
+      title={'우편함'}
+      isBack={true}
+      navigation={navigation}
+      isLoading={isReceive ? receiveIsLoading : sendIsLoading}
+      isError={isReceive ? receiveIsError : sendIsError}>
       <>
         <TopBar>
           <Filter>

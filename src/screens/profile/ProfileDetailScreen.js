@@ -1,5 +1,5 @@
 import React from 'react';
-import NoHeader from '@/components/NoHeader';
+import NoHeader from '@/components/headers/NoHeader';
 import {Components} from '../../utils/Components';
 
 import FamilyProfile from './component/FamilyProfile';

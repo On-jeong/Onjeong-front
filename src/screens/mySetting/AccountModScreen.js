@@ -1,5 +1,5 @@
 import {AppButtons} from '@/components/buttons';
-import NoHeader from '@/components/NoHeader';
+import NoHeader from '@/components/headers/NoHeader';
 import {useModifyAccount} from '@/hooks/useUserData';
 import {
   UserBirthState,

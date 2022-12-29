@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import NoHeader from '@/components/NoHeader';
+import NoHeader from '@/components/headers/NoHeader';
 import {useQueryClient} from '@tanstack/react-query';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {AppColors, windowHeight, windowWidth} from '@/utils/GlobalStyles';

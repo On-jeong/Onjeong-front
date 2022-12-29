@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {BasicHeader} from '@/components/WithHeader';
+import {BasicHeader} from '@/components/headers/WithHeader';
 import styled from 'styled-components';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {Components} from '@/utils/Components';

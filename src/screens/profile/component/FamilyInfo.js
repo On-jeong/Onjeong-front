@@ -19,8 +19,6 @@ import {
 import {useQueryClient} from '@tanstack/react-query';
 import {MessageInput} from './FamilyProfile';
 import {Components} from '@/utils/Components';
-import {useRecoilState} from 'recoil';
-import {DelTagIdState} from '@/state/tempData';
 
 const ContentsContainer = styled.ScrollView`
   padding-left: 7%;

@@ -12,7 +12,7 @@ import {
 } from 'date-fns';
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import {WithHeader} from '../components/WithHeader';
+import {WithHeader} from '../components/headers/WithHeader';
 import {FontStyle} from '../utils/GlobalFonts';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
@@ -118,7 +118,6 @@ const getCalender = ({
     month.push(<Week key={date}>{week}</Week>); // 한 주 추가
     week = []; // 한 주 초기화
   }
-
 
   return (
     <>

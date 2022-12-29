@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import NoHeader from '@/components/NoHeader';
+import NoHeader from '@/components/headers/NoHeader';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {AppColors} from '@/utils/GlobalStyles';
 import {AppButtons} from '../../components/buttons';
@@ -73,8 +73,7 @@ const SignInScreen = ({navigation}) => {
   useEffect(() => {
     // 기본 헤더 제거
     delete customAxios.defaults.headers.common['AuthorizationAccess'];
-  }, [])
-  
+  }, []);
 
   const onSubmit = () => {
     console.log('id: ' + userId);

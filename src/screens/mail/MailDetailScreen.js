@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import NoHeader from '@/components/NoHeader';
+import NoHeader from '@/components/headers/NoHeader';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {Paper, PaperContainer, SendBox} from './MailWriteScreen';
 

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import NoHeader from '@/components/NoHeader';
+import NoHeader from '@/components/headers/NoHeader';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {AppColors} from '@/utils/GlobalStyles';
 import {Box, Container, InputContainer, Title} from './SignInScreen';

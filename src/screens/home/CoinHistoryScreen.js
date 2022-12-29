@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import NoHeader from '@/components/NoHeader';
+import NoHeader from '@/components/headers/NoHeader';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {Components} from '@/utils/Components';
 import {useGetCoinHistory} from '@/hooks/useHomeData';

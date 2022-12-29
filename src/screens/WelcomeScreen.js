@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {FontStyle} from '../utils/GlobalFonts';
 import styled from 'styled-components';
-import NoHeader from '@/components/NoHeader';
+import NoHeader from '@/components/headers/NoHeader';
 import {storage} from '../config/storage';
 import axios, {refreshAxios} from '@/api/axios';
 import {useFocusEffect} from '@react-navigation/native';
@@ -14,7 +14,7 @@ import {
   UserNicknameState,
   UserStatusState,
 } from '@/state/UserData';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 
 const Center = styled.View`
   flex: 0.8;

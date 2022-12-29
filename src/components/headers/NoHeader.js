@@ -1,7 +1,7 @@
 import React from 'react';
-import {FontStyle} from '../utils/GlobalFonts';
+import {FontStyle} from '@/utils/GlobalFonts';
 import styled from 'styled-components';
-import {AppColors} from '../utils/GlobalStyles';
+import {AppColors} from '@/utils/GlobalStyles';
 import {Body, IconBox, LoadingBox} from './WithHeader';
 import Entypo from 'react-native-vector-icons/Entypo';
 import PropTypes from 'prop-types';

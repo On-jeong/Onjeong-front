@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {BasicHeader} from '../components/WithHeader';
+import {BasicHeader} from '../components/headers/WithHeader';
 import styled from 'styled-components';
 import {ScrollView} from 'react-native';
 import {FontStyle} from '../utils/GlobalFonts';
