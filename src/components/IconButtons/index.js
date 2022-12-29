@@ -78,6 +78,7 @@ Alert.propTypes = {
 
 const Cancel = ({
   onPress,
+  disabled = false,
   size = 22,
   padding = {
     padding: 0,
@@ -88,7 +89,7 @@ const Cancel = ({
   },
 }) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} disabled={disabled}>
       <MaterialIcons
         name="cancel"
         size={size}

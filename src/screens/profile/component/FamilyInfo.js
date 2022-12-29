@@ -19,6 +19,8 @@ import {
 import {useQueryClient} from '@tanstack/react-query';
 import {MessageInput} from './FamilyProfile';
 import {Components} from '@/utils/Components';
+import {useRecoilState} from 'recoil';
+import {DelTagIdState} from '@/state/tempData';
 
 const ContentsContainer = styled.ScrollView`
   padding-left: 7%;
@@ -57,26 +59,38 @@ const FamilyInfo = ({route}) => {
   // 태그 추가 api
   const {mutate: addFavorite} = useAddFavorite({
     onMutate: () => onAddMutate('favorites'),
-    onError: (err, value, context) => onAddError(err, value, context),
+    onError: (err, value, context) => onError(err, value, context),
   });
   const {mutate: addHate} = useAddHate({
     onMutate: () => onAddMutate('hates'),
-    onError: (err, value, context) => onAddError(err, value, context),
+    onError: (err, value, context) => onError(err, value, context),
   });
   const {mutate: addInterest} = useAddInterest({
     onMutate: () => onAddMutate('interests'),
-    onError: (err, value, context) => onAddError(err, value, context),
+    onError: (err, value, context) => onError(err, value, context),
   });
   const {mutate: addExpression} = useAddExpression({
     onMutate: () => onAddMutate('expressions'),
-    onError: (err, value, context) => onAddError(err, value, context),
+    onError: (err, value, context) => onError(err, value, context),
   });
 
   // 태그 삭제 api
-  const {mutate: delFavorite} = useDelFavorite();
-  const {mutate: delHate} = useDelHate();
-  const {mutate: delInterest} = useDelInterest();
-  const {mutate: delExpression} = useDelExpression();
+  const {mutate: delFavorite} = useDelFavorite({
+    onMutate: value => onDelMutate('favorites', value),
+    onError: (err, value, context) => onError(err, value, context),
+  });
+  const {mutate: delHate} = useDelHate({
+    onMutate: () => onDelMutate('hates'),
+    onError: (err, value, context) => onError(err, value, context),
+  });
+  const {mutate: delInterest} = useDelInterest({
+    onMutate: () => onDelMutate('interests'),
+    onError: (err, value, context) => onError(err, value, context),
+  });
+  const {mutate: delExpression} = useDelExpression({
+    onMutate: () => onDelMutate('expressions'),
+    onError: (err, value, context) => onError(err, value, context),
+  });
 
   const getId = data => {
     if (data.length === 0) return 0;
@@ -110,24 +124,55 @@ const FamilyInfo = ({route}) => {
       },
     );
     setModiCategory('');
-    // 실패시 되돌릴 데이터 리턴
 
-    return {rollbackData};
+    // 실패시 되돌릴 데이터 리턴
+    return {rollbackData, add: true};
   };
 
-  const onAddError = (err, value, context) => {
+  const onDelMutate = (category, value) => {
+    // 이전에 자동 요청된 데이터 등으로 overwrite 되지 않도록
+    queryClient.cancelQueries(['getFamilyInfo', route.params.userId]);
+
+    // 실패했을 경우 롤백을 해야 하므로 원래의 데이터를 저장한다.
+    const rollbackData = queryClient.getQueryData([
+      'getFamilyInfo',
+      route.params.userId,
+    ]);
+
+    // 성공 가정하고 UI 미리 적용
+    queryClient.setQueryData(
+      ['getFamilyInfo', route.params.userId],
+      oldData => {
+        const optimisticData = rollbackData[category].filter(it => {
+          return it.selfIntroductionAnswerId !== value.delTagId;
+        });
+
+        return {
+          ...oldData,
+          [category]: optimisticData,
+        };
+      },
+    );
+
+    // 실패시 되돌릴 데이터 리턴
+    return {rollbackData, del: true};
+  };
+
+  const onError = (err, value, context) => {
     // 실패할 경우 onMutate에서 반환한 값이 context로 들어옴
     // 기존 data로 rollback
     queryClient.setQueryData(
       ['getFamilyInfo', route.params.userId],
       context.rollbackData,
     );
-    alert('태그 생성에 실패했습니다');
-    console.log('c', context);
-    console.log('e', err);
+    if (context.add) alert('태그 생성 중 오류가 발생했습니다');
+    else if (context.del) alert('태그 삭제 중 오류가 발생했습니다');
+
+    console.log('context : ', context);
+    console.log('태그오류 : ', err);
   };
 
-  // 태그 추가 - 서버로 보내는 함수
+  // 카테고리별 태그 추가 - 서버로 보내는 함수
   const submitTag = (category, userId, data) => {
     if (tagValue === '') alert('태그를 입력해 주세요');
     else {
@@ -138,24 +183,12 @@ const FamilyInfo = ({route}) => {
     }
   };
 
-  // 태그 삭제 - 서버로 보내는 함수
-  const deleteTag = (category, userId, selfIntroductionAnswerId) => {
-    if (category === 'favorites')
-      delFavorite({userId, selfIntroductionAnswerId});
-    else if (category === 'hates') delHate({userId, selfIntroductionAnswerId});
-    else if (category === 'interests')
-      delInterest({userId, selfIntroductionAnswerId});
-    else if (category === 'expressions')
-      delExpression({userId, selfIntroductionAnswerId});
-
-    queryClient.setQueryData(
-      ['getFamilyInfo', route.params.userId],
-      oldData => {
-        oldData.data.data[category] = oldData.data.data[category].filter(it => {
-          return it.selfIntroductionAnswerId !== selfIntroductionAnswerId;
-        });
-      },
-    );
+  // 카테고리별 태그 삭제 - 서버로 보내는 함수
+  const deleteTag = (category, userId, delTagId) => {
+    if (category === 'favorites') delFavorite({userId, delTagId});
+    else if (category === 'hates') delHate({userId, delTagId});
+    else if (category === 'interests') delInterest({userId, delTagId});
+    else if (category === 'expressions') delExpression({userId, delTagId});
   };
 
   const TagCategory = (title, infoData, category, tagValue, setTagValue) => {
@@ -288,7 +321,7 @@ CategoryTitle.propTypes = {
   onPress: PropTypes.func,
 };
 
-const TagGroup = styled.View`
+const TagGroup = styled.TouchableOpacity`
   margin-right: 12px;
   margin-bottom: 10px;
 `;
@@ -302,13 +335,13 @@ const TagBox = styled.View`
 
 const Tag = ({title, isModify, onPress}) => {
   return (
-    <TagGroup>
+    <TagGroup onPress={onPress} disabled={!isModify}>
       <TagBox>
         <FontStyle.SubContent>{title}</FontStyle.SubContent>
       </TagBox>
       {isModify && (
         <CancelBox>
-          <AppIconButtons.Cancel onPress={onPress} />
+          <AppIconButtons.Cancel disabled={true} />
         </CancelBox>
       )}
     </TagGroup>

@@ -10,7 +10,9 @@ const fetchFamilyProfile = userId => {
 };
 
 const fetchFamilyInfo = userId => {
-  return customAxios.get(`/profiles/${userId}/self-introduction`);
+  return customAxios.get(`/profiles/${userId}/self-introduction`).then(data => {
+    return data?.data?.data;
+  });
 };
 
 const addProfileImage = formData => {
@@ -30,28 +32,20 @@ const modMessage = message => {
   return customAxios.patch(`/profiles/message`, message);
 };
 
-const delFavorite = ({userId, selfIntroductionAnswerId}) => {
-  return customAxios.delete(
-    `/profiles/favorites/${userId}/${selfIntroductionAnswerId}`,
-  );
+const delFavorite = ({userId, delTagId}) => {
+  return customAxios.delete(`/profiles/favorites/${userId}/${delTagId}`);
 };
 
-const delHate = ({userId, selfIntroductionAnswerId}) => {
-  return customAxios.delete(
-    `/profiles/hates/${userId}/${selfIntroductionAnswerId}`,
-  );
+const delHate = ({userId, delTagId}) => {
+  return customAxios.delete(`/profiles/hates/${userId}/${delTagId}`);
 };
 
-const delInterest = ({userId, selfIntroductionAnswerId}) => {
-  return customAxios.delete(
-    `/profiles/interests/${userId}/${selfIntroductionAnswerId}`,
-  );
+const delInterest = ({userId, delTagId}) => {
+  return customAxios.delete(`/profiles/interests/${userId}/${delTagId}`);
 };
 
-const delExpression = ({userId, selfIntroductionAnswerId}) => {
-  return customAxios.delete(
-    `/profiles/expressions/${userId}/${selfIntroductionAnswerId}`,
-  );
+const delExpression = ({userId, delTagId}) => {
+  return customAxios.delete(`/profiles/expressions/${userId}/${delTagId}`);
 };
 
 const addFavorite = ({userId, data}) => {
@@ -121,57 +115,61 @@ export const useModMessage = () => {
 //
 // 태그 등록
 //
-export const useAddFavorite = onSuccess => {
+export const useAddFavorite = ({onError, onMutate}) => {
   return useMutation(addFavorite, {
-    onError: error => console.log(error),
-    onSuccess: onSuccess,
+    onError: onError,
+    onMutate: onMutate,
   });
 };
 
-export const useAddHate = onSuccess => {
+export const useAddHate = ({onError, onMutate}) => {
   return useMutation(addHate, {
-    onError: error => console.log(error),
-    onSuccess: onSuccess,
+    onError: onError,
+    onMutate: onMutate,
   });
 };
 
-export const useAddInterest = onSuccess => {
+export const useAddInterest = ({onError, onMutate}) => {
   return useMutation(addInterest, {
-    onError: error => console.log(error),
-    onSuccess: onSuccess,
+    onError: onError,
+    onMutate: onMutate,
   });
 };
 
-export const useAddExpression = onSuccess => {
+export const useAddExpression = ({onError, onMutate}) => {
   return useMutation(addExpression, {
-    onError: error => console.log(error),
-    onSuccess: onSuccess,
+    onError: onError,
+    onMutate: onMutate,
   });
 };
 
 //
 // 태그 삭제
 //
-export const useDelFavorite = () => {
+export const useDelFavorite = ({onError, onMutate}) => {
   return useMutation(delFavorite, {
-    onError: error => console.log(error),
+    onError: onError,
+    onMutate: onMutate,
   });
 };
 
-export const useDelHate = () => {
+export const useDelHate = ({onError, onMutate}) => {
   return useMutation(delHate, {
-    onError: error => console.log(error),
+    onError: onError,
+    onMutate: onMutate,
   });
 };
 
-export const useDelInterest = () => {
+export const useDelInterest = ({onError, onMutate}) => {
   return useMutation(delInterest, {
-    onError: error => console.log(error),
+    onError: onError,
+    onMutate: onMutate,
   });
 };
 
-export const useDelExpression = () => {
+export const useDelExpression = ({onError, onMutate}) => {
   return useMutation(delExpression, {
-    onError: error => console.log(error),
+    onError: onError,
+    onMutate: onMutate,
   });
 };
