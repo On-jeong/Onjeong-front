@@ -19,6 +19,7 @@ import {
 import {useQueryClient} from '@tanstack/react-query';
 import {MessageInput} from './FamilyProfile';
 import {Components} from '@/utils/Components';
+import LoadingComponent from '@/components/Loading/LoadingComponent';
 
 const ContentsContainer = styled.ScrollView`
   padding-left: 7%;
@@ -49,6 +50,7 @@ const FamilyInfo = ({route}) => {
   const {
     data: infoData,
     isLoading: infoIsLoading,
+    isError: infoIsError,
     status: infoStatus,
   } = useGetFamilyInfo(route.params.userId);
 
@@ -245,49 +247,48 @@ const FamilyInfo = ({route}) => {
       </>
     );
   };
+
   return (
     <ContentsContainer>
-      {infoIsLoading ? (
-        <FontStyle.Content>Loading...</FontStyle.Content>
-      ) : infoStatus === 'success' ? (
-        <>
-          {TagCategory(
-            '좋아하는 것들',
-            infoData,
-            'favorites',
-            tagValue,
-            setTagValue,
-          )}
+      <LoadingComponent isError={infoIsError} isLoading={infoIsLoading}>
+        {!infoIsLoading && (
+          <>
+            {TagCategory(
+              '좋아하는 것들',
+              infoData,
+              'favorites',
+              tagValue,
+              setTagValue,
+            )}
 
-          {TagCategory(
-            '싫어하는 것들',
-            infoData,
-            'hates',
-            tagValue,
-            setTagValue,
-          )}
+            {TagCategory(
+              '싫어하는 것들',
+              infoData,
+              'hates',
+              tagValue,
+              setTagValue,
+            )}
 
-          {TagCategory(
-            '요즘 관심사',
-            infoData,
-            'interests',
-            tagValue,
-            setTagValue,
-          )}
+            {TagCategory(
+              '요즘 관심사',
+              infoData,
+              'interests',
+              tagValue,
+              setTagValue,
+            )}
 
-          {TagCategory(
-            `'${route.params.role}'을(를) 한단어로 표현한다면?`,
-            infoData,
-            'expressions',
-            tagValue,
-            setTagValue,
-          )}
+            {TagCategory(
+              `'${route.params.role}'을(를) 한단어로 표현한다면?`,
+              infoData,
+              'expressions',
+              tagValue,
+              setTagValue,
+            )}
 
-          <Components.EmptyBox height={50} />
-        </>
-      ) : (
-        <FontStyle.Content>데이터를 불러오는데 실패했습니다.</FontStyle.Content>
-      )}
+            <Components.EmptyBox height={50} />
+          </>
+        )}
+      </LoadingComponent>
     </ContentsContainer>
   );
 };

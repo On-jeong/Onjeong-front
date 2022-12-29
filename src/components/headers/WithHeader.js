@@ -5,6 +5,7 @@ import {AppColors, navigationHeight} from '@/utils/GlobalStyles';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import PropTypes from 'prop-types';
+import LoadingComponent, {LoadingBox} from '../Loading/LoadingComponent';
 
 const NavBar = styled.View`
   height: ${navigationHeight}px;
@@ -37,12 +38,6 @@ export const Body = styled.View`
   background-color: ${AppColors.body};
 `;
 
-export const LoadingBox = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
-
 export const WithHeader = ({
   isBack,
   children,
@@ -57,38 +52,6 @@ export const WithHeader = ({
   isLoading,
   isError,
 }) => {
-  if (isError) {
-    return (
-      <>
-        <NavBar>
-          <LeftNav>
-            {isBack ? (
-              <IconBox
-                onPress={() => {
-                  navigation.goBack();
-                }}>
-                <Entypo name="chevron-left" size={20} />
-              </IconBox>
-            ) : (
-              <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
-            )}
-          </LeftNav>
-          <FontStyle.Title>{title}</FontStyle.Title>
-          <RightNav>
-            <IconBox onPress={rightOnPress1}>{rightIcon1}</IconBox>
-            <IconBox onPress={rightOnPress2}>{rightIcon2}</IconBox>
-          </RightNav>
-        </NavBar>
-        <Body>
-          <LoadingBox>
-            <FontStyle.Content>에러가 발생했습니다!</FontStyle.Content>
-            <FontStyle.Content>잠시 후 다시 시도해 주세요.</FontStyle.Content>
-          </LoadingBox>
-        </Body>
-      </>
-    );
-  }
-
   return (
     <>
       <NavBar>
@@ -110,15 +73,9 @@ export const WithHeader = ({
           <IconBox onPress={rightOnPress2}>{rightIcon2}</IconBox>
         </RightNav>
       </NavBar>
-      <Body>
-        {isLoading ? (
-          <LoadingBox>
-            <FontStyle.Content>Loading...</FontStyle.Content>
-          </LoadingBox>
-        ) : (
-          <>{children}</>
-        )}
-      </Body>
+      <LoadingComponent isLoading={isLoading} isError={isError}>
+        {children}
+      </LoadingComponent>
     </>
   );
 };
@@ -133,48 +90,6 @@ export const BasicHeader = ({
   isLoading,
   isError,
 }) => {
-  if (isError) {
-    return (
-      <>
-        <NavBar>
-          <LeftNav>
-            {isBack ? (
-              <IconBox
-                onPress={() => {
-                  navigation.goBack();
-                }}>
-                <Entypo name="chevron-left" size={22} />
-              </IconBox>
-            ) : (
-              <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
-            )}
-          </LeftNav>
-          <FontStyle.Title>{title}</FontStyle.Title>
-          <RightNav>
-            <IconBox
-              onPress={() => {
-                navigation.navigate('Alert');
-              }}>
-              <Octicons name="bell" size={22} />
-            </IconBox>
-            <IconBox
-              onPress={() => {
-                navigation.navigate('My');
-              }}>
-              <Octicons name="person" size={23} />
-            </IconBox>
-          </RightNav>
-        </NavBar>
-        <Body>
-          <LoadingBox>
-            <FontStyle.Content>에러가 발생했습니다!</FontStyle.Content>
-            <FontStyle.Content>잠시 후 다시 시도해 주세요.</FontStyle.Content>
-          </LoadingBox>
-        </Body>
-      </>
-    );
-  }
-
   return (
     <>
       <NavBar>
@@ -207,13 +122,9 @@ export const BasicHeader = ({
         </RightNav>
       </NavBar>
       <Body>
-        {isLoading ? (
-          <LoadingBox>
-            <FontStyle.Content>Loading...</FontStyle.Content>
-          </LoadingBox>
-        ) : (
-          <>{children}</>
-        )}
+        <LoadingComponent isLoading={isLoading} isError={isError}>
+          {children}
+        </LoadingComponent>
       </Body>
     </>
   );
