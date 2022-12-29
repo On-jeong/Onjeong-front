@@ -52,13 +52,25 @@ const FamilyInfo = ({route}) => {
     status: infoStatus,
   } = useGetFamilyInfo(route.params.userId);
 
+  if (!infoIsLoading) console.log('인포:', infoData);
+
   // 태그 추가 api
-  const {mutate: addFavorite} = useAddFavorite(() => onAddSuccess('favorites'));
-  const {mutate: addHate} = useAddHate(() => onAddSuccess('hates'));
-  const {mutate: addInterest} = useAddInterest(() => onAddSuccess('interests'));
-  const {mutate: addExpression} = useAddExpression(() =>
-    onAddSuccess('expressions'),
-  );
+  const {mutate: addFavorite} = useAddFavorite({
+    onMutate: () => onAddMutate('favorites'),
+    onError: (err, value, context) => onAddError(err, value, context),
+  });
+  const {mutate: addHate} = useAddHate({
+    onMutate: () => onAddMutate('hates'),
+    onError: (err, value, context) => onAddError(err, value, context),
+  });
+  const {mutate: addInterest} = useAddInterest({
+    onMutate: () => onAddMutate('interests'),
+    onError: (err, value, context) => onAddError(err, value, context),
+  });
+  const {mutate: addExpression} = useAddExpression({
+    onMutate: () => onAddMutate('expressions'),
+    onError: (err, value, context) => onAddError(err, value, context),
+  });
 
   // 태그 삭제 api
   const {mutate: delFavorite} = useDelFavorite();
@@ -71,22 +83,48 @@ const FamilyInfo = ({route}) => {
     else return data[data.length - 1].selfIntroductionAnswerId + 1;
   };
 
-  const onAddSuccess = category => {
+  const onAddMutate = category => {
+    // 이전에 자동 요청된 데이터 등으로 overwrite 되지 않도록
+    queryClient.cancelQueries(['getFamilyInfo', route.params.userId]);
+
+    // 실패했을 경우 롤백을 해야 하므로 원래의 데이터를 저장한다.
+    const rollbackData = queryClient.getQueryData([
+      'getFamilyInfo',
+      route.params.userId,
+    ]);
+
+    // 성공 가정하고 UI 미리 적용
     queryClient.setQueryData(
       ['getFamilyInfo', route.params.userId],
       oldData => {
-        let data = oldData.data.data[category];
-        oldData.data.data[category] = [
-          ...data,
-          {
-            selfIntroductionAnswerId: getId(data),
-            selfIntroductionAnswerContent: tagValue,
-          },
-        ];
-
-        setModiCategory('');
+        return {
+          ...oldData,
+          [category]: [
+            ...oldData[category],
+            {
+              selfIntroductionAnswerId: getId(oldData[category]),
+              selfIntroductionAnswerContent: tagValue,
+            },
+          ],
+        };
       },
     );
+    setModiCategory('');
+    // 실패시 되돌릴 데이터 리턴
+
+    return {rollbackData};
+  };
+
+  const onAddError = (err, value, context) => {
+    // 실패할 경우 onMutate에서 반환한 값이 context로 들어옴
+    // 기존 data로 rollback
+    queryClient.setQueryData(
+      ['getFamilyInfo', route.params.userId],
+      context.rollbackData,
+    );
+    alert('태그 생성에 실패했습니다');
+    console.log('c', context);
+    console.log('e', err);
   };
 
   // 태그 추가 - 서버로 보내는 함수
@@ -121,7 +159,7 @@ const FamilyInfo = ({route}) => {
   };
 
   const TagCategory = (title, infoData, category, tagValue, setTagValue) => {
-    let tagData = infoData?.data?.data[category];
+    let tagData = infoData[category];
 
     return (
       <>
@@ -154,7 +192,7 @@ const FamilyInfo = ({route}) => {
               </TagBox>
             </TagGroup>
           )}
-          {tagData.length === 0 ? (
+          {tagData.size === 0 ? (
             <FontStyle.Content></FontStyle.Content> // 태그 없을 때 빈칸
           ) : (
             tagData?.map(info => (
