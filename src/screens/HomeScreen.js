@@ -27,6 +27,8 @@ import {
 import {flower, seed} from '@/utils/FlowerImagePath';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {format} from 'date-fns';
+import {LoadingBox, ReloadButtoon} from '@/components/Loading/LoadingComponent';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const Background = styled.ImageBackground`
   flex: 1;
@@ -89,13 +91,24 @@ export const HomeScreen = ({navigation}) => {
   const [flowerBloomState, setFlowerBloomState] =
     useRecoilState(FlowerBloomDateState);
 
-  const {data: coinData} = useGetCoins({
+  const {
+    data: coinData,
+    isError: coinError,
+    isLoading: coinIsLoading,
+    refetch: coinRefetch,
+  } = useGetCoins({
     onSuccess: data => {
       setFamilyCoinState(data?.data?.data);
     },
   });
 
-  const {data: flowerInfoData, status: flowerStatus} = useGetFlowerInfo({
+  const {
+    data: flowerInfoData,
+    status: flowerStatus,
+    isError: flowerError,
+    isLoading: flowerIsLoading,
+    refetch: flowerRefetch,
+  } = useGetFlowerInfo({
     onSuccess: data => {
       setFlowerKindState('camellia');
       setFlowerLevelState(data?.data?.data.flowerLevel);
@@ -134,7 +147,14 @@ export const HomeScreen = ({navigation}) => {
   };
 
   return (
-    <BasicHeader title="온정" navigation={navigation}>
+    <BasicHeader
+      title="온정"
+      navigation={navigation}
+      isError={coinError || flowerError}
+      reloadFunc={() => {
+        flowerRefetch();
+        coinRefetch();
+      }}>
       <Background
         source={require('@/assets/image/background/background_cloud_sky_grace_ground.png')}
         resizeMode="stretch">
@@ -152,6 +172,7 @@ export const HomeScreen = ({navigation}) => {
       </FamilyCoinView>
       <FlowerBoxTouchable
         //onPress={() => navigation.navigate('')}
+        disabled={true}
         activeOpacity={0.5}>
         <AutoHeightImage
           width={windowWidth * 0.2}

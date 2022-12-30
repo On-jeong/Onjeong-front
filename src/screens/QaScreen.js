@@ -18,9 +18,7 @@ import {useQueryClient} from '@tanstack/react-query';
 import {useRecoilValue} from 'recoil';
 import {UserNameState} from '@/state/UserData';
 import {useFocusEffect} from '@react-navigation/native';
-import LoadingComponent, {
-  LoadingBox,
-} from '@/components/Loading/LoadingComponent';
+import LoadingComponent from '@/components/Loading/LoadingComponent';
 
 export const SpaceBetween = styled.View`
   flex-direction: row;
@@ -123,11 +121,13 @@ export default function QaScreen({navigation}) {
     data: questData,
     isLoading: questIsLoading,
     isError: questIsError,
+    refetch: questRefetch,
   } = useGetQuest();
   const {
     data: ansData,
     isLoading: ansIsLoading,
     isError: ansIsError,
+    refetch: ansRefetch,
   } = useGetAnswers();
   console.log(ansData);
 
@@ -190,7 +190,11 @@ export default function QaScreen({navigation}) {
       title="이 주의 문답"
       navigation={navigation}
       isLoading={questIsLoading || ansIsLoading}
-      isError={questIsError || ansIsError}>
+      isError={questIsError || ansIsError}
+      reloadFunc={() => {
+        questRefetch();
+        ansRefetch();
+      }}>
       <>
         <QuestBox>
           <FontStyle.ContentB>

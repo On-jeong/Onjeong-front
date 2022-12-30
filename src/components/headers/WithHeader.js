@@ -51,6 +51,7 @@ export const WithHeader = ({
   navigation,
   isLoading,
   isError,
+  reloadFunc,
 }) => {
   return (
     <>
@@ -73,7 +74,10 @@ export const WithHeader = ({
           <IconBox onPress={rightOnPress2}>{rightIcon2}</IconBox>
         </RightNav>
       </NavBar>
-      <LoadingComponent isLoading={isLoading} isError={isError}>
+      <LoadingComponent
+        isLoading={isLoading}
+        isError={isError}
+        reloadFunc={reloadFunc}>
         {children}
       </LoadingComponent>
     </>
@@ -89,6 +93,7 @@ export const BasicHeader = ({
   navigation,
   isLoading,
   isError,
+  reloadFunc,
 }) => {
   return (
     <>
@@ -122,7 +127,10 @@ export const BasicHeader = ({
         </RightNav>
       </NavBar>
       <Body>
-        <LoadingComponent isLoading={isLoading} isError={isError}>
+        <LoadingComponent
+          isLoading={isLoading}
+          isError={isError}
+          reloadFunc={reloadFunc}>
           {children}
         </LoadingComponent>
       </Body>

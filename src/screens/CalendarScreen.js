@@ -25,6 +25,7 @@ import {
 } from '../utils/GlobalStyles';
 import {useIsFocused} from '@react-navigation/native';
 import {useGetMonthAnn} from '../hooks/useAnniversaryData';
+import {isCancelledError} from '@tanstack/react-query';
 
 const Calendar = styled.View`
   width: 100%;
@@ -74,7 +75,7 @@ export default function CalendarScreen({navigation}) {
   const isFocus = useIsFocused();
   const [curDate, setCurDate] = useState(new Date());
 
-  const {data, isLoading, isError} = useGetMonthAnn(
+  const {data, isLoading, isError, refetch} = useGetMonthAnn(
     format(curDate, 'yyyy-MM-dd'),
   );
 
@@ -82,7 +83,15 @@ export default function CalendarScreen({navigation}) {
 
   return (
     <>
-      {getCalender({curDate, setCurDate, navigation, data, isLoading, isError})}
+      {getCalender({
+        curDate,
+        setCurDate,
+        navigation,
+        data,
+        isLoading,
+        isError,
+        refetch,
+      })}
     </>
   );
 }
@@ -93,8 +102,8 @@ const getCalender = ({
   setCurDate,
   navigation,
   data,
-  isLoading,
   isError,
+  refetch,
 }) => {
   const monthStart = startOfMonth(curDate); //이번 달 시작 날짜
   const monthEnd = endOfMonth(curDate); //이번 달 마지막 날짜
@@ -122,8 +131,6 @@ const getCalender = ({
   return (
     <>
       <WithHeader
-        isLoading={isLoading}
-        isError={isError}
         title={curYear + '년 ' + curMonth + '월'}
         leftIcon={<MaterialIcons name="keyboard-arrow-left" size={30} />}
         rightIcon2={<MaterialIcons name="keyboard-arrow-right" size={30} />}
@@ -134,7 +141,9 @@ const getCalender = ({
         rightOnPress2={() => {
           setCurDate(addMonths(curDate, 1));
           getCalender({curDate});
-        }}>
+        }}
+        isError={isError}
+        reloadFunc={() => refetch()}>
         <Calendar>{month}</Calendar>
       </WithHeader>
     </>
@@ -169,7 +178,7 @@ const pushDate = ({week, date, curMonth, today, navigation, data}) => {
           {formattedDate}
         </FontStyle.ContentB>
       </Circle>
-      {/* 기념일은 3개까지만 들어가게 하기 */}
+      {/* 기념일은 3개까지만 들어감 */}
       {data?.data?.data.map(
         plan =>
           plan.anniversaryDate == format(date, 'yyyy-MM-dd') && (

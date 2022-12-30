@@ -51,7 +51,7 @@ const FamilyInfo = ({route}) => {
     data: infoData,
     isLoading: infoIsLoading,
     isError: infoIsError,
-    status: infoStatus,
+    refetch: infoRefetch,
   } = useGetFamilyInfo(route.params.userId);
 
   if (!infoIsLoading) console.log('인포:', infoData);
@@ -248,7 +248,10 @@ const FamilyInfo = ({route}) => {
 
   return (
     <ContentsContainer>
-      <LoadingComponent isError={infoIsError} isLoading={infoIsLoading}>
+      <LoadingComponent
+        isError={infoIsError}
+        isLoading={infoIsLoading}
+        reloadFunc={infoRefetch}>
         {!infoIsLoading && (
           <>
             {TagCategory(

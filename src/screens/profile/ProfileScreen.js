@@ -41,7 +41,8 @@ const ProfileScreen = ({navigation}) => {
       title="가족 프로필"
       navigation={navigation}
       isLoading={isLoading}
-      isError={isError}>
+      isError={isError}
+      reloadFunc={refetch}>
       <ScrollView>
         <ProfileBox>
           <>

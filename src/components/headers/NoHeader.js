@@ -46,6 +46,7 @@ const NoHeader = ({
   navigation,
   isLoading,
   isError,
+  reloadFunc
 }) => {
   return (
     <Container>
@@ -68,7 +69,7 @@ const NoHeader = ({
         <IconBox onPress={rightOnPress}>{rightIcon}</IconBox>
       </NavContainer>
       <Body>
-        <LoadingComponent isLoading={isLoading} isError={isError}>
+        <LoadingComponent isLoading={isLoading} isError={isError} reloadFunc={reloadFunc}>
           {children}
         </LoadingComponent>
       </Body>
