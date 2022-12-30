@@ -6,7 +6,7 @@ const fetchQuest = () => {
 };
 
 const fetchAnswers = () => {
-  return customAxios.get(`/answers`);
+  return customAxios.get(`/answers`).then(data => data?.data?.data);
 };
 
 const addAnswer = questData => {
@@ -37,9 +37,12 @@ export const useGetAnswers = onSuccess => {
 };
 
 // 이주의 문답 답변 작성하기
-export const useAddAnswer = onSuccess => {
+export const useAddAnswer = ({onSuccess}) => {
   return useMutation(addAnswer, {
-    onError: error => alert('작성에 실패했습니다.'),
+    onError: error => {
+      alert('문답 작성 중 오류가 발생했습니다.');
+      console.log('문답작성에러:', error);
+    },
     onSuccess: onSuccess,
   });
 };
@@ -47,7 +50,10 @@ export const useAddAnswer = onSuccess => {
 // 이주의 문답 답변 수정하기
 export const useModifyAnswer = ({onSuccess}) => {
   return useMutation(modifyAnswer, {
-    onError: error => alert('수정에 실패했습니다.'),
+    onError: error => {
+      alert('문답 수정 중 오류가 발생했습니다.');
+      console.log('문답수정에러:', error);
+    },
     onSuccess: onSuccess,
   });
 };
@@ -55,7 +61,10 @@ export const useModifyAnswer = ({onSuccess}) => {
 // 이주의 문답 답변 삭제하기
 export const useDeleteAnswer = ({onSuccess}) => {
   return useMutation(deleteAnswer, {
-    onError: error => alert('삭제에 실패했습니다.'),
+    onError: error => {
+      alert('문답 삭제 중 오류가 발생했습니다.');
+      console.log('문답삭제에러:', error);
+    },
     onSuccess: onSuccess,
   });
 };

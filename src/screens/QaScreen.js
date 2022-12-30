@@ -18,6 +18,9 @@ import {useQueryClient} from '@tanstack/react-query';
 import {useRecoilValue} from 'recoil';
 import {UserNameState} from '@/state/UserData';
 import {useFocusEffect} from '@react-navigation/native';
+import LoadingComponent, {
+  LoadingBox,
+} from '@/components/Loading/LoadingComponent';
 
 export const SpaceBetween = styled.View`
   flex-direction: row;
@@ -104,9 +107,8 @@ const MessageBox = styled.View`
 export default function QaScreen({navigation}) {
   const queryClient = useQueryClient();
   const userName = useRecoilValue(UserNameState);
-  console.log(userName);
 
-  const [isMyAns, setIsMyAns] = useState(true); // 내가 문답을 입력했는지 여부
+  const [isMyAns, setIsMyAns] = useState(true); // 문답을 입력했는지 여부
   const [isModAns, setIsModAns] = useState(false); // 내 문답 수정중인지 여부
   const [ansText, setAnsText] = useState('');
 
@@ -134,32 +136,30 @@ export default function QaScreen({navigation}) {
     else return data[data.length - 1].answerId + 1;
   };
 
-  const {mutate: addAns} = useAddAnswer(() => {
-    // 문답 답변들 리패치
-    queryClient.invalidateQueries('getAnswers');
-    setIsMyAns(true); // 문답 입력칸 없애기
-    setAnsText('');
+  const {mutate: addAns, isLoading: addIsLoading} = useAddAnswer({
+    onSuccess: () => {
+      // 문답 답변들 리패치
+      setIsMyAns(true); // 문답 입력칸 없애기
+      setAnsText('');
 
-    queryClient.setQueryData('getAnswers', oldData => {
-      console.log('데이타', oldData?.data?.data);
-      // 데이터 추가
-      oldData.data.data = [
-        ...oldData?.data?.data,
+      queryClient.setQueryData(['getAnswers'], oldData => [
+        ...oldData,
         {
-          answerId: getId(oldData?.data?.data),
+          answerId: getId(oldData),
           answerContent: ansText,
-          userName: UserNameState,
+          userName: userName,
           answerTime: '',
         },
-      ];
-    });
+      ]);
+    },
   });
   const {mutate: modAns} = useModifyAnswer({
     onSuccess: () => {
-      isModAns(false);
-      queryClient.setQueryData('getAnswers', oldData => {
-        console.log(oldData?.data?.data);
-        // 수정된 데이터로 바꾸기
+      setIsModAns(false);
+      queryClient.setQueryData(['getAnswers'], oldData => {
+        return oldData.map(data =>
+          data.userName === userName ? {...data, answerContent: ansText} : data,
+        );
       });
     },
   });
@@ -167,11 +167,9 @@ export default function QaScreen({navigation}) {
     onSuccess: () => {
       setAnsText('');
 
-      queryClient.setQueryData('getAnswers', oldData => {
-        console.log('삭제', oldData?.data?.data);
-        // 삭제한 데이터 지우기
-        oldData?.data?.data.filter(it => it.userName !== UserNameState);
-      });
+      queryClient.setQueryData(['getAnswers'], oldData =>
+        oldData?.filter(it => it.userName !== userName),
+      );
     },
   });
 
@@ -182,11 +180,9 @@ export default function QaScreen({navigation}) {
   // 내가 답변을 작성했는지 여부 확인
   const isAnswered = () => {
     setIsMyAns(false);
-    console.log(ansData);
-    ansData?.data?.data.map(obj => {
+    ansData?.map(obj => {
       if (obj.userName == userName) setIsMyAns(true);
     });
-    console.log(isMyAns);
   };
 
   return (
@@ -225,111 +221,89 @@ export default function QaScreen({navigation}) {
                 title="제출"
                 onPress={() => {
                   addAns(ansText);
-                  setIsMyAns(true); // 문답 입력칸 없애기
-                  setAnsText('');
-
-                  queryClient.setQueryData(['getAnswers'], oldData => {
-                    console.log('데이타', oldData?.data?.data);
-                    // 데이터 추가
-                    oldData.data.data = [
-                      ...oldData?.data?.data,
-                      {
-                        answerId: getId(oldData?.data?.data),
-                        answerContent: ansText,
-                        userName: UserNameState,
-                        answerTime: '',
-                      },
-                    ];
-                  });
                 }}
               />
             </SubmitButton>
           </MyAnsContainer>
         )}
-        {ansData?.data?.data.length === 0 ? (
+        {ansData && ansData?.length === 0 ? (
           <MessageBox>
             <FontStyle.Content>문답을 첫번째로 작성해보세요!</FontStyle.Content>
           </MessageBox>
         ) : (
-          <ScrollView>
-            {ansData?.data?.data.map(ans => (
-              <AnsContainer key={ans.answerId}>
-                <AnsBox>
-                  <SpaceBetween>
-                    <FontStyle.ContentB>{ans.userName}</FontStyle.ContentB>
-                    {ans.userName == userName && (
-                      <SpaceBetween>
-                        <AppIconButtons.Pencil
-                          active={isModAns}
+          <LoadingComponent isLoading={addIsLoading}>
+            <ScrollView>
+              {ansData?.map(ans => (
+                <AnsContainer key={ans.answerId}>
+                  <AnsBox>
+                    <SpaceBetween>
+                      <FontStyle.ContentB>{ans.userName}</FontStyle.ContentB>
+                      {ans.userName == userName && (
+                        <SpaceBetween>
+                          <AppIconButtons.Pencil
+                            active={isModAns}
+                            onPress={() => {
+                              setIsModAns(!isModAns);
+                              setAnsText(ans.answerContent);
+                            }}
+                            padding={{padding: 6}}
+                          />
+                          <AppIconButtons.Delete
+                            onPress={() => {
+                              setIsModAns(false);
+                              delAns(ans.answerId);
+                              setAnsText('');
+                            }}
+                            padding={{padding: 6}}
+                          />
+                        </SpaceBetween>
+                      )}
+                    </SpaceBetween>
+                    <Ans>
+                      {/* 수정버튼 누른 경우 내 대답 수정할 수 있게 */}
+                      {ans.userName == userName && isModAns ? (
+                        <>
+                          <MyAnsInput
+                            multiline={true}
+                            numberOfLines={4}
+                            maxLength={80}
+                            textAlignVertical="top"
+                            value={ansText}
+                            onChangeText={setAnsText}
+                            autoFocus={true}
+                          />
+                          <MaxLength>
+                            <FontStyle.SubContent>
+                              {ansText.length}/80
+                            </FontStyle.SubContent>
+                          </MaxLength>
+                        </>
+                      ) : (
+                        <FontStyle.Content>
+                          {ans.answerContent}
+                        </FontStyle.Content>
+                      )}
+                    </Ans>
+                    {/* 수정중인 경우 수정버튼 나타나게 */}
+                    {ans.userName == userName && isModAns && (
+                      <SubmitButton>
+                        <TextButton.Content
+                          title="수정"
                           onPress={() => {
-                            setIsModAns(!isModAns);
-                            setAnsText(ans.answerContent);
+                            modAns({
+                              answerContent: ansText,
+                              answerId: ans.answerId,
+                            });
                           }}
-                          padding={{padding: 6}}
                         />
-                        <AppIconButtons.Delete
-                          onPress={() => {
-                            delAns(ans.answerId);
-                            setAnsText('');
-
-                            queryClient.setQueryData(
-                              ['getAnswers'],
-                              oldData => {
-                                console.log('삭제', oldData?.data?.data);
-                                // 삭제한 데이터 지우기
-                                oldData?.data?.data.filter(
-                                  it => it.userName !== UserNameState,
-                                );
-                              },
-                            );
-                          }}
-                          padding={{padding: 6}}
-                        />
-                      </SpaceBetween>
+                      </SubmitButton>
                     )}
-                  </SpaceBetween>
-                  <Ans>
-                    {/* 수정버튼 누른 경우 내 대답 수정할 수 있게 */}
-                    {ans.userName == userName && isModAns ? (
-                      <>
-                        <MyAnsInput
-                          multiline={true}
-                          numberOfLines={4}
-                          maxLength={80}
-                          textAlignVertical="top"
-                          value={ansText}
-                          onChangeText={setAnsText}
-                          autoFocus={true}
-                        />
-                        <MaxLength>
-                          <FontStyle.SubContent>
-                            {ansText.length}/80
-                          </FontStyle.SubContent>
-                        </MaxLength>
-                      </>
-                    ) : (
-                      <FontStyle.Content>{ans.answerContent}</FontStyle.Content>
-                    )}
-                  </Ans>
-                  {/* 수정중인 경우 수정버튼 나타나게 */}
-                  {ans.userName == userName && isModAns && (
-                    <SubmitButton>
-                      <TextButton.Content
-                        title="수정"
-                        onPress={() => {
-                          modAns({
-                            answerContent: ansText,
-                            answerId: ans.answerId,
-                          });
-                        }}
-                      />
-                    </SubmitButton>
-                  )}
-                </AnsBox>
-              </AnsContainer>
-            ))}
-            <Components.EmptyBox height={30} />
-          </ScrollView>
+                  </AnsBox>
+                </AnsContainer>
+              ))}
+              <Components.EmptyBox height={30} />
+            </ScrollView>
+          </LoadingComponent>
         )}
       </>
     </BasicHeader>
