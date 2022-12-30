@@ -1,6 +1,7 @@
 import {FontStyle} from '@/utils/GlobalFonts';
 import React from 'react';
 import styled from 'styled-components';
+import { Body } from '../headers/WithHeader';
 
 export const LoadingBox = styled.View`
   flex: 1;
@@ -9,7 +10,6 @@ export const LoadingBox = styled.View`
 `;
 
 const LoadingComponent = ({isLoading, isError, children}) => {
-  console.log('isLoading', isLoading);
   if (isError)
     return (
       <LoadingBox>
@@ -19,7 +19,7 @@ const LoadingComponent = ({isLoading, isError, children}) => {
     );
 
   return (
-    <>
+    <Body>
       {isLoading ? (
         <LoadingBox>
           <FontStyle.Content>Loading...</FontStyle.Content>
@@ -27,7 +27,7 @@ const LoadingComponent = ({isLoading, isError, children}) => {
       ) : (
         <>{children}</>
       )}
-    </>
+    </Body>
   );
 };
 
