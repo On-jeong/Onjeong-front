@@ -5,14 +5,7 @@ import {FontStyle} from '@/utils/GlobalFonts';
 import {Components} from '@/utils/Components';
 import {useGetCoinHistory} from '@/hooks/useHomeData';
 import {ScrollView} from 'react-native';
-import {LoadingBox} from '@/components/Loading/LoadingComponent';
 import EmptyComponent from '@/components/Loading/EmptyComponent';
-
-const EmptyMessage = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
 
 const MessageBox = styled.View`
   width: 100%;
@@ -30,7 +23,7 @@ const script = {
 };
 
 const CoinHistoryScreen = ({navigation}) => {
-  const {data, status, isLoading, isError} = useGetCoinHistory();
+  const {data, isLoading, isError, refetch} = useGetCoinHistory();
 
   return (
     <NoHeader
@@ -38,8 +31,11 @@ const CoinHistoryScreen = ({navigation}) => {
       title={'꽃 성장 기록'}
       navigation={navigation}
       isLoading={isLoading}
-      isError={isError}>
-      <EmptyComponent title1={'꽃 성장 기록이 없습니다!'} title2={'꽃을 성장시켜 기록을 채워나가요!'}>
+      isError={isError}
+      reloadFunc={refetch}>
+      <EmptyComponent
+        title1={'꽃 성장 기록이 없습니다!'}
+        title2={'꽃을 성장시켜 기록을 채워나가요!'}>
         <ScrollView>
           {data?.data?.data?.map((data, index) => (
             <React.Fragment key={index}>

@@ -1,12 +1,8 @@
 import {FontStyle} from '@/utils/GlobalFonts';
 import React from 'react';
 import styled from 'styled-components';
+import { LoadingBox } from './LoadingComponent';
 
-export const LoadingBox = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
 
 const TitleBox = styled.View`
   margin-top: 10px;

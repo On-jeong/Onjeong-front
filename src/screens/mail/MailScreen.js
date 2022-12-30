@@ -15,7 +15,6 @@ import {
 import {useFocusEffect} from '@react-navigation/native';
 import {Components} from '../../utils/Components';
 import {AppButtons} from '../../components/buttons';
-import LoadingComponent from '@/components/Loading/LoadingComponent';
 import EmptyComponent from '@/components/Loading/EmptyComponent';
 
 const TopBar = styled.View`
