@@ -15,6 +15,8 @@ import {
 import {useFocusEffect} from '@react-navigation/native';
 import {Components} from '../../utils/Components';
 import {AppButtons} from '../../components/buttons';
+import LoadingComponent from '@/components/Loading/LoadingComponent';
+import EmptyComponent from '@/components/Loading/EmptyComponent';
 
 const TopBar = styled.View`
   width: 100%;
@@ -70,6 +72,8 @@ const MailScreen = ({navigation}) => {
     setIsReceive(true);
   }, []);
 
+  useEffect(() => {}, [isReceive]);
+
   //뒤로가기로 화면이 포커스 됐을 때도 업데이트
   useFocusEffect(
     useCallback(() => {
@@ -113,6 +117,21 @@ const MailScreen = ({navigation}) => {
     setMails(sendData?.data?.data);
   };
 
+  const mailOnPress = mail => {
+    if (isDelete) {
+      // 메일 삭제 요청
+      if (isReceive) delReceiveMail(mail.mailId);
+      else delSendMail(mail.mailId);
+      setMails(mails.filter(it => it.mailId !== mail.mailId));
+    } else {
+      navigation.navigate('MailDetail', {
+        mailContent: mail.mailContent,
+        receiveUserName: mail.receiveUserName,
+        sendUserName: mail.sendUserName,
+      });
+    }
+  };
+
   return (
     <NoHeader
       title={'우편함'}
@@ -148,39 +167,23 @@ const MailScreen = ({navigation}) => {
             <AppIconButtons.Delete onPress={() => setIsDelete(!isDelete)} />
           </Filter>
         </TopBar>
-        <ScrollView>
-          <MailBox>
-            {!mails && <FontStyle.Content>Loading...</FontStyle.Content>}
-            {mails?.length === 0 ? (
-              isReceive ? (
-                <FontStyle.Content>받은 메일이 없습니다.</FontStyle.Content>
-              ) : (
-                <FontStyle.Content>보낸 메일이 없습니다.</FontStyle.Content>
-              )
-            ) : (
-              mails?.map(mail => (
-                <Mail
-                  key={mail.mailId}
-                  disabled={isDelete}
-                  onPress={() => {
-                    navigation.navigate('MailDetail', {
-                      mailContent: mail.mailContent,
-                      receiveUserName: mail.receiveUserName,
-                      sendUserName: mail.sendUserName,
-                    });
-                  }}>
+
+        <EmptyComponent
+          title1={
+            mails?.length === 0
+              ? isReceive
+                ? '받은 메일이 없습니다.'
+                : '보낸 메일이 없습니다.'
+              : null
+          }>
+          {' '}
+          <ScrollView>
+            <MailBox>
+              {mails?.map(mail => (
+                <Mail key={mail.mailId} onPress={() => mailOnPress(mail)}>
                   {isDelete && (
                     <IconBox>
-                      <AppIconButtons.Cancel
-                        onPress={() => {
-                          // 메일 삭제 요청
-                          if (isReceive) delReceiveMail(mail.mailId);
-                          else delSendMail(mail.mailId);
-                          setMails(
-                            mails.filter(it => it.mailId !== mail.mailId),
-                          );
-                        }}
-                      />
+                      <AppIconButtons.Cancel disabled={true} />
                     </IconBox>
                   )}
                   <FontStyle.Content numberOfLines={2} ellipsizeMode="tail">
@@ -195,11 +198,11 @@ const MailScreen = ({navigation}) => {
                     </FontStyle.ContentB>
                   </FromBox>
                 </Mail>
-              ))
-            )}
-            <Components.EmptyBox height={50} />
-          </MailBox>
-        </ScrollView>
+              ))}
+              <Components.EmptyBox height={50} />
+            </MailBox>
+          </ScrollView>
+        </EmptyComponent>
       </>
     </NoHeader>
   );

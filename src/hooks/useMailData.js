@@ -47,10 +47,10 @@ export const usePostMail = navigation => {
   return useMutation(postMailData, {
     onError: error => {
       console.log(error);
-      alert('편지 보내기에 실패했습니다.');
+      alert('편지를 보내는 중 오류가 발생했습니다');
     },
     onSuccess: () => {
-      alert('편지 보내기에 성공했습니다.');
+      alert('성공적으로 편지를 보냈습니다');
       navigation.navigate('Mail');
     },
   });

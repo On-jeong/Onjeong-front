@@ -5,6 +5,14 @@ import {FontStyle} from '@/utils/GlobalFonts';
 import {Components} from '@/utils/Components';
 import {useGetCoinHistory} from '@/hooks/useHomeData';
 import {ScrollView} from 'react-native';
+import {LoadingBox} from '@/components/Loading/LoadingComponent';
+import EmptyComponent from '@/components/Loading/EmptyComponent';
+
+const EmptyMessage = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
 
 const MessageBox = styled.View`
   width: 100%;
@@ -24,34 +32,34 @@ const script = {
 const CoinHistoryScreen = ({navigation}) => {
   const {data, status, isLoading, isError} = useGetCoinHistory();
 
-  console.log(data?.data?.data);
-
   return (
     <NoHeader
       isBack={true}
-      title={'꽃 성장 일기'}
+      title={'꽃 성장 기록'}
       navigation={navigation}
       isLoading={isLoading}
       isError={isError}>
-      <ScrollView>
-        {data?.data?.data?.map((data, index) => (
-          <React.Fragment key={index}>
-            <MessageBox>
-              {data.type == 'USED' ? (
-                <FontStyle.SubContentB>
-                  {data.amount * -1}의 영양제를 사용해서 꽃이 성장했어요!
-                </FontStyle.SubContentB>
-              ) : (
-                <FontStyle.SubContent>
-                  {script[data.type]} {data.amount}의 영양제를 얻었어요.
-                </FontStyle.SubContent>
-              )}
-            </MessageBox>
-            <Components.HorizonLine />
-          </React.Fragment>
-        ))}
-        <Components.EmptyBox />
-      </ScrollView>
+      <EmptyComponent title1={'꽃 성장 기록이 없습니다!'} title2={'꽃을 성장시켜 기록을 채워나가요!'}>
+        <ScrollView>
+          {data?.data?.data?.map((data, index) => (
+            <React.Fragment key={index}>
+              <MessageBox>
+                {data.type == 'USED' ? (
+                  <FontStyle.SubContentB>
+                    {data.amount * -1}의 영양제를 사용해서 꽃이 성장했어요!
+                  </FontStyle.SubContentB>
+                ) : (
+                  <FontStyle.SubContent>
+                    {script[data.type]} {data.amount}의 영양제를 얻었어요.
+                  </FontStyle.SubContent>
+                )}
+              </MessageBox>
+              <Components.HorizonLine />
+            </React.Fragment>
+          ))}
+          <Components.EmptyBox />
+        </ScrollView>
+      </EmptyComponent>
     </NoHeader>
   );
 };
