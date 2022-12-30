@@ -5,7 +5,7 @@ import {AppColors, navigationHeight} from '@/utils/GlobalStyles';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import PropTypes from 'prop-types';
-import LoadingComponent, {LoadingBox} from '../Loading/LoadingComponent';
+import LoadingComponent from '../Loading/LoadingComponent';
 
 const NavBar = styled.View`
   height: ${navigationHeight}px;
@@ -67,7 +67,7 @@ export const WithHeader = ({
             <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
           )}
         </LeftNav>
-        <FontStyle.Title>{title}</FontStyle.Title>
+        <FontStyle.TitleB>{title}</FontStyle.TitleB>
         <RightNav>
           <IconBox onPress={rightOnPress1}>{rightIcon1}</IconBox>
           <IconBox onPress={rightOnPress2}>{rightIcon2}</IconBox>
@@ -105,7 +105,7 @@ export const BasicHeader = ({
             <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
           )}
         </LeftNav>
-        <FontStyle.Title>{title}</FontStyle.Title>
+        <FontStyle.TitleB>{title}</FontStyle.TitleB>
         <RightNav>
           <IconBox
             onPress={() => {

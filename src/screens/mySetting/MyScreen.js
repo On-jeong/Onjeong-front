@@ -52,6 +52,14 @@ const MyScreen = ({navigation}) => {
       </Menu>
       <Components.HorizonLine />
       <Menu>
+        <FontStyle.SubTitle>서비스 이용약관</FontStyle.SubTitle>
+      </Menu>
+      <Components.HorizonLine />
+      <Menu>
+        <FontStyle.SubTitle>개인정보 처리 방침</FontStyle.SubTitle>
+      </Menu>
+      <Components.HorizonLine />
+      <Menu>
         <FontStyle.SubTitle>버전</FontStyle.SubTitle>
         <FontStyle.SubTitle>1.0.0</FontStyle.SubTitle>
       </Menu>

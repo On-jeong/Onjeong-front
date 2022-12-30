@@ -165,7 +165,7 @@ const PostScreen = ({navigation, route}) => {
         <ScrollView>
           <PlanContainer>
             <PlanTitle>
-              <FontStyle.SubTitle>오늘의 일정</FontStyle.SubTitle>
+              <FontStyle.SubTitleB>오늘의 일정</FontStyle.SubTitleB>
               <Filter>
                 <AppIconButtons.Pencil
                   padding={{paddingRight: 8}}
@@ -266,7 +266,7 @@ const PostScreen = ({navigation, route}) => {
           <Components.HorizonLine />
           <PlanContainer>
             <PlanTitle>
-              <FontStyle.SubTitle>오늘의 기록</FontStyle.SubTitle>
+              <FontStyle.SubTitleB>오늘의 기록</FontStyle.SubTitleB>
               <AppIconButtons.Pencil
                 onPress={() => {
                   navigation.navigate('PostWrite', {

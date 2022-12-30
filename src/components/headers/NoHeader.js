@@ -58,7 +58,7 @@ const NoHeader = ({
             <RightMargin>
               <Entypo name="chevron-left" size={20} />
             </RightMargin>
-            <FontStyle.Title>{title}</FontStyle.Title>
+            <FontStyle.TitleB>{title}</FontStyle.TitleB>
           </LeftNavTouchable>
         ) : (
           <LeftNav>

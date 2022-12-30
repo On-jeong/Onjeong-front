@@ -76,7 +76,7 @@ export const WelcomeScreen = ({navigation}) => {
   return (
     <NoHeader>
       <Center>
-        <FontStyle.Title>온정</FontStyle.Title>
+        <FontStyle.TitleB>온정</FontStyle.TitleB>
       </Center>
     </NoHeader>
   );

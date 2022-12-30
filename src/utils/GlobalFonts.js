@@ -8,12 +8,24 @@ const Big = styled.Text`
 `;
 
 const Title = styled.Text`
+  font-family: 'GangwonLight';
+  font-size: 25px;
+  color: ${props => (props.color ? props.color : AppColors.font)};
+`;
+
+const TitleB = styled.Text`
   font-family: 'GangwonBold';
   font-size: 25px;
   color: ${props => (props.color ? props.color : AppColors.font)};
 `;
 
 const SubTitle = styled.Text`
+  font-family: 'GangwonLight';
+  font-size: 23px;
+  color: ${props => (props.color ? props.color : AppColors.font)};
+`;
+
+const SubTitleB = styled.Text`
   font-family: 'GangwonBold';
   font-size: 23px;
   color: ${props => (props.color ? props.color : AppColors.font)};
@@ -52,7 +64,9 @@ const CalendarFont = styled.Text`
 export const FontStyle = {
   Big,
   Title,
+  TitleB,
   SubTitle,
+  SubTitleB,
   Content,
   ContentB,
   SubContent,

@@ -142,10 +142,10 @@ function AccountModScreen({navigation}) {
       />
       {/* 생년월일 선택 버튼 */}
       <Container>
-        <FontStyle.SubTitle>
+        <FontStyle.SubTitleB>
           {'생년월일'}
-          <FontStyle.SubTitle> : </FontStyle.SubTitle>
-        </FontStyle.SubTitle>
+          <FontStyle.SubTitleB> : </FontStyle.SubTitleB>
+        </FontStyle.SubTitleB>
         <BirthButton onPress={() => setBirthOpen(true)}>
           <FontStyle.Content>{format(birth, 'yyyy-MM-dd')}</FontStyle.Content>
         </BirthButton>
@@ -213,10 +213,10 @@ const InfoBox = ({
 }) => {
   return (
     <Container>
-      <FontStyle.SubTitle>
+      <FontStyle.SubTitleB>
         {title}
-        <FontStyle.SubTitle> : </FontStyle.SubTitle>
-      </FontStyle.SubTitle>
+        <FontStyle.SubTitleB> : </FontStyle.SubTitleB>
+      </FontStyle.SubTitleB>
       {modAvailable ? (
         <Input
           maxLength={maxLength}
@@ -225,7 +225,7 @@ const InfoBox = ({
           secureTextEntry={secureTextEntry}
         />
       ) : (
-        <FontStyle.SubTitle>{value}</FontStyle.SubTitle>
+        <FontStyle.SubTitleB>{value}</FontStyle.SubTitleB>
       )}
     </Container>
   );

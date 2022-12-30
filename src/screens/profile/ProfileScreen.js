@@ -54,7 +54,7 @@ const ProfileScreen = ({navigation}) => {
                     role: fm.userStatus,
                   })
                 }>
-                <FontStyle.SubTitle>{fm.userStatus}</FontStyle.SubTitle>
+                <FontStyle.SubTitleB>{fm.userStatus}</FontStyle.SubTitleB>
               </Profile>
             ))}
           </>
