@@ -1,5 +1,5 @@
 import customAxios from '@/api/axios';
-import {useMutation, useQuery} from '@tanstack/react-query';
+import {useMutation} from '@tanstack/react-query';
 
 const addFCM = data => {
   return customAxios.post(`/token/generate?token=${data}`);
@@ -13,6 +13,9 @@ const delFCM = data => {
 // FCM 토큰 등록하기
 export const useAddFCM = () => {
   return useMutation(addFCM, {
+    onSuccess: () => {
+      console.log('add FCM 성공!!!');
+    },
     onError: error => console.log(error),
   });
 };

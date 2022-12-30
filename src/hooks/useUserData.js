@@ -66,25 +66,12 @@ export const useSignIn = ({onSuccess, onError}) => {
 };
 
 // 로그아웃 요청
-export const useSignOut = ({navigation, enabled, onMutate}) => {
+export const useSignOut = ({enabled, onSuccess}) => {
   return useQuery(['reqLogout'], reqSignOut, {
-    onMutate: onMutate,
-    onSuccess: async () => {
-      await AsyncStorage.removeItem('userData');
-      await AsyncStorage.removeItem('accessToken');
-      await AsyncStorage.removeItem('refreshToken');
-
-      // 기본 헤더 제거
-      delete customAxios.defaults.headers.common['AuthorizationAccess'];
-
-      navigation.navigate('SignIn');
-      // storage.getAllKeys().then(keys =>
-      //   storage.multiGet(keys).then(data => console.log(data)),
-      // );
-    },
+    onSuccess: onSuccess,
     onError: err => {
       console.log(err);
-      alert('로그아웃에 실패했습니다.');
+      alert('로그아웃 진행 중 에러가 발생했습니다.');
     },
     enabled: enabled,
   });
@@ -99,8 +86,12 @@ export const useModifyAccount = ({onError, onSuccess}) => {
 };
 
 // 회원탈퇴
-export const useDeleteAccount = () => {
+export const useDeleteAccount = ({onSuccess}) => {
   return useMutation(deleteAccount(), {
-    onError: error => console.log(error),
+    onSuccess: onSuccess,
+    onError: err => {
+      console.log(err);
+      alert('회원탈퇴 진행 중 에러가 발생했습니다.');
+    },
   });
 };
