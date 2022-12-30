@@ -80,15 +80,15 @@ const FamilyInfo = ({route}) => {
     onError: (err, value, context) => onError(err, value, context),
   });
   const {mutate: delHate} = useDelHate({
-    onMutate: () => onDelMutate('hates'),
+    onMutate: value => onDelMutate('hates', value),
     onError: (err, value, context) => onError(err, value, context),
   });
   const {mutate: delInterest} = useDelInterest({
-    onMutate: () => onDelMutate('interests'),
+    onMutate: value => onDelMutate('interests', value),
     onError: (err, value, context) => onError(err, value, context),
   });
   const {mutate: delExpression} = useDelExpression({
-    onMutate: () => onDelMutate('expressions'),
+    onMutate: value => onDelMutate('expressions', value),
     onError: (err, value, context) => onError(err, value, context),
   });
 
@@ -143,13 +143,11 @@ const FamilyInfo = ({route}) => {
     queryClient.setQueryData(
       ['getFamilyInfo', route.params.userId],
       oldData => {
-        const optimisticData = rollbackData[category].filter(it => {
-          return it.selfIntroductionAnswerId !== value.delTagId;
-        });
-
         return {
           ...oldData,
-          [category]: optimisticData,
+          [category]: rollbackData[category].filter(
+            it => it.selfIntroductionAnswerId !== value.delTagId,
+          ),
         };
       },
     );
