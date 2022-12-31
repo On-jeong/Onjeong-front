@@ -133,11 +133,7 @@ const SignInScreen = ({navigation}) => {
         },
         onError: err => {
           console.log(err);
-          if (err?.response?.data?.error === 'Unauthorized') {
-            alert('아이디 또는 비밀번호가 맞지 않습니다.');
-            setUserId('');
-            setUserPassword('');
-          } else alert('로그인 진행 중 에러가 발생했습니다.');
+          alert(err?.response?.data?.message);
         },
       },
     );
