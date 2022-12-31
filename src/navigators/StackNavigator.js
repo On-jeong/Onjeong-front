@@ -16,6 +16,7 @@ import WelcomeScreen from '@/screens/WelcomeScreen';
 import AccountModScreen from '@/screens/mySetting/AccountModScreen';
 import CoinHistoryScreen from '@/screens/home/CoinHistoryScreen';
 import CoinGuideScreen from '@/screens/home/CoinGuideScreen';
+import AccountDeleteScreen from '@/screens/mySetting/AccountDeleteScreen';
 
 const Stack = createStackNavigator();
 
@@ -39,6 +40,7 @@ export function StackNavigator(navigation) {
       <Stack.Screen name="Alert" component={AlertScreen} />
       <Stack.Screen name="ProfileDetail" component={ProfileDetailScreen} />
       <Stack.Screen name="AccountMod" component={AccountModScreen} />
+      <Stack.Screen name="AccountDelete" component={AccountDeleteScreen} />
     </Stack.Navigator>
   );
 }

@@ -26,8 +26,15 @@ const modifyAccount = userData => {
   return customAxios.put(`/accounts`, userData);
 };
 
-const deleteAccount = () => {
-  return customAxios.delete(`/accounts`);
+const deleteAccount = userPassword => {
+  console.log('userPassword', userPassword);
+  return customAxios.delete(
+    `/accounts`,
+    {data: {userPassword}},
+    {
+      withCredentials: true,
+    },
+  );
 };
 
 // 유저 데이터 불러오기
@@ -87,10 +94,10 @@ export const useModifyAccount = ({onError, onSuccess}) => {
 
 // 회원탈퇴
 export const useDeleteAccount = ({onSuccess}) => {
-  return useMutation(deleteAccount(), {
+  return useMutation(deleteAccount, {
     onSuccess: onSuccess,
     onError: err => {
-      console.log(err);
+      console.log('회원탈퇴 진행 중 에러', err);
       alert('회원탈퇴 진행 중 에러가 발생했습니다.');
     },
   });
