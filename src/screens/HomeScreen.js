@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {FontStyle} from '../utils/GlobalFonts';
 import {BasicHeader} from '../components/headers/WithHeader';
 import {useRecoilState} from 'recoil';
@@ -27,8 +27,8 @@ import {
 import {flower, seed} from '@/utils/FlowerImagePath';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {format} from 'date-fns';
-import {LoadingBox, ReloadButtoon} from '@/components/Loading/LoadingComponent';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useFocusEffect} from '@react-navigation/native';
+import {Alert} from 'react-native';
 
 const Background = styled.ImageBackground`
   flex: 1;
@@ -103,10 +103,8 @@ export const HomeScreen = ({navigation}) => {
   });
 
   const {
-    data: flowerInfoData,
     status: flowerStatus,
     isError: flowerError,
-    isLoading: flowerIsLoading,
     refetch: flowerRefetch,
   } = useGetFlowerInfo({
     onSuccess: data => {
@@ -121,7 +119,7 @@ export const HomeScreen = ({navigation}) => {
     onSuccess: data => {
       setFamilyCoinState(familyCoinState + data?.data?.data);
       setDailyCoinState(formatDate);
-      alert(`데일리코인이 ${data?.data?.data}만큼 적립됐어요!`);
+      alert(`오늘의 랜덤 영양제 ${data?.data?.data}를 받았어요!`);
     },
   });
 
@@ -133,9 +131,18 @@ export const HomeScreen = ({navigation}) => {
     JSON.stringify(userId),
   );
 
+  console.log('꽃레벨:', flowerLevelState);
+
   useEffect(() => {
     getDailyCoinInfo();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      coinRefetch();
+      flowerRefetch();
+    }, []),
+  );
 
   const getDailyCoinInfo = async () => {
     console.log(dailyCoinState);
