@@ -39,6 +39,10 @@ const ToBox = styled.View`
   justify-content: center;
 `;
 
+const AlertBox = styled.View`
+  margin-top: 10px;
+`;
+
 export const MainInput = styled.TextInput`
   flex: 1;
   font-family: 'GangwonLight';
@@ -79,7 +83,8 @@ const MailWriteScreen = ({navigation}) => {
   const {data, status, isLoading, error} = useGetFamilyList();
   if (error) console.log(error);
 
-  const {mutate} = usePostMail(navigation);
+  const {mutate: postMutate, isLoading: postIsLoading} =
+    usePostMail(navigation);
 
   const sendMail = () => {
     if (!toUserId) {
@@ -90,11 +95,11 @@ const MailWriteScreen = ({navigation}) => {
       return 0;
     }
 
-    mutate({mailContent: mainText, receiveUserId: toUserId});
+    postMutate({mailContent: mainText, receiveUserId: toUserId});
   };
 
   return (
-    <NoHeader isBack={true} navigation={navigation}>
+    <NoHeader isBack={true} navigation={navigation} isLoading={postIsLoading}>
       <>
         <PaperContainer>
           <Paper>
@@ -168,12 +173,12 @@ const CustomSelectBox = ({
         {isOpen && (
           <>
             {data?.data?.data.length === 1 && (
-              <>
+              <AlertBox>
                 <FontStyle.Content>보낼 가족이 없습니다.</FontStyle.Content>
                 <FontStyle.Content>
-                  가족 구성원을 초대해 주세요.
+                  가족 구성원을 초대해 주세요!
                 </FontStyle.Content>
-              </>
+              </AlertBox>
             )}
             {data?.data?.data?.map(family => {
               return (

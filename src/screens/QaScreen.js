@@ -18,7 +18,9 @@ import {useQueryClient} from '@tanstack/react-query';
 import {useRecoilValue} from 'recoil';
 import {UserNameState} from '@/state/UserData';
 import {useFocusEffect} from '@react-navigation/native';
-import LoadingComponent from '@/components/Loading/LoadingComponent';
+import LoadingComponent, {
+  LoadingBox,
+} from '@/components/Loading/LoadingComponent';
 
 export const SpaceBetween = styled.View`
   flex-direction: row;
@@ -121,6 +123,7 @@ export default function QaScreen({navigation}) {
     data: questData,
     isLoading: questIsLoading,
     isError: questIsError,
+    error: questError,
     refetch: questRefetch,
   } = useGetQuest();
   const {
@@ -153,7 +156,7 @@ export default function QaScreen({navigation}) {
       ]);
     },
   });
-  const {mutate: modAns} = useModifyAnswer({
+  const {mutate: modAns, isLoading: modIsLoading} = useModifyAnswer({
     onSuccess: () => {
       setIsModAns(false);
       queryClient.setQueryData(['getAnswers'], oldData => {
@@ -163,7 +166,7 @@ export default function QaScreen({navigation}) {
       });
     },
   });
-  const {mutate: delAns} = useDeleteAnswer({
+  const {mutate: delAns, isLoading: delIsLoading} = useDeleteAnswer({
     onSuccess: () => {
       setAnsText('');
 
@@ -185,11 +188,22 @@ export default function QaScreen({navigation}) {
     });
   };
 
+  if (questError?.response?.data?.message === 'WEEKLY QUESTION NOT EXIST') {
+    return (
+      <BasicHeader title="이 주의 문답" navigation={navigation}>
+        <LoadingBox>
+          <FontStyle.Content>이 주의 문답이 준비중입니다..</FontStyle.Content>
+          <FontStyle.Content>조금만 기다려 주세요!</FontStyle.Content>
+        </LoadingBox>
+      </BasicHeader>
+    );
+  }
+
   return (
     <BasicHeader
       title="이 주의 문답"
       navigation={navigation}
-      isLoading={questIsLoading || ansIsLoading}
+      isLoading={questIsLoading || ansIsLoading || modIsLoading || delIsLoading}
       isError={questIsError || ansIsError}
       reloadFunc={() => {
         questRefetch();

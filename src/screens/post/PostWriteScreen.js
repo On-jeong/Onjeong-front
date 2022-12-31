@@ -48,9 +48,9 @@ const PostWriteScreen = ({navigation, route}) => {
   );
   const [image, setImage] = useState(route.params.boardImageUrl);
 
-  const {mutate: addBoard} = useAddBoard({
+  const {mutate: addBoard, isLoading: addIsLoading} = useAddBoard({
     onSuccess: () => {
-      alert('게시물 작성이 완료되었습니다.');
+      //alert('게시물 작성이 완료되었습니다.');
 
       // 받아왔던 포스트 데이터 리패치
       queryClient.invalidateQueries('getTodayBoards', route.params.barDate);
@@ -60,9 +60,9 @@ const PostWriteScreen = ({navigation, route}) => {
       });
     },
   });
-  const {mutate: modBoard} = useModifyBoard({
+  const {mutate: modBoard, isLoading: modIsLoading} = useModifyBoard({
     onSuccess: () => {
-      alert('게시물 수정이 완료되었습니다.');
+      //alert('게시물 수정이 완료되었습니다.');
 
       // 받아왔던 포스트 데이터 리패치
       queryClient.invalidateQueries('getTodayBoards', route.params.barDate);
@@ -124,7 +124,11 @@ const PostWriteScreen = ({navigation, route}) => {
   };
 
   return (
-    <NoHeader title={route.params.date} isBack={true} navigation={navigation}>
+    <NoHeader
+      title={route.params.date}
+      isLoading={addIsLoading || modIsLoading}
+      isBack={true}
+      navigation={navigation}>
       <>
         <PaperContainer>
           <Paper>
