@@ -3,9 +3,9 @@ import NoHeader from '@/components/headers/NoHeader';
 import {useModifyAccount} from '@/hooks/useUserData';
 import {
   UserBirthState,
-  UserIdState,
   UserNameState,
   UserStatusState,
+  UserNicknameState,
 } from '@/state/UserData';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {format} from 'date-fns';
@@ -55,7 +55,7 @@ function AccountModScreen({navigation}) {
 
   const [birthOpen, setBirthOpen] = useState(false);
 
-  const userIdState = useRecoilValue(UserIdState);
+  const userNicknameState = useRecoilValue(UserNicknameState);
   // 변경값 영구저장
   const setUserNameState = useSetRecoilState(UserNameState);
   const setUserStatusState = useSetRecoilState(UserStatusState);
@@ -128,7 +128,7 @@ function AccountModScreen({navigation}) {
       <InfoBox
         title={'아이디'}
         modAvailable={false}
-        value={userIdState}
+        value={userNicknameState}
         maxLength={20}
         secureTextEntry={false}
       />
