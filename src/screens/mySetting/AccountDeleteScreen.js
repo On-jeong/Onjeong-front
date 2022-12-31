@@ -24,6 +24,7 @@ const AccountDeleteScreen = ({navigation}) => {
       // 기본 헤더 제거
       delete customAxios.defaults.headers.common['AuthorizationAccess'];
 
+      alert('회원탈퇴가 완료되었습니다')
       navigation.navigate('Welcome');
     },
   });

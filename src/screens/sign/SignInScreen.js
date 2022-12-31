@@ -61,7 +61,8 @@ const SignInScreen = ({navigation}) => {
   const [userId, setUserId] = useState('');
   const [userPassword, setUserPassword] = useState('');
 
-  const {mutate} = useSignIn(navigation);
+  const {mutate: signInMutate, isLoading: signInIsLoading} =
+    useSignIn(navigation);
   const {mutate: addFCM} = useAddFCM();
 
   // 항목을 전부 입력했는지 체크
@@ -88,7 +89,7 @@ const SignInScreen = ({navigation}) => {
     }
 
     // 서버에 로그인 요청
-    mutate(
+    signInMutate(
       {
         userNickname: userId,
         userPassword,
@@ -159,7 +160,7 @@ const SignInScreen = ({navigation}) => {
   };
 
   return (
-    <NoHeader>
+    <NoHeader isLoading={signInIsLoading}>
       <Container>
         <Box>
           <Title>

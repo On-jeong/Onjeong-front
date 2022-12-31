@@ -47,20 +47,32 @@ export const useGetUserData = ({enabled: enabled = true}) => {
 };
 
 // 가족이 없는 회원가입 데이터 전송
-export const useSignUpNoJoined = navigation => {
+export const useSignUpNoJoined = ({onSuccess}) => {
   return useMutation(postSignUpNoJoined, {
     // 성공시 로그인 페이지로 이동
-    onSuccess: () => navigation.navigate('SignIn'),
-    onError: () => alert('회원가입에 실패했습니다.'),
+    onSuccess: onSuccess,
+    onError: err => {
+      if (err?.response?.data?.message === 'USER NICKNAME DUPLICATION') {
+        alert('이미 가입된 아이디 입니다.');
+      } else alert('회원가입 진행 중 에러가 발생했습니다.');
+      console.log(err);
+    },
   });
 };
 
 // 가족이 있는 회원가입 데이터 전송
-export const useSignUpWithJoined = navigation => {
+export const useSignUpWithJoined = ({onSuccess}) => {
   return useMutation(postSignUpWithJoined, {
     // 성공시 로그인 페이지로 이동
-    onSuccess: () => navigation.navigate('SignIn'),
-    onError: () => alert('회원가입에 실패했습니다.'),
+    onSuccess: onSuccess,
+    onError: err => {
+      if (err?.response?.data?.message === 'USER NICKNAME DUPLICATION') {
+        alert('이미 가입된 아이디 입니다.');
+      } else if (err?.response?.data?.message === 'JOINED USER NOT EXIST') {
+        alert('초대가족 아이디가 존재하지 않습니다.');
+      } else alert('회원가입 진행 중 에러가 발생했습니다.');
+      console.log(err);
+    },
   });
 };
 
@@ -98,7 +110,9 @@ export const useDeleteAccount = ({onSuccess}) => {
     onSuccess: onSuccess,
     onError: err => {
       console.log('회원탈퇴 진행 중 에러', err);
-      alert('회원탈퇴 진행 중 에러가 발생했습니다.');
+      if (err.response.data.message === 'USER PASSWORD NOT CORRECT')
+        alert('잘못된 비밀번호 입니다');
+      else alert('회원탈퇴 진행 중 에러가 발생했습니다.');
     },
   });
 };
