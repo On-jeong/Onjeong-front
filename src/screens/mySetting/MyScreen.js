@@ -33,18 +33,23 @@ export const Email = styled.View`
 
 const MyScreen = ({navigation}) => {
   const [signOut, setSignOut] = useState(false);
-  const [quitModal, setQuitModal] = useState(false);
+
   const [signOutModal, setSignOutModal] = useState(false);
 
   const userNickname = useRecoilValue(UserNicknameState);
 
   const {error, status} = useSignOut({
     enabled: signOut,
-    onSuccess: () => signOutOnSuccess(),
-  });
+    onSuccess: async () => {
+      await AsyncStorage.removeItem('userData');
+      await AsyncStorage.removeItem('accessToken');
+      await AsyncStorage.removeItem('refreshToken');
 
-  const {mutate: deleteAccount} = useDeleteAccount({
-    onSuccess: () => signOutOnSuccess(),
+      // 기본 헤더 제거
+      delete customAxios.defaults.headers.common['AuthorizationAccess'];
+
+      navigation.navigate('Welcome');
+    },
   });
 
   const {mutate} = useDelFCM();
@@ -53,17 +58,6 @@ const MyScreen = ({navigation}) => {
     const fcmToken = await storage.getItem('fcmToken');
 
     mutate({token: fcmToken, userNickname: userNickname});
-  };
-
-  const signOutOnSuccess = async () => {
-    await AsyncStorage.removeItem('userData');
-    await AsyncStorage.removeItem('accessToken');
-    await AsyncStorage.removeItem('refreshToken');
-
-    // 기본 헤더 제거
-    delete customAxios.defaults.headers.common['AuthorizationAccess'];
-
-    navigation.navigate('SignIn');
   };
 
   return (
@@ -105,7 +99,7 @@ const MyScreen = ({navigation}) => {
         <Components.HorizonLine />
         <Menu
           onPress={() => {
-            setQuitModal(true);
+            navigation.navigate('AccountDelete');
           }}>
           <FontStyle.SubTitle>회원탈퇴</FontStyle.SubTitle>
         </Menu>
@@ -121,28 +115,11 @@ const MyScreen = ({navigation}) => {
           modalVisible={signOutModal}
           setModalVisible={setSignOutModal}
           title1={'정말 로그아웃을 하시겠습니까?'}
-          leftOnPress={() => {
-            setSignOutModal(false);
-          }}
+          leftOnPress={() => setSignOutModal(false)}
           rightOnPress={() => {
             delFCMToken();
             setSignOutModal(false);
             setSignOut(true);
-          }}
-          leftBorderColor={AppColors.green2}
-        />
-
-        {/* 회원 탈퇴 모달 */}
-        <PromptModal
-          modalVisible={quitModal}
-          setModalVisible={setQuitModal}
-          title1={'계정을 탈퇴하면 복구할 수 없습니다'}
-          title2={'정말 탈퇴하시겠습니까?'}
-          leftOnPress={() => {
-            setQuitModal(false);
-          }}
-          rightOnPress={() => {
-            deleteAccount();
           }}
           leftBorderColor={AppColors.green2}
         />
