@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import NoHeader from '@/components/headers/NoHeader';
 import {FontStyle} from '@/utils/GlobalFonts';
@@ -6,6 +6,7 @@ import {Components} from '@/utils/Components';
 import {useGetCoinHistory} from '@/hooks/useHomeData';
 import {ScrollView} from 'react-native';
 import EmptyComponent from '@/components/Loading/EmptyComponent';
+import {useFocusEffect} from '@react-navigation/native';
 
 const MessageBox = styled.View`
   width: 100%;
@@ -25,6 +26,12 @@ const script = {
 const CoinHistoryScreen = ({navigation}) => {
   const {data, isLoading, isError, refetch} = useGetCoinHistory();
 
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, []),
+  );
+
   return (
     <NoHeader
       isBack={true}
@@ -34,6 +41,7 @@ const CoinHistoryScreen = ({navigation}) => {
       isError={isError}
       reloadFunc={refetch}>
       <EmptyComponent
+        isEmpty={data?.data?.data.length === 0}
         title1={'꽃 성장 기록이 없습니다!'}
         title2={'꽃을 성장시켜 기록을 채워나가요!'}>
         <ScrollView>

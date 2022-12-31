@@ -1,15 +1,14 @@
 import {FontStyle} from '@/utils/GlobalFonts';
 import React from 'react';
 import styled from 'styled-components';
-import { LoadingBox } from './LoadingComponent';
-
+import {LoadingBox} from './LoadingComponent';
 
 const TitleBox = styled.View`
   margin-top: 10px;
 `;
 
-const EmptyComponent = ({title1, title2, children}) => {
-  if (title1)
+const EmptyComponent = ({isEmpty, title1, title2, children}) => {
+  if (isEmpty)
     return (
       <LoadingBox>
         {title1 && <FontStyle.Content>{title1}</FontStyle.Content>}

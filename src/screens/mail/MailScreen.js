@@ -168,14 +168,10 @@ const MailScreen = ({navigation}) => {
         </TopBar>
 
         <EmptyComponent
+          isEmpty={mails?.length === 0}
           title1={
-            mails?.length === 0
-              ? isReceive
-                ? '받은 메일이 없습니다.'
-                : '보낸 메일이 없습니다.'
-              : null
+            isReceive ? '받은 메일이 없습니다.' : '보낸 메일이 없습니다.'
           }>
-          {' '}
           <ScrollView>
             <MailBox>
               {mails?.map(mail => (
