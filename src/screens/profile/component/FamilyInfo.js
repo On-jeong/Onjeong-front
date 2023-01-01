@@ -60,36 +60,44 @@ const FamilyInfo = ({route}) => {
   const {mutate: addFavorite} = useAddFavorite({
     onMutate: () => onAddMutate('favorites'),
     onError: (err, value, context) => onError(err, value, context),
+    onSettled: () => onSettled(),
   });
   const {mutate: addHate} = useAddHate({
     onMutate: () => onAddMutate('hates'),
     onError: (err, value, context) => onError(err, value, context),
+    onSettled: () => onSettled(),
   });
   const {mutate: addInterest} = useAddInterest({
     onMutate: () => onAddMutate('interests'),
     onError: (err, value, context) => onError(err, value, context),
+    onSettled: () => onSettled(),
   });
   const {mutate: addExpression} = useAddExpression({
     onMutate: () => onAddMutate('expressions'),
     onError: (err, value, context) => onError(err, value, context),
+    onSettled: () => onSettled(),
   });
 
   // 태그 삭제 api
   const {mutate: delFavorite} = useDelFavorite({
     onMutate: value => onDelMutate('favorites', value),
     onError: (err, value, context) => onError(err, value, context),
+    onSettled: () => onSettled(),
   });
   const {mutate: delHate} = useDelHate({
     onMutate: value => onDelMutate('hates', value),
     onError: (err, value, context) => onError(err, value, context),
+    onSettled: () => onSettled(),
   });
   const {mutate: delInterest} = useDelInterest({
     onMutate: value => onDelMutate('interests', value),
     onError: (err, value, context) => onError(err, value, context),
+    onSettled: () => onSettled(),
   });
   const {mutate: delExpression} = useDelExpression({
     onMutate: value => onDelMutate('expressions', value),
     onError: (err, value, context) => onError(err, value, context),
+    onSettled: () => onSettled(),
   });
 
   const getId = data => {
@@ -168,6 +176,10 @@ const FamilyInfo = ({route}) => {
 
     console.log('context : ', context);
     console.log('태그오류 : ', err);
+  };
+
+  const onSettled = () => {
+    queryClient.invalidateQueries(['getFamilyInfo', route.params.userId]);
   };
 
   // 카테고리별 태그 추가 - 서버로 보내는 함수

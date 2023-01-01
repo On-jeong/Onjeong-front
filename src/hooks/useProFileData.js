@@ -1,5 +1,7 @@
 import customAxios from '@/api/axios';
+import {UserIdState} from '@/state/UserData';
 import {useMutation, useQuery} from '@tanstack/react-query';
+import {useRecoilValue} from 'recoil';
 
 const fetchFamilyList = () => {
   return customAxios.get(`/families`);
@@ -115,61 +117,70 @@ export const useModMessage = () => {
 //
 // 태그 등록
 //
-export const useAddFavorite = ({onError, onMutate}) => {
+
+export const useAddFavorite = ({onError, onMutate, onSettled}) => {
   return useMutation(addFavorite, {
     onError: onError,
     onMutate: onMutate,
+    onSettled: onSettled,
   });
 };
 
-export const useAddHate = ({onError, onMutate}) => {
+export const useAddHate = ({onError, onMutate, onSettled}) => {
   return useMutation(addHate, {
     onError: onError,
     onMutate: onMutate,
+    onSettled: onSettled,
   });
 };
 
-export const useAddInterest = ({onError, onMutate}) => {
+export const useAddInterest = ({onError, onMutate, onSettled}) => {
   return useMutation(addInterest, {
     onError: onError,
     onMutate: onMutate,
+    onSettled: onSettled,
   });
 };
 
-export const useAddExpression = ({onError, onMutate}) => {
+export const useAddExpression = ({onError, onMutate, onSettled}) => {
   return useMutation(addExpression, {
     onError: onError,
     onMutate: onMutate,
+    onSettled: onSettled,
   });
 };
 
 //
 // 태그 삭제
 //
-export const useDelFavorite = ({onError, onMutate}) => {
+export const useDelFavorite = ({onError, onMutate, onSettled}) => {
   return useMutation(delFavorite, {
     onError: onError,
     onMutate: onMutate,
+    onSettled: onSettled,
   });
 };
 
-export const useDelHate = ({onError, onMutate}) => {
+export const useDelHate = ({onError, onMutate, onSettled}) => {
   return useMutation(delHate, {
     onError: onError,
     onMutate: onMutate,
+    onSettled: onSettled,
   });
 };
 
-export const useDelInterest = ({onError, onMutate}) => {
+export const useDelInterest = ({onError, onMutate, onSettled}) => {
   return useMutation(delInterest, {
     onError: onError,
     onMutate: onMutate,
+    onSettled: onSettled,
   });
 };
 
-export const useDelExpression = ({onError, onMutate}) => {
+export const useDelExpression = ({onError, onMutate, onSettled}) => {
   return useMutation(delExpression, {
     onError: onError,
     onMutate: onMutate,
+    onSettled: onSettled,
   });
 };
