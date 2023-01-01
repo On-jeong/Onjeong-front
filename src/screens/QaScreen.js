@@ -319,7 +319,7 @@ export default function QaScreen({navigation}) {
                   </AnsBox>
                 </AnsContainer>
               ))}
-              <Components.EmptyBox height={30} />
+              <Components.EmptyBox height={70} />
             </ScrollView>
           </LoadingComponent>
         )}

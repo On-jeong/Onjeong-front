@@ -29,6 +29,8 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {format} from 'date-fns';
 import {useFocusEffect} from '@react-navigation/native';
 import {Alert} from 'react-native';
+import AlertModal from '@/components/modal/AlertModal';
+import { AppModal } from '@/components/modal';
 
 const Background = styled.ImageBackground`
   flex: 1;

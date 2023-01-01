@@ -6,6 +6,9 @@ import {Dimensions} from 'react-native';
 export const windowWidth = Dimensions.get('window').width;
 export const windowHeight = Dimensions.get('window').height;
 
+export const ModalHeight = windowHeight * 0.2;
+export const ModalWidth = windowWidth * 0.8;
+
 export const navigationHeight = 55;
 export const bottomTabHeight = 66;
 export const statusBarHeight = 24;

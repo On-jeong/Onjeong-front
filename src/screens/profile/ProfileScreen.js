@@ -60,7 +60,7 @@ const ProfileScreen = ({navigation}) => {
             ))}
           </>
         </ProfileBox>
-        <Components.EmptyBox />
+        <Components.EmptyBox height={80} />
       </ScrollView>
     </BasicHeader>
   );
