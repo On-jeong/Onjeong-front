@@ -4,7 +4,10 @@ import NoHeader from '@/components/headers/NoHeader';
 import {AppColors, windowHeight} from '@/utils/GlobalStyles';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {useRecoilValue} from 'recoil';
-import {UserIdState, UserNameState} from '../../state/UserData';
+import {
+  UserIdState,
+  UserStatusState,
+} from '../../state/UserData';
 import {usePostMail} from '../../hooks/useMailData';
 import {useGetFamilyList} from '../../hooks/useProFileData';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -73,7 +76,7 @@ const SelectItem = styled.TouchableOpacity`
 
 const MailWriteScreen = ({navigation}) => {
   const userId = useRecoilValue(UserIdState);
-  const userName = useRecoilValue(UserNameState);
+  const userState = useRecoilValue(UserStatusState);
 
   const [mainText, setMainText] = useState('');
   const [toUserStatus, setToUserStatus] = useState('가족선택'); // 보낼 가족 별명
@@ -129,7 +132,7 @@ const MailWriteScreen = ({navigation}) => {
             />
             <SendBox>
               <FontStyle.ContentB>
-                From. <FontStyle.ContentB>{userName}</FontStyle.ContentB>
+                From. <FontStyle.ContentB>{userState}</FontStyle.ContentB>
               </FontStyle.ContentB>
             </SendBox>
           </Paper>
