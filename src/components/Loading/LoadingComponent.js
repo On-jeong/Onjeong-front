@@ -20,13 +20,15 @@ export const ReloadButtoon = styled.TouchableOpacity`
 const LoadingComponent = ({isLoading, isError, children, reloadFunc}) => {
   if (isError)
     return (
-      <LoadingBox>
-        <FontStyle.Content>에러가 발생했습니다!</FontStyle.Content>
-        <FontStyle.Content>잠시 후 다시 시도해 주세요.</FontStyle.Content>
-        <ReloadButtoon onPress={reloadFunc}>
-          <AntDesign name="reload1" size={28} />
-        </ReloadButtoon>
-      </LoadingBox>
+      <Body>
+        <LoadingBox>
+          <FontStyle.Content>에러가 발생했습니다!</FontStyle.Content>
+          <FontStyle.Content>잠시 후 다시 시도해 주세요.</FontStyle.Content>
+          <ReloadButtoon onPress={reloadFunc}>
+            <AntDesign name="reload1" size={28} />
+          </ReloadButtoon>
+        </LoadingBox>
+      </Body>
     );
 
   return (
