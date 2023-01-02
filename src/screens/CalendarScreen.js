@@ -10,7 +10,7 @@ import {
   startOfWeek,
   subMonths,
 } from 'date-fns';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
 import {WithHeader} from '../components/headers/WithHeader';
 import {FontStyle} from '../utils/GlobalFonts';
@@ -23,9 +23,9 @@ import {
   windowHeight,
   windowWidth,
 } from '../utils/GlobalStyles';
-import {useIsFocused} from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import {useGetMonthAnn} from '../hooks/useAnniversaryData';
-import {isCancelledError} from '@tanstack/react-query';
+import {useQueryClient} from '@tanstack/react-query';
 
 const Calendar = styled.View`
   width: 100%;
@@ -72,14 +72,21 @@ const Week = styled.View`
 `;
 
 export default function CalendarScreen({navigation}) {
-  const isFocus = useIsFocused();
+  const queryClient = useQueryClient();
   const [curDate, setCurDate] = useState(new Date());
 
   const {data, isLoading, isError, refetch} = useGetMonthAnn(
     format(curDate, 'yyyy-MM-dd'),
   );
 
-  useEffect(() => {}, [isFocus, data]);
+  useFocusEffect(
+    useCallback(() => {
+      queryClient.invalidateQueries([
+        'getMonthAnn',
+        format(curDate, 'yyyy-MM-dd'),
+      ]);
+    }, [curDate]),
+  );
 
   return (
     <>
