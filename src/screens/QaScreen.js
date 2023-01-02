@@ -155,6 +155,7 @@ export default function QaScreen({navigation}) {
         },
       ]);
     },
+    onSettled: () => onSettled(),
   });
   const {mutate: modAns, isLoading: modIsLoading} = useModifyAnswer({
     onSuccess: () => {
@@ -165,6 +166,7 @@ export default function QaScreen({navigation}) {
         );
       });
     },
+    onSettled: () => onSettled(),
   });
   const {mutate: delAns, isLoading: delIsLoading} = useDeleteAnswer({
     onSuccess: () => {
@@ -174,7 +176,12 @@ export default function QaScreen({navigation}) {
         oldData?.filter(it => it.userName !== userName),
       );
     },
+    onSettled: () => onSettled(),
   });
+
+  const onSettled = () => {
+    queryClient.invalidateQueries(['getAnswers']);
+  };
 
   useEffect(() => {
     isAnswered();
