@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import NoHeader from '@/components/headers/NoHeader';
 
-import {ScrollView} from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {AppColors} from '@/utils/GlobalStyles';
 import {AppIconButtons} from '@/components/IconButtons';
@@ -16,6 +16,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {Components} from '../../utils/Components';
 import {AppButtons} from '../../components/buttons';
 import EmptyComponent from '@/components/Loading/EmptyComponent';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const TopBar = styled.View`
   width: 100%;
@@ -60,10 +61,15 @@ const FromBox = styled.View`
   right: 10px;
 `;
 
-const IconBox = styled.View`
+const DeleteIconBox = styled.View`
   position: absolute;
   top: -10px;
   left: -10px;
+`;
+const ReadIconBox = styled.View`
+  position: absolute;
+  top: -10px;
+  right: -10px;
 `;
 
 const MailScreen = ({navigation}) => {
@@ -176,10 +182,21 @@ const MailScreen = ({navigation}) => {
             <MailBox>
               {mails?.map(mail => (
                 <Mail key={mail.mailId} onPress={() => mailOnPress(mail)}>
+                  {/* 안읽은 메일 표시 (받은 메일함만, 삭제중이 아닐 때) */}
+                  {!mail.checkRead && isReceive && !isDelete && (
+                    <DeleteIconBox>
+                      <Ionicons
+                        name="alert-circle"
+                        disabled={true}
+                        size={20}
+                        color={AppColors.red1}
+                      />
+                    </DeleteIconBox>
+                  )}
                   {isDelete && (
-                    <IconBox>
+                    <DeleteIconBox>
                       <AppIconButtons.Cancel disabled={true} />
-                    </IconBox>
+                    </DeleteIconBox>
                   )}
                   <FontStyle.Content numberOfLines={2} ellipsizeMode="tail">
                     {mail.mailContent}
