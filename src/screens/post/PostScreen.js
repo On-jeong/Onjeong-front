@@ -95,34 +95,18 @@ const RightHeader = styled.View`
   flex-direction: row;
 `;
 
+export const getId = ({data, id}) => {
+  if (data.length === 0) return 0;
+  else return data[data.length - 1].id + 1;
+};
+
 const PostScreen = ({navigation, route}) => {
   const queryClient = useQueryClient();
+
   const [isAddPlan, setIsAddPlan] = useState(false);
   const [isDelPlan, setIsDelPlan] = useState(false);
   const [newPlan, setNewPlan] = useState('');
   const [isAnniversary, setIsAnniversary] = useState(true);
-
-  const {mutate: addAnn} = useAddAnn({
-    onSuccess: () => {
-      setIsAddPlan(false);
-      // 받아왔던 기념일 데이터 리패치
-      queryClient.invalidateQueries('getDateAnn', route.params.barDate);
-    },
-  });
-
-  const {mutate: delAnn} = useDeleteAnn({
-    onSuccess: () => {
-      // 받아왔던 기념일 데이터 리패치
-      queryClient.invalidateQueries('getDateAnn', route.params.barDate);
-    },
-  });
-
-  const {mutate: delBoard} = useDeleteBoard({
-    onSuccess: () => {
-      // 받아왔던 포스트 데이터 리패치
-      queryClient.invalidateQueries('getTodayBoards', route.params.barDate);
-    },
-  });
 
   const {
     data: AnnData,
@@ -138,7 +122,122 @@ const PostScreen = ({navigation, route}) => {
     refetch: BoardRefetch,
   } = useGetTodayBoards(route.params.barDate); // 포스트 데이터 받아오기
 
-  console.log('post: ', BoardData);
+  console.log('ann: ', AnnData);
+
+  const {mutate: addAnn} = useAddAnn({
+    onMutate: () => {
+      // 이전에 자동 요청된 데이터 등으로 overwrite 되지 않도록
+      queryClient.cancelQueries(['getDateAnn', route.params.barDate]);
+
+      // 실패했을 경우 롤백을 해야 하므로 원래의 데이터를 저장한다.
+      const rollbackData = queryClient.getQueryData([
+        'getDateAnn',
+        route.params.barDate,
+      ]);
+
+      queryClient.setQueryData(
+        ['getDateAnn', route.params.barDate],
+        oldData => {
+          return [
+            ...oldData,
+            {
+              anniversaryContent: newPlan,
+              anniversaryDate: route.params.barDate,
+              anniversaryId: getId({data: oldData, id: 'anniversaryId'}),
+              anniversaryType: isAnniversary
+                ? 'ANNIVERSARY'
+                : 'SPECIAL_SCHEDULE',
+            },
+          ];
+        },
+      );
+      // 실패시 되돌릴 데이터 리턴
+      return {rollbackData};
+    },
+    onError: (err, value, context) => onError(err, value, context),
+    onSettled: () => {
+      console.log('????????');
+      // 받아왔던 기념일 데이터 리패치
+      queryClient.invalidateQueries('getDateAnn', route.params.barDate);
+    },
+  });
+
+  // ({
+  //   onMutate: () => {
+  //     // 이전에 자동 요청된 데이터 등으로 overwrite 되지 않도록
+  //     queryClient.cancelQueries(['getDateAnn', route.params.barDate]);
+
+  //     queryClient.setQueryData(
+  //       ['getDateAnn', route.params.barDate],
+  //       oldData => {
+  //         return [
+  //           ...oldData,
+  //           {
+  //             anniversaryContent: newPlan,
+  //             anniversaryDate: route.params.barDate,
+  //             anniversaryId: getId({data: oldData, id: 'anniversaryId'}),
+  //             anniversaryType: isAnniversary
+  //               ? 'ANNIVERSARY'
+  //               : 'SPECIAL_SCHEDULE',
+  //           },
+  //         ];
+  //       },
+  //     );
+  //     // 실패시 되돌릴 데이터 리턴
+  //     return {rollbackData};
+  //   },
+  //   onError: (err, value, context) => onError(err, value, context),
+  //   onSettled: () => {
+  //     console.log('????????')
+  //     // 받아왔던 기념일 데이터 리패치
+  //     queryClient.invalidateQueries('getDateAnn', route.params.barDate);
+  //   },
+  // });
+
+  const {mutate: delAnn} = useDeleteAnn({
+    onMutate: value => {
+      // 이전에 자동 요청된 데이터 등으로 overwrite 되지 않도록
+      queryClient.cancelQueries(['getDateAnn', route.params.barDate]);
+
+      // 실패했을 경우 롤백을 해야 하므로 원래의 데이터를 저장한다.
+      const rollbackData = queryClient.getQueryData([
+        'getDateAnn',
+        route.params.barDate,
+      ]);
+
+      // 성공 가정하고 UI 미리 적용
+      queryClient.setQueryData(
+        ['getDateAnn', route.params.barDate],
+        oldData => {
+          return oldData.filter(it => it.anniversaryId !== value.annId);
+        },
+      );
+
+      // 실패시 되돌릴 데이터 리턴
+      return {rollbackData};
+    },
+    onError: (err, value, context) => onError(err, value, context),
+    onSettled: () => {
+      // 받아왔던 기념일 데이터 리패치
+      queryClient.invalidateQueries('getDateAnn', route.params.barDate);
+    },
+  });
+
+  const onError = (err, value, context) => {
+    queryClient.setQueryData(
+      ['getDateAnn', route.params.barDate],
+      context.rollbackData,
+    );
+
+    console.log('일정 에러', err);
+  };
+
+  const {mutate: delBoard} = useDeleteBoard({
+    onSuccess: () => {
+      // 받아왔던 포스트 데이터 리패치
+      queryClient.invalidateQueries('getTodayBoards', route.params.barDate);
+    },
+  });
 
   // 기념일 번호 매기기
   let number = 1;
@@ -176,7 +275,7 @@ const PostScreen = ({navigation, route}) => {
                     if (!isAddPlan && isDelPlan) setIsDelPlan(!isDelPlan);
                   }}
                 />
-                {AnnData?.data?.data.length !== 0 && (
+                {AnnData?.length !== 0 && (
                   <AppIconButtons.Delete
                     active={isDelPlan}
                     onPress={() => {
@@ -188,17 +287,17 @@ const PostScreen = ({navigation, route}) => {
               </Filter>
             </PlanTitle>
             {AnnIsLoading && <FontStyle.Content>Loading...</FontStyle.Content>}
-            {AnnData?.data?.data.length === 0 && !isAddPlan && (
+            {AnnData?.length === 0 && !isAddPlan && (
               <FontStyle.Content>오늘의 일정이 없습니다.</FontStyle.Content>
             )}
-            {AnnData?.data?.data.map(ann => (
+            {AnnData?.map(ann => (
               <PlanBox key={ann.anniversaryId}>
                 {isDelPlan ? (
                   <AppIconButtons.Cancel
                     size={18}
                     padding={{paddingRight: 5}}
                     onPress={() => {
-                      delAnn(ann.anniversaryId);
+                      delAnn({annId: ann.anniversaryId});
                     }}
                   />
                 ) : (
@@ -251,7 +350,10 @@ const PostScreen = ({navigation, route}) => {
                     <AppButtons.TextButton.Content
                       title="추가"
                       margin={5}
-                      onPress={() => addPlan()}
+                      onPress={() => {
+                        addPlan();
+                        setIsAddPlan(false);
+                      }}
                     />
                     <AppButtons.TextButton.Content
                       title="취소"
