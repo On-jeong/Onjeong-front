@@ -3,7 +3,8 @@ import React from 'react';
 import styled from 'styled-components';
 import {Body} from '../headers/WithHeader';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {navigationHeight} from '@/utils/GlobalStyles';
+import {AppColors, navigationHeight} from '@/utils/GlobalStyles';
+import {ActivityIndicator} from 'react-native';
 
 export const LoadingBox = styled.View`
   flex: 1;
@@ -35,7 +36,7 @@ const LoadingComponent = ({isLoading, isError, children, reloadFunc}) => {
     <Body>
       {isLoading ? (
         <LoadingBox>
-          <FontStyle.Content>Loading...</FontStyle.Content>
+          <ActivityIndicator size={'large'} color={AppColors.border} />
         </LoadingBox>
       ) : (
         <>{children}</>
