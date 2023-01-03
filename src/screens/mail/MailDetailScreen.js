@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import NoHeader from '@/components/headers/NoHeader';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {Paper, PaperContainer, SendBox} from './MailWriteScreen';
+import {useGetMailDetail} from '@/hooks/useMailData';
 
 const PaperTop = styled.View`
   flex-direction: row;
@@ -18,6 +19,11 @@ const MainContent = styled.Text`
 `;
 
 const MailDetailScreen = ({navigation, route}) => {
+  // 메일 읽음 처리 용 서버 연동
+  useGetMailDetail(route.params.mailId);
+
+  console.log(route);
+
   return (
     <NoHeader isBack={true} navigation={navigation}>
       <>

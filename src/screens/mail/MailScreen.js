@@ -17,6 +17,8 @@ import {Components} from '../../utils/Components';
 import {AppButtons} from '../../components/buttons';
 import EmptyComponent from '@/components/Loading/EmptyComponent';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {NotReadMailsState, ReceiveMailsState} from '@/state/MailData';
 
 const TopBar = styled.View`
   width: 100%;
@@ -94,6 +96,7 @@ const MailScreen = ({navigation}) => {
   } = useGetReceiveMails({
     onSuccess: data => {
       setMails(data?.data?.data);
+      setReceiveMailsState(data?.data?.data);
     },
   });
   const {
@@ -104,6 +107,9 @@ const MailScreen = ({navigation}) => {
   } = useGetSendMails();
   const {mutate: delReceiveMail} = useDeleteReceiveMail();
   const {mutate: delSendMail} = useDeleteSendMail();
+
+  const [receiveMailsState, setReceiveMailsState] =
+    useRecoilState(ReceiveMailsState);
 
   const [mails, setMails] = useState(receiveData?.data?.data);
   const [isReceive, setIsReceive] = useState(true); // 받은 우편함인지 보낸 우편함인지 구분
@@ -133,6 +139,7 @@ const MailScreen = ({navigation}) => {
         mailContent: mail.mailContent,
         receiveUserName: mail.receiveUserName,
         sendUserName: mail.sendUserName,
+        mailId: mail.mailId,
       });
     }
   };

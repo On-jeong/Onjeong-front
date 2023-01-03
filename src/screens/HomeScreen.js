@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect} from 'react';
 import {FontStyle} from '../utils/GlobalFonts';
 import {BasicHeader} from '../components/headers/WithHeader';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {
   DailyCoinState,
   UserBirthState,
@@ -10,7 +10,7 @@ import {
   UserStatusState,
 } from '../state/UserData';
 import styled from 'styled-components';
-import {windowHeight, windowWidth} from '@/utils/GlobalStyles';
+import {AppColors, windowHeight, windowWidth} from '@/utils/GlobalStyles';
 import AutoHeightImage from 'react-native-auto-height-image';
 import {
   useAddRandCoins,
@@ -30,7 +30,8 @@ import {format} from 'date-fns';
 import {useFocusEffect} from '@react-navigation/native';
 import {Alert} from 'react-native';
 import AlertModal from '@/components/modal/AlertModal';
-import { AppModal } from '@/components/modal';
+import {AppModal} from '@/components/modal';
+import {NotReadMailsState, ReceiveMailsState} from '@/state/MailData';
 
 const Background = styled.ImageBackground`
   flex: 1;
@@ -74,6 +75,18 @@ const PostBoxTouchable = styled.TouchableOpacity`
   right: 2%;
 `;
 
+const Circle = styled.View`
+  position: absolute;
+  top: -8;
+  right: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50px;
+  background-color: ${AppColors.black};
+  justify-content: center;
+  align-items: center;
+`;
+
 export const HomeScreen = ({navigation}) => {
   const curDate = new Date();
   const formatDate = format(curDate, 'yyyy-MM-dd');
@@ -92,6 +105,8 @@ export const HomeScreen = ({navigation}) => {
   const [flowerKindState, setFlowerKindState] = useRecoilState(FlowerKindState);
   const [flowerBloomState, setFlowerBloomState] =
     useRecoilState(FlowerBloomDateState);
+
+  const notReadMailsState = useRecoilValue(NotReadMailsState);
 
   const {
     data: coinData,
@@ -134,6 +149,11 @@ export const HomeScreen = ({navigation}) => {
   );
 
   console.log('꽃레벨:', flowerLevelState);
+
+  const [receiveMailsState, setReceiveMailsState] =
+    useRecoilState(ReceiveMailsState);
+  console.log('받은메일:', receiveMailsState);
+  console.log('안읽은 메일 개수:', notReadMailsState);
 
   useEffect(() => {
     getDailyCoinInfo();
@@ -195,6 +215,11 @@ export const HomeScreen = ({navigation}) => {
           width={windowWidth * 0.13}
           source={require('@/assets/image/background/background_postbox.png')}
         />
+        <Circle>
+          <FontStyle.SubContentB style={{color: AppColors.blur}}>
+            {notReadMailsState}
+          </FontStyle.SubContentB>
+        </Circle>
       </PostBoxTouchable>
       {/* 레벨3 까지는 공통 씨앗 형태 */}
       {flowerStatus == 'success' && (
