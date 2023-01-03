@@ -13,6 +13,11 @@ import {FontStyle} from './src/utils/GlobalFonts';
 import messaging from '@react-native-firebase/messaging';
 import {storage} from '@/config/storage';
 import {Interceptor} from '@/api/interceptor';
+import LoadingComponent, {
+  LoadingBox,
+} from '@/components/Loading/LoadingComponent';
+import {ActivityIndicator} from 'react-native';
+import {AppColors} from '@/utils/GlobalStyles';
 
 export default function App() {
   const queryClient = new QueryClient();
@@ -51,7 +56,11 @@ export default function App() {
       <RecoilRoot>
         <ReactNativeRecoilPersistGate store={ReactNativeRecoilPersist}>
           <React.Suspense
-            fallback={<FontStyle.Content>Loading...</FontStyle.Content>}>
+            fallback={
+              <LoadingBox>
+                <ActivityIndicator size={'large'} color={AppColors.border} />
+              </LoadingBox>
+            }>
             <NavigationContainer>
               <Interceptor>
                 <StackNavigator />
