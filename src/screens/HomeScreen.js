@@ -57,7 +57,7 @@ const Flower = styled.Image`
   bottom: ${windowHeight * 0.25}px;
   left: ${props =>
     props.flower
-      ? windowWidth / 2 - (windowWidth * 0.6) / 2
+      ? windowWidth / 2 - (windowWidth * 0.6) / 2 - 20
       : windowWidth / 2 - (windowWidth * 0.2) / 2}px;
   width: ${props => (props.flower ? windowWidth * 0.6 : windowWidth * 0.2)}px;
   height: ${props => (props.flower ? windowWidth * 0.6 : windowWidth * 0.2)}px;
@@ -66,19 +66,19 @@ const Flower = styled.Image`
 const FlowerBoxTouchable = styled.TouchableOpacity`
   position: absolute;
   bottom: ${windowHeight * 0.17}px;
-  left: 3%;
+  left: 3.5%;
 `;
 
 const PostBoxTouchable = styled.TouchableOpacity`
   position: absolute;
   bottom: ${windowHeight * 0.22}px;
-  right: 2%;
+  right: 2.5%;
 `;
 
 const Circle = styled.View`
   position: absolute;
   top: -8;
-  right: 0;
+  right: -2;
   width: 22px;
   height: 22px;
   border-radius: 50px;
@@ -222,6 +222,10 @@ export const HomeScreen = ({navigation}) => {
         </Circle>
       </PostBoxTouchable>
       {/* 레벨3 까지는 공통 씨앗 형태 */}
+      {/* <Flower
+        source={7 > 3 ? flower[flowerKindState][7] : seed[flowerLevelState]}
+        flower={7 > 3}
+      /> */}
       {flowerStatus == 'success' && (
         <Flower
           source={
