@@ -61,8 +61,11 @@ const SignInScreen = ({navigation}) => {
   const [userId, setUserId] = useState('');
   const [userPassword, setUserPassword] = useState('');
 
-  const {mutate: signInMutate, isLoading: signInIsLoading} =
-    useSignIn(navigation);
+  const {
+    mutate: signInMutate,
+    isLoading: signInIsLoading,
+    isError: signInIsError,
+  } = useSignIn(navigation);
   const {mutate: addFCM} = useAddFCM();
 
   // 항목을 전부 입력했는지 체크
@@ -134,7 +137,6 @@ const SignInScreen = ({navigation}) => {
         },
         onError: err => {
           console.log(err);
-          alert(err?.response?.data?.message);
         },
       },
     );
@@ -160,7 +162,7 @@ const SignInScreen = ({navigation}) => {
   };
 
   return (
-    <NoHeader isLoading={signInIsLoading}>
+    <NoHeader isLoading={signInIsLoading} isError={signInIsError}>
       <Container>
         <Box>
           <Title>
