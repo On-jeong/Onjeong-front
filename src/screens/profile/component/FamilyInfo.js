@@ -319,6 +319,7 @@ const CategoryTitle = ({title, onPress, isActive}) => {
       <Title>
         <FontStyle.ContentB>{title}</FontStyle.ContentB>
         <AppIconButtons.Pencil
+          disabled={false}
           active={isActive}
           onPress={onPress}
           size={16}
@@ -353,7 +354,7 @@ const Tag = ({title, isModify, onPress}) => {
       </TagBox>
       {isModify && (
         <CancelBox>
-          <AppIconButtons.Cancel disabled={true} />
+          <AppIconButtons.Cancel />
         </CancelBox>
       )}
     </TagGroup>

@@ -268,6 +268,7 @@ const PostScreen = ({navigation, route}) => {
               <Filter>
                 <AppIconButtons.Pencil
                   padding={{paddingRight: 8}}
+                  disabled={false}
                   active={isAddPlan}
                   onPress={() => {
                     setNewPlan('');
@@ -295,6 +296,7 @@ const PostScreen = ({navigation, route}) => {
                 {isDelPlan ? (
                   <AppIconButtons.Cancel
                     size={18}
+                    disabled={false}
                     padding={{paddingRight: 5}}
                     onPress={() => {
                       delAnn({annId: ann.anniversaryId});
@@ -324,10 +326,10 @@ const PostScreen = ({navigation, route}) => {
                 <SpaceBetween>
                   <SendBox>
                     <IconBox>
-                      <Octicons
-                        name="check"
+                      <AppIconButtons.Check
                         style={{opacity: isAnniversary ? 1 : 0}} // 영역 그대로 안보이게
                       />
+
                       <AppButtons.TextButton.Content
                         title="기념일"
                         margin={5}
@@ -335,10 +337,10 @@ const PostScreen = ({navigation, route}) => {
                       />
                     </IconBox>
                     <IconBox>
-                      <Octicons
-                        name="check"
+                      <AppIconButtons.Check
                         style={{opacity: isAnniversary ? 0 : 1}}
                       />
+
                       <AppButtons.TextButton.Content
                         title="일정"
                         margin={5}
@@ -370,6 +372,7 @@ const PostScreen = ({navigation, route}) => {
             <PlanTitle>
               <FontStyle.SubTitleB>오늘의 기록</FontStyle.SubTitleB>
               <AppIconButtons.Pencil
+                disabled={false}
                 onPress={() => {
                   navigation.navigate('PostWrite', {
                     date: route.params.date,

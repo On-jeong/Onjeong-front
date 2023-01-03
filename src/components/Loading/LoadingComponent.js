@@ -2,9 +2,9 @@ import {FontStyle} from '@/utils/GlobalFonts';
 import React from 'react';
 import styled from 'styled-components';
 import {Body} from '../headers/WithHeader';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import {AppColors, navigationHeight} from '@/utils/GlobalStyles';
 import {ActivityIndicator} from 'react-native';
+import {AppIconButtons} from '../IconButtons';
 
 export const LoadingBox = styled.View`
   flex: 1;
@@ -13,7 +13,7 @@ export const LoadingBox = styled.View`
   margin-bottom: ${navigationHeight};
 `;
 
-export const ReloadButtoon = styled.TouchableOpacity`
+export const ReloadButton = styled.TouchableOpacity`
   padding: 10px;
   margin-top: 10px;
 `;
@@ -25,9 +25,9 @@ const LoadingComponent = ({isLoading, isError, children, reloadFunc}) => {
         <LoadingBox>
           <FontStyle.Content>에러가 발생했습니다!</FontStyle.Content>
           <FontStyle.Content>잠시 후 다시 시도해 주세요.</FontStyle.Content>
-          <ReloadButtoon onPress={reloadFunc}>
-            <AntDesign name="reload1" size={28} />
-          </ReloadButtoon>
+          <ReloadButton onPress={reloadFunc}>
+            <AppIconButtons.ReLoad size={28} />
+          </ReloadButton>
         </LoadingBox>
       </Body>
     );

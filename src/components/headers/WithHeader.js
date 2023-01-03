@@ -1,11 +1,11 @@
 import React from 'react';
 import {FontStyle} from '@/utils/GlobalFonts';
 import styled from 'styled-components';
-import {AppColors, navigationHeight} from '@/utils/GlobalStyles';
-import Octicons from 'react-native-vector-icons/Octicons';
-import Entypo from 'react-native-vector-icons/Entypo';
+import {AppColors, betweenIcons, navigationHeight} from '@/utils/GlobalStyles';
 import PropTypes from 'prop-types';
 import LoadingComponent from '../Loading/LoadingComponent';
+import {AppIconButtons} from '../IconButtons';
+import {AppButtons} from '../buttons';
 
 const NavBar = styled.View`
   height: ${navigationHeight}px;
@@ -13,20 +13,27 @@ const NavBar = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-color: ${AppColors.main};
+  background-color: ${AppColors.body};
+  border-bottom-color: ${AppColors.blur};
+  border-bottom-width: 1px;
 `;
 
 const RightNav = styled.View`
   width: 70px;
   flex-direction: row;
   justify-content: flex-end;
-  margin-right: 15px;
+  margin-right: ${betweenIcons}px;
 `;
 
 export const LeftNav = styled.View`
   width: 70px;
   flex-direction: row;
   margin-left: 10px;
+`;
+
+export const BellIconBox = styled.TouchableOpacity`
+  padding: 12px;
+  padding-top: 14px;
 `;
 
 export const IconBox = styled.TouchableOpacity`
@@ -62,7 +69,7 @@ export const WithHeader = ({
               onPress={() => {
                 navigation.goBack();
               }}>
-              <Entypo name="chevron-left" size={20} />
+              <AppIconButtons.Back size={20} />
             </IconBox>
           ) : (
             <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
@@ -104,7 +111,7 @@ export const BasicHeader = ({
               onPress={() => {
                 navigation.goBack();
               }}>
-              <Entypo name="chevron-left" size={22} />
+              <AppIconButtons.Back size={22} />
             </IconBox>
           ) : (
             <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
@@ -112,17 +119,17 @@ export const BasicHeader = ({
         </LeftNav>
         <FontStyle.TitleB>{title}</FontStyle.TitleB>
         <RightNav>
-          <IconBox
+          <BellIconBox
             onPress={() => {
               navigation.navigate('Alert');
             }}>
-            <Octicons name="bell" size={22} />
-          </IconBox>
+            <AppIconButtons.Bell size={22} />
+          </BellIconBox>
           <IconBox
             onPress={() => {
               navigation.navigate('My');
             }}>
-            <Octicons name="person" size={23} />
+            <AppIconButtons.User size={24} />
           </IconBox>
         </RightNav>
       </NavBar>

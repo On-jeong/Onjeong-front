@@ -4,13 +4,9 @@ import NoHeader from '@/components/headers/NoHeader';
 import {AppColors, windowHeight} from '@/utils/GlobalStyles';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {useRecoilValue} from 'recoil';
-import {
-  UserIdState,
-  UserStatusState,
-} from '../../state/UserData';
+import {UserIdState, UserStatusState} from '../../state/UserData';
 import {usePostMail} from '../../hooks/useMailData';
 import {useGetFamilyList} from '../../hooks/useProFileData';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import {AppButtons} from '../../components/buttons';
 
 export const PaperContainer = styled.View`
@@ -72,6 +68,10 @@ const SelectItem = styled.TouchableOpacity`
   padding: 5px;
   border: 1px solid ${AppColors.border};
   margin-bottom: -1px;
+`;
+
+const IconButtons = styled.View`
+  margin-left: 10px;
 `;
 
 const MailWriteScreen = ({navigation}) => {
@@ -166,12 +166,9 @@ const CustomSelectBox = ({
             setIsOpen(!isOpen);
           }}>
           <FontStyle.ContentB>{toUserStatus}</FontStyle.ContentB>
-          <AntDesign
-            name="down"
-            size={15}
-            color={AppColors.border}
-            style={{marginLeft: 10}}
-          />
+          <IconBox>
+            <AppIconButtons.Down size={15} color={AppColors.border} />
+          </IconBox>
         </SelectItem>
         {isOpen && (
           <>

@@ -267,6 +267,7 @@ export default function QaScreen({navigation}) {
                         <SpaceBetween>
                           <AppIconButtons.Pencil
                             active={isModAns}
+                            disabled={false}
                             onPress={() => {
                               setIsModAns(!isModAns);
                               setAnsText(ans.answerContent);

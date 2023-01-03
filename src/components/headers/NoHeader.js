@@ -3,9 +3,9 @@ import {FontStyle} from '@/utils/GlobalFonts';
 import styled from 'styled-components';
 import {AppColors} from '@/utils/GlobalStyles';
 import {Body, IconBox} from './WithHeader';
-import Entypo from 'react-native-vector-icons/Entypo';
 import PropTypes from 'prop-types';
 import LoadingComponent from '../Loading/LoadingComponent';
+import { AppIconButtons } from '../IconButtons';
 
 const Container = styled.View`
   flex: 1;
@@ -46,7 +46,7 @@ const NoHeader = ({
   navigation,
   isLoading,
   isError,
-  reloadFunc
+  reloadFunc,
 }) => {
   return (
     <Container>
@@ -57,7 +57,7 @@ const NoHeader = ({
               navigation.goBack();
             }}>
             <RightMargin>
-              <Entypo name="chevron-left" size={20} />
+              <AppIconButtons.Back size={20} />
             </RightMargin>
             <FontStyle.TitleB>{title}</FontStyle.TitleB>
           </LeftNavTouchable>
@@ -69,7 +69,10 @@ const NoHeader = ({
         <IconBox onPress={rightOnPress}>{rightIcon}</IconBox>
       </NavContainer>
       <Body>
-        <LoadingComponent isLoading={isLoading} isError={isError} reloadFunc={reloadFunc}>
+        <LoadingComponent
+          isLoading={isLoading}
+          isError={isError}
+          reloadFunc={reloadFunc}>
           {children}
         </LoadingComponent>
       </Body>

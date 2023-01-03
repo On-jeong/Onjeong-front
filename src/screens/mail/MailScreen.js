@@ -16,7 +16,6 @@ import {useFocusEffect} from '@react-navigation/native';
 import {Components} from '../../utils/Components';
 import {AppButtons} from '../../components/buttons';
 import EmptyComponent from '@/components/Loading/EmptyComponent';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {NotReadMailsState, ReceiveMailsState} from '@/state/MailData';
 
@@ -172,6 +171,7 @@ const MailScreen = ({navigation}) => {
           <Filter>
             <AppIconButtons.Pencil
               padding={{paddingRight: 8}}
+              disabled={false}
               onPress={() => {
                 navigation.navigate('MailWrite');
               }}
@@ -192,9 +192,7 @@ const MailScreen = ({navigation}) => {
                   {/* 안읽은 메일 표시 (받은 메일함만, 삭제중이 아닐 때) */}
                   {!mail.checkRead && isReceive && !isDelete && (
                     <DeleteIconBox>
-                      <Ionicons
-                        name="alert-circle"
-                        disabled={true}
+                      <AppIconButtons.AlertCircle
                         size={20}
                         color={AppColors.red1}
                       />
@@ -202,7 +200,7 @@ const MailScreen = ({navigation}) => {
                   )}
                   {isDelete && (
                     <DeleteIconBox>
-                      <AppIconButtons.Cancel disabled={true} />
+                      <AppIconButtons.Cancel />
                     </DeleteIconBox>
                   )}
                   <FontStyle.Content numberOfLines={2} ellipsizeMode="tail">

@@ -26,6 +26,7 @@ import {
 import {useFocusEffect} from '@react-navigation/native';
 import {useGetMonthAnn} from '../hooks/useAnniversaryData';
 import {useQueryClient} from '@tanstack/react-query';
+import {AppIconButtons} from '@/components/IconButtons';
 
 const Calendar = styled.View`
   width: 100%;
@@ -139,8 +140,8 @@ const getCalender = ({
     <>
       <WithHeader
         title={curYear + '년 ' + curMonth + '월'}
-        leftIcon={<MaterialIcons name="keyboard-arrow-left" size={30} />}
-        rightIcon2={<MaterialIcons name="keyboard-arrow-right" size={30} />}
+        leftIcon={<AppIconButtons.LeftArrow size={30} />}
+        rightIcon2={<AppIconButtons.RightArrow size={30} />}
         leftOnPress={() => {
           setCurDate(subMonths(curDate, 1));
           getCalender({curDate});

@@ -137,6 +137,7 @@ const PostWriteScreen = ({navigation, route}) => {
                 <PreImage source={{uri: image}} />
                 <IconBox>
                   <AppIconButtons.Cancel
+                  disabled={false}
                     onPress={() => {
                       setImage(null);
                     }}

@@ -177,11 +177,7 @@ const FamilyProfile = ({route}) => {
                 }
               />
               <IconBox>
-                <AppIconButtons.Pencil
-                  size={12}
-                  padding={{paddingLeft: 20}}
-                  disabled={true}
-                />
+                <AppIconButtons.Pencil size={12} padding={{paddingLeft: 20}} />
               </IconBox>
             </ImageBox>
           ) : (
@@ -219,6 +215,7 @@ const FamilyProfile = ({route}) => {
           {/* 메세지 작성중이 아니고, 자신의 프로필일 경우에만 수정 버튼 보이기 */}
           {!isMessageWrite && route.params.userId === userId && (
             <AppIconButtons.Pencil
+              disabled={false}
               onPress={() => {
                 setIsMessageWrite(true);
               }}
