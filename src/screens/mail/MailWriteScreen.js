@@ -8,6 +8,7 @@ import {UserIdState, UserStatusState} from '../../state/UserData';
 import {usePostMail} from '../../hooks/useMailData';
 import {useGetFamilyList} from '../../hooks/useProFileData';
 import {AppButtons} from '../../components/buttons';
+import { AppIconButtons } from '@/components/IconButtons';
 
 export const PaperContainer = styled.View`
   flex: 1;
@@ -166,9 +167,7 @@ const CustomSelectBox = ({
             setIsOpen(!isOpen);
           }}>
           <FontStyle.ContentB>{toUserStatus}</FontStyle.ContentB>
-          <IconBox>
-            <AppIconButtons.Down size={15} color={AppColors.border} />
-          </IconBox>
+          <AppIconButtons.Down size={15} color={AppColors.border} />
         </SelectItem>
         {isOpen && (
           <>
