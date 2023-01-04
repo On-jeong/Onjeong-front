@@ -17,10 +17,16 @@ const MessageBox = styled.View`
 `;
 
 const script = {
-  BOARD: '게시글 올리기로',
-  PROFILE: '프로필 수정으로',
-  MAIL: '메일 보내기로',
-  RAND: '데일리 랜덤코인으로',
+  RAND: '출석 랜덤으로',
+  MAIL: '편지 보내기로',
+  PROFILEIMAGE: '프로필 사진 등록으로',
+  PROFILEMESSAGE: '프로필 상태메시지 작성으로',
+  PROFILEFAV: '프로필 좋아하는 것 작성으로',
+  PROFILEHATE: '프로필 싫어하는 것 작성으로',
+  PROFILEEXPRESSION: '프로필 한단어로 표현하는 것 작성으로',
+  PROFILEINTEREST: '프로필 관심사 작성으로',
+  BOARD: '오늘의 기록 작성으로',
+  ANSWER: '이달의 문답 작성으로',
 };
 
 const CoinHistoryScreen = ({navigation}) => {
@@ -31,6 +37,8 @@ const CoinHistoryScreen = ({navigation}) => {
       refetch();
     }, []),
   );
+
+  console.log(data);
 
   return (
     <NoHeader
@@ -50,7 +58,7 @@ const CoinHistoryScreen = ({navigation}) => {
               <MessageBox>
                 {data.type == 'USED' ? (
                   <FontStyle.SubContentB>
-                    {data.amount * -1}의 영양제를 사용해서 꽃이 성장했어요!
+                    {data.amount * -1}의 영양제를 사용해서 꽃이 {data.after}레벨로 성장했어요!
                   </FontStyle.SubContentB>
                 ) : (
                   <FontStyle.SubContent>
