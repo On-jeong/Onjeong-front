@@ -27,6 +27,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {useGetMonthAnn} from '../hooks/useAnniversaryData';
 import {useQueryClient} from '@tanstack/react-query';
 import {AppIconButtons} from '@/components/IconButtons';
+import {Components} from '@/utils/Components';
 
 const Calendar = styled.View`
   width: 100%;
@@ -47,16 +48,6 @@ const DateBox = styled.TouchableOpacity`
   overflow: hidden;
 `;
 
-const Circle = styled.View`
-  width: 25px;
-  height: 25px;
-  margin-bottom: 2px;
-  border-radius: 50px;
-  background-color: ${props => (props.color ? AppColors.main : AppColors.body)};
-  justify-content: center;
-  align-items: center;
-`;
-
 const MiniText = styled.View`
   justify-content: center;
   align-items: center;
@@ -74,6 +65,7 @@ const Week = styled.View`
 
 export default function CalendarScreen({navigation}) {
   const queryClient = useQueryClient();
+
   const [curDate, setCurDate] = useState(new Date());
 
   const {data, isLoading, isError, refetch} = useGetMonthAnn(
@@ -91,7 +83,14 @@ export default function CalendarScreen({navigation}) {
 
   return (
     <>
-      {getCalender({
+      {/* <FlatList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item) => String(item.id)}
+        onEndReachedThreshold={0.8}
+        onEndReached={onEndReached}
+      /> */}
+      {getCalenders({
         curDate,
         setCurDate,
         navigation,
@@ -104,22 +103,30 @@ export default function CalendarScreen({navigation}) {
   );
 }
 
+const calendarDatas = () => {
+  return [];
+};
+
 // 달력
-const getCalender = ({
-  curDate,
-  setCurDate,
+const getCalenders = ({
   navigation,
   data,
   isError,
   refetch,
+  curDate,
+  setCurDate,
 }) => {
+  const today = format(new Date(), 'yy-MM-dd');
+
+  const prevMonth = getMonth(curDate); // 저번 달 (getMonth() -> 0 ~ 11 이므로 1 더해주기)
+  const curMonth = getMonth(curDate) + 1; // 이번 달
+  const nextMonth = getMonth(curDate) + 2; // 다음 달
+
+  const curYear = getYear(curDate); // 이번 달
   const monthStart = startOfMonth(curDate); //이번 달 시작 날짜
   const monthEnd = endOfMonth(curDate); //이번 달 마지막 날짜
-  const startDate = startOfWeek(monthStart); // 이번 달 시작 주의 첫번째 날짜
-  const endDate = endOfWeek(monthEnd); // 이번 달 마지막 주의 마지막 날짜
-  const curMonth = getMonth(curDate) + 1; // 이번 달
-  const curYear = getYear(curDate); // 이번 달
-  const today = format(new Date(), 'yy-MM-dd');
+  const startDate = startOfWeek(monthStart); // 이번 달 시작 주의 첫번째 날짜 (저번달 일 수 있음)
+  const endDate = endOfWeek(monthEnd); // 이번 달 마지막 주의 마지막 날짜 (다음달 일 수 있음)
 
   let date = startDate;
   let month = [];
@@ -181,11 +188,12 @@ const pushDate = ({week, date, curMonth, today, navigation, data}) => {
         });
       }}>
       {/* 오늘인 경우 원으로 표시하기 */}
-      <Circle color={format(date, 'yy-MM-dd') == today ? true : false}>
+      <Components.Circle
+        color={format(date, 'yy-MM-dd') == today && AppColors.main}>
         <FontStyle.ContentB style={{color: color}}>
           {formattedDate}
         </FontStyle.ContentB>
-      </Circle>
+      </Components.Circle>
       {/* 기념일은 3개까지만 들어감 */}
       {data?.data?.data.map(
         plan =>
