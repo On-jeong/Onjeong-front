@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect} from 'react';
 import {FontStyle} from '../utils/GlobalFonts';
 import {BasicHeader} from '../components/headers/WithHeader';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {
   DailyCoinState,
   UserBirthState,
@@ -32,6 +32,7 @@ import {Alert} from 'react-native';
 import AlertModal from '@/components/modal/AlertModal';
 import {AppModal} from '@/components/modal';
 import {NotReadMailsState, ReceiveMailsState} from '@/state/MailData';
+import {useGetReceiveMails} from '@/hooks/useMailData';
 
 const Background = styled.ImageBackground`
   flex: 1;
@@ -54,7 +55,7 @@ const FamilyCoinView = styled.View`
 
 const Flower = styled.Image`
   position: absolute;
-  bottom: ${windowHeight * 0.25}px;
+  bottom: ${windowHeight * 0.2}px;
   left: ${props =>
     props.flower
       ? windowWidth / 2 - (windowWidth * 0.6) / 2 - 20
@@ -106,6 +107,8 @@ export const HomeScreen = ({navigation}) => {
   const [flowerBloomState, setFlowerBloomState] =
     useRecoilState(FlowerBloomDateState);
 
+  const [receiveMailsState, setReceiveMailsState] =
+    useRecoilState(ReceiveMailsState);
   const notReadMailsState = useRecoilValue(NotReadMailsState);
 
   const {
@@ -140,6 +143,14 @@ export const HomeScreen = ({navigation}) => {
     },
   });
 
+  // 받은메일 업데이트 -> 안읽은 메일 업데이트 위함
+  const {refetch: receiveMailsRefetch} = useGetReceiveMails({
+    onSuccess: data => {
+      setMails(data?.data?.data);
+      setReceiveMailsState(data?.data?.data);
+    },
+  });
+
   console.log(
     '리코일: ' + JSON.stringify(userId),
     JSON.stringify(userName),
@@ -150,8 +161,6 @@ export const HomeScreen = ({navigation}) => {
 
   console.log('꽃레벨:', flowerLevelState);
 
-  const [receiveMailsState, setReceiveMailsState] =
-    useRecoilState(ReceiveMailsState);
   console.log('받은메일:', receiveMailsState);
   console.log('안읽은 메일 개수:', notReadMailsState);
 
