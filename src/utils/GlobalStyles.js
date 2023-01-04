@@ -37,6 +37,7 @@ export const body = '#F8F6E7';
 export const white = '#fffcf3';
 export const border = '#c9c3a3';
 export const blur = '#d1d1d1';
+export const dark = '#ABA68A';
 export const black = '#36342B';
 export const red1 = '#C64756';
 export const red2 = '#B82331';
@@ -52,6 +53,7 @@ export const AppColors = {
   white,
   border,
   blur,
+  dark,
   black,
   red1,
   red2,

@@ -101,7 +101,7 @@ const Cancel = ({
       <MaterialIcons
         name="cancel"
         size={size}
-        color={AppColors.font}
+        color={AppColors.dark}
         style={{
           padding: padding.padding,
           paddingTop: padding.paddingTop,
