@@ -42,7 +42,30 @@ EmptyBox.propTypes = {
   height: PropTypes.number,
 };
 
+// 동그라미
+const CircleBox = styled.View`
+  width: ${props => props.width}px;
+  height: ${props => props.height}px;
+  margin-bottom: 2px;
+  border-radius: 50px;
+  background-color: ${props => props.color};
+  justify-content: center;
+  align-items: center;
+`;
+
+const Circle = ({color, width = 25, height = 25, children}) => {
+  return (
+    <CircleBox color={color} width={width} height={height}>
+      {children}
+    </CircleBox>
+  );
+};
+Circle.propTypes = {
+  height: PropTypes.number,
+};
+
 export const Components = {
   HorizonLine,
   EmptyBox,
+  Circle,
 };

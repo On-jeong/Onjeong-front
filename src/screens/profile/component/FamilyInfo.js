@@ -30,7 +30,7 @@ const TagContainer = styled.View`
   flex-direction: row;
   align-items: center;
   flex-wrap: wrap;
-  margin-top: 5px;
+  margin-bottom: 5px;
 `;
 
 const CancelBox = styled.View`
@@ -309,8 +309,8 @@ const FamilyInfo = ({route}) => {
 const Title = styled.View`
   flex-direction: row;
   align-items: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 15px;
+  margin-bottom: 5px;
 `;
 
 const CategoryTitle = ({title, onPress, isActive}) => {
@@ -337,6 +337,7 @@ CategoryTitle.propTypes = {
 const TagGroup = styled.TouchableOpacity`
   margin-right: 12px;
   margin-bottom: 10px;
+  margin-bottom: ${props => (props.isModify ? 15 : 10)}px;
 `;
 
 const TagBox = styled.View`
@@ -344,12 +345,13 @@ const TagBox = styled.View`
   padding: 7px 12px;
   background-color: ${AppColors.beige1};
   border-radius: 12px;
+  elevation: ${props => (props.isModify ? 4 : 0)};
 `;
 
 const Tag = ({title, isModify, onPress}) => {
   return (
-    <TagGroup onPress={onPress} disabled={!isModify}>
-      <TagBox>
+    <TagGroup onPress={onPress} disabled={!isModify} isModify={isModify}>
+      <TagBox isModify={isModify}>
         <FontStyle.SubContent>{title}</FontStyle.SubContent>
       </TagBox>
       {isModify && (

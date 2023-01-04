@@ -51,9 +51,10 @@ const Mail = styled.TouchableOpacity`
   border-width: 2px;
   border-color: ${AppColors.border};
   background-color: ${AppColors.white};
-  margin-top: 5px;
-  margin-bottom: 7px;
+  margin-top: 12px;
+  margin-bottom: 5px;
   padding: 10px;
+  elevation: ${props => (props.isDelete ? 7 : 0)};
 `;
 
 const FromBox = styled.View`
@@ -69,16 +70,14 @@ const DeleteIconBox = styled.View`
 `;
 const ReadIconBox = styled.View`
   position: absolute;
-  top: -10px;
-  right: -10px;
+  top: -9px;
+  left: -9px;
 `;
 
 const MailScreen = ({navigation}) => {
   useEffect(() => {
     setIsReceive(true);
   }, []);
-
-  useEffect(() => {}, [isReceive]);
 
   //뒤로가기로 화면이 포커스 됐을 때도 업데이트
   useFocusEffect(
@@ -118,6 +117,7 @@ const MailScreen = ({navigation}) => {
   const receiveMails = () => {
     setIsReceive(true);
     refetch();
+    setReceiveMailsState(receiveData?.data?.data);
     setMails(receiveData?.data?.data);
   };
 
@@ -173,10 +173,14 @@ const MailScreen = ({navigation}) => {
               padding={{paddingRight: 8}}
               disabled={false}
               onPress={() => {
+                setIsDelete(false);
                 navigation.navigate('MailWrite');
               }}
             />
-            <AppIconButtons.Delete onPress={() => setIsDelete(!isDelete)} />
+            <AppIconButtons.Delete
+              disabled={false}
+              onPress={() => setIsDelete(!isDelete)}
+            />
           </Filter>
         </TopBar>
 
@@ -188,15 +192,20 @@ const MailScreen = ({navigation}) => {
           <ScrollView>
             <MailBox>
               {mails?.map(mail => (
-                <Mail key={mail.mailId} onPress={() => mailOnPress(mail)}>
+                <Mail
+                  key={mail.mailId}
+                  onPress={() => mailOnPress(mail)}
+                  isDelete={isDelete}>
                   {/* 안읽은 메일 표시 (받은 메일함만, 삭제중이 아닐 때) */}
                   {!mail.checkRead && isReceive && !isDelete && (
-                    <DeleteIconBox>
-                      <AppIconButtons.AlertCircle
-                        size={20}
-                        color={AppColors.red1}
-                      />
-                    </DeleteIconBox>
+                    <ReadIconBox>
+                      <Components.Circle
+                        color={AppColors.green1}
+                        width={21}
+                        height={21}>
+                        <FontStyle.SubContentB>1</FontStyle.SubContentB>
+                      </Components.Circle>
+                    </ReadIconBox>
                   )}
                   {isDelete && (
                     <DeleteIconBox>
