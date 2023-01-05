@@ -275,6 +275,7 @@ export default function QaScreen({navigation}) {
                             padding={{padding: 6}}
                           />
                           <AppIconButtons.Delete
+                          disabled={false}
                             onPress={() => {
                               setIsModAns(false);
                               delAns(ans.answerId);

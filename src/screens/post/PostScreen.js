@@ -279,6 +279,7 @@ const PostScreen = ({navigation, route}) => {
                 {AnnData?.length !== 0 && (
                   <AppIconButtons.Delete
                     active={isDelPlan}
+                    disabled={false}
                     onPress={() => {
                       setIsDelPlan(!isDelPlan);
                       if (isAddPlan && !isDelPlan) setIsAddPlan(!isAddPlan);
