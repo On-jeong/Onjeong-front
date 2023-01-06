@@ -58,7 +58,7 @@ const Flower = styled.Image`
   bottom: ${windowHeight * 0.2}px;
   left: ${props =>
     props.flower
-      ? windowWidth / 2 - (windowWidth * 0.6) / 2 - 20
+      ? windowWidth / 2 - (windowWidth * 0.6) / 2 - 10
       : windowWidth / 2 - (windowWidth * 0.2) / 2}px;
   width: ${props => (props.flower ? windowWidth * 0.6 : windowWidth * 0.2)}px;
   height: ${props => (props.flower ? windowWidth * 0.6 : windowWidth * 0.2)}px;
@@ -146,7 +146,6 @@ export const HomeScreen = ({navigation}) => {
   // 받은메일 업데이트 -> 안읽은 메일 업데이트 위함
   const {refetch: receiveMailsRefetch} = useGetReceiveMails({
     onSuccess: data => {
-      setMails(data?.data?.data);
       setReceiveMailsState(data?.data?.data);
     },
   });
@@ -166,6 +165,7 @@ export const HomeScreen = ({navigation}) => {
 
   useEffect(() => {
     getDailyCoinInfo();
+    receiveMailsRefetch();
   }, []);
 
   useFocusEffect(
@@ -179,6 +179,7 @@ export const HomeScreen = ({navigation}) => {
     console.log(dailyCoinState);
     console.log(formatDate);
 
+    // 해당 기기에서 오늘 랜덤코인을 은 적이 없을 경우 호출
     if (dailyCoinState == null && dailyCoinState !== formatDate) {
       addRandCoins();
     }
