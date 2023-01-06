@@ -5,7 +5,8 @@ import {AppColors} from '@/utils/GlobalStyles';
 import {Body, IconBox} from './WithHeader';
 import PropTypes from 'prop-types';
 import LoadingComponent from '../Loading/LoadingComponent';
-import { AppIconButtons } from '../IconButtons';
+import {AppIconButtons} from '../IconButtons';
+import {Keyboard, TouchableWithoutFeedback} from 'react-native';
 
 const Container = styled.View`
   flex: 1;
@@ -49,34 +50,36 @@ const NoHeader = ({
   reloadFunc,
 }) => {
   return (
-    <Container>
-      <NavContainer>
-        {isBack ? (
-          <LeftNavTouchable
-            onPress={() => {
-              navigation.goBack();
-            }}>
-            <RightMargin>
-              <AppIconButtons.Back size={20} />
-            </RightMargin>
-            <FontStyle.TitleB>{title}</FontStyle.TitleB>
-          </LeftNavTouchable>
-        ) : (
-          <LeftNav>
-            <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
-          </LeftNav>
-        )}
-        <IconBox onPress={rightOnPress}>{rightIcon}</IconBox>
-      </NavContainer>
-      <Body>
-        <LoadingComponent
-          isLoading={isLoading}
-          isError={isError}
-          reloadFunc={reloadFunc}>
-          {children}
-        </LoadingComponent>
-      </Body>
-    </Container>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <Container>
+        <NavContainer>
+          {isBack ? (
+            <LeftNavTouchable
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <RightMargin>
+                <AppIconButtons.Back size={20} />
+              </RightMargin>
+              <FontStyle.TitleB>{title}</FontStyle.TitleB>
+            </LeftNavTouchable>
+          ) : (
+            <LeftNav>
+              <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
+            </LeftNav>
+          )}
+          <IconBox onPress={rightOnPress}>{rightIcon}</IconBox>
+        </NavContainer>
+        <Body>
+          <LoadingComponent
+            isLoading={isLoading}
+            isError={isError}
+            reloadFunc={reloadFunc}>
+            {children}
+          </LoadingComponent>
+        </Body>
+      </Container>
+    </TouchableWithoutFeedback>
   );
 };
 
