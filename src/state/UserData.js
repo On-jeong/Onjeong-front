@@ -8,6 +8,12 @@ export const UserIdState = atom({
   effects_UNSTABLE: [ReactNativeRecoilPersist.persistAtom],
 });
 
+export const UserEmailState = atom({
+  key: 'userEmail',
+  default: '',
+  effects_UNSTABLE: [ReactNativeRecoilPersist.persistAtom],
+});
+
 export const UserNameState = atom({
   key: 'userName',
   default: '',
