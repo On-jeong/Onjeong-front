@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {AppColors} from './GlobalStyles';
 import PropTypes from 'prop-types';
+import {TouchableOpacity} from 'react-native';
 
 const HLine = styled.View`
   background-color: ${AppColors.border};
@@ -61,11 +62,29 @@ const Circle = ({color, width = 25, height = 25, children}) => {
   );
 };
 Circle.propTypes = {
+  color: PropTypes.string,
+  width: PropTypes.number,
   height: PropTypes.number,
 };
 
-export const Components = {
+const RowBox = styled.View`
+  flex-direction: row;
+  justify-content: ${props => props.justifyContent};
+  align-items: center;
+`;
+
+const Row = ({justifyContent = 'flex-start', children}) => {
+  return (
+      <RowBox justifyContent={justifyContent}>{children}</RowBox>
+  );
+};
+Row.propTypes = {
+  justifyContent: PropTypes.string,
+};
+
+export const AppComponents = {
   HorizonLine,
   EmptyBox,
   Circle,
+  Row,
 };
