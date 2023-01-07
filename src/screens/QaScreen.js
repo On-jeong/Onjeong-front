@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {ScrollView} from 'react-native';
 import {FontStyle} from '../utils/GlobalFonts';
 import {AppColors} from '../utils/GlobalStyles';
-import {Components} from '../utils/Components';
+import {AppComponents} from '../utils/Components';
 import {AppIconButtons} from '../components/IconButtons';
 import {
   useAddAnswer,
@@ -275,7 +275,7 @@ export default function QaScreen({navigation}) {
                             padding={{padding: 6}}
                           />
                           <AppIconButtons.Delete
-                          disabled={false}
+                            disabled={false}
                             onPress={() => {
                               setIsModAns(false);
                               delAns(ans.answerId);
@@ -328,7 +328,7 @@ export default function QaScreen({navigation}) {
                   </AnsBox>
                 </AnsContainer>
               ))}
-              <Components.EmptyBox height={70} />
+              <AppComponents.EmptyBox height={70} />
             </ScrollView>
           </LoadingComponent>
         )}

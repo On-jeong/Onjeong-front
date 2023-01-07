@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {BasicHeader} from '@/components/headers/WithHeader';
 import styled from 'styled-components';
 import {FontStyle} from '@/utils/GlobalFonts';
-import {Components} from '@/utils/Components';
+import {AppComponents} from '@/utils/Components';
 import {useDeleteAccount, useSignOut} from '@/hooks/useUserData';
 import {useDelFCM} from '@/hooks/useFCMtoken';
 import {useRecoilValue} from 'recoil';
@@ -66,44 +66,44 @@ const MyScreen = ({navigation}) => {
         <Menu>
           <FontStyle.SubTitle>공지사항</FontStyle.SubTitle>
         </Menu>
-        <Components.HorizonLine />
+        <AppComponents.HorizonLine />
         <Menu>
           <FontStyle.SubTitle>서비스 이용약관</FontStyle.SubTitle>
         </Menu>
-        <Components.HorizonLine />
+        <AppComponents.HorizonLine />
         <Menu>
           <FontStyle.SubTitle>개인정보 처리 방침</FontStyle.SubTitle>
         </Menu>
-        <Components.HorizonLine />
+        <AppComponents.HorizonLine />
         <Menu>
           <FontStyle.SubTitle>버전</FontStyle.SubTitle>
           <FontStyle.SubTitle>1.0.0</FontStyle.SubTitle>
         </Menu>
-        <Components.HorizonLine />
+        <AppComponents.HorizonLine />
         {/* 공백 */}
         <Menu />
-        <Components.HorizonLine />
+        <AppComponents.HorizonLine />
         <Menu
           onPress={() => {
             navigation.navigate('AccountMod');
           }}>
           <FontStyle.SubTitle>회원정보 변경</FontStyle.SubTitle>
         </Menu>
-        <Components.HorizonLine />
+        <AppComponents.HorizonLine />
         <Menu
           onPress={() => {
             setSignOutModal(true);
           }}>
           <FontStyle.SubTitle>로그아웃</FontStyle.SubTitle>
         </Menu>
-        <Components.HorizonLine />
+        <AppComponents.HorizonLine />
         <Menu
           onPress={() => {
             navigation.navigate('AccountDelete');
           }}>
           <FontStyle.SubTitle>회원탈퇴</FontStyle.SubTitle>
         </Menu>
-        <Components.HorizonLine />
+        <AppComponents.HorizonLine />
         <Email>
           <FontStyle.Content>
             연락가능 이메일 : onjeong@gmail.com

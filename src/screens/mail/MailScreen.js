@@ -13,7 +13,7 @@ import {
   useGetSendMails,
 } from '../../hooks/useMailData';
 import {useFocusEffect} from '@react-navigation/native';
-import {Components} from '../../utils/Components';
+import {AppComponents} from '../../utils/Components';
 import {AppButtons} from '../../components/buttons';
 import EmptyComponent from '@/components/Loading/EmptyComponent';
 import {useRecoilState, useRecoilValue} from 'recoil';
@@ -165,7 +165,7 @@ const MailScreen = ({navigation}) => {
               onPress={() => sendMails()}
             />
             <Alert>
-              <AppIconButtons.Alert onPress={() => {}} />
+              <AppIconButtons.Alert disabled={false} onPress={() => {}} />
             </Alert>
           </Filter>
           <Filter>
@@ -199,12 +199,12 @@ const MailScreen = ({navigation}) => {
                   {/* 안읽은 메일 표시 (받은 메일함만, 삭제중이 아닐 때) */}
                   {!mail.checkRead && isReceive && !isDelete && (
                     <ReadIconBox>
-                      <Components.Circle
+                      <AppComponents.Circle
                         color={AppColors.green1}
                         width={21}
                         height={21}>
                         <FontStyle.SubContentB>1</FontStyle.SubContentB>
-                      </Components.Circle>
+                      </AppComponents.Circle>
                     </ReadIconBox>
                   )}
                   {isDelete && (
@@ -225,7 +225,7 @@ const MailScreen = ({navigation}) => {
                   </FromBox>
                 </Mail>
               ))}
-              <Components.EmptyBox height={50} />
+              <AppComponents.EmptyBox height={50} />
             </MailBox>
           </ScrollView>
         </EmptyComponent>

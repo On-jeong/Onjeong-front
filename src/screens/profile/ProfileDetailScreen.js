@@ -1,6 +1,6 @@
 import React from 'react';
 import NoHeader from '@/components/headers/NoHeader';
-import {Components} from '../../utils/Components';
+import {AppComponents} from '../../utils/Components';
 
 import FamilyProfile from './component/FamilyProfile';
 import FamilyInfo from './component/FamilyInfo';
@@ -8,7 +8,7 @@ import FamilyInfo from './component/FamilyInfo';
 const ProfileDetailScreen = ({navigation, route}) => {
   return (
     <NoHeader title={route.params.role} isBack={true} navigation={navigation}>
-      <Components.HorizonLine padding={{paddingBottom: 10}} />
+      <AppComponents.HorizonLine padding={{paddingBottom: 10}} />
 
       {/* 유저 프로필 부분 */}
       <FamilyProfile route={route} />

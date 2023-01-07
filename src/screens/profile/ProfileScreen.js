@@ -3,7 +3,7 @@ import {BasicHeader} from '@/components/headers/WithHeader';
 import styled from 'styled-components';
 import {AppColors, windowHeight, windowWidth} from '@/utils/GlobalStyles';
 import {ScrollView} from 'react-native';
-import {Components} from '@/utils/Components';
+import {AppComponents} from '@/utils/Components';
 import {useGetFamilyList} from '../../hooks/useProFileData';
 import {FontStyle} from '../../utils/GlobalFonts';
 import {useFocusEffect} from '@react-navigation/native';
@@ -60,7 +60,7 @@ const ProfileScreen = ({navigation}) => {
             ))}
           </>
         </ProfileBox>
-        <Components.EmptyBox height={80} />
+        <AppComponents.EmptyBox height={80} />
       </ScrollView>
     </BasicHeader>
   );

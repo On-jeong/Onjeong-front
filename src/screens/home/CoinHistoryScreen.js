@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import NoHeader from '@/components/headers/NoHeader';
 import {FontStyle} from '@/utils/GlobalFonts';
-import {Components} from '@/utils/Components';
+import {AppComponents} from '@/utils/Components';
 import {useGetCoinHistory} from '@/hooks/useHomeData';
 import {ScrollView} from 'react-native';
 import EmptyComponent from '@/components/Loading/EmptyComponent';
@@ -58,7 +58,8 @@ const CoinHistoryScreen = ({navigation}) => {
               <MessageBox>
                 {data.type == 'USED' ? (
                   <FontStyle.SubContentB>
-                    {data.amount * -1}의 영양제를 사용해서 꽃이 {data.after}레벨로 성장했어요!
+                    {data.amount * -1}의 영양제를 사용해서 꽃이 {data.after}
+                    레벨로 성장했어요!
                   </FontStyle.SubContentB>
                 ) : (
                   <FontStyle.SubContent>
@@ -66,10 +67,10 @@ const CoinHistoryScreen = ({navigation}) => {
                   </FontStyle.SubContent>
                 )}
               </MessageBox>
-              <Components.HorizonLine />
+              <AppComponents.HorizonLine />
             </React.Fragment>
           ))}
-          <Components.EmptyBox />
+          <AppComponents.EmptyBox />
         </ScrollView>
       </EmptyComponent>
     </NoHeader>

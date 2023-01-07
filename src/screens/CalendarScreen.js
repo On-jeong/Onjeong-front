@@ -27,7 +27,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {useGetMonthAnn} from '../hooks/useAnniversaryData';
 import {useQueryClient} from '@tanstack/react-query';
 import {AppIconButtons} from '@/components/IconButtons';
-import {Components} from '@/utils/Components';
+import {AppComponents} from '@/utils/Components';
 
 const Calendar = styled.View`
   width: 100%;
@@ -90,7 +90,7 @@ export default function CalendarScreen({navigation}) {
         onEndReachedThreshold={0.8}
         onEndReached={onEndReached}
       /> */}
-      {getCalenders({
+      {getCalender({
         curDate,
         setCurDate,
         navigation,
@@ -108,7 +108,7 @@ const calendarDatas = () => {
 };
 
 // 달력
-const getCalenders = ({
+const getCalender = ({
   navigation,
   data,
   isError,
@@ -188,12 +188,12 @@ const pushDate = ({week, date, curMonth, today, navigation, data}) => {
         });
       }}>
       {/* 오늘인 경우 원으로 표시하기 */}
-      <Components.Circle
+      <AppComponents.Circle
         color={format(date, 'yy-MM-dd') == today && AppColors.main}>
         <FontStyle.ContentB style={{color: color}}>
           {formattedDate}
         </FontStyle.ContentB>
-      </Components.Circle>
+      </AppComponents.Circle>
       {/* 기념일은 3개까지만 들어감 */}
       {data?.data?.data.map(
         plan =>

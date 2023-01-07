@@ -3,7 +3,7 @@ import React from 'react';
 import {FontStyle} from '../utils/GlobalFonts';
 import {Email} from './mySetting/MyScreen';
 import styled from 'styled-components';
-import {Components} from '../utils/Components';
+import {AppComponents} from '../utils/Components';
 import {AppIconButtons} from '../components/IconButtons';
 import {ScrollView} from 'react-native';
 
@@ -22,7 +22,7 @@ const AlertScreen = ({navigation}) => {
         <MessageBox>
           <FontStyle.ContentB>온정에 오신 것을 환영합니다!</FontStyle.ContentB>
         </MessageBox>
-        <Components.HorizonLine />
+        <AppComponents.HorizonLine />
       </ScrollView>
       <Email>
         <AppIconButtons.Alert size={15} />

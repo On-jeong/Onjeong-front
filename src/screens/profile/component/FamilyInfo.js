@@ -18,7 +18,7 @@ import {
 
 import {useQueryClient} from '@tanstack/react-query';
 import {MessageInput} from './FamilyProfile';
-import {Components} from '@/utils/Components';
+import {AppComponents} from '@/utils/Components';
 import LoadingComponent from '@/components/Loading/LoadingComponent';
 
 const ContentsContainer = styled.ScrollView`
@@ -298,7 +298,7 @@ const FamilyInfo = ({route}) => {
               setTagValue,
             )}
 
-            <Components.EmptyBox height={50} />
+            <AppComponents.EmptyBox height={50} />
           </>
         )}
       </LoadingComponent>

@@ -5,7 +5,7 @@ import {AppInputs} from '@/components/inputs';
 import {LoadingBox} from '@/components/Loading/LoadingComponent';
 import PromptModal from '@/components/modal/PromptModal';
 import {useDeleteAccount} from '@/hooks/useUserData';
-import {Components} from '@/utils/Components';
+import {AppComponents} from '@/utils/Components';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {AppColors} from '@/utils/GlobalStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -24,7 +24,7 @@ const AccountDeleteScreen = ({navigation}) => {
       // 기본 헤더 제거
       delete customAxios.defaults.headers.common['AuthorizationAccess'];
 
-      alert('회원탈퇴가 완료되었습니다')
+      alert('회원탈퇴가 완료되었습니다');
       navigation.navigate('Welcome');
     },
   });
@@ -36,13 +36,13 @@ const AccountDeleteScreen = ({navigation}) => {
           가족들을 남겨두고 정말 떠나시는 건가요?
         </FontStyle.Content>
         <FontStyle.Content>비밀번호를 입력해 주세요ㅜㅜ</FontStyle.Content>
-        <Components.EmptyBox height={20} />
+        <AppComponents.EmptyBox height={20} />
         <AppInputs.BorderBottomInput
           onChangeText={setUserPW}
           placeholder={'비밀번호'}
           secureTextEntry={true}
         />
-        <Components.EmptyBox height={10} />
+        <AppComponents.EmptyBox height={10} />
         <AppButtons.FullButton
           title="회원 탈퇴"
           inputCheck={userPW}

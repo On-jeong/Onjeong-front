@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import NoHeader from '@/components/headers/NoHeader';
 import {FontStyle} from '@/utils/GlobalFonts';
-import {Components} from '@/utils/Components';
+import {AppComponents} from '@/utils/Components';
 import {ScrollView} from 'react-native';
 
 const MessageBox = styled.View`
@@ -31,7 +31,7 @@ const CoinGuideScreen = ({navigation}) => {
         <Message title={'관심사 작성'} coin={100} />
         <Message title={'이주의 문답 작성'} coin={10} />
         <Message title={'이주의 문답 모든 가족이 작성할 경우'} coin={200} />
-        <Components.EmptyBox />
+        <AppComponents.EmptyBox />
       </ScrollView>
     </NoHeader>
   );
@@ -45,7 +45,7 @@ const Message = ({title, coin}) => {
           {title} : {coin}
         </FontStyle.Content>
       </MessageBox>
-      {/* <Components.HorizonLine /> */}
+      {/* <AppComponents.HorizonLine /> */}
     </>
   );
 };

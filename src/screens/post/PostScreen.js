@@ -4,7 +4,7 @@ import NoHeader from '@/components/headers/NoHeader';
 import {useQueryClient} from '@tanstack/react-query';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {AppColors, windowHeight, windowWidth} from '@/utils/GlobalStyles';
-import {Components} from '../../utils/Components';
+import {AppComponents} from '../../utils/Components';
 import {AppIconButtons} from '../../components/IconButtons';
 import {AppButtons} from '../../components/buttons';
 import {
@@ -260,7 +260,7 @@ const PostScreen = ({navigation, route}) => {
   return (
     <NoHeader title={route.params.date} isBack={true} navigation={navigation}>
       <>
-        <Components.HorizonLine />
+        <AppComponents.HorizonLine />
         <ScrollView>
           <PlanContainer>
             <PlanTitle>
@@ -368,7 +368,7 @@ const PostScreen = ({navigation, route}) => {
               </>
             )}
           </PlanContainer>
-          <Components.HorizonLine />
+          <AppComponents.HorizonLine />
           <PlanContainer>
             <PlanTitle>
               <FontStyle.SubTitleB>오늘의 기록</FontStyle.SubTitleB>
