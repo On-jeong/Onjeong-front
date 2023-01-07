@@ -9,6 +9,7 @@ import {useGetUserData} from '@/hooks/useUserData';
 import {
   FamilyIdState,
   UserBirthState,
+  UserEmailState,
   UserIdState,
   UserNameState,
   UserNicknameState,
@@ -27,6 +28,7 @@ export const WelcomeScreen = ({navigation}) => {
 
   const [userIdState, setUserIdState] = useRecoilState(UserIdState);
   const setUserNameState = useSetRecoilState(UserNameState);
+  const setUserEmailState = useSetRecoilState(UserEmailState);
   const setUserBirthState = useSetRecoilState(UserBirthState);
   const setUserStatusState = useSetRecoilState(UserStatusState);
   const setUserNicknameState = useSetRecoilState(UserNicknameState);
@@ -58,6 +60,7 @@ export const WelcomeScreen = ({navigation}) => {
           // 새로 받은 유저정보 리코일에 저장
           setUserIdState(data.data.data.userId);
           setUserNameState(data.data.data.userName);
+          setUserEmailState(data.data.data.userEmail);
           setUserNicknameState(data.data.data.userNickname);
           setUserStatusState(data.data.data.userStatus);
           setUserBirthState(data.data.data.userBirth);

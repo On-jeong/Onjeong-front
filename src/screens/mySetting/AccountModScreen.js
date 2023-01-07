@@ -6,6 +6,7 @@ import {
   UserNameState,
   UserStatusState,
   UserNicknameState,
+  UserEmailState,
 } from '@/state/UserData';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {format} from 'date-fns';
@@ -47,6 +48,7 @@ const BirthButton = styled.TouchableOpacity`
 function AccountModScreen({navigation}) {
   // 변경값 임시저장
   const [name, setName] = useState(useRecoilValue(UserNameState));
+  const [email, setEmail] = useState(useRecoilValue(UserEmailState));
   const [status, setStatus] = useState(useRecoilValue(UserStatusState));
   const [birth, setBirth] = useState(new Date(useRecoilValue(UserBirthState)));
   const [pw, setPw] = useState('');
@@ -58,16 +60,22 @@ function AccountModScreen({navigation}) {
   const userNicknameState = useRecoilValue(UserNicknameState);
   // 변경값 영구저장
   const setUserNameState = useSetRecoilState(UserNameState);
+  const setUserEmailState = useSetRecoilState(UserEmailState);
   const setUserStatusState = useSetRecoilState(UserStatusState);
   const setUserBirthState = useSetRecoilState(UserBirthState);
 
   const PW_REG = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,16}$/; // 영문, 숫자 조합 8 ~ 16자
   const NAME_REG = /[ㄱ-힣]/; // 한글만
 
-  const {mutate} = useModifyAccount({
+  const {
+    mutate: modifyAccountMutate,
+    isLoading: modifyAccountIsLoading,
+    isError: modifyAccountIsError,
+  } = useModifyAccount({
     onSuccess: () => {
       alert('회원정보 변경이 완료되었습니다.');
       setUserNameState(name);
+      setUserEmailState(email);
       setUserStatusState(status);
       setUserBirthState(birth);
       setPw('');
@@ -76,6 +84,7 @@ function AccountModScreen({navigation}) {
     onError: () => {
       alert('회원정보 변경에 실패했습니다.');
       setName(UserNameState);
+      setEmail(UserEmailState);
       setStatus(UserStatusState);
     },
   });
@@ -101,7 +110,7 @@ function AccountModScreen({navigation}) {
     }
 
     //if (validationCheck())
-    mutate({
+    modifyAccountMutate({
       userBirth: birth,
       userName: name,
       userPassword: pw,
@@ -124,7 +133,12 @@ function AccountModScreen({navigation}) {
   };
 
   return (
-    <NoHeader title="회원정보 변경" isBack={true} navigation={navigation}>
+    <NoHeader
+      title="회원정보 변경"
+      isBack={true}
+      navigation={navigation}
+      isLoading={modifyAccountIsLoading}
+      isError={modifyAccountIsError}>
       <InfoBox
         title={'아이디'}
         modAvailable={false}
@@ -138,6 +152,14 @@ function AccountModScreen({navigation}) {
         value={name}
         setValue={setName}
         maxLength={20}
+        secureTextEntry={false}
+      />
+      <InfoBox
+        title={'이메일'}
+        modAvailable={true}
+        value={email}
+        setValue={setEmail}
+        maxLength={30}
         secureTextEntry={false}
       />
       {/* 생년월일 선택 버튼 */}
