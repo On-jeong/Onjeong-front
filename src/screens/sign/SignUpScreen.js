@@ -8,10 +8,15 @@ import {AppInputs} from '../../components/inputs';
 import DatePicker from 'react-native-date-picker';
 import styled from 'styled-components';
 import {format} from 'date-fns';
-import {useSignUpNoJoined, useSignUpWithJoined} from '../../hooks/useUserData';
+import {
+  useGetCheckId,
+  useGetJoinedId,
+  useSignUpNoJoined,
+  useSignUpWithJoined,
+} from '../../hooks/useUserData';
 import {Alert, ScrollView, TouchableOpacity} from 'react-native';
 import {AppIconButtons} from '@/components/IconButtons';
-import {AppComponents} from '@/utils/Components';
+import {AppComponents} from '@/components/Components';
 
 //
 // 회원가입
@@ -68,6 +73,9 @@ const SignUpScreen = ({navigation}) => {
   const [birthClick, setBirthClick] = useState(false); // 한번도 클릭하지 않았을 경우 '생년월일'
   const [birthOpen, setBirthOpen] = useState(false);
 
+  const [idCheck, setIdCheck] = useState(false);
+  const [joinedIdCheck, setJoinedIdCheck] = useState(false);
+
   // 동의사항 체크
   const [check1, setCheck1] = useState(false); // 개인정보 처리 방침
   const [check2, setCheck2] = useState(false); // 앱 이용 약관
@@ -88,6 +96,31 @@ const SignUpScreen = ({navigation}) => {
     onSuccess: () => {
       navigation.navigate('SignIn');
       alert('온정에 오신 것을 환영합니다!');
+    },
+  });
+
+  const {mutate: getCheckIdMutate} = useGetCheckId({
+    onSuccess: data => {
+      console.log(data?.data?.data?.available);
+      if (data?.data?.data?.available) {
+        alert('사용할 수 있는 아이디 입니다.');
+        setIdCheck(true);
+      } else {
+        alert('사용할 수 없는 아이디 입니다.');
+        setIdCheck(false);
+      }
+    },
+  });
+  const {mutate: getJoinedIdMutate} = useGetJoinedId({
+    onSuccess: data => {
+      console.log(data?.data?.data?.available);
+      if (data?.data?.data?.available) {
+        alert('초대가족이 확인되었습니다.');
+        setJoinedIdCheck(true);
+      } else {
+        alert('초대가족을 찾을 수 없습니다.');
+        setJoinedIdCheck(false);
+      }
     },
   });
 
@@ -136,6 +169,12 @@ const SignUpScreen = ({navigation}) => {
   const validationCheck = () => {
     if (!ID_REG.test(userId)) {
       alert('아이디는 영문 또는 숫자 조합 6 ~ 20자리로 설정해 주세요.');
+      return 0;
+    } else if (!idCheck) {
+      alert('사용할 수 있는 아이디인지 검사해 주세요.');
+      return 0;
+    } else if (!joinedIdCheck) {
+      alert('초대가족 아이디가 존재하는지 검사해 주세요.');
       return 0;
     } else if (!EMAIL_REG.test(userEmail)) {
       alert('이메일 형식이 일치하지 않습니다.');
@@ -242,6 +281,9 @@ const SignUpScreen = ({navigation}) => {
                   title="확인"
                   width={50}
                   inputCheck={userId}
+                  onPress={() => {
+                    getCheckIdMutate({id: userId});
+                  }}
                 />
               </InputButtonBox>
               <AppInputs.BorderBottomInput
@@ -297,6 +339,9 @@ const SignUpScreen = ({navigation}) => {
                   title="확인"
                   width={50}
                   inputCheck={joinedNickname}
+                  onPress={() => {
+                    getJoinedIdMutate({id: joinedNickname});
+                  }}
                 />
               </InputButtonBox>
               <CheckLists>

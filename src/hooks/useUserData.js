@@ -1,9 +1,14 @@
 import customAxios from '@/api/axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useMutation, useQuery} from '@tanstack/react-query';
 
-const fetchUserData = async () => {
+const fetchUserData = () => {
   return customAxios.get(`/user-information`);
+};
+const fetchCheckId = ({id}) => {
+  return customAxios.post(`/check/id/${id} `);
+};
+const fetchJoinedId = ({id}) => {
+  return customAxios.post(`/check/joined-id/${id}`);
 };
 
 const postSignUpNoJoined = userData => {
@@ -18,7 +23,7 @@ const postSignInData = userData => {
   return customAxios.post(`/login`, userData);
 };
 
-const reqSignOut = async () => {
+const reqSignOut = () => {
   return customAxios.get(`/logout`);
 };
 
@@ -43,6 +48,22 @@ export const useGetUserData = ({enabled: enabled = true}) => {
   return useQuery(['getUserData'], fetchUserData, {
     onError: error => console.log(error),
     enabled: enabled,
+  });
+};
+
+// 사용할 수 있는 아이디인지 체크
+export const useGetCheckId = ({onSuccess}) => {
+  return useMutation(fetchCheckId, {
+    onError: error => console.log(error),
+    onSuccess: onSuccess,
+  });
+};
+
+// 초대가족 아이디 존재유무 체크
+export const useGetJoinedId = ({onSuccess}) => {
+  return useMutation(fetchJoinedId, {
+    onError: error => console.log(error),
+    onSuccess: onSuccess,
   });
 };
 
