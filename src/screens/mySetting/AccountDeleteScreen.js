@@ -5,7 +5,7 @@ import {AppInputs} from '@/components/inputs';
 import {LoadingBox} from '@/components/Loading/LoadingComponent';
 import PromptModal from '@/components/modal/PromptModal';
 import {useDeleteAccount} from '@/hooks/useUserData';
-import {AppComponents} from '@/utils/Components';
+import {AppComponents} from '@/components/Components';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {AppColors} from '@/utils/GlobalStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';

@@ -4,7 +4,7 @@ import NoHeader from '@/components/headers/NoHeader';
 import {useQueryClient} from '@tanstack/react-query';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {AppColors, windowHeight, windowWidth} from '@/utils/GlobalStyles';
-import {AppComponents} from '../../utils/Components';
+import {AppComponents} from '@/components/Components';
 import {AppIconButtons} from '../../components/IconButtons';
 import {AppButtons} from '../../components/buttons';
 import {

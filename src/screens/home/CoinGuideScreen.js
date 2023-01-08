@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import NoHeader from '@/components/headers/NoHeader';
 import {FontStyle} from '@/utils/GlobalFonts';
-import {AppComponents} from '@/utils/Components';
+import {AppComponents} from '@/components/Components';
 import {ScrollView} from 'react-native';
 
 const MessageBox = styled.View`

@@ -13,7 +13,7 @@ import {
   useGetSendMails,
 } from '../../hooks/useMailData';
 import {useFocusEffect} from '@react-navigation/native';
-import {AppComponents} from '../../utils/Components';
+import {AppComponents} from '@/components/Components';
 import {AppButtons} from '../../components/buttons';
 import EmptyComponent from '@/components/Loading/EmptyComponent';
 import {useRecoilState, useRecoilValue} from 'recoil';

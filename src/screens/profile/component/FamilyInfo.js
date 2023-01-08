@@ -18,7 +18,7 @@ import {
 
 import {useQueryClient} from '@tanstack/react-query';
 import {MessageInput} from './FamilyProfile';
-import {AppComponents} from '@/utils/Components';
+import {AppComponents} from '@/components/Components';
 import LoadingComponent from '@/components/Loading/LoadingComponent';
 
 const ContentsContainer = styled.ScrollView`

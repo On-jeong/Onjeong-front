@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {ScrollView} from 'react-native';
 import {FontStyle} from '../utils/GlobalFonts';
 import {AppColors} from '../utils/GlobalStyles';
-import {AppComponents} from '../utils/Components';
+import {AppComponents} from '@/components/Components';
 import {AppIconButtons} from '../components/IconButtons';
 import {
   useAddAnswer,

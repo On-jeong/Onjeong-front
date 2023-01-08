@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {BasicHeader} from '@/components/headers/WithHeader';
 import styled from 'styled-components';
 import {FontStyle} from '@/utils/GlobalFonts';
-import {AppComponents} from '@/utils/Components';
+import {AppComponents} from '@/components/Components';
 import {useDeleteAccount, useSignOut} from '@/hooks/useUserData';
 import {useDelFCM} from '@/hooks/useFCMtoken';
 import {useRecoilValue} from 'recoil';

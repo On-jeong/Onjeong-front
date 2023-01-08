@@ -3,7 +3,7 @@ import {BasicHeader} from '@/components/headers/WithHeader';
 import styled from 'styled-components';
 import {AppColors, windowHeight, windowWidth} from '@/utils/GlobalStyles';
 import {ScrollView} from 'react-native';
-import {AppComponents} from '@/utils/Components';
+import {AppComponents} from '@/components/Components';
 import {useGetFamilyList} from '../../hooks/useProFileData';
 import {FontStyle} from '../../utils/GlobalFonts';
 import {useFocusEffect} from '@react-navigation/native';

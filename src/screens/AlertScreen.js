@@ -3,7 +3,7 @@ import React from 'react';
 import {FontStyle} from '../utils/GlobalFonts';
 import {Email} from './mySetting/MyScreen';
 import styled from 'styled-components';
-import {AppComponents} from '../utils/Components';
+import {AppComponents} from '@/components/Components';
 import {AppIconButtons} from '../components/IconButtons';
 import {ScrollView} from 'react-native';
 

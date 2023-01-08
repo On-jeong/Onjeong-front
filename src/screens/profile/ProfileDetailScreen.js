@@ -1,6 +1,6 @@
 import React from 'react';
 import NoHeader from '@/components/headers/NoHeader';
-import {AppComponents} from '../../utils/Components';
+import {AppComponents} from '@/components/Components';
 
 import FamilyProfile from './component/FamilyProfile';
 import FamilyInfo from './component/FamilyInfo';
