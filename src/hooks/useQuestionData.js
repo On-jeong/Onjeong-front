@@ -18,7 +18,7 @@ const modifyAnswer = questData => {
 };
 
 const deleteAnswer = questData => {
-  return customAxios.delete(`/answers?answerId=${questData}`);
+  return customAxios.delete(`/answers/${questData}`);
 };
 
 // 이주의 문답 질문 보여주기
