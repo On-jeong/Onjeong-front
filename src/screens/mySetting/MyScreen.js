@@ -40,16 +40,6 @@ const MyScreen = ({navigation}) => {
 
   const {error, status} = useSignOut({
     enabled: signOut,
-    onSuccess: async () => {
-      await AsyncStorage.removeItem('userData');
-      await AsyncStorage.removeItem('accessToken');
-      await AsyncStorage.removeItem('refreshToken');
-
-      // 기본 헤더 제거
-      delete customAxios.defaults.headers.common['AuthorizationAccess'];
-
-      navigation.navigate('Welcome');
-    },
   });
 
   const {mutate} = useDelFCM();

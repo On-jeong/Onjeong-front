@@ -1,4 +1,6 @@
 import customAxios from '@/api/axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
 import {useMutation, useQuery} from '@tanstack/react-query';
 
 const fetchUserData = () => {
@@ -106,9 +108,22 @@ export const useSignIn = ({onSuccess, onError}) => {
 };
 
 // 로그아웃 요청
-export const useSignOut = ({enabled, onSuccess}) => {
+export const useSignOut = ({enabled=true}) => {
+  const navigation = useNavigation();
+
   return useQuery(['reqLogout'], reqSignOut, {
-    onSuccess: onSuccess,
+    //onSuccess: onSuccess,
+    onSuccess: async () => {
+      console.log('로그아웃 완료')
+      await AsyncStorage.removeItem('userData');
+      await AsyncStorage.removeItem('accessToken');
+      await AsyncStorage.removeItem('refreshToken');
+
+      // 기본 헤더 제거
+      delete customAxios.defaults.headers.common['AuthorizationAccess'];
+
+      navigation.navigate('Welcome');
+    },
     onError: err => {
       console.log(err);
       alert('로그아웃 진행 중 에러가 발생했습니다.');
