@@ -65,8 +65,11 @@ const SignInScreen = ({navigation}) => {
     mutate: signInMutate,
     isLoading: signInIsLoading,
     isError: signInIsError,
+    error: signInError,
   } = useSignIn(navigation);
   const {mutate: addFCM} = useAddFCM();
+
+  if (signInError) console.log('로긴에로:', signInError);
 
   // 항목을 전부 입력했는지 체크
   useEffect(() => {
@@ -99,6 +102,7 @@ const SignInScreen = ({navigation}) => {
       },
       {
         onSuccess: async data => {
+          console.log(data);
           // 헤더 등록
           customAxios.defaults.headers.common['AuthorizationAccess'] =
             data.headers.authorizationaccess;
@@ -136,7 +140,7 @@ const SignInScreen = ({navigation}) => {
           navigation.navigate('Home');
         },
         onError: err => {
-          console.log(err);
+          alert(err.response.data.message);
         },
       },
     );
@@ -162,7 +166,14 @@ const SignInScreen = ({navigation}) => {
   };
 
   return (
-    <NoHeader isLoading={signInIsLoading} isError={signInIsError}>
+    <NoHeader
+      isLoading={signInIsLoading}
+      reloadFunc={onSubmit}
+      isError={
+        signInIsError &&
+        (!err.response.data.code === 'A005' ||
+          !err.response.data.code === 'A006')
+      }>
       <Container>
         <Box>
           <Title>
