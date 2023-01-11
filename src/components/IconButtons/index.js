@@ -340,6 +340,54 @@ Back.propTypes = {
   padding: PropTypes.objectOf(PropTypes.number),
 };
 
+const CheckBox = ({
+  onPress,
+  disabled = true,
+  active = false,
+  size = 20,
+  style,
+}) => {
+  return (
+    <TouchableOpacity onPress={onPress} disabled={disabled}>
+      <MaterialIcons
+        name="check-box"
+        size={size}
+        color={active ? AppColors.border : AppColors.dark}
+        style={style}
+      />
+    </TouchableOpacity>
+  );
+};
+CheckBox.propTypes = {
+  onPress: PropTypes.func,
+  size: PropTypes.number,
+  padding: PropTypes.objectOf(PropTypes.number),
+};
+
+const EmptyCheckBox = ({
+  onPress,
+  disabled = true,
+  active = false,
+  size = 20,
+  style,
+}) => {
+  return (
+    <TouchableOpacity onPress={onPress} disabled={disabled}>
+      <MaterialIcons
+        name="check-box-outline-blank"
+        size={size}
+        color={active ? AppColors.border : AppColors.dark}
+        style={style}
+      />
+    </TouchableOpacity>
+  );
+};
+EmptyCheckBox.propTypes = {
+  onPress: PropTypes.func,
+  size: PropTypes.number,
+  padding: PropTypes.objectOf(PropTypes.number),
+};
+
 export const AppIconButtons = {
   Pencil,
   Alert,
@@ -355,4 +403,6 @@ export const AppIconButtons = {
   Check,
   PaperClip,
   Back,
+  CheckBox,
+  EmptyCheckBox,
 };
