@@ -22,10 +22,13 @@ customAxios.interceptors.request.use(
         'accessToken',
       );
     }
+    // config.headers['AuthorizationAccess'] = '0';
+
     return config;
   },
   err => Promise.reject(err),
 );
+
 
 // 엑세스 및 리프레쉬 토큰 추가해서 보내기
 refreshAxios.interceptors.request.use(

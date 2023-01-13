@@ -9,7 +9,7 @@ import customAxios, {refreshAxios} from './axios';
 
 export const Interceptor = ({children}) => {
   const navigation = useNavigation();
-
+  
   customAxios.interceptors.response.use(
     res => res,
     async err => {
@@ -19,7 +19,7 @@ export const Interceptor = ({children}) => {
       // 에러코드 A004 -> 기간이 만료된 access토큰이라고 판단
       // prevRequest.sent로 중복 요청인지 판단
       if (
-        err?.config.url !== '/login' &&
+        err?.config?.url !== '/login' &&
         err?.response?.data?.code === 'A004' &&
         !prevRequest.sent
       ) {
@@ -69,6 +69,15 @@ export const Interceptor = ({children}) => {
             }
             return Promise.reject(err);
           });
+      }
+
+      // 잘못된 토큰
+      if (
+        err?.response?.data.code == 'A005' ||
+        err?.response?.data.code == 'A006'
+      ) {
+        alert('잘못 된 토큰입니다! 로그인 화면으로 이동합니다.');
+        navigation.navigate('SignIn');
       }
 
       return Promise.reject(err);
