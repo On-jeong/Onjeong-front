@@ -27,10 +27,13 @@ ios/.xcode.env.local
 build/
 .idea
 .gradle
+*.gradle
 local.properties
+*.properties
 *.iml
 *.hprof
 android/
+build.gradle
 
 # node.js
 #
