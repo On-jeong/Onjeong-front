@@ -101,7 +101,7 @@ const SignUpScreen = ({navigation}) => {
 
   const {mutate: getCheckIdMutate} = useGetCheckId({
     onSuccess: data => {
-      console.log(data?.data?.data?.available);
+      console.log('data',data);
       if (data?.data?.data?.available) {
         alert('사용할 수 있는 아이디 입니다.');
         setIdCheck(true);
@@ -113,7 +113,7 @@ const SignUpScreen = ({navigation}) => {
   });
   const {mutate: getJoinedIdMutate} = useGetJoinedId({
     onSuccess: data => {
-      console.log(data?.data?.data?.available);
+      console.log(data);
       if (data?.data?.data?.available) {
         alert('초대가족이 확인되었습니다.');
         setJoinedIdCheck(true);
@@ -173,7 +173,7 @@ const SignUpScreen = ({navigation}) => {
     } else if (!idCheck) {
       alert('사용할 수 있는 아이디인지 검사해 주세요.');
       return 0;
-    } else if (!joinedIdCheck) {
+    } else if (joinedNickname&&!joinedIdCheck) {
       alert('초대가족 아이디가 존재하는지 검사해 주세요.');
       return 0;
     } else if (!EMAIL_REG.test(userEmail)) {
