@@ -1,15 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
-import {AppColors} from '../../utils/GlobalStyles';
+import {AppColors, windowWidth} from '../../utils/GlobalStyles';
 import PropTypes from 'prop-types';
 
+export const InputContainer = styled.View`
+  width: ${props => (props.width ? props.width : windowWidth * 0.7)};
+  margin-bottom: 10px;
+`;
+
 export const InputBox = styled.TextInput`
-  width: 70%;
   border-bottom-width: 1px;
   border-color: ${AppColors.border};
   font-family: 'GangwonLight';
   font-size: 20px;
-  margin-bottom: 10px;
 `;
 
 export const BorderBottomInput = ({
@@ -18,9 +21,10 @@ export const BorderBottomInput = ({
   placeholder,
   maxLength,
   secureTextEntry,
+  width,
 }) => {
   return (
-    <>
+    <InputContainer width={width}>
       <InputBox
         maxLength={maxLength}
         placeholder={placeholder}
@@ -28,7 +32,7 @@ export const BorderBottomInput = ({
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
       />
-    </>
+    </InputContainer>
   );
 };
 

@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import {AppColors} from './GlobalStyles';
 import PropTypes from 'prop-types';
-import {TouchableOpacity} from 'react-native';
+import {AppColors} from '@/utils/GlobalStyles';
 
 const HLine = styled.View`
   background-color: ${AppColors.border};
@@ -74,9 +73,7 @@ const RowBox = styled.View`
 `;
 
 const Row = ({justifyContent = 'flex-start', children}) => {
-  return (
-      <RowBox justifyContent={justifyContent}>{children}</RowBox>
-  );
+  return <RowBox justifyContent={justifyContent}>{children}</RowBox>;
 };
 Row.propTypes = {
   justifyContent: PropTypes.string,
