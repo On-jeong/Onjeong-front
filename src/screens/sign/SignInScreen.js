@@ -60,6 +60,7 @@ const SignInScreen = ({navigation}) => {
   const [inputCheck, setInputCheck] = useState(false);
   const [userId, setUserId] = useState('');
   const [userPassword, setUserPassword] = useState('');
+  const [isError, setIsError] = useState(false);
 
   const {
     mutate: signInMutate,
@@ -140,7 +141,17 @@ const SignInScreen = ({navigation}) => {
           navigation.navigate('Home');
         },
         onError: err => {
-          alert(err.response.data.message);
+          if (err.response.status != 502) alert(err.response.data.message);
+          console.log(err);
+
+          // 아이디 비번이 틀린 경우 제외
+          if (
+            !err.response.data.code === 'A005' ||
+            !err.response.data.code === 'A006'
+          )
+          setIsError(true);
+          
+          console.log(isError);
         },
       },
     );
@@ -169,11 +180,7 @@ const SignInScreen = ({navigation}) => {
     <NoHeader
       isLoading={signInIsLoading}
       reloadFunc={onSubmit}
-      isError={
-        signInIsError &&
-        (!err.response.data.code === 'A005' ||
-          !err.response.data.code === 'A006')
-      }>
+      isError={signInIsError && isError}>
       <Container>
         <Box>
           <Title>
