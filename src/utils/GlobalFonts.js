@@ -61,6 +61,35 @@ const CalendarFont = styled.Text`
   color: ${props => (props.color ? props.color : AppColors.font)};
 `;
 
+// new fonts
+const Heading = styled.Text`
+  font-family: 'GaeguBold';
+  font-size: 20px;
+  color: ${props => (props.color ? props.color : AppColors.font)};
+`;
+
+const Subtitle = styled.Text`
+  font-family: 'GaeguBold';
+  font-size: 16px;
+  color: ${props => (props.color ? props.color : AppColors.font)};
+`;
+
+const Body1 = styled.Text`
+  font-family: 'GaeguRegular';
+  font-size: 16px;
+  color: ${props => (props.color ? props.color : AppColors.font)};
+`;
+const Body2 = styled.Text`
+  font-family: 'GaeguRegular';
+  font-size: 14px;
+  color: ${props => (props.color ? props.color : AppColors.font)};
+`;
+const Caption = styled.Text`
+  font-family: 'GaeguRegular';
+  font-size: 12px;
+  color: ${props => (props.color ? props.color : AppColors.font)};
+`;
+
 export const FontStyle = {
   Big,
   Title,
@@ -72,4 +101,9 @@ export const FontStyle = {
   SubContent,
   SubContentB,
   CalendarFont,
+  Heading,
+  Subtitle,
+  Body1,
+  Body2,
+  Caption,
 };
