@@ -18,19 +18,17 @@
 </div>
 
 <!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <!-- <a href="#about-the-project">About The Project</a> -->
-      <a href="#built-with">Built With</a>
-    </li>
-    <li><a href="#Dependencies">Dependencies</a></li>
-    <li><a href="#File Structure">File Structure</a></li>
-    <li><a href="#Main Screen Structure">Main Screen Structure</a></li>
-    <li><a href="#Developers">Developers</a></li>
-  </ol>
-</details>
+<summary>Table of Contents</summary>
+<ol>
+  <li>
+    <!-- <a href="#about-the-project">About The Project</a> -->
+    <a href="#built-with">Built With</a>
+  </li>
+  <li><a href="#Dependencies">Dependencies</a></li>
+  <li><a href="#File Structure">File Structure</a></li>
+  <li><a href="#Main Screen Structure">Main Screen Structure</a></li>
+  <li><a href="#Developers">Developers</a></li>
+</ol>
 
 
 <!--Built with -->
