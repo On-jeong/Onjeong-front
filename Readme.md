@@ -47,6 +47,7 @@
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
+<br/>
 
 <!--Dependencies -->
 ### Dependencies
@@ -60,6 +61,7 @@
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
+<br/>
 
 <!--File Structure -->
 ### File Structure
@@ -80,7 +82,7 @@
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
-
+<br/>
 
 <!--Main Screen Structure -->
 ### Main Screen Structure
@@ -128,7 +130,7 @@
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
-
+<br/>
 
 <!--Developers -->
 ### Developers
