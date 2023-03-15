@@ -52,7 +52,7 @@
 <!--Dependencies -->
 ### Dependencies
 
-#### react-native
+### react-native
 <ul id="Dependencies">
  <li> 서버 상태관리 라이브러리 : react-query </li><br/>
  <li> 프론트 상태관리 라이브러리 : recoil </li>
