@@ -40,7 +40,7 @@
 <!--Built with -->
 ### Built With
 
-<b>Frontend</b>
+<b id="Built With">Frontend</b>
 
 -   [React Native](https://reactnative.dev/)
 -   [React-Query](https://react-query-v3.tanstack.com/)
@@ -57,27 +57,31 @@ react-native
 
 - 서버 상태관리 라이브러리 : react-query
 - 프론트 상태관리 라이브러리 : recoil
-
+<hr/>
+<br/>
 
 <!--File Structure -->
 ### File Structure
-
-- src/api : custom axios 및 interceptors
-- src/assets : fonts, icons, images
-- src/components : buttons, headers, IconButtons, inputs, Loading, Modal
-- src/config : custom AsyncStorage
-- src/hooks : react-query hooks
-- src/navigators : Bottom Navigator, stack Navigator
-- src/screens : all screens
-- src/state : recoil states
-- src/ui/icons : export svg icons
-- src/utils : export FlowerImagePaths, globalFonts, globalStyles
+<ul id="File Structure">
+  <li> src/api : custom axios 및 interceptors </li>
+  <li> src/assets : fonts, icons, images </li>
+  <li> src/components : buttons, headers, IconButtons, inputs, Loading, Modal </li>
+  <li> src/config : custom AsyncStorage </li>
+  <li> src/hooks : react-query hooks </li>
+  <li> src/navigators : Bottom Navigator, stack Navigator </li>
+  <li> src/screens : all screens </li>
+  <li> src/state : recoil states </li>
+  <li> src/ui/icons : export svg icons </li>
+  <li> src/utils : export FlowerImagePaths, globalFonts, globalStyles </li>
+</ul>
+<hr/>
+<br/>
 
 
 <!--Main Screen Structure -->
 ### Main Screen Structure
 
-All the files below are in the "src/screens/..."
+<h4 id="Main Screen Structure"> All the files below are in the "src/screens/..." </h4>
 
 - #### Main Page
 
@@ -116,6 +120,9 @@ All the files below are in the "src/screens/..."
   - MyScreen.js 
     - setting 변경
     - user information 변경
+<hr/>
+<br/>
+
 
 <!--Developers -->
 ### Developers
