@@ -44,8 +44,8 @@
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <br/>
-<br/>
 <hr/>
+<br/>
 
 <!--Dependencies -->
 ### Dependencies
