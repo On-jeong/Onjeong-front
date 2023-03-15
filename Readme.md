@@ -26,16 +26,13 @@
       <a href="#built-with">Built With</a>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#Dependencies">Dependencies</a></li>
         <li><a href="#File Structure">File Structure</a></li>
         <li><a href="#Main Screen Structure">Main Screen Structure</a></li>
         <li><a href="#Developers">Developers</a></li>
-        <li><a href="#erd">ERD</a></li>
       </ul>
     </li>
-    <li><a href="#contributing">Contributing</a></li>
   </ol>
 </details>
 
@@ -52,10 +49,8 @@
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-<!-- GETTING STARTED -->
 
-## Getting Started
-
+<!--Dependencies -->
 ### Dependencies
 
 react-native
@@ -64,21 +59,22 @@ react-native
 - 프론트 상태관리 라이브러리 : recoil
 
 
+<!--File Structure -->
 ### File Structure
 
-src/api : custom axios 및 interceptors
-src/assets : fonts, icons, images
-src/components : buttons, headers, IconButtons, inputs, Loading, Modal
-src/config : custom AsyncStorage
-src/hooks : react-query hooks
-src/navigators : Bottom Navigator, stack Navigator
-src/screens : all screens
-src/state : recoil states
-src/ui/icons : export svg icons
-src/utils : export FlowerImagePaths, globalFonts, globalStyles
+- src/api : custom axios 및 interceptors
+- src/assets : fonts, icons, images
+- src/components : buttons, headers, IconButtons, inputs, Loading, Modal
+- src/config : custom AsyncStorage
+- src/hooks : react-query hooks
+- src/navigators : Bottom Navigator, stack Navigator
+- src/screens : all screens
+- src/state : recoil states
+- src/ui/icons : export svg icons
+- src/utils : export FlowerImagePaths, globalFonts, globalStyles
 
 
-
+<!--Main Screen Structure -->
 ### Main Screen Structure
 
 All the files below are in the "src/screens/..."
@@ -103,14 +99,14 @@ All the files below are in the "src/screens/..."
     - 일정을 추가
     - 해당 날짜에 대한 상세한 기록
 
-- ##### Profile Page
+- #### Profile Page
 
   - ProfileScreen.js
   - 가족 구성원의 프로필을 볼 수 있는 페이지 (ProfileDetailScreen.js)
   - 본인의 프로필 수정 가능
   - 타 구성원의 프로필 수정 가능
 
-- ##### Question&Aswer Page
+- #### Question&Aswer Page
   - QaScreen.js
   - 일주일에 한번 새로 생기는 질문에 대해 가족들끼리 문답 공유
 
