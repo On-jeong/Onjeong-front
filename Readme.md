@@ -44,6 +44,7 @@
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <br/>
+
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 
@@ -56,6 +57,7 @@
  <li> 프론트 상태관리 라이브러리 : recoil </li>
 </ul>
 <br/>
+
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 
@@ -75,6 +77,7 @@
   <li> src/utils : export FlowerImagePaths, globalFonts, globalStyles </li>
 </ul>
 <br/>
+
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 
@@ -122,6 +125,7 @@
     - setting 변경
     - user information 변경
 <br/>
+
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 
