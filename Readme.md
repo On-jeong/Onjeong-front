@@ -51,25 +51,26 @@
 ### Dependencies
 
 #### react-native
-
-- 서버 상태관리 라이브러리 : react-query
-- 프론트 상태관리 라이브러리 : recoil
-- <br/>
+<ul id="Dependencies">
+ <li> 서버 상태관리 라이브러리 : react-query </li><br/>
+ <li> 프론트 상태관리 라이브러리 : recoil </li>
+<ul id="File Structure">
+<br/>
 <hr/>
 <br/>
 
 <!--File Structure -->
 ### File Structure
 <ul id="File Structure">
-  <li> src/api : custom axios 및 interceptors </li>
-  <li> src/assets : fonts, icons, images </li>
-  <li> src/components : buttons, headers, IconButtons, inputs, Loading, Modal </li>
-  <li> src/config : custom AsyncStorage </li>
-  <li> src/hooks : react-query hooks </li>
-  <li> src/navigators : Bottom Navigator, stack Navigator </li>
-  <li> src/screens : all screens </li>
-  <li> src/state : recoil states </li>
-  <li> src/ui/icons : export svg icons </li>
+  <li> src/api : custom axios 및 interceptors </li><br/>
+  <li> src/assets : fonts, icons, images </li><br/>
+  <li> src/components : buttons, headers, IconButtons, inputs, Loading, Modal </li><br/>
+  <li> src/config : custom AsyncStorage </li><br/>
+  <li> src/hooks : react-query hooks </li><br/>
+  <li> src/navigators : Bottom Navigator, stack Navigator </li><br/>
+  <li> src/screens : all screens </li><br/>
+  <li> src/state : recoil states </li><br/>
+  <li> src/ui/icons : export svg icons </li><br/>
   <li> src/utils : export FlowerImagePaths, globalFonts, globalStyles </li>
 </ul>
 <br/>
@@ -127,7 +128,7 @@
 <!--Developers -->
 ### Developers
 
-<table>
+<table id="Developers">
   <tr>
     <td align="center">
       <a href="https://github.com/hyeonjin25">
