@@ -25,14 +25,10 @@
       <!-- <a href="#about-the-project">About The Project</a> -->
       <a href="#built-with">Built With</a>
     </li>
-    <li>
-      <ul>
-        <li><a href="#Dependencies">Dependencies</a></li>
-        <li><a href="#File Structure">File Structure</a></li>
-        <li><a href="#Main Screen Structure">Main Screen Structure</a></li>
-        <li><a href="#Developers">Developers</a></li>
-      </ul>
-    </li>
+    <li><a href="#Dependencies">Dependencies</a></li>
+    <li><a href="#File Structure">File Structure</a></li>
+    <li><a href="#Main Screen Structure">Main Screen Structure</a></li>
+    <li><a href="#Developers">Developers</a></li>
   </ol>
 </details>
 
@@ -47,16 +43,18 @@
 -   [Recoil](https://recoiljs.org/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
+<br/>
+<br/>
+<hr/>
 
 <!--Dependencies -->
 ### Dependencies
 
-react-native
+#### react-native
 
 - 서버 상태관리 라이브러리 : react-query
 - 프론트 상태관리 라이브러리 : recoil
+- <br/>
 <hr/>
 <br/>
 
@@ -74,6 +72,7 @@ react-native
   <li> src/ui/icons : export svg icons </li>
   <li> src/utils : export FlowerImagePaths, globalFonts, globalStyles </li>
 </ul>
+<br/>
 <hr/>
 <br/>
 
@@ -120,6 +119,7 @@ react-native
   - MyScreen.js 
     - setting 변경
     - user information 변경
+<br/>
 <hr/>
 <br/>
 
