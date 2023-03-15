@@ -10,7 +10,14 @@ react-native를 이용함
 - ### 메인 페이지
 
   - HomeScreen.js
-  - 꽃을 볼 수 있는 메인 페이지 (미구현)
+  - 꽃을 볼 수 있는 메인 페이지
+  
+- ### 메일함 페이지
+  
+  - MailScreen.js
+  - 보낸/받은 매일들을 볼 수 있는 페이지
+  - 각 메일 별 상세보기 페이지(MailDetailScreen.js)
+  - 새 메일 작성 페이지(MailWriteScreen.js)
 
 - ### 캘린더 페이지
 
