@@ -45,7 +45,7 @@
 <p align="right">(<a href="#top">back to top</a>)</p>
 <br/>
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
-<br/>
+
 
 <!--Dependencies -->
 ### Dependencies
@@ -57,7 +57,7 @@
 </ul>
 <br/>
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
-<br/>
+
 
 <!--File Structure -->
 ### File Structure
@@ -76,7 +76,7 @@
 </ul>
 <br/>
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
-<br/>
+
 
 
 <!--Main Screen Structure -->
@@ -123,7 +123,7 @@
     - user information 변경
 <br/>
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
-<br/>
+
 
 
 <!--Developers -->
