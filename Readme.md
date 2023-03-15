@@ -41,8 +41,6 @@
 -   [React Native](https://reactnative.dev/)
 -   [React-Query](https://react-query-v3.tanstack.com/)
 -   [Recoil](https://recoiljs.org/)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
 <br/>
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
