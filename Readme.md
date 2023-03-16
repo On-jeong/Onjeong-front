@@ -137,7 +137,7 @@
   <tr>
     <td align="center">
       <a href="https://github.com/hyeonjin25">
-        <img src="https://onjeong-prod.s3.ap-northeast-2.amazonaws.com/profile/24c4b2d3-be1c-4bd8-8d95-79e7a66ce23eonjeong%20logo.png?v=4" width="110px;" alt=""/><br />
+        <img src="https://avatars.githubusercontent.com/u/65444249?v=4" width="110px;" alt=""/><br />
         <sub><b>소현진</b></sub></a><br />
         <sub><b>Front-end</b></sub></a><br />
         <a href="https://github.com/hyeonjin25" title="Code">💻</a>
