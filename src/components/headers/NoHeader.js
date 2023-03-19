@@ -10,7 +10,7 @@ import {Keyboard, TouchableWithoutFeedback} from 'react-native';
 
 const Container = styled.View`
   flex: 1;
-  background-color: ${AppColors.body};
+  background-color: ${AppColors.Background};
 `;
 
 const NavContainer = styled.View`

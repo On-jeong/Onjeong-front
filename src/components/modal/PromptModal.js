@@ -19,7 +19,7 @@ export const ModalBox = styled.View`
   padding: 20px;
   justify-content: space-around;
   align-items: center;
-  background-color: ${AppColors.body};
+  background-color: ${AppColors.Background};
   border: solid 3px ${AppColors.border};
   border-radius: 20px;
 `;
