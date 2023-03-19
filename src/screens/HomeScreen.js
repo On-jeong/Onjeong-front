@@ -10,7 +10,12 @@ import {
   UserStatusState,
 } from '../state/UserData';
 import styled from 'styled-components';
-import {AppColors, windowHeight, windowWidth} from '@/utils/GlobalStyles';
+import {
+  bottomTabHeight,
+  navigationHeight,
+  windowHeight,
+  windowWidth,
+} from '@/utils/GlobalStyles';
 import AutoHeightImage from 'react-native-auto-height-image';
 import {
   useAddRandCoins,
@@ -24,26 +29,19 @@ import {
   FlowerKindState,
   FlowerLevelState,
 } from '@/state/FamilyData';
-import {flower, seed} from '@/utils/FlowerImagePath';
+import {flower} from '@/utils/FlowerImagePath';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {format} from 'date-fns';
 import {useFocusEffect} from '@react-navigation/native';
-import {Alert} from 'react-native';
-import AlertModal from '@/components/modal/AlertModal';
-import {AppModal} from '@/components/modal';
 import {NotReadMailsState, ReceiveMailsState} from '@/state/MailData';
 import {useGetReceiveMails} from '@/hooks/useMailData';
 
 const Background = styled.ImageBackground`
   flex: 1;
-`;
-
-const BackgroundSun = styled.Image`
-  position: absolute;
-  top: ${windowHeight * 0.02}px;
-  left: ${windowWidth * 0.02}px;
-  width: 90px;
-  height: 0px;
+  margin-left: ${windowWidth * 0.1}px;
+  margin-right: ${windowWidth * 0.1}px;
+  margin-top: ${windowHeight * 0.05}px;
+  margin-bottom: ${bottomTabHeight + windowHeight * 0.1}px;
 `;
 
 const FamilyCoinView = styled.View`
@@ -53,39 +51,10 @@ const FamilyCoinView = styled.View`
   margin: 10px;
 `;
 
-const Flower = styled.Image`
-  position: absolute;
-  bottom: ${windowHeight * 0.2}px;
-  left: ${props =>
-    props.flower
-      ? windowWidth / 2 - (windowWidth * 0.6) / 2 - 10
-      : windowWidth / 2 - (windowWidth * 0.2) / 2}px;
-  width: ${props => (props.flower ? windowWidth * 0.6 : windowWidth * 0.2)}px;
-  height: ${props => (props.flower ? windowWidth * 0.6 : windowWidth * 0.2)}px;
-`;
-
-const FlowerBoxTouchable = styled.TouchableOpacity`
-  position: absolute;
-  bottom: ${windowHeight * 0.17}px;
-  left: 3.5%;
-`;
-
-const PostBoxTouchable = styled.TouchableOpacity`
-  position: absolute;
-  bottom: ${windowHeight * 0.22}px;
-  right: 2.5%;
-`;
-
-const Circle = styled.View`
-  position: absolute;
-  top: -8;
-  right: -2;
-  width: 22px;
-  height: 22px;
-  border-radius: 50px;
-  background-color: ${AppColors.black};
+const Flower = styled.View`
   justify-content: center;
   align-items: center;
+  padding-top: 20px;
 `;
 
 export const HomeScreen = ({navigation}) => {
@@ -144,11 +113,11 @@ export const HomeScreen = ({navigation}) => {
   });
 
   // 받은메일 업데이트 -> 안읽은 메일 업데이트 위함
-  const {refetch: receiveMailsRefetch} = useGetReceiveMails({
-    onSuccess: data => {
-      setReceiveMailsState(data?.data?.data);
-    },
-  });
+  // const {refetch: receiveMailsRefetch} = useGetReceiveMails({
+  //   onSuccess: data => {
+  //     setReceiveMailsState(data?.data?.data);
+  //   },
+  // });
 
   console.log(
     '리코일: ' + JSON.stringify(userId),
@@ -165,7 +134,7 @@ export const HomeScreen = ({navigation}) => {
 
   useEffect(() => {
     getDailyCoinInfo();
-    receiveMailsRefetch();
+    // receiveMailsRefetch();
   }, []);
 
   useFocusEffect(
@@ -187,7 +156,6 @@ export const HomeScreen = ({navigation}) => {
 
   return (
     <BasicHeader
-      title="온정"
       navigation={navigation}
       isError={coinError || flowerError}
       reloadFunc={() => {
@@ -195,57 +163,26 @@ export const HomeScreen = ({navigation}) => {
         coinRefetch();
       }}>
       <Background
-        source={require('@/assets/image/background/background_cloud_sky_grace_ground.png')}
+        source={require('@/assets/image/background/background.png')}
         resizeMode="stretch">
-        {/* <BackgroundSun
-          source={require('@/assets/image/background/background_sun.png')}
-        /> */}
-      </Background>
-      <FamilyCoinView>
+        {/* <FamilyCoinView>
         <TouchableOpacity onPress={() => navigation.navigate('History')}>
           <FontStyle.ContentB>꽃 레벨 : {flowerLevelState}</FontStyle.ContentB>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Guide')}>
           <FontStyle.ContentB>영양제 : {familyCoinState}</FontStyle.ContentB>
         </TouchableOpacity>
-      </FamilyCoinView>
-      <FlowerBoxTouchable
-        //onPress={() => navigation.navigate('')}
-        disabled={true}
-        activeOpacity={0.5}>
-        <AutoHeightImage
-          width={windowWidth * 0.2}
-          source={require('@/assets/image/background/background_flowerbox.png')}
-        />
-      </FlowerBoxTouchable>
-      <PostBoxTouchable
-        onPress={() => navigation.navigate('Mail')}
-        activeOpacity={0.5}>
-        <AutoHeightImage
-          width={windowWidth * 0.13}
-          source={require('@/assets/image/background/background_postbox.png')}
-        />
-        <Circle>
-          <FontStyle.SubContentB style={{color: AppColors.blur}}>
-            {notReadMailsState}
-          </FontStyle.SubContentB>
-        </Circle>
-      </PostBoxTouchable>
-      {/* 레벨3 까지는 공통 씨앗 형태 */}
-      {/* <Flower
-        source={7 > 3 ? flower[flowerKindState][7] : seed[flowerLevelState]}
-        flower={7 > 3}
-      /> */}
-      {flowerStatus == 'success' && (
-        <Flower
-          source={
-            flowerLevelState > 3
-              ? flower[flowerKindState][flowerLevelState]
-              : seed[flowerLevelState]
-          }
-          flower={flowerLevelState > 3}
-        />
-      )}
+      </FamilyCoinView> */}
+        {flowerStatus == 'success' && (
+          <Flower>
+            <AutoHeightImage
+              width={windowWidth * 0.8}
+              source={flower[flowerKindState][flowerLevelState]}
+              // source={flower['violet'][10]}
+            />
+          </Flower>
+        )}
+      </Background>
     </BasicHeader>
   );
 };
