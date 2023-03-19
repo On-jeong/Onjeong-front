@@ -17,7 +17,6 @@ import {useDeleteBoard, useGetTodayBoards} from '../../hooks/useBoardData';
 import {Image, ScrollView} from 'react-native';
 import AutoHeightImage from 'react-native-auto-height-image';
 import {SpaceBetween} from '../QaScreen';
-import Octicons from 'react-native-vector-icons/Octicons';
 
 const PlanContainer = styled.View`
   padding: 7%;
@@ -251,6 +250,7 @@ const PostScreen = ({navigation, route}) => {
       annDate: route.params.barDate,
       annData: {
         anniversaryContent: newPlan,
+        
         //SPECIAL_SCHEDULE / ANNIVERSARY
         anniversaryType: isAnniversary ? 'ANNIVERSARY' : 'SPECIAL_SCHEDULE',
       },
