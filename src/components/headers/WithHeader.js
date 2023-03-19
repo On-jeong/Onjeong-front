@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import LoadingComponent from '../Loading/LoadingComponent';
 import {AppIconButtons} from '../IconButtons';
 import {AppButtons} from '../buttons';
+import {AppIcons} from '@/ui/icons';
 
 const NavBar = styled.View`
   height: ${navigationHeight}px;
@@ -13,9 +14,7 @@ const NavBar = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-color: ${AppColors.body};
-  border-bottom-color: ${AppColors.blur};
-  border-bottom-width: 1px;
+  background-color: ${AppColors.Background};
 `;
 
 const RightNav = styled.View`
@@ -42,9 +41,11 @@ export const IconBox = styled.TouchableOpacity`
 
 export const Body = styled.View`
   flex: 1;
-  background-color: ${AppColors.body};
+  background-color: ${AppColors.Background};
 `;
 
+
+// 제목이 있는 헤더 커스텀 가능
 export const WithHeader = ({
   isBack,
   children,
@@ -91,6 +92,8 @@ export const WithHeader = ({
   );
 };
 
+
+// 오른쪽에 setting, alert로 연결되는 기본 아이콘 및 뒤로가기 버튼 형태
 export const BasicHeader = ({
   isBack,
   children,
@@ -123,13 +126,13 @@ export const BasicHeader = ({
             onPress={() => {
               navigation.navigate('Alert');
             }}>
-            <AppIconButtons.Bell size={22} />
+            <AppIcons.Bell />
           </BellIconBox>
           <IconBox
             onPress={() => {
               navigation.navigate('My');
             }}>
-            <AppIconButtons.User size={24} />
+            <AppIcons.Setting />
           </IconBox>
         </RightNav>
       </NavBar>
