@@ -11,6 +11,7 @@ import {
 } from '../state/UserData';
 import styled from 'styled-components';
 import {
+  AppColors,
   bottomTabHeight,
   navigationHeight,
   windowHeight,
@@ -35,6 +36,7 @@ import {format} from 'date-fns';
 import {useFocusEffect} from '@react-navigation/native';
 import {NotReadMailsState, ReceiveMailsState} from '@/state/MailData';
 import {useGetReceiveMails} from '@/hooks/useMailData';
+import {AppIcons} from '@/ui/icons';
 
 const Background = styled.ImageBackground`
   flex: 1;
@@ -46,9 +48,27 @@ const Background = styled.ImageBackground`
 
 const FamilyCoinView = styled.View`
   position: absolute;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   top: 0;
-  right: 0;
+  left: 0;
   margin: 10px;
+`;
+
+const CoinBox = styled.View`
+  height: 38px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: 10px;
+  background-color: ${AppColors.Secondary};
+`;
+
+const IconBox = styled.View`
+  margin-right: 10px;
 `;
 
 const Flower = styled.View`
@@ -162,17 +182,28 @@ export const HomeScreen = ({navigation}) => {
         flowerRefetch();
         coinRefetch();
       }}>
+      <FamilyCoinView>
+        <TouchableOpacity onPress={() => navigation.navigate('History')}>
+          <CoinBox>
+            <IconBox>
+              <AppIcons.Water />
+            </IconBox>
+            <FontStyle.Heading>{flowerLevelState}</FontStyle.Heading>
+          </CoinBox>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Guide')}>
+          <CoinBox>
+            <IconBox>
+              <AppIcons.Flower />
+            </IconBox>
+            <FontStyle.Heading color={AppColors.Gray700}>lv.</FontStyle.Heading>
+            <FontStyle.Heading>{familyCoinState}</FontStyle.Heading>
+          </CoinBox>
+        </TouchableOpacity>
+      </FamilyCoinView>
       <Background
         source={require('@/assets/image/background/background.png')}
         resizeMode="stretch">
-        {/* <FamilyCoinView>
-        <TouchableOpacity onPress={() => navigation.navigate('History')}>
-          <FontStyle.ContentB>꽃 레벨 : {flowerLevelState}</FontStyle.ContentB>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Guide')}>
-          <FontStyle.ContentB>영양제 : {familyCoinState}</FontStyle.ContentB>
-        </TouchableOpacity>
-      </FamilyCoinView> */}
         {flowerStatus == 'success' && (
           <Flower>
             <AutoHeightImage
