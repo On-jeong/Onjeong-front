@@ -71,7 +71,7 @@ const AlertModal = ({
             width={ModalWidth * 0.4}
             onPress={onPress}
             inputCheck={true}
-            borderColor={borderColor}
+            color={borderColor}
           />
         </ButtonContainer>
       </ModalBox>

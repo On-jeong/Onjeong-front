@@ -5,29 +5,30 @@ import {AppColors} from '../../utils/GlobalStyles';
 import PropTypes from 'prop-types';
 
 const Button = styled.TouchableOpacity`
-  height: 45px;
+  height: ${props => props.height}px;
   width: ${props => props.width}px;
-  border-radius: 12px;
   justify-content: center;
   align-items: center;
-  border-width: 1px;
-  border-color: ${props => props.color};
+  border-radius: 4px;
+  background-color: ${props => props.color};
 `;
 
 export const BasicButton = ({
   title,
-  inputCheck,
+  inputCheck = true,
   onPress,
-  borderColor,
-  width = 300,
+  color,
+  height = 36,
+  width = 92,
   margin = {marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0},
 }) => {
   return (
     <>
       <Button
-        color={inputCheck ? borderColor : AppColors.border}
+        color={color ? color : AppColors.Primary}
         onPress={onPress}
         disabled={!inputCheck}
+        height={height}
         width={width}
         margin={margin}
         style={{
@@ -36,9 +37,7 @@ export const BasicButton = ({
           marginLeft: margin.marginLeft,
           marginRight: margin.marginRight,
         }}>
-        <FontStyle.ContentB color={!inputCheck && AppColors.border}>
-          {title}
-        </FontStyle.ContentB>
+        <FontStyle.Body1>{title}</FontStyle.Body1>
       </Button>
     </>
   );
@@ -49,5 +48,5 @@ BasicButton.propTypes = {
   width: PropTypes.number.isRequired,
   inputCheck: PropTypes.bool,
   onPress: PropTypes.func.isRequired,
-  borderColor: PropTypes.string,
+  color: PropTypes.string,
 };

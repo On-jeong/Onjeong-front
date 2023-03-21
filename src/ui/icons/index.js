@@ -22,6 +22,11 @@ import Trash from '@/assets/icons/Icon_trash.svg';
 import Water from '@/assets/icons/water.svg';
 import Flower from '@/assets/icons/flower.svg';
 
+import PropTypes from 'prop-types';
+import React from 'react';
+import {TouchableOpacity} from 'react-native';
+import styled from 'styled-components';
+
 export const AppIcons = {
   MailWhite,
   MailBlack,
@@ -43,5 +48,22 @@ export const AppIcons = {
   Right,
   Back,
   Down,
-  Back_gray
+  Back_gray,
+};
+
+const IconBox = styled.TouchableOpacity`
+  padding: 5px;
+`;
+
+export const IconButton = ({icon, onPress, disabled = false}) => {
+  return (
+    <IconBox onPress={onPress} disabled={disabled}>
+      {icon}
+    </IconBox>
+  );
+};
+IconButton.propTypes = {
+  icon: PropTypes.element,
+  onPress: PropTypes.func,
+  disabled: PropTypes.bool,
 };

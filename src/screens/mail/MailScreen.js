@@ -18,6 +18,7 @@ import EmptyComponent from '@/components/Loading/EmptyComponent';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {NotReadMailsState, ReceiveMailsState} from '@/state/MailData';
 import {WithHeader} from '@/components/headers/WithHeader';
+import {AppIcons, IconButton} from '@/ui/icons';
 
 const TopBar = styled.View`
   width: 100%;
@@ -175,7 +176,8 @@ const MailScreen = ({navigation}) => {
                 navigation.navigate('MailWrite');
               }}
             />
-            <AppIconButtons.Delete
+            <IconButton
+              icon={<AppIcons.Trash />}
               disabled={false}
               onPress={() => setIsDelete(!isDelete)}
             />

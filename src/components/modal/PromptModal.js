@@ -67,7 +67,7 @@ const PromptModal = ({
             width={ModalWidth * 0.4}
             onPress={leftOnPress}
             inputCheck={true}
-            borderColor={leftBorderColor}
+            color={leftBorderColor}
             margin={{marginRight: ModalWidth * 0.02}}
           />
           <AppButtons.BasicButton
@@ -75,7 +75,7 @@ const PromptModal = ({
             width={ModalWidth * 0.4}
             onPress={rightOnPress}
             inputCheck={true}
-            borderColor={rightBorderColor}
+            color={rightBorderColor}
             margin={{marginLeft: ModalWidth * 0.02}}
           />
         </ButtonContainer>
