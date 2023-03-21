@@ -32,7 +32,6 @@ export const AppSize = {
 //
 export const main = '#EAE7C8';
 export const main_op = 'rgba(234, 231, 200, 0.6)';
-export const font = '#666353';
 export const body = '#FBF9F3';
 export const border = '#c9c3a3';
 export const blur = '#d1d1d1';
@@ -61,6 +60,7 @@ export const Gray600 = '#B0AEA9';
 export const Gray700 = '#84827F';
 export const Gray800 = '#585754';
 export const Gray900 = '#2C2B2A';
+export const font = Gray900;
 
 export const AppColors = {
   main,

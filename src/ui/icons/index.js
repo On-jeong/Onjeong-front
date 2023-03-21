@@ -15,6 +15,9 @@ import List from '@/assets/icons/Icon_list.svg';
 import Setting from '@/assets/icons/Icon_setting.svg';
 import Trash from '@/assets/icons/Icon_trash.svg';
 
+import Water from '@/assets/icons/water.svg';
+import Flower from '@/assets/icons/flower.svg';
+
 export const AppIcons = {
   MailWhite,
   MailBlack,
@@ -31,4 +34,6 @@ export const AppIcons = {
   List,
   Setting,
   Trash,
+  Water,
+  Flower,
 };
