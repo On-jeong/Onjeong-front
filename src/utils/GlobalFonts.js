@@ -8,7 +8,7 @@ const Big = styled.Text`
 `;
 
 const Title = styled.Text`
-  font-family: 'GangwonLight';
+  font-family: 'GangwonBold';
   font-size: 25px;
   color: ${props => (props.color ? props.color : AppColors.font)};
 `;
@@ -63,29 +63,29 @@ const CalendarFont = styled.Text`
 
 // new fonts
 const Heading = styled.Text`
-  font-family: 'GaeguBold';
-  font-size: 20px;
+  font-family: 'GangwonBold';
+  font-size: 18px;
   color: ${props => (props.color ? props.color : AppColors.font)};
 `;
 
 const Subtitle = styled.Text`
-  font-family: 'GaeguBold';
+  font-family: 'GangwonBold';
   font-size: 16px;
   color: ${props => (props.color ? props.color : AppColors.font)};
 `;
 
 const Body1 = styled.Text`
-  font-family: 'GaeguRegular';
+  font-family: 'GangwonLight';
   font-size: 16px;
   color: ${props => (props.color ? props.color : AppColors.font)};
 `;
 const Body2 = styled.Text`
-  font-family: 'GaeguRegular';
+  font-family: 'GangwonLight';
   font-size: 14px;
   color: ${props => (props.color ? props.color : AppColors.font)};
 `;
 const Caption = styled.Text`
-  font-family: 'GaeguRegular';
+  font-family: 'GangwonLight';
   font-size: 12px;
   color: ${props => (props.color ? props.color : AppColors.font)};
 `;
