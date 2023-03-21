@@ -1,5 +1,4 @@
 import {AppButtons} from '@/components/buttons';
-import NoHeader from '@/components/headers/NoHeader';
 import {useModifyAccount} from '@/hooks/useUserData';
 import {
   UserBirthState,
@@ -15,6 +14,7 @@ import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import styled from 'styled-components';
 import DatePicker from 'react-native-date-picker';
 import {AppColors} from '@/utils/GlobalStyles';
+import { WithHeader } from '@/components/headers/WithHeader';
 
 const Container = styled.View`
   flex-direction: row;
@@ -133,7 +133,7 @@ function AccountModScreen({navigation}) {
   };
 
   return (
-    <NoHeader
+    <WithHeader
       title="회원정보 변경"
       isBack={true}
       navigation={navigation}
@@ -221,7 +221,7 @@ function AccountModScreen({navigation}) {
           onPress={onSubmit}
         />
       </ButtonContainer>
-    </NoHeader>
+    </WithHeader>
   );
 }
 

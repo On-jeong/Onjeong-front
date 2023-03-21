@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import NoHeader from '@/components/headers/NoHeader';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {MainInput, Paper, PaperContainer} from '@/screens/mail/MailWriteScreen';
@@ -8,9 +7,8 @@ import {useAddBoard, useModifyBoard} from '../../hooks/useBoardData';
 import {useQueryClient} from '@tanstack/react-query';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {windowWidth} from '../../utils/GlobalStyles';
-import {AppButtons} from '../../components/buttons';
 import {AppIconButtons} from '../../components/IconButtons';
-import customAxios from '@/api/axios';
+import { WithHeader } from '@/components/headers/WithHeader';
 
 export const SendBox = styled.View`
   width: 100%;
@@ -124,7 +122,7 @@ const PostWriteScreen = ({navigation, route}) => {
   };
 
   return (
-    <NoHeader
+    <WithHeader
       title={route.params.date}
       isLoading={addIsLoading || modIsLoading}
       isBack={true}
@@ -170,7 +168,7 @@ const PostWriteScreen = ({navigation, route}) => {
           </SendBox>
         </PaperContainer>
       </>
-    </NoHeader>
+    </WithHeader>
   );
 };
 

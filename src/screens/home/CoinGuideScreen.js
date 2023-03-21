@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import NoHeader from '@/components/headers/NoHeader';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {AppComponents} from '@/components/Components';
 import {ScrollView} from 'react-native';
+import { WithHeader } from '@/components/headers/WithHeader';
 
 const MessageBox = styled.View`
   width: 100%;
@@ -15,7 +15,7 @@ const MessageBox = styled.View`
 
 const CoinGuideScreen = ({navigation}) => {
   return (
-    <NoHeader
+    <WithHeader
       isBack={true}
       title={'영양제 적립 가이드'}
       navigation={navigation}>
@@ -33,7 +33,7 @@ const CoinGuideScreen = ({navigation}) => {
         <Message title={'이주의 문답 모든 가족이 작성할 경우'} coin={200} />
         <AppComponents.EmptyBox />
       </ScrollView>
-    </NoHeader>
+    </WithHeader>
   );
 };
 

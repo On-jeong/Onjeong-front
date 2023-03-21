@@ -18,6 +18,8 @@ export const ReloadButton = styled.TouchableOpacity`
   margin-top: 10px;
 `;
 
+
+// 로딩 후 화면 or 에러 전환
 const LoadingComponent = ({isLoading, isError, children, reloadFunc}) => {
   if (isError)
     return (

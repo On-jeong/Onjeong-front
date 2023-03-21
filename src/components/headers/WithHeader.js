@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import {AppColors, betweenIcons, navigationHeight} from '@/utils/GlobalStyles';
 import PropTypes from 'prop-types';
 import LoadingComponent from '../Loading/LoadingComponent';
-import {AppIconButtons} from '../IconButtons';
-import {AppButtons} from '../buttons';
 import {AppIcons} from '@/ui/icons';
 
 const NavBar = styled.View`
@@ -14,10 +12,9 @@ const NavBar = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-color: ${AppColors.Background};
 `;
 
-const RightNav = styled.View`
+export const RightNav = styled.View`
   width: 70px;
   flex-direction: row;
   justify-content: flex-end;
@@ -39,11 +36,16 @@ export const IconBox = styled.TouchableOpacity`
   padding: 12px;
 `;
 
+export const BackBox = styled.TouchableOpacity`
+  padding: 15px;
+  padding-left: 15px;
+  padding-right: 40px;
+`;
+
 export const Body = styled.View`
   flex: 1;
   background-color: ${AppColors.Background};
 `;
-
 
 // 제목이 있는 헤더 커스텀 가능
 export const WithHeader = ({
@@ -62,21 +64,21 @@ export const WithHeader = ({
   reloadFunc,
 }) => {
   return (
-    <>
+    <Body>
       <NavBar>
         <LeftNav>
           {isBack ? (
-            <IconBox
+            <BackBox
               onPress={() => {
                 navigation.goBack();
               }}>
-              <AppIconButtons.Back size={20} />
-            </IconBox>
+              <AppIcons.Back_gray />
+            </BackBox>
           ) : (
             <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
           )}
         </LeftNav>
-        <FontStyle.TitleB>{title}</FontStyle.TitleB>
+        <FontStyle.Heading>{title}</FontStyle.Heading>
         <RightNav>
           <IconBox onPress={rightOnPress1}>{rightIcon1}</IconBox>
           <IconBox onPress={rightOnPress2}>{rightIcon2}</IconBox>
@@ -88,10 +90,9 @@ export const WithHeader = ({
         reloadFunc={reloadFunc}>
         {children}
       </LoadingComponent>
-    </>
+    </Body>
   );
 };
-
 
 // 오른쪽에 setting, alert로 연결되는 기본 아이콘 및 뒤로가기 버튼 형태
 export const BasicHeader = ({
@@ -106,21 +107,21 @@ export const BasicHeader = ({
   reloadFunc,
 }) => {
   return (
-    <>
+    <Body>
       <NavBar>
         <LeftNav>
           {isBack ? (
-            <IconBox
+            <BackBox
               onPress={() => {
                 navigation.goBack();
               }}>
-              <AppIconButtons.Back size={22} />
-            </IconBox>
+              <AppIcons.Back_gray />
+            </BackBox>
           ) : (
             <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
           )}
         </LeftNav>
-        <FontStyle.TitleB>{title}</FontStyle.TitleB>
+        <FontStyle.Heading>{title}</FontStyle.Heading>
         <RightNav>
           <BellIconBox
             onPress={() => {
@@ -144,7 +145,7 @@ export const BasicHeader = ({
           {children}
         </LoadingComponent>
       </Body>
-    </>
+    </Body>
   );
 };
 

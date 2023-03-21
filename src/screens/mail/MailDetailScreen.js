@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import NoHeader from '@/components/headers/NoHeader';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {Paper, PaperContainer, SendBox} from './MailWriteScreen';
 import {useGetMailDetail} from '@/hooks/useMailData';
+import { WithHeader } from '@/components/headers/WithHeader';
 
 const PaperTop = styled.View`
   flex-direction: row;
@@ -25,7 +25,7 @@ const MailDetailScreen = ({navigation, route}) => {
   console.log(route);
 
   return (
-    <NoHeader isBack={true} navigation={navigation}>
+    <WithHeader isBack={true} navigation={navigation}>
       <>
         <PaperContainer>
           <Paper>
@@ -51,7 +51,7 @@ const MailDetailScreen = ({navigation, route}) => {
           </Paper>
         </PaperContainer>
       </>
-    </NoHeader>
+    </WithHeader>
   );
 };
 

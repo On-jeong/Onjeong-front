@@ -7,6 +7,7 @@ const TitleBox = styled.View`
   margin-top: 10px;
 `;
 
+// contents가 없을 경우 사용
 const EmptyComponent = ({isEmpty, title1, title2, children}) => {
   if (isEmpty)
     return (

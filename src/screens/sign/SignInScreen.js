@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import NoHeader from '@/components/headers/NoHeader';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {AppColors} from '@/utils/GlobalStyles';
 import {AppButtons} from '../../components/buttons';
@@ -20,6 +19,7 @@ import UserData, {
 } from '@/state/UserData';
 import messaging from '@react-native-firebase/messaging';
 import customAxios from '@/api/axios';
+import { WithHeader } from '@/components/headers/WithHeader';
 
 //
 // 로그인
@@ -177,7 +177,7 @@ const SignInScreen = ({navigation}) => {
   };
 
   return (
-    <NoHeader
+    <WithHeader
       isLoading={signInIsLoading}
       reloadFunc={onSubmit}
       isError={signInIsError && isError}>
@@ -217,7 +217,7 @@ const SignInScreen = ({navigation}) => {
           />
         </Box>
       </Container>
-    </NoHeader>
+    </WithHeader>
   );
 };
 

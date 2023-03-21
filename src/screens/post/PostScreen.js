@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import NoHeader from '@/components/headers/NoHeader';
 import {useQueryClient} from '@tanstack/react-query';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {AppColors, windowHeight, windowWidth} from '@/utils/GlobalStyles';
@@ -17,6 +16,7 @@ import {useDeleteBoard, useGetTodayBoards} from '../../hooks/useBoardData';
 import {Image, ScrollView} from 'react-native';
 import AutoHeightImage from 'react-native-auto-height-image';
 import {SpaceBetween} from '../QaScreen';
+import { WithHeader } from '@/components/headers/WithHeader';
 
 const PlanContainer = styled.View`
   padding: 7%;
@@ -258,7 +258,7 @@ const PostScreen = ({navigation, route}) => {
   };
 
   return (
-    <NoHeader title={route.params.date} isBack={true} navigation={navigation}>
+    <WithHeader title={route.params.date} isBack={true} navigation={navigation}>
       <>
         <AppComponents.HorizonLine />
         <ScrollView>
@@ -433,7 +433,7 @@ const PostScreen = ({navigation, route}) => {
           </PlanContainer>
         </ScrollView>
       </>
-    </NoHeader>
+    </WithHeader>
   );
 };
 export default PostScreen;

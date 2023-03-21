@@ -64,7 +64,7 @@ const CalendarFont = styled.Text`
 // new fonts
 const Heading = styled.Text`
   font-family: 'GangwonBold';
-  font-size: 18px;
+  font-size: 20px;
   color: ${props => (props.color ? props.color : AppColors.font)};
 `;
 

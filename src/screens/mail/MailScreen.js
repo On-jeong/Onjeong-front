@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
-import NoHeader from '@/components/headers/NoHeader';
 
 import {ScrollView} from 'react-native';
 import {FontStyle} from '@/utils/GlobalFonts';
@@ -18,6 +17,7 @@ import {AppButtons} from '../../components/buttons';
 import EmptyComponent from '@/components/Loading/EmptyComponent';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {NotReadMailsState, ReceiveMailsState} from '@/state/MailData';
+import {WithHeader} from '@/components/headers/WithHeader';
 
 const TopBar = styled.View`
   width: 100%;
@@ -144,24 +144,22 @@ const MailScreen = ({navigation}) => {
   };
 
   return (
-    <NoHeader
+    <WithHeader
       title={'우편함'}
-      isBack={true}
       navigation={navigation}
       isLoading={isReceive ? receiveIsLoading : sendIsLoading}
       isError={isReceive ? receiveIsError : sendIsError}>
       <>
         <TopBar>
           <Filter>
-            <AppButtons.TextButton.Content
-              title={'받은 우편함'}
-              bold={isReceive}
+            <AppButtons.BasicButton
+              title={'받은 편지'}
+              color={isReceive ? AppColors.Primary : AppColors.Background}
               onPress={() => receiveMails()}
             />
-            <FontStyle.Content> / </FontStyle.Content>
-            <AppButtons.TextButton.Content
-              title={'보낸 우편함'}
-              bold={!isReceive}
+            <AppButtons.BasicButton
+              title={'보낸 편지'}
+              color={!isReceive ? AppColors.Primary : AppColors.Background}
               onPress={() => sendMails()}
             />
             <Alert>
@@ -230,7 +228,7 @@ const MailScreen = ({navigation}) => {
           </ScrollView>
         </EmptyComponent>
       </>
-    </NoHeader>
+    </WithHeader>
   );
 };
 

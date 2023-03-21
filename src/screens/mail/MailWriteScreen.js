@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import NoHeader from '@/components/headers/NoHeader';
 import {AppColors, windowHeight} from '@/utils/GlobalStyles';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {useRecoilValue} from 'recoil';
@@ -9,6 +8,7 @@ import {usePostMail} from '../../hooks/useMailData';
 import {useGetFamilyList} from '../../hooks/useProFileData';
 import {AppButtons} from '../../components/buttons';
 import { AppIconButtons } from '@/components/IconButtons';
+import { WithHeader } from '@/components/headers/WithHeader';
 
 export const PaperContainer = styled.View`
   flex: 1;
@@ -103,7 +103,7 @@ const MailWriteScreen = ({navigation}) => {
   };
 
   return (
-    <NoHeader isBack={true} navigation={navigation} isLoading={postIsLoading}>
+    <WithHeader isBack={true} navigation={navigation} isLoading={postIsLoading}>
       <>
         <PaperContainer>
           <Paper>
@@ -146,7 +146,7 @@ const MailWriteScreen = ({navigation}) => {
           </SendBox>
         </PaperContainer>
       </>
-    </NoHeader>
+    </WithHeader>
   );
 };
 

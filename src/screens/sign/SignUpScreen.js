@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import NoHeader from '@/components/headers/NoHeader';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {AppColors, windowWidth} from '@/utils/GlobalStyles';
 import {Box, Container} from './SignInScreen';
@@ -17,6 +16,7 @@ import {
 import {Alert, ScrollView, TouchableOpacity} from 'react-native';
 import {AppIconButtons} from '@/components/IconButtons';
 import {AppComponents} from '@/components/Components';
+import { WithHeader } from '@/components/headers/WithHeader';
 
 //
 // 회원가입
@@ -101,7 +101,7 @@ const SignUpScreen = ({navigation}) => {
 
   const {mutate: getCheckIdMutate} = useGetCheckId({
     onSuccess: data => {
-      console.log('data',data);
+      console.log('data', data);
       if (data?.data?.data?.available) {
         alert('사용할 수 있는 아이디 입니다.');
         setIdCheck(true);
@@ -173,7 +173,7 @@ const SignUpScreen = ({navigation}) => {
     } else if (!idCheck) {
       alert('사용할 수 있는 아이디인지 검사해 주세요.');
       return 0;
-    } else if (joinedNickname&&!joinedIdCheck) {
+    } else if (joinedNickname && !joinedIdCheck) {
       alert('초대가족 아이디가 존재하는지 검사해 주세요.');
       return 0;
     } else if (!EMAIL_REG.test(userEmail)) {
@@ -257,7 +257,7 @@ const SignUpScreen = ({navigation}) => {
   };
 
   return (
-    <NoHeader
+    <WithHeader
       isBack={true}
       navigation={navigation}
       isLoading={noJoinedIsLoading || withJoinedIsLoading}>
@@ -390,7 +390,7 @@ const SignUpScreen = ({navigation}) => {
           </Box>
         </Container>
       </ScrollView>
-    </NoHeader>
+    </WithHeader>
   );
 };
 

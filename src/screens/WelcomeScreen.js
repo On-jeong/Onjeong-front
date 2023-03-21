@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {FontStyle} from '../utils/GlobalFonts';
 import styled from 'styled-components';
-import NoHeader from '@/components/headers/NoHeader';
 import {storage} from '../config/storage';
 import axios, {refreshAxios} from '@/api/axios';
 import {useFocusEffect} from '@react-navigation/native';
@@ -16,6 +15,7 @@ import {
   UserStatusState,
 } from '@/state/UserData';
 import {useRecoilState, useSetRecoilState} from 'recoil';
+import { WithHeader } from '@/components/headers/WithHeader';
 
 const Center = styled.View`
   flex: 0.8;
@@ -77,11 +77,11 @@ export const WelcomeScreen = ({navigation}) => {
   };
 
   return (
-    <NoHeader>
+    <WithHeader>
       <Center>
         <FontStyle.TitleB>온정</FontStyle.TitleB>
       </Center>
-    </NoHeader>
+    </WithHeader>
   );
 };
 

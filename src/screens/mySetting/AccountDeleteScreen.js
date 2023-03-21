@@ -1,6 +1,5 @@
 import customAxios from '@/api/axios';
 import {AppButtons} from '@/components/buttons';
-import NoHeader from '@/components/headers/NoHeader';
 import {AppInputs} from '@/components/inputs';
 import {LoadingBox} from '@/components/Loading/LoadingComponent';
 import PromptModal from '@/components/modal/PromptModal';
@@ -10,6 +9,7 @@ import {FontStyle} from '@/utils/GlobalFonts';
 import {AppColors} from '@/utils/GlobalStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState} from 'react';
+import { WithHeader } from '@/components/headers/WithHeader';
 
 const AccountDeleteScreen = ({navigation}) => {
   const [quitModal, setQuitModal] = useState(false);
@@ -30,7 +30,7 @@ const AccountDeleteScreen = ({navigation}) => {
   });
 
   return (
-    <NoHeader title="회원탈퇴" isBack={true} navigation={navigation}>
+    <WithHeader title="회원탈퇴" isBack={true} navigation={navigation}>
       <LoadingBox>
         <FontStyle.Content>
           가족들을 남겨두고 정말 떠나시는 건가요?
@@ -64,7 +64,7 @@ const AccountDeleteScreen = ({navigation}) => {
         }}
         leftBorderColor={AppColors.green2}
       />
-    </NoHeader>
+    </WithHeader>
   );
 };
 

@@ -1,12 +1,12 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
-import NoHeader from '@/components/headers/NoHeader';
 import {FontStyle} from '@/utils/GlobalFonts';
 import {AppComponents} from '@/components/Components';
 import {useGetCoinHistory} from '@/hooks/useHomeData';
 import {ScrollView} from 'react-native';
 import EmptyComponent from '@/components/Loading/EmptyComponent';
 import {useFocusEffect} from '@react-navigation/native';
+import { WithHeader } from '@/components/headers/WithHeader';
 
 const MessageBox = styled.View`
   width: 100%;
@@ -41,7 +41,7 @@ const CoinHistoryScreen = ({navigation}) => {
   console.log(data);
 
   return (
-    <NoHeader
+    <WithHeader
       isBack={true}
       title={'꽃 성장 기록'}
       navigation={navigation}
@@ -73,7 +73,7 @@ const CoinHistoryScreen = ({navigation}) => {
           <AppComponents.EmptyBox />
         </ScrollView>
       </EmptyComponent>
-    </NoHeader>
+    </WithHeader>
   );
 };
 
