@@ -5,7 +5,7 @@ import {AppColors, windowHeight, windowWidth} from '@/utils/GlobalStyles';
 import {ScrollView} from 'react-native';
 import {AppComponents} from '@/components/Components';
 import {useGetFamilyList} from '../../hooks/useProFileData';
-import {FontStyle} from '../../utils/GlobalFonts';
+import {AppFonts} from '../../utils/GlobalFonts';
 import {useFocusEffect} from '@react-navigation/native';
 
 const ProfileBox = styled.View`
@@ -55,7 +55,7 @@ const ProfileScreen = ({navigation}) => {
                     role: fm.userStatus,
                   })
                 }>
-                <FontStyle.SubTitleB>{fm.userStatus}</FontStyle.SubTitleB>
+                <AppFonts.SubTitleB>{fm.userStatus}</AppFonts.SubTitleB>
               </Profile>
             ))}
           </>

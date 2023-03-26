@@ -8,7 +8,7 @@ import {
 } from '@/hooks/useProFileData';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {AppColors, windowWidth} from '@/utils/GlobalStyles';
-import {FontStyle} from '@/utils/GlobalFonts';
+import {AppFonts} from '@/utils/GlobalFonts';
 import {AppIconButtons} from '@/components/IconButtons';
 import {useQueryClient} from '@tanstack/react-query';
 import {useRecoilState, useRecoilValue} from 'recoil';
@@ -208,9 +208,9 @@ const FamilyProfile = ({route}) => {
               onSubmitEditing={submitMessage}
             />
           ) : (
-            <FontStyle.SubContent>
+            <AppFonts.SubContent>
               {detailData?.data?.data.message}
-            </FontStyle.SubContent>
+            </AppFonts.SubContent>
           )}
           {/* 메세지 작성중이 아니고, 자신의 프로필일 경우에만 수정 버튼 보이기 */}
           {!isMessageWrite && route.params.userId === userId && (
@@ -232,9 +232,9 @@ const FamilyProfile = ({route}) => {
 const Infos = ({title, content}) => {
   return (
     <BasicInfo>
-      <FontStyle.Content>
-        {title}: <FontStyle.Content>{content}</FontStyle.Content>
-      </FontStyle.Content>
+      <AppFonts.Content>
+        {title}: <AppFonts.Content>{content}</AppFonts.Content>
+      </AppFonts.Content>
     </BasicInfo>
   );
 };

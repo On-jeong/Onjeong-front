@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {FontStyle} from '../../utils/GlobalFonts';
+import {AppFonts} from '../../utils/GlobalFonts';
 import {AppColors} from '../../utils/GlobalStyles';
 import PropTypes from 'prop-types';
 
@@ -37,7 +37,7 @@ export const BasicButton = ({
           marginLeft: margin.marginLeft,
           marginRight: margin.marginRight,
         }}>
-        <FontStyle.Body1>{title}</FontStyle.Body1>
+        <AppFonts.Body1>{title}</AppFonts.Body1>
       </Button>
     </>
   );

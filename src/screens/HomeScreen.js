@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect} from 'react';
-import {FontStyle} from '../utils/GlobalFonts';
+import {AppFonts} from '../utils/GlobalFonts';
 import {BasicHeader} from '../components/headers/WithHeader';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {
@@ -188,7 +188,7 @@ export const HomeScreen = ({navigation}) => {
             <IconBox>
               <AppIcons.Water />
             </IconBox>
-            <FontStyle.Heading>{flowerLevelState}</FontStyle.Heading>
+            <AppFonts.Heading>{flowerLevelState}</AppFonts.Heading>
           </CoinBox>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Guide')}>
@@ -196,8 +196,8 @@ export const HomeScreen = ({navigation}) => {
             <IconBox>
               <AppIcons.Flower />
             </IconBox>
-            <FontStyle.Heading color={AppColors.Gray700}>lv.</FontStyle.Heading>
-            <FontStyle.Heading>{familyCoinState}</FontStyle.Heading>
+            <AppFonts.Heading color={AppColors.Gray700}>lv.</AppFonts.Heading>
+            <AppFonts.Heading>{familyCoinState}</AppFonts.Heading>
           </CoinBox>
         </TouchableOpacity>
       </FamilyCoinView>

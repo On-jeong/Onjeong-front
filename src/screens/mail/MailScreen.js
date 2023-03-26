@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 
 import {ScrollView} from 'react-native';
-import {FontStyle} from '@/utils/GlobalFonts';
+import {AppFonts} from '@/utils/GlobalFonts';
 import {AppColors} from '@/utils/GlobalStyles';
 import {AppIconButtons} from '@/components/IconButtons';
 import {
@@ -69,10 +69,23 @@ const DeleteIconBox = styled.View`
   top: -10px;
   left: -10px;
 `;
+
 const ReadIconBox = styled.View`
   position: absolute;
   top: -9px;
   left: -9px;
+`;
+
+const NewButton = styled.TouchableOpacity`
+  position: absolute;
+  right: 24px;
+  bottom: 88px;
+  width: 64px;
+  height: 64px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  background-color: ${AppColors.Primary};
 `;
 
 const MailScreen = ({navigation}) => {
@@ -168,14 +181,6 @@ const MailScreen = ({navigation}) => {
             </Alert>
           </Filter>
           <Filter>
-            <AppIconButtons.Pencil
-              padding={{paddingRight: 8}}
-              disabled={false}
-              onPress={() => {
-                setIsDelete(false);
-                navigation.navigate('MailWrite');
-              }}
-            />
             <IconButton
               icon={<AppIcons.Trash />}
               disabled={false}
@@ -203,7 +208,7 @@ const MailScreen = ({navigation}) => {
                         color={AppColors.green1}
                         width={21}
                         height={21}>
-                        <FontStyle.SubContentB>1</FontStyle.SubContentB>
+                        <AppFonts.SubContentB>1</AppFonts.SubContentB>
                       </AppComponents.Circle>
                     </ReadIconBox>
                   )}
@@ -212,16 +217,16 @@ const MailScreen = ({navigation}) => {
                       <AppIconButtons.Cancel />
                     </DeleteIconBox>
                   )}
-                  <FontStyle.Content numberOfLines={2} ellipsizeMode="tail">
+                  <AppFonts.Content numberOfLines={2} ellipsizeMode="tail">
                     {mail.mailContent}
-                  </FontStyle.Content>
+                  </AppFonts.Content>
                   <FromBox>
-                    <FontStyle.ContentB>
+                    <AppFonts.ContentB>
                       {isReceive ? 'From. ' : 'To. '}
-                      <FontStyle.ContentB>
+                      <AppFonts.ContentB>
                         {isReceive ? mail.sendUserName : mail.receiveUserName}
-                      </FontStyle.ContentB>
-                    </FontStyle.ContentB>
+                      </AppFonts.ContentB>
+                    </AppFonts.ContentB>
                   </FromBox>
                 </Mail>
               ))}
@@ -229,6 +234,13 @@ const MailScreen = ({navigation}) => {
             </MailBox>
           </ScrollView>
         </EmptyComponent>
+        <NewButton
+          onPress={() => {
+            setIsDelete(false);
+            navigation.navigate('MailWrite');
+          }}>
+          <AppIcons.Add />
+        </NewButton>
       </>
     </WithHeader>
   );

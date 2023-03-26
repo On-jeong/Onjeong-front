@@ -8,7 +8,7 @@ import Mail from '@/screens/mail/MailScreen';
 import {AppColors, bottomTabHeight} from '../utils/GlobalStyles';
 import {AppIcons} from '@/ui/icons';
 import styled from 'styled-components';
-import {FontStyle} from '@/utils/GlobalFonts';
+import {AppFonts} from '@/utils/GlobalFonts';
 
 const Tab = createBottomTabNavigator();
 

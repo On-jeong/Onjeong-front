@@ -79,18 +79,20 @@ const Body1 = styled.Text`
   font-size: 16px;
   color: ${props => (props.color ? props.color : AppColors.font)};
 `;
+
 const Body2 = styled.Text`
   font-family: 'GangwonLight';
   font-size: 14px;
   color: ${props => (props.color ? props.color : AppColors.font)};
 `;
+
 const Caption = styled.Text`
   font-family: 'GangwonLight';
   font-size: 12px;
   color: ${props => (props.color ? props.color : AppColors.font)};
 `;
 
-export const FontStyle = {
+export const AppFonts = {
   Big,
   Title,
   TitleB,
@@ -106,4 +108,12 @@ export const FontStyle = {
   Body1,
   Body2,
   Caption,
+};
+
+const Bold = 'GangwonBold';
+const Light = 'GangwonLight';
+
+export const FontFamily = {
+  Bold,
+  Light,
 };

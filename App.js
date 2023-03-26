@@ -7,7 +7,7 @@ import {StackNavigator} from './src/navigators/StackNavigator';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {RecoilRoot} from 'recoil';
 
-import {FontStyle} from './src/utils/GlobalFonts';
+import {AppFonts} from './src/utils/GlobalFonts';
 
 //fcm
 import messaging from '@react-native-firebase/messaging';

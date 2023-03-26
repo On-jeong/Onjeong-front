@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import {FontStyle} from '@/utils/GlobalFonts';
+import {AppFonts} from '@/utils/GlobalFonts';
 import {AppColors} from '@/utils/GlobalStyles';
 import {AppButtons} from '../../components/buttons';
 import {AppInputs} from '../../components/inputs';
@@ -19,7 +19,7 @@ import UserData, {
 } from '@/state/UserData';
 import messaging from '@react-native-firebase/messaging';
 import customAxios from '@/api/axios';
-import { WithHeader } from '@/components/headers/WithHeader';
+import {WithHeader} from '@/components/headers/WithHeader';
 
 //
 // 로그인
@@ -149,8 +149,8 @@ const SignInScreen = ({navigation}) => {
             !err.response.data.code === 'A005' ||
             !err.response.data.code === 'A006'
           )
-          setIsError(true);
-          
+            setIsError(true);
+
           console.log(isError);
         },
       },
@@ -184,7 +184,7 @@ const SignInScreen = ({navigation}) => {
       <Container>
         <Box>
           <Title>
-            <FontStyle.Big>온정</FontStyle.Big>
+            <AppFonts.Big>온정</AppFonts.Big>
           </Title>
           <InputContainer>
             <AppInputs.BorderBottomInput

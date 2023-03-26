@@ -1,5 +1,5 @@
 import React from 'react';
-import {FontStyle} from '@/utils/GlobalFonts';
+import {AppFonts} from '@/utils/GlobalFonts';
 import styled from 'styled-components';
 import {AppColors, betweenIcons, navigationHeight} from '@/utils/GlobalStyles';
 import PropTypes from 'prop-types';
@@ -78,7 +78,7 @@ export const WithHeader = ({
             <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
           )}
         </LeftNav>
-        <FontStyle.Heading>{title}</FontStyle.Heading>
+        <AppFonts.Heading>{title}</AppFonts.Heading>
         <RightNav>
           <IconBox onPress={rightOnPress1}>{rightIcon1}</IconBox>
           <IconBox onPress={rightOnPress2}>{rightIcon2}</IconBox>
@@ -121,7 +121,7 @@ export const BasicHeader = ({
             <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
           )}
         </LeftNav>
-        <FontStyle.Heading>{title}</FontStyle.Heading>
+        <AppFonts.Heading>{title}</AppFonts.Heading>
         <RightNav>
           <BellIconBox
             onPress={() => {

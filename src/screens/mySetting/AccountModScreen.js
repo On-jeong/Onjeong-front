@@ -7,14 +7,14 @@ import {
   UserNicknameState,
   UserEmailState,
 } from '@/state/UserData';
-import {FontStyle} from '@/utils/GlobalFonts';
+import {AppFonts} from '@/utils/GlobalFonts';
 import {format} from 'date-fns';
 import React, {useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import styled from 'styled-components';
 import DatePicker from 'react-native-date-picker';
 import {AppColors} from '@/utils/GlobalStyles';
-import { WithHeader } from '@/components/headers/WithHeader';
+import {WithHeader} from '@/components/headers/WithHeader';
 
 const Container = styled.View`
   flex-direction: row;
@@ -164,12 +164,12 @@ function AccountModScreen({navigation}) {
       />
       {/* 생년월일 선택 버튼 */}
       <Container>
-        <FontStyle.SubTitleB>
+        <AppFonts.SubTitleB>
           {'생년월일'}
-          <FontStyle.SubTitleB> : </FontStyle.SubTitleB>
-        </FontStyle.SubTitleB>
+          <AppFonts.SubTitleB> : </AppFonts.SubTitleB>
+        </AppFonts.SubTitleB>
         <BirthButton onPress={() => setBirthOpen(true)}>
-          <FontStyle.Content>{format(birth, 'yyyy-MM-dd')}</FontStyle.Content>
+          <AppFonts.Content>{format(birth, 'yyyy-MM-dd')}</AppFonts.Content>
         </BirthButton>
       </Container>
       <InfoBox
@@ -235,10 +235,10 @@ const InfoBox = ({
 }) => {
   return (
     <Container>
-      <FontStyle.SubTitleB>
+      <AppFonts.SubTitleB>
         {title}
-        <FontStyle.SubTitleB> : </FontStyle.SubTitleB>
-      </FontStyle.SubTitleB>
+        <AppFonts.SubTitleB> : </AppFonts.SubTitleB>
+      </AppFonts.SubTitleB>
       {modAvailable ? (
         <Input
           maxLength={maxLength}
@@ -247,7 +247,7 @@ const InfoBox = ({
           secureTextEntry={secureTextEntry}
         />
       ) : (
-        <FontStyle.SubTitleB>{value}</FontStyle.SubTitleB>
+        <AppFonts.SubTitleB>{value}</AppFonts.SubTitleB>
       )}
     </Container>
   );

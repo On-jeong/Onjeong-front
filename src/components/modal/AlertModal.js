@@ -1,11 +1,11 @@
 import React from 'react';
-import {FontStyle} from '@/utils/GlobalFonts';
+import {AppFonts} from '@/utils/GlobalFonts';
 import styled from 'styled-components';
 import {AppButtons} from '../buttons';
 import {
   AppColors,
-  ModalHeight,
-  ModalWidth,
+  modalHeight,
+  modalWidth,
   windowHeight,
   windowWidth,
 } from '@/utils/GlobalStyles';
@@ -18,10 +18,10 @@ const ModalBackground = styled.View`
 
 const ModalBox = styled.View`
   position: absolute;
-  bottom: ${windowHeight * 0.5 - ModalHeight / 2}px;
-  left: ${windowWidth * 0.5 - ModalWidth / 2}px;
-  min-width: ${ModalWidth}px;
-  min-height: ${ModalHeight}px;
+  bottom: ${windowHeight * 0.5 - modalHeight / 2}px;
+  left: ${windowWidth * 0.5 - modalWidth / 2}px;
+  min-width: ${modalWidth}px;
+  min-height: ${modalHeight}px;
   padding: 20px;
   justify-content: space-around;
   align-items: center;
@@ -34,7 +34,7 @@ const TitleContainer = styled.View`
   justify-content: center;
   align-items: center;
   margin-bottom: ${props =>
-    props.twoTitle ? ModalHeight * 0.2 : ModalHeight * 0.1};
+    props.twoTitle ? modalHeight * 0.2 : modalHeight * 0.1};
 `;
 
 const ButtonContainer = styled.View`
@@ -62,13 +62,13 @@ const AlertModal = ({
       <ModalBackground onPress={() => setModalVisible(false)} />
       <ModalBox>
         <TitleContainer twoTitle={title2}>
-          {title1 && <FontStyle.ContentB>{title1}</FontStyle.ContentB>}
-          {title2 && <FontStyle.ContentB>{title2}</FontStyle.ContentB>}
+          {title1 && <AppFonts.ContentB>{title1}</AppFonts.ContentB>}
+          {title2 && <AppFonts.ContentB>{title2}</AppFonts.ContentB>}
         </TitleContainer>
         <ButtonContainer>
           <AppButtons.BasicButton
             title={'확인'}
-            width={ModalWidth * 0.4}
+            width={modalWidth * 0.4}
             onPress={onPress}
             inputCheck={true}
             color={borderColor}

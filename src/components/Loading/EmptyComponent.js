@@ -1,4 +1,4 @@
-import {FontStyle} from '@/utils/GlobalFonts';
+import {AppFonts} from '@/utils/GlobalFonts';
 import React from 'react';
 import styled from 'styled-components';
 import {LoadingBox} from './LoadingComponent';
@@ -12,10 +12,10 @@ const EmptyComponent = ({isEmpty, title1, title2, children}) => {
   if (isEmpty)
     return (
       <LoadingBox>
-        {title1 && <FontStyle.Content>{title1}</FontStyle.Content>}
+        {title1 && <AppFonts.Content>{title1}</AppFonts.Content>}
         {title2 && (
           <TitleBox>
-            <FontStyle.Content>{title2}</FontStyle.Content>
+            <AppFonts.Content>{title2}</AppFonts.Content>
           </TitleBox>
         )}
       </LoadingBox>

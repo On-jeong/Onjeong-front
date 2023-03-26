@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {FontStyle} from '@/utils/GlobalFonts';
+import {AppFonts} from '@/utils/GlobalFonts';
 import {AppColors, windowWidth} from '@/utils/GlobalStyles';
 import {Box, Container} from './SignInScreen';
 import {AppButtons} from '../../components/buttons';
@@ -16,7 +16,7 @@ import {
 import {Alert, ScrollView, TouchableOpacity} from 'react-native';
 import {AppIconButtons} from '@/components/IconButtons';
 import {AppComponents} from '@/components/Components';
-import { WithHeader } from '@/components/headers/WithHeader';
+import {WithHeader} from '@/components/headers/WithHeader';
 
 //
 // 회원가입
@@ -265,7 +265,7 @@ const SignUpScreen = ({navigation}) => {
         <Container>
           <Box>
             <Title>
-              <FontStyle.Big>온정</FontStyle.Big>
+              <AppFonts.Big>온정</AppFonts.Big>
             </Title>
             <InputContainer>
               <InputButtonBox>
@@ -317,9 +317,9 @@ const SignUpScreen = ({navigation}) => {
               />
               {/* 생년월일 선택 버튼 */}
               <BirthButton onPress={() => setBirthOpen(true)}>
-                <FontStyle.Content color={birthClick ? 'black' : '#999797'}>
+                <AppFonts.Content color={birthClick ? 'black' : '#999797'}>
                   {birthClick ? format(userBirth, 'yyyy-MM-dd') : '생년월일'}
-                </FontStyle.Content>
+                </AppFonts.Content>
               </BirthButton>
               <AppInputs.BorderBottomInput
                 maxLength={15}
@@ -417,7 +417,7 @@ const CheckList = ({check, setCheck, onPress, title}) => {
         />
       )}
       <TouchableOpacity onPress={onPress}>
-        <FontStyle.SubContent>{title}</FontStyle.SubContent>
+        <AppFonts.SubContent>{title}</AppFonts.SubContent>
       </TouchableOpacity>
     </AppComponents.Row>
   );

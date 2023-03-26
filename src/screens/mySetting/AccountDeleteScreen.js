@@ -5,11 +5,11 @@ import {LoadingBox} from '@/components/Loading/LoadingComponent';
 import PromptModal from '@/components/modal/PromptModal';
 import {useDeleteAccount} from '@/hooks/useUserData';
 import {AppComponents} from '@/components/Components';
-import {FontStyle} from '@/utils/GlobalFonts';
+import {AppFonts} from '@/utils/GlobalFonts';
 import {AppColors} from '@/utils/GlobalStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState} from 'react';
-import { WithHeader } from '@/components/headers/WithHeader';
+import {WithHeader} from '@/components/headers/WithHeader';
 
 const AccountDeleteScreen = ({navigation}) => {
   const [quitModal, setQuitModal] = useState(false);
@@ -32,10 +32,10 @@ const AccountDeleteScreen = ({navigation}) => {
   return (
     <WithHeader title="회원탈퇴" isBack={true} navigation={navigation}>
       <LoadingBox>
-        <FontStyle.Content>
+        <AppFonts.Content>
           가족들을 남겨두고 정말 떠나시는 건가요?
-        </FontStyle.Content>
-        <FontStyle.Content>비밀번호를 입력해 주세요ㅜㅜ</FontStyle.Content>
+        </AppFonts.Content>
+        <AppFonts.Content>비밀번호를 입력해 주세요ㅜㅜ</AppFonts.Content>
         <AppComponents.EmptyBox height={20} />
         <AppInputs.BorderBottomInput
           onChangeText={setUserPW}

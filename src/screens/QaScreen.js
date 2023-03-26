@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {BasicHeader} from '../components/headers/WithHeader';
 import styled from 'styled-components';
 import {ScrollView} from 'react-native';
-import {FontStyle} from '../utils/GlobalFonts';
+import {AppFonts} from '../utils/GlobalFonts';
 import {AppColors} from '../utils/GlobalStyles';
 import {AppComponents} from '@/components/Components';
 import {AppIconButtons} from '../components/IconButtons';
@@ -199,8 +199,8 @@ export default function QaScreen({navigation}) {
     return (
       <BasicHeader title="이 주의 문답" navigation={navigation}>
         <LoadingBox>
-          <FontStyle.Content>이 주의 문답이 준비중입니다..</FontStyle.Content>
-          <FontStyle.Content>조금만 기다려 주세요!</FontStyle.Content>
+          <AppFonts.Content>이 주의 문답이 준비중입니다..</AppFonts.Content>
+          <AppFonts.Content>조금만 기다려 주세요!</AppFonts.Content>
         </LoadingBox>
       </BasicHeader>
     );
@@ -218,16 +218,16 @@ export default function QaScreen({navigation}) {
       }}>
       <>
         <QuestBox>
-          <FontStyle.ContentB>
+          <AppFonts.ContentB>
             질문 :{' '}
-            <FontStyle.Content>
+            <AppFonts.Content>
               {questData?.data?.data.questionContent}
-            </FontStyle.Content>
-          </FontStyle.ContentB>
+            </AppFonts.Content>
+          </AppFonts.ContentB>
         </QuestBox>
         {!isMyAns && (
           <MyAnsContainer>
-            <FontStyle.ContentB>내 답변</FontStyle.ContentB>
+            <AppFonts.ContentB>내 답변</AppFonts.ContentB>
             <MyAnsWriteBox>
               <MyAnsInput
                 multiline={true}
@@ -238,7 +238,7 @@ export default function QaScreen({navigation}) {
                 onChangeText={setAnsText}
               />
               <MaxLength>
-                <FontStyle.SubContent>{ansText.length}/80</FontStyle.SubContent>
+                <AppFonts.SubContent>{ansText.length}/80</AppFonts.SubContent>
               </MaxLength>
             </MyAnsWriteBox>
             <SubmitButton>
@@ -253,7 +253,7 @@ export default function QaScreen({navigation}) {
         )}
         {ansData && ansData?.length === 0 ? (
           <MessageBox>
-            <FontStyle.Content>문답을 첫번째로 작성해보세요!</FontStyle.Content>
+            <AppFonts.Content>문답을 첫번째로 작성해보세요!</AppFonts.Content>
           </MessageBox>
         ) : (
           <LoadingComponent isLoading={addIsLoading}>
@@ -262,7 +262,7 @@ export default function QaScreen({navigation}) {
                 <AnsContainer key={ans.answerId}>
                   <AnsBox>
                     <SpaceBetween>
-                      <FontStyle.ContentB>{ans.userName}</FontStyle.ContentB>
+                      <AppFonts.ContentB>{ans.userName}</AppFonts.ContentB>
                       {ans.userName == userName && (
                         <SpaceBetween>
                           <AppIconButtons.Pencil
@@ -300,15 +300,13 @@ export default function QaScreen({navigation}) {
                             autoFocus={true}
                           />
                           <MaxLength>
-                            <FontStyle.SubContent>
+                            <AppFonts.SubContent>
                               {ansText.length}/80
-                            </FontStyle.SubContent>
+                            </AppFonts.SubContent>
                           </MaxLength>
                         </>
                       ) : (
-                        <FontStyle.Content>
-                          {ans.answerContent}
-                        </FontStyle.Content>
+                        <AppFonts.Content>{ans.answerContent}</AppFonts.Content>
                       )}
                     </Ans>
                     {/* 수정중인 경우 수정버튼 나타나게 */}

@@ -1,6 +1,6 @@
 import {BasicHeader} from '../components/headers/WithHeader';
 import React from 'react';
-import {FontStyle} from '../utils/GlobalFonts';
+import {AppFonts} from '../utils/GlobalFonts';
 import {Email} from './mySetting/MyScreen';
 import styled from 'styled-components';
 import {AppComponents} from '@/components/Components';
@@ -20,16 +20,16 @@ const AlertScreen = ({navigation}) => {
     <BasicHeader title={'온정'} isBack={true} navigation={navigation}>
       <ScrollView>
         <MessageBox>
-          <FontStyle.ContentB>온정에 오신 것을 환영합니다!</FontStyle.ContentB>
+          <AppFonts.ContentB>온정에 오신 것을 환영합니다!</AppFonts.ContentB>
         </MessageBox>
         <AppComponents.HorizonLine />
       </ScrollView>
       <Email>
         <AppIconButtons.Alert size={15} />
-        <FontStyle.SubContent>
+        <AppFonts.SubContent>
           {' '}
           3일이 지나면 알림이 사라집니다.
-        </FontStyle.SubContent>
+        </AppFonts.SubContent>
       </Email>
     </BasicHeader>
   );

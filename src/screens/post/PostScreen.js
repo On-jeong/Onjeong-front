@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import {useQueryClient} from '@tanstack/react-query';
-import {FontStyle} from '@/utils/GlobalFonts';
+import {AppFonts} from '@/utils/GlobalFonts';
 import {AppColors, windowHeight, windowWidth} from '@/utils/GlobalStyles';
 import {AppComponents} from '@/components/Components';
 import {AppIconButtons} from '../../components/IconButtons';
@@ -16,7 +16,7 @@ import {useDeleteBoard, useGetTodayBoards} from '../../hooks/useBoardData';
 import {Image, ScrollView} from 'react-native';
 import AutoHeightImage from 'react-native-auto-height-image';
 import {SpaceBetween} from '../QaScreen';
-import { WithHeader } from '@/components/headers/WithHeader';
+import {WithHeader} from '@/components/headers/WithHeader';
 
 const PlanContainer = styled.View`
   padding: 7%;
@@ -250,7 +250,7 @@ const PostScreen = ({navigation, route}) => {
       annDate: route.params.barDate,
       annData: {
         anniversaryContent: newPlan,
-        
+
         //SPECIAL_SCHEDULE / ANNIVERSARY
         anniversaryType: isAnniversary ? 'ANNIVERSARY' : 'SPECIAL_SCHEDULE',
       },
@@ -264,7 +264,7 @@ const PostScreen = ({navigation, route}) => {
         <ScrollView>
           <PlanContainer>
             <PlanTitle>
-              <FontStyle.SubTitleB>오늘의 일정</FontStyle.SubTitleB>
+              <AppFonts.SubTitleB>오늘의 일정</AppFonts.SubTitleB>
               <Filter>
                 <AppIconButtons.Pencil
                   padding={{paddingRight: 8}}
@@ -288,9 +288,9 @@ const PostScreen = ({navigation, route}) => {
                 )}
               </Filter>
             </PlanTitle>
-            {AnnIsLoading && <FontStyle.Content>Loading...</FontStyle.Content>}
+            {AnnIsLoading && <AppFonts.Content>Loading...</AppFonts.Content>}
             {AnnData?.length === 0 && !isAddPlan && (
-              <FontStyle.Content>오늘의 일정이 없습니다.</FontStyle.Content>
+              <AppFonts.Content>오늘의 일정이 없습니다.</AppFonts.Content>
             )}
             {AnnData?.map(ann => (
               <PlanBox key={ann.anniversaryId}>
@@ -304,12 +304,12 @@ const PostScreen = ({navigation, route}) => {
                     }}
                   />
                 ) : (
-                  <FontStyle.ContentB>{number++}. </FontStyle.ContentB>
+                  <AppFonts.ContentB>{number++}. </AppFonts.ContentB>
                 )}
 
-                <FontStyle.Content bold={ann.anniversaryType === 'ANNIVERSARY'}>
+                <AppFonts.Content bold={ann.anniversaryType === 'ANNIVERSARY'}>
                   {ann.anniversaryContent}
-                </FontStyle.Content>
+                </AppFonts.Content>
               </PlanBox>
             ))}
 
@@ -317,7 +317,7 @@ const PostScreen = ({navigation, route}) => {
             {isAddPlan && (
               <>
                 <PlanTextBox>
-                  <FontStyle.ContentB>{number++}. </FontStyle.ContentB>
+                  <AppFonts.ContentB>{number++}. </AppFonts.ContentB>
                   <PlanText
                     value={newPlan}
                     onChangeText={setNewPlan}
@@ -371,7 +371,7 @@ const PostScreen = ({navigation, route}) => {
           <AppComponents.HorizonLine />
           <PlanContainer>
             <PlanTitle>
-              <FontStyle.SubTitleB>오늘의 기록</FontStyle.SubTitleB>
+              <AppFonts.SubTitleB>오늘의 기록</AppFonts.SubTitleB>
               <AppIconButtons.Pencil
                 disabled={false}
                 onPress={() => {
@@ -382,20 +382,18 @@ const PostScreen = ({navigation, route}) => {
                 }}
               />
             </PlanTitle>
-            {BoardIsLoading && (
-              <FontStyle.Content>Loading...</FontStyle.Content>
-            )}
+            {BoardIsLoading && <AppFonts.Content>Loading...</AppFonts.Content>}
             {BoardData?.data?.data.length === 0 && (
-              <FontStyle.Content>오늘의 기록이 없습니다.</FontStyle.Content>
+              <AppFonts.Content>오늘의 기록이 없습니다.</AppFonts.Content>
             )}
 
             {BoardData?.data?.data.map(board => (
               <PaperContainer key={board.boardId}>
                 <Paper>
                   <PaperHeader>
-                    <FontStyle.SubContent>
+                    <AppFonts.SubContent>
                       작성자 : {board.userStatus}
-                    </FontStyle.SubContent>
+                    </AppFonts.SubContent>
                     <RightHeader>
                       <AppButtons.TextButton.SubContent
                         title={'수정'}
@@ -409,7 +407,7 @@ const PostScreen = ({navigation, route}) => {
                           });
                         }}
                       />
-                      <FontStyle.SubContent> | </FontStyle.SubContent>
+                      <AppFonts.SubContent> | </AppFonts.SubContent>
                       <AppButtons.TextButton.SubContent
                         title={'삭제'}
                         onPress={() => {
@@ -426,7 +424,7 @@ const PostScreen = ({navigation, route}) => {
                       />
                     </ImageContainer>
                   )}
-                  <FontStyle.Content>{board.boardContent}</FontStyle.Content>
+                  <AppFonts.Content>{board.boardContent}</AppFonts.Content>
                 </Paper>
               </PaperContainer>
             ))}

@@ -1,17 +1,17 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import {AppColors, windowHeight} from '@/utils/GlobalStyles';
-import {FontStyle} from '@/utils/GlobalFonts';
+import {AppFonts} from '@/utils/GlobalFonts';
 import {useRecoilValue} from 'recoil';
 import {UserIdState, UserStatusState} from '../../state/UserData';
 import {usePostMail} from '../../hooks/useMailData';
 import {useGetFamilyList} from '../../hooks/useProFileData';
 import {AppButtons} from '../../components/buttons';
-import { AppIconButtons } from '@/components/IconButtons';
-import { WithHeader } from '@/components/headers/WithHeader';
+import {AppIconButtons} from '@/components/IconButtons';
+import {WithHeader} from '@/components/headers/WithHeader';
 
 export const PaperContainer = styled.View`
-  flex: 1;
+ // flex: 1;
   align-items: center;
   padding-left: 7%;
   padding-right: 7%;
@@ -109,7 +109,7 @@ const MailWriteScreen = ({navigation}) => {
           <Paper>
             <PaperTop>
               <ToBox>
-                <FontStyle.ContentB>To.</FontStyle.ContentB>
+                <AppFonts.ContentB>To.</AppFonts.ContentB>
               </ToBox>
               <CustomSelectBox
                 data={data}
@@ -132,9 +132,9 @@ const MailWriteScreen = ({navigation}) => {
               }}
             />
             <SendBox>
-              <FontStyle.ContentB>
-                From. <FontStyle.ContentB>{userState}</FontStyle.ContentB>
-              </FontStyle.ContentB>
+              <AppFonts.ContentB>
+                From. <AppFonts.ContentB>{userState}</AppFonts.ContentB>
+              </AppFonts.ContentB>
             </SendBox>
           </Paper>
           <SendBox>
@@ -166,17 +166,17 @@ const CustomSelectBox = ({
           onPress={() => {
             setIsOpen(!isOpen);
           }}>
-          <FontStyle.ContentB>{toUserStatus}</FontStyle.ContentB>
+          <AppFonts.ContentB>{toUserStatus}</AppFonts.ContentB>
           <AppIconButtons.Down size={15} color={AppColors.border} />
         </SelectItem>
         {isOpen && (
           <>
             {data?.data?.data.length === 1 && (
               <AlertBox>
-                <FontStyle.Content>보낼 가족이 없습니다.</FontStyle.Content>
-                <FontStyle.Content>
+                <AppFonts.Content>보낼 가족이 없습니다.</AppFonts.Content>
+                <AppFonts.Content>
                   가족 구성원을 초대해 주세요!
-                </FontStyle.Content>
+                </AppFonts.Content>
               </AlertBox>
             )}
             {data?.data?.data?.map(family => {
@@ -190,7 +190,7 @@ const CustomSelectBox = ({
                         setToUserId(family.userId);
                         setIsOpen(!isOpen);
                       }}>
-                      <FontStyle.Content>{family.userStatus}</FontStyle.Content>
+                      <AppFonts.Content>{family.userStatus}</AppFonts.Content>
                     </SelectItem>
                   )}
                 </React.Fragment>

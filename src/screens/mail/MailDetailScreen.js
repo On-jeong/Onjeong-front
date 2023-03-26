@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import {FontStyle} from '@/utils/GlobalFonts';
+import {AppFonts} from '@/utils/GlobalFonts';
 import {Paper, PaperContainer, SendBox} from './MailWriteScreen';
 import {useGetMailDetail} from '@/hooks/useMailData';
-import { WithHeader } from '@/components/headers/WithHeader';
+import {WithHeader} from '@/components/headers/WithHeader';
 
 const PaperTop = styled.View`
   flex-direction: row;
@@ -30,23 +30,23 @@ const MailDetailScreen = ({navigation, route}) => {
         <PaperContainer>
           <Paper>
             <PaperTop>
-              <FontStyle.ContentB>
+              <AppFonts.ContentB>
                 To.{' '}
-                <FontStyle.ContentB>
+                <AppFonts.ContentB>
                   {route.params.receiveUserName}
-                </FontStyle.ContentB>
-              </FontStyle.ContentB>
+                </AppFonts.ContentB>
+              </AppFonts.ContentB>
             </PaperTop>
             <MainContent textAlignVertical="top">
               {route.params.mailContent}
             </MainContent>
             <SendBox>
-              <FontStyle.ContentB>
+              <AppFonts.ContentB>
                 From.{' '}
-                <FontStyle.ContentB>
+                <AppFonts.ContentB>
                   {route.params.sendUserName}
-                </FontStyle.ContentB>
-              </FontStyle.ContentB>
+                </AppFonts.ContentB>
+              </AppFonts.ContentB>
             </SendBox>
           </Paper>
         </PaperContainer>

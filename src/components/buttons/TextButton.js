@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {FontStyle} from '../../utils/GlobalFonts';
+import {AppFonts} from '../../utils/GlobalFonts';
 import PropTypes from 'prop-types';
 
 const Button = styled.TouchableOpacity`
@@ -12,9 +12,9 @@ const Content = ({title, onPress, bold, margin}) => {
     <>
       <Button onPress={onPress} margin={margin ? margin : 0}>
         {bold ? (
-          <FontStyle.ContentB>{title}</FontStyle.ContentB>
+          <AppFonts.ContentB>{title}</AppFonts.ContentB>
         ) : (
-          <FontStyle.Content>{title}</FontStyle.Content>
+          <AppFonts.Content>{title}</AppFonts.Content>
         )}
       </Button>
     </>
@@ -32,7 +32,7 @@ const SubContent = ({title, onPress, margin}) => {
   return (
     <>
       <Button onPress={onPress} margin={margin ? margin : 0}>
-        <FontStyle.SubContent>{title}</FontStyle.SubContent>
+        <AppFonts.SubContent>{title}</AppFonts.SubContent>
       </Button>
     </>
   );

@@ -13,7 +13,7 @@ import {
 import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
 import {WithHeader} from '../components/headers/WithHeader';
-import {FontStyle} from '../utils/GlobalFonts';
+import {AppFonts} from '../utils/GlobalFonts';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
   AppColors,
@@ -190,9 +190,9 @@ const pushDate = ({week, date, curMonth, today, navigation, data}) => {
       {/* 오늘인 경우 원으로 표시하기 */}
       <AppComponents.Circle
         color={format(date, 'yy-MM-dd') == today && AppColors.main}>
-        <FontStyle.ContentB style={{color: color}}>
+        <AppFonts.ContentB style={{color: color}}>
           {formattedDate}
-        </FontStyle.ContentB>
+        </AppFonts.ContentB>
       </AppComponents.Circle>
       {/* 기념일은 3개까지만 들어감 */}
       {data?.data?.data.map(
@@ -200,9 +200,9 @@ const pushDate = ({week, date, curMonth, today, navigation, data}) => {
           plan.anniversaryDate == format(date, 'yyyy-MM-dd') && (
             // 기념일은 빨간색, 일정은 파란색으로 표시
             <MiniText type={plan.anniversaryType} key={plan.anniversaryId}>
-              <FontStyle.CalendarFont numberOfLines={1} ellipsizeMode="tail">
+              <AppFonts.CalendarFont numberOfLines={1} ellipsizeMode="tail">
                 {plan.anniversaryContent}
-              </FontStyle.CalendarFont>
+              </AppFonts.CalendarFont>
             </MiniText>
           ),
       )}

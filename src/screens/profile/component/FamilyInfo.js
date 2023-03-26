@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import {AppColors} from '@/utils/GlobalStyles';
-import {FontStyle} from '@/utils/GlobalFonts';
+import {AppFonts} from '@/utils/GlobalFonts';
 import {AppIconButtons} from '@/components/IconButtons';
 import PropTypes from 'prop-types';
 import {
@@ -236,7 +236,7 @@ const FamilyInfo = ({route}) => {
             </TagGroup>
           )}
           {tagData.size === 0 ? (
-            <FontStyle.Content></FontStyle.Content> // 태그 없을 때 빈칸
+            <AppFonts.Content></AppFonts.Content> // 태그 없을 때 빈칸
           ) : (
             tagData?.map(info => (
               <Tag
@@ -317,7 +317,7 @@ const CategoryTitle = ({title, onPress, isActive}) => {
   return (
     <>
       <Title>
-        <FontStyle.ContentB>{title}</FontStyle.ContentB>
+        <AppFonts.ContentB>{title}</AppFonts.ContentB>
         <AppIconButtons.Pencil
           disabled={false}
           active={isActive}
@@ -352,7 +352,7 @@ const Tag = ({title, isModify, onPress}) => {
   return (
     <TagGroup onPress={onPress} disabled={!isModify} isModify={isModify}>
       <TagBox isModify={isModify}>
-        <FontStyle.SubContent>{title}</FontStyle.SubContent>
+        <AppFonts.SubContent>{title}</AppFonts.SubContent>
       </TagBox>
       {isModify && (
         <CancelBox>

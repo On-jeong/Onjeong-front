@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {FontStyle} from '../../utils/GlobalFonts';
+import {AppFonts} from '../../utils/GlobalFonts';
 import {AppColors} from '../../utils/GlobalStyles';
 import PropTypes from 'prop-types';
 
@@ -22,9 +22,9 @@ export const FullButton = ({title, inputCheck, onPress, borderColor}) => {
         color={inputCheck ? borderColor : AppColors.border}
         onPress={onPress}
         disabled={!inputCheck}>
-        <FontStyle.ContentB color={!inputCheck && AppColors.border}>
+        <AppFonts.ContentB color={!inputCheck && AppColors.border}>
           {title}
-        </FontStyle.ContentB>
+        </AppFonts.ContentB>
       </Button>
     </>
   );

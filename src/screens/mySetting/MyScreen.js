@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {BasicHeader} from '@/components/headers/WithHeader';
 import styled from 'styled-components';
-import {FontStyle} from '@/utils/GlobalFonts';
+import {AppFonts} from '@/utils/GlobalFonts';
 import {AppComponents} from '@/components/Components';
 import {useDeleteAccount, useSignOut} from '@/hooks/useUserData';
 import {useDelFCM} from '@/hooks/useFCMtoken';
@@ -54,20 +54,20 @@ const MyScreen = ({navigation}) => {
     <>
       <BasicHeader title={'온정'} isBack={true} navigation={navigation}>
         <Menu>
-          <FontStyle.SubTitle>공지사항</FontStyle.SubTitle>
+          <AppFonts.SubTitle>공지사항</AppFonts.SubTitle>
         </Menu>
         <AppComponents.HorizonLine />
         <Menu>
-          <FontStyle.SubTitle>서비스 이용약관</FontStyle.SubTitle>
+          <AppFonts.SubTitle>서비스 이용약관</AppFonts.SubTitle>
         </Menu>
         <AppComponents.HorizonLine />
         <Menu>
-          <FontStyle.SubTitle>개인정보 처리 방침</FontStyle.SubTitle>
+          <AppFonts.SubTitle>개인정보 처리 방침</AppFonts.SubTitle>
         </Menu>
         <AppComponents.HorizonLine />
         <Menu>
-          <FontStyle.SubTitle>버전</FontStyle.SubTitle>
-          <FontStyle.SubTitle>1.0.0</FontStyle.SubTitle>
+          <AppFonts.SubTitle>버전</AppFonts.SubTitle>
+          <AppFonts.SubTitle>1.0.0</AppFonts.SubTitle>
         </Menu>
         <AppComponents.HorizonLine />
         {/* 공백 */}
@@ -77,27 +77,27 @@ const MyScreen = ({navigation}) => {
           onPress={() => {
             navigation.navigate('AccountMod');
           }}>
-          <FontStyle.SubTitle>회원정보 변경</FontStyle.SubTitle>
+          <AppFonts.SubTitle>회원정보 변경</AppFonts.SubTitle>
         </Menu>
         <AppComponents.HorizonLine />
         <Menu
           onPress={() => {
             setSignOutModal(true);
           }}>
-          <FontStyle.SubTitle>로그아웃</FontStyle.SubTitle>
+          <AppFonts.SubTitle>로그아웃</AppFonts.SubTitle>
         </Menu>
         <AppComponents.HorizonLine />
         <Menu
           onPress={() => {
             navigation.navigate('AccountDelete');
           }}>
-          <FontStyle.SubTitle>회원탈퇴</FontStyle.SubTitle>
+          <AppFonts.SubTitle>회원탈퇴</AppFonts.SubTitle>
         </Menu>
         <AppComponents.HorizonLine />
         <Email>
-          <FontStyle.Content>
+          <AppFonts.Content>
             연락가능 이메일 : onjeong@gmail.com
-          </FontStyle.Content>
+          </AppFonts.Content>
         </Email>
 
         {/* 로그아웃 모달 */}

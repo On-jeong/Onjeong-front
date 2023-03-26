@@ -1,14 +1,15 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import {FontStyle} from '@/utils/GlobalFonts';
+import {AppFonts} from '@/utils/GlobalFonts';
 import {MainInput, Paper, PaperContainer} from '@/screens/mail/MailWriteScreen';
 import {useAddBoard, useModifyBoard} from '../../hooks/useBoardData';
 import {useQueryClient} from '@tanstack/react-query';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {windowWidth} from '../../utils/GlobalStyles';
 import {AppIconButtons} from '../../components/IconButtons';
-import { WithHeader } from '@/components/headers/WithHeader';
+import {WithHeader} from '@/components/headers/WithHeader';
+import {AppInputs} from '@/components/inputs';
 
 export const SendBox = styled.View`
   width: 100%;
@@ -129,41 +130,24 @@ const PostWriteScreen = ({navigation, route}) => {
       navigation={navigation}>
       <>
         <PaperContainer>
-          <Paper>
-            {image && (
-              <ImageBox>
-                <PreImage source={{uri: image}} />
-                <IconBox>
-                  <AppIconButtons.Cancel
-                  disabled={false}
-                    onPress={() => {
-                      setImage(null);
-                    }}
-                  />
-                </IconBox>
-              </ImageBox>
-            )}
-            <MainInput
-              multiline={true}
-              numberOfLines={20}
-              textAlignVertical="top"
-              value={mainText}
-              onChangeText={setMainText}
-            />
-          </Paper>
+          <AppInputs.PaperInput
+            image={image}
+            mainText={mainText}
+            setMainText={setMainText}
+          />
           <SendBox>
             <SendBtn
               onPress={() => {
                 getImage();
               }}>
               <EvilIcons name="paperclip" size={22} />
-              <FontStyle.SubContent>첨부파일</FontStyle.SubContent>
+              <AppFonts.SubContent>첨부파일</AppFonts.SubContent>
             </SendBtn>
             <SendBtn
               onPress={() => {
                 sendPost();
               }}>
-              <FontStyle.ContentB>작성</FontStyle.ContentB>
+              <AppFonts.ContentB>작성</AppFonts.ContentB>
             </SendBtn>
           </SendBox>
         </PaperContainer>
