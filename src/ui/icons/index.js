@@ -13,7 +13,7 @@ import Back from '@/assets/icons/back.svg';
 import Back_gray from '@/assets/icons/back_gray.svg';
 import Down from '@/assets/icons/down.svg';
 
-import Add from '@/assets/icons/Icon_add.svg';
+import Add from '@/assets/icons/add.svg';
 import Bell from '@/assets/icons/Icon_bell.svg';
 import List from '@/assets/icons/Icon_list.svg';
 import Setting from '@/assets/icons/Icon_setting.svg';
