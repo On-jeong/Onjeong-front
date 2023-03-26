@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {AppColors, windowHeight, windowWidth} from '@/utils/GlobalStyles';
 import {FontFamily} from '@/utils/GlobalFonts';
+import {AppContainer} from '../container';
 
 export const Paper = styled.View`
   width: 100%;
@@ -58,8 +59,8 @@ export const PreImage = styled.Image`
 
 export const PaperInput = ({children, mainText, setMainText}) => {
   return (
-    <Paper>
-      <PaperLine>
+    <AppContainer.Paper>
+      <>
         {children}
         <MainInput
           multiline={true}
@@ -68,7 +69,7 @@ export const PaperInput = ({children, mainText, setMainText}) => {
           value={mainText}
           onChangeText={setMainText}
         />
-      </PaperLine>
-    </Paper>
+      </>
+    </AppContainer.Paper>
   );
 };

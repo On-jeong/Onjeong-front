@@ -19,12 +19,6 @@ const TitleB = styled.Text`
   color: ${props => (props.color ? props.color : AppColors.font)};
 `;
 
-const SubTitle = styled.Text`
-  font-family: 'GangwonLight';
-  font-size: 23px;
-  color: ${props => (props.color ? props.color : AppColors.font)};
-`;
-
 const SubTitleB = styled.Text`
   font-family: 'GangwonBold';
   font-size: 23px;
@@ -68,7 +62,7 @@ const Heading = styled.Text`
   color: ${props => (props.color ? props.color : AppColors.font)};
 `;
 
-const Subtitle = styled.Text`
+const SubTitle = styled.Text`
   font-family: 'GangwonBold';
   font-size: 16px;
   color: ${props => (props.color ? props.color : AppColors.font)};
@@ -96,7 +90,6 @@ export const AppFonts = {
   Big,
   Title,
   TitleB,
-  SubTitle,
   SubTitleB,
   Content,
   ContentB,
@@ -104,7 +97,7 @@ export const AppFonts = {
   SubContentB,
   CalendarFont,
   Heading,
-  Subtitle,
+  SubTitle,
   Body1,
   Body2,
   Caption,
