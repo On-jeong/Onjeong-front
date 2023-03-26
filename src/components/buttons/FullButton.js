@@ -1,30 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 import {AppFonts} from '../../utils/GlobalFonts';
-import {AppColors} from '../../utils/GlobalStyles';
+import {AppColors, windowWidth} from '../../utils/GlobalStyles';
 import PropTypes from 'prop-types';
 
 const Button = styled.TouchableOpacity`
-  height: 45px;
-  width: 70%;
-  border-radius: 12px;
+  height: 56px;
+  width: ${windowWidth};
   justify-content: center;
   align-items: center;
-  border-width: 1px;
-  border-color: ${props => props.color};
-  margin-bottom: 10px;
+  background-color: ${props => props.color};
 `;
 
-export const FullButton = ({title, inputCheck, onPress, borderColor}) => {
+export const FullButton = ({title, onPress, color, disabled}) => {
   return (
     <>
       <Button
-        color={inputCheck ? borderColor : AppColors.border}
+        color={disabled ? AppColors.Gray500 : color ? color : AppColors.Primary}
         onPress={onPress}
-        disabled={!inputCheck}>
-        <AppFonts.ContentB color={!inputCheck && AppColors.border}>
+        disabled={disabled}>
+        <AppFonts.Body1 color={disabled ? AppColors.Gray700 : AppColors.Black}>
           {title}
-        </AppFonts.ContentB>
+        </AppFonts.Body1>
       </Button>
     </>
   );
@@ -32,7 +29,6 @@ export const FullButton = ({title, inputCheck, onPress, borderColor}) => {
 
 FullButton.propTypes = {
   title: PropTypes.string.isRequired,
-  inputCheck: PropTypes.bool,
   onPress: PropTypes.func.isRequired,
-  borderColor: PropTypes.string,
+  color: PropTypes.string,
 };

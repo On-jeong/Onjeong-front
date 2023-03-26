@@ -10,6 +10,10 @@ import {windowWidth} from '../../utils/GlobalStyles';
 import {AppIconButtons} from '../../components/IconButtons';
 import {WithHeader} from '@/components/headers/WithHeader';
 import {AppInputs} from '@/components/inputs';
+import {AppButtons} from '@/components/buttons';
+import {ScrollView} from 'react-native';
+import {AppComponent} from '@/components/Loading';
+import {AppComponents} from '@/components/Components';
 
 export const SendBox = styled.View`
   width: 100%;
@@ -123,36 +127,53 @@ const PostWriteScreen = ({navigation, route}) => {
   };
 
   return (
-    <WithHeader
-      title={route.params.date}
-      isLoading={addIsLoading || modIsLoading}
-      isBack={true}
-      navigation={navigation}>
-      <>
-        <PaperContainer>
-          <AppInputs.PaperInput
-            image={image}
-            mainText={mainText}
-            setMainText={setMainText}
-          />
-          <SendBox>
-            <SendBtn
-              onPress={() => {
-                getImage();
-              }}>
-              <EvilIcons name="paperclip" size={22} />
-              <AppFonts.SubContent>첨부파일</AppFonts.SubContent>
-            </SendBtn>
-            <SendBtn
-              onPress={() => {
-                sendPost();
-              }}>
-              <AppFonts.ContentB>작성</AppFonts.ContentB>
-            </SendBtn>
-          </SendBox>
-        </PaperContainer>
-      </>
-    </WithHeader>
+    <>
+      <WithHeader
+        title={route.params.date}
+        isLoading={addIsLoading || modIsLoading}
+        isBack={true}
+        navigation={navigation}>
+        <ScrollView>
+          <PaperContainer>
+            <AppInputs.PaperInput
+              image={image}
+              mainText={mainText}
+              setMainText={setMainText}>
+              {image && (
+                <ImageBox>
+                  <PreImage source={{uri: image}} />
+                  <IconBox>
+                    <AppIconButtons.Cancel
+                      disabled={false}
+                      onPress={() => {
+                        setImage(null);
+                      }}
+                    />
+                  </IconBox>
+                </ImageBox>
+              )}
+            </AppInputs.PaperInput>
+            <SendBox>
+              <SendBtn
+                onPress={() => {
+                  getImage();
+                }}>
+                <EvilIcons name="paperclip" size={22} />
+                <AppFonts.SubContent>첨부파일</AppFonts.SubContent>
+              </SendBtn>
+            </SendBox>
+          </PaperContainer>
+          <AppComponents.EmptyBox height={10} />
+        </ScrollView>
+      </WithHeader>
+      <AppButtons.FullButton
+        title="작성"
+        disabled={mainText == ''}
+        onPress={() => {
+          sendPost();
+        }}
+      />
+    </>
   );
 };
 
