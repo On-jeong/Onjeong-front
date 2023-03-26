@@ -1,12 +1,12 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
-import {FontStyle} from '@/utils/GlobalFonts';
+import {AppFonts} from '@/utils/GlobalFonts';
 import {AppComponents} from '@/components/Components';
 import {useGetCoinHistory} from '@/hooks/useHomeData';
 import {ScrollView} from 'react-native';
 import EmptyComponent from '@/components/Loading/EmptyComponent';
 import {useFocusEffect} from '@react-navigation/native';
-import { WithHeader } from '@/components/headers/WithHeader';
+import {WithHeader} from '@/components/headers/WithHeader';
 
 const MessageBox = styled.View`
   width: 100%;
@@ -57,14 +57,14 @@ const CoinHistoryScreen = ({navigation}) => {
             <React.Fragment key={index}>
               <MessageBox>
                 {data.type == 'USED' ? (
-                  <FontStyle.SubContentB>
+                  <AppFonts.SubContentB>
                     {data.amount * -1}의 영양제를 사용해서 꽃이 {data.after}
                     레벨로 성장했어요!
-                  </FontStyle.SubContentB>
+                  </AppFonts.SubContentB>
                 ) : (
-                  <FontStyle.SubContent>
+                  <AppFonts.SubContent>
                     {script[data.type]} {data.amount}의 영양제를 얻었어요.
-                  </FontStyle.SubContent>
+                  </AppFonts.SubContent>
                 )}
               </MessageBox>
               <AppComponents.HorizonLine />

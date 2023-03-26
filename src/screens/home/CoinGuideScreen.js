@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import {FontStyle} from '@/utils/GlobalFonts';
+import {AppFonts} from '@/utils/GlobalFonts';
 import {AppComponents} from '@/components/Components';
 import {ScrollView} from 'react-native';
-import { WithHeader } from '@/components/headers/WithHeader';
+import {WithHeader} from '@/components/headers/WithHeader';
 
 const MessageBox = styled.View`
   width: 100%;
@@ -41,9 +41,9 @@ const Message = ({title, coin}) => {
   return (
     <>
       <MessageBox>
-        <FontStyle.Content>
+        <AppFonts.Content>
           {title} : {coin}
-        </FontStyle.Content>
+        </AppFonts.Content>
       </MessageBox>
       {/* <AppComponents.HorizonLine /> */}
     </>
