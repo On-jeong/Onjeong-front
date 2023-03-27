@@ -70,7 +70,7 @@ const AlertModal = ({
             title={'확인'}
             width={modalWidth * 0.4}
             onPress={onPress}
-            inputCheck={true}
+            disabled={true}
             color={borderColor}
           />
         </ButtonContainer>

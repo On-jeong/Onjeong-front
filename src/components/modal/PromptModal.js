@@ -72,7 +72,7 @@ const PromptModal = ({
             title={'취소'}
             width={modalWidth * 0.4}
             onPress={leftOnPress}
-            inputCheck={true}
+            disabled={true}
             color={leftBorderColor}
             margin={{marginRight: modalWidth * 0.02}}
           />
@@ -80,7 +80,7 @@ const PromptModal = ({
             title={'확인'}
             width={modalWidth * 0.4}
             onPress={rightOnPress}
-            inputCheck={true}
+            disabled={true}
             color={rightBorderColor}
             margin={{marginLeft: modalWidth * 0.02}}
           />

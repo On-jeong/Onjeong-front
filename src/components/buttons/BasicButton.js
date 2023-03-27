@@ -15,7 +15,7 @@ const Button = styled.TouchableOpacity`
 
 export const BasicButton = ({
   title,
-  inputCheck = true,
+  disabled = true,
   onPress,
   color,
   height = 36,
@@ -27,7 +27,7 @@ export const BasicButton = ({
       <Button
         color={color ? color : AppColors.Primary}
         onPress={onPress}
-        disabled={!inputCheck}
+        disabled={!disabled}
         height={height}
         width={width}
         margin={margin}

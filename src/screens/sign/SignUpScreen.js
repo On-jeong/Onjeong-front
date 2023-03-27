@@ -280,7 +280,7 @@ const SignUpScreen = ({navigation}) => {
                 <AppButtons.BasicButton
                   title="확인"
                   width={50}
-                  inputCheck={userId}
+                  disabled={userId}
                   onPress={() => {
                     getCheckIdMutate({id: userId});
                   }}
@@ -338,7 +338,7 @@ const SignUpScreen = ({navigation}) => {
                 <AppButtons.BasicButton
                   title="확인"
                   width={50}
-                  inputCheck={joinedNickname}
+                  disabled={joinedNickname}
                   onPress={() => {
                     getJoinedIdMutate({id: joinedNickname});
                   }}
