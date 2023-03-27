@@ -9,7 +9,7 @@ import {storage} from '../../config/storage';
 import {refreshAxios} from '@/api/axios';
 import {useAddFCM} from '@/hooks/useFCMtoken';
 import {useSetRecoilState} from 'recoil';
-import UserData, {
+import {
   FamilyIdState,
   UserBirthState,
   UserIdState,
@@ -20,21 +20,33 @@ import UserData, {
 import messaging from '@react-native-firebase/messaging';
 import customAxios from '@/api/axios';
 import {WithHeader} from '@/components/headers/WithHeader';
+import {AppComponents} from '@/components/Components';
+import {NoHeader} from '@/components/headers/NoHeader';
 
 //
 // 로그인
 //
 
+export const LogoContainer = styled.View`
+  flex: 2;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
 export const Container = styled.SafeAreaView`
-  flex: 1;
-  justify-content: center;
+  flex: 3;
+  justify-content: flex-start;
   align-items: center;
 `;
 
 export const Box = styled.View`
   width: 100%;
   align-items: center;
-  padding-bottom: 50px;
+`;
+
+export const Logo = styled.Image`
+  width: 100px;
+  height: 100px;
 `;
 
 export const Title = styled.View`
@@ -177,15 +189,20 @@ const SignInScreen = ({navigation}) => {
   };
 
   return (
-    <WithHeader
+    <NoHeader
       isLoading={signInIsLoading}
       reloadFunc={onSubmit}
       isError={signInIsError && isError}>
+      <LogoContainer>
+        <Box>
+          <Logo source={require('@/assets/image/logo/onjeong_logo.jpg')} />
+          <Title>
+            <AppFonts.Heading>온정</AppFonts.Heading>
+          </Title>
+        </Box>
+      </LogoContainer>
       <Container>
         <Box>
-          <Title>
-            <AppFonts.Big>온정</AppFonts.Big>
-          </Title>
           <InputContainer>
             <AppInputs.BorderBottomInput
               maxLength={15}
@@ -201,23 +218,22 @@ const SignInScreen = ({navigation}) => {
               secureTextEntry={true}
             />
           </InputContainer>
-          <AppButtons.FullButton
+          <AppButtons.BigButton
             title="로그인"
-            borderColor={AppColors.red1}
             onPress={onSubmit}
-            inputCheck={inputCheck}
+            disabled={!inputCheck}
           />
-          <AppButtons.FullButton
+          <AppComponents.EmptyBox height={12} />
+          <AppButtons.BigButton
             title="회원가입"
-            borderColor={AppColors.green2}
+            color={AppColors.Gray200}
             onPress={() => {
               navigation.navigate('SignUp');
             }}
-            inputCheck={true}
           />
         </Box>
       </Container>
-    </WithHeader>
+    </NoHeader>
   );
 };
 

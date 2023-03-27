@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {AppFonts} from '../../utils/GlobalFonts';
-import {AppColors} from '../../utils/GlobalStyles';
+import {AppColors, windowWidth} from '../../utils/GlobalStyles';
 import PropTypes from 'prop-types';
 
 const Button = styled.TouchableOpacity`
@@ -49,4 +49,26 @@ BasicButton.propTypes = {
   inputCheck: PropTypes.bool,
   onPress: PropTypes.func.isRequired,
   color: PropTypes.string,
+};
+
+export const BigButton = ({
+  title,
+  disabled = false,
+  onPress,
+  color,
+  height = 44,
+  width,
+  margin = {marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0},
+}) => {
+  return (
+    <BasicButton
+      title={title}
+      disabled={disabled}
+      onPress={onPress}
+      color={color}
+      height={height}
+      width={width ? width : windowWidth * 0.9}
+      margin={margin}
+    />
+  );
 };

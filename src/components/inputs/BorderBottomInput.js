@@ -4,13 +4,13 @@ import {AppColors, windowWidth} from '../../utils/GlobalStyles';
 import PropTypes from 'prop-types';
 
 export const InputContainer = styled.View`
-  width: ${props => (props.width ? props.width : windowWidth * 0.7)};
+  width: ${props => (props.width ? props.width : windowWidth * 0.9)};
   margin-bottom: 10px;
 `;
 
 export const InputBox = styled.TextInput`
   border-bottom-width: 1px;
-  border-color: ${AppColors.border};
+  border-color: ${AppColors.Primary};
   font-family: 'GangwonLight';
   font-size: 20px;
 `;
