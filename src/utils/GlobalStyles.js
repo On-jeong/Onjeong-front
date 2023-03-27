@@ -6,8 +6,8 @@ import {Dimensions} from 'react-native';
 export const windowWidth = Dimensions.get('window').width;
 export const windowHeight = Dimensions.get('window').height;
 
-export const ModalHeight = windowHeight * 0.2;
-export const ModalWidth = windowWidth * 0.8;
+export const modalHeight = windowHeight * 0.2;
+export const modalWidth = windowWidth * 0.8;
 
 export const navigationHeight = 60;
 export const bottomTabHeight = 64;
@@ -19,8 +19,8 @@ export const betweenIcons = 15;
 export const AppSize = {
   windowWidth,
   windowHeight,
-  ModalHeight,
-  ModalWidth,
+  ModalHeight: modalHeight,
+  ModalWidth: modalWidth,
   navigationHeight,
   bottomTabHeight,
   statusBarHeight,
@@ -60,11 +60,11 @@ export const Gray600 = '#B0AEA9';
 export const Gray700 = '#84827F';
 export const Gray800 = '#585754';
 export const Gray900 = '#2C2B2A';
-export const font = Gray900;
+export const Font = Gray900;
 
 export const AppColors = {
   main,
-  font,
+  Font,
   body,
   border,
   blur,

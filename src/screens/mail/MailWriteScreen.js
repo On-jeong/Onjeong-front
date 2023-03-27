@@ -13,7 +13,7 @@ import {PaperInput} from '@/components/inputs/PaperInput';
 import {AppIcons} from '@/ui/icons';
 
 export const PaperContainer = styled.View`
- // flex: 1;
+  // flex: 1;
   align-items: center;
   padding-left: 7%;
   padding-right: 7%;
@@ -95,7 +95,10 @@ const MailWriteScreen = ({navigation}) => {
         navigation={navigation}
         isLoading={postIsLoading}>
         <PaperContainer>
-          <PaperInput mainText={mainText} setMainText={setMainText}>
+          <PaperInput
+            mainText={mainText}
+            setMainText={setMainText}
+            height={windowHeight * 0.5}>
             <PaperTop>
               <ToBox>
                 <AppFonts.SubTitle>To.</AppFonts.SubTitle>
@@ -122,7 +125,7 @@ const MailWriteScreen = ({navigation}) => {
         title="보내기"
         disabled={mainText == '' || toUserId == ''}
         onPress={() => {
-          sendPost();
+          sendMail();
         }}
       />
     </>

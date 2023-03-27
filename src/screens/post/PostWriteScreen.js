@@ -6,7 +6,7 @@ import {MainInput, Paper, PaperContainer} from '@/screens/mail/MailWriteScreen';
 import {useAddBoard, useModifyBoard} from '../../hooks/useBoardData';
 import {useQueryClient} from '@tanstack/react-query';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {windowWidth} from '../../utils/GlobalStyles';
+import {windowHeight, windowWidth} from '../../utils/GlobalStyles';
 import {AppIconButtons} from '../../components/IconButtons';
 import {WithHeader} from '@/components/headers/WithHeader';
 import {AppInputs} from '@/components/inputs';
@@ -138,7 +138,8 @@ const PostWriteScreen = ({navigation, route}) => {
             <AppInputs.PaperInput
               image={image}
               mainText={mainText}
-              setMainText={setMainText}>
+              setMainText={setMainText}
+              height={windowHeight * 0.5}>
               {image && (
                 <ImageBox>
                   <PreImage source={{uri: image}} />

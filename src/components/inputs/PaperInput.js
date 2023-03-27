@@ -26,7 +26,7 @@ export const PaperLine = styled.View`
 export const MainInput = styled.TextInput`
   font-family: ${FontFamily.Light};
   font-size: 20px;
-  height: ${windowHeight * 0.5}px;
+  height: ${props => props.height && props.height};
   line-height: 30px;
 `;
 
@@ -57,12 +57,13 @@ export const PreImage = styled.Image`
   height: ${windowWidth * 0.3}px;
 `;
 
-export const PaperInput = ({children, mainText, setMainText}) => {
+export const PaperInput = ({children, mainText, setMainText, height = 500}) => {
   return (
-    <AppContainer.Paper>
+    <AppContainer.Paper height={height}>
       <>
         {children}
         <MainInput
+          height={height}
           multiline={true}
           maxLength={300}
           textAlignVertical="top"
