@@ -48,15 +48,15 @@ const Background = styled.ImageBackground`
 
 const FamilyCoinView = styled.View`
   position: absolute;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  top: 0;
-  left: 0;
+  align-items: flex-start;
+  top: -20;
+  left: 8;
   margin: 10px;
 `;
 
-const CoinBox = styled.View`
+const CoinBox = styled.TouchableOpacity`
   height: 38px;
   flex-direction: row;
   justify-content: center;
@@ -64,6 +64,7 @@ const CoinBox = styled.View`
   padding-left: 10px;
   padding-right: 10px;
   margin-left: 10px;
+  margin-bottom: 5px;
   background-color: ${AppColors.Secondary};
 `;
 
@@ -183,23 +184,19 @@ export const HomeScreen = ({navigation}) => {
         coinRefetch();
       }}>
       <FamilyCoinView>
-        <TouchableOpacity onPress={() => navigation.navigate('History')}>
-          <CoinBox>
-            <IconBox>
-              <AppIcons.Water />
-            </IconBox>
-            <AppFonts.Heading>{flowerLevelState}</AppFonts.Heading>
-          </CoinBox>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Guide')}>
-          <CoinBox>
-            <IconBox>
-              <AppIcons.Flower />
-            </IconBox>
-            <AppFonts.Heading color={AppColors.Gray700}>lv.</AppFonts.Heading>
-            <AppFonts.Heading>{familyCoinState}</AppFonts.Heading>
-          </CoinBox>
-        </TouchableOpacity>
+        <CoinBox onPress={() => navigation.navigate('Guide')}>
+          <IconBox>
+            <AppIcons.Flower />
+          </IconBox>
+          <AppFonts.Heading color={AppColors.Gray700}>lv.</AppFonts.Heading>
+          <AppFonts.Heading>{familyCoinState}</AppFonts.Heading>
+        </CoinBox>
+        <CoinBox onPress={() => navigation.navigate('History')}>
+          <IconBox>
+            <AppIcons.Water />
+          </IconBox>
+          <AppFonts.Heading>{flowerLevelState}</AppFonts.Heading>
+        </CoinBox>
       </FamilyCoinView>
       <Background
         source={require('@/assets/image/background/background.png')}
