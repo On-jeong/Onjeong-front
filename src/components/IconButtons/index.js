@@ -30,7 +30,7 @@ const Pencil = ({
     <TouchableOpacity onPress={onPress} disabled={disabled}>
       <SimpleLineIcons
         name="pencil"
-        color={active ? AppColors.border : AppColors.font}
+        color={active ? AppColors.border : AppColors.Font}
         size={size}
         style={{
           padding: padding.padding,
@@ -65,7 +65,7 @@ const Alert = ({
     <TouchableOpacity onPress={onPress} disabled={disabled}>
       <Ionicons
         name="alert-circle-outline"
-        color={AppColors.font}
+        color={AppColors.Font}
         size={size}
         style={{
           padding: padding.padding,
@@ -137,7 +137,7 @@ const Delete = ({
       <AntDesign
         name="delete"
         size={size}
-        color={active ? AppColors.border : AppColors.font}
+        color={active ? AppColors.border : AppColors.Font}
         style={{
           padding: padding.padding,
           paddingTop: padding.paddingTop,
@@ -161,7 +161,7 @@ const LeftArrow = ({onPress, disabled = true, active = false, size = 20}) => {
       <MaterialIcons
         name="keyboard-arrow-left"
         size={size}
-        color={active ? AppColors.border : AppColors.font}
+        color={active ? AppColors.border : AppColors.Font}
       />
     </TouchableOpacity>
   );
@@ -178,7 +178,7 @@ const RightArrow = ({onPress, disabled = true, active = false, size = 20}) => {
       <MaterialIcons
         name="keyboard-arrow-right"
         size={size}
-        color={active ? AppColors.border : AppColors.font}
+        color={active ? AppColors.border : AppColors.Font}
       />
     </TouchableOpacity>
   );
@@ -195,7 +195,7 @@ const Bell = ({onPress, disabled = true, active = false, size = 20}) => {
       <Fontisto
         name="bell"
         size={size}
-        color={active ? AppColors.border : AppColors.font}
+        color={active ? AppColors.border : AppColors.Font}
       />
     </TouchableOpacity>
   );
@@ -212,7 +212,7 @@ const User = ({onPress, disabled = true, active = false, size = 20}) => {
       <Feather
         name="user"
         size={size}
-        color={active ? AppColors.border : AppColors.font}
+        color={active ? AppColors.border : AppColors.Font}
       />
     </TouchableOpacity>
   );
@@ -229,7 +229,7 @@ const ReLoad = ({onPress, disabled = true, active = false, size = 20}) => {
       <AntDesign
         name="reload1"
         size={size}
-        color={active ? AppColors.border : AppColors.font}
+        color={active ? AppColors.border : AppColors.Font}
       />
     </TouchableOpacity>
   );
@@ -246,7 +246,7 @@ const AlertCircle = ({onPress, disabled = true, active = false, size = 20}) => {
       <Ionicons
         name="alert-circle"
         size={size}
-        color={active ? AppColors.border : AppColors.font}
+        color={active ? AppColors.border : AppColors.Font}
       />
     </TouchableOpacity>
   );
@@ -263,7 +263,7 @@ const Down = ({onPress, disabled = true, active = false, size = 20}) => {
       <AntDesign
         name="down"
         size={size}
-        color={active ? AppColors.border : AppColors.font}
+        color={active ? AppColors.border : AppColors.Font}
       />
     </TouchableOpacity>
   );
@@ -286,7 +286,7 @@ const Check = ({
       <Octicons
         name="check"
         size={size}
-        color={active ? AppColors.border : AppColors.font}
+        color={active ? AppColors.border : AppColors.Font}
         style={style}
       />
     </TouchableOpacity>
@@ -310,7 +310,7 @@ const PaperClip = ({
       <EvilIcons
         name="paperclip"
         size={size}
-        color={active ? AppColors.border : AppColors.font}
+        color={active ? AppColors.border : AppColors.Font}
         style={style}
       />
     </TouchableOpacity>
@@ -328,7 +328,7 @@ const Back = ({onPress, disabled = true, active = false, size = 20, style}) => {
       <Entypo
         name="chevron-left"
         size={size}
-        color={active ? AppColors.border : AppColors.font}
+        color={active ? AppColors.border : AppColors.Font}
         style={style}
       />
     </TouchableOpacity>
@@ -352,7 +352,7 @@ const CheckBox = ({
       <MaterialIcons
         name="check-box"
         size={size}
-        color={active ? AppColors.border : AppColors.dark}
+        color={active ? AppColors.Secondary : AppColors.Primary}
         style={style}
       />
     </TouchableOpacity>
@@ -376,7 +376,7 @@ const EmptyCheckBox = ({
       <MaterialIcons
         name="check-box-outline-blank"
         size={size}
-        color={active ? AppColors.border : AppColors.dark}
+        color={active ? AppColors.Secondary : AppColors.Primary}
         style={style}
       />
     </TouchableOpacity>

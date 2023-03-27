@@ -10,7 +10,7 @@ export const InputContainer = styled.View`
 
 export const InputBox = styled.TextInput`
   border-bottom-width: 1px;
-  border-color: ${AppColors.Primary};
+  border-color: ${AppColors.Gray300};
   font-family: 'GangwonLight';
   font-size: 20px;
 `;
@@ -31,6 +31,7 @@ export const BorderBottomInput = ({
         value={value}
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
+        placeholderTextColor={AppColors.Gray600}
       />
     </InputContainer>
   );

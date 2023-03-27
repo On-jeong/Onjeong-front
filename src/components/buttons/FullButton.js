@@ -16,7 +16,7 @@ export const FullButton = ({title, onPress, color, disabled}) => {
   return (
     <>
       <Button
-        color={disabled ? AppColors.Gray500 : color ? color : AppColors.Primary}
+        color={disabled ? AppColors.Secondary : color ? color : AppColors.Primary}
         onPress={onPress}
         disabled={disabled}>
         <AppFonts.Body1 color={disabled ? AppColors.Gray700 : AppColors.Black}>

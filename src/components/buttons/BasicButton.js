@@ -15,8 +15,9 @@ const Button = styled.TouchableOpacity`
 
 export const BasicButton = ({
   title,
-  disabled = true,
+  disabled = false,
   onPress,
+  fontColor,
   color,
   height = 36,
   width = 92,
@@ -25,9 +26,11 @@ export const BasicButton = ({
   return (
     <>
       <Button
-        color={color ? color : AppColors.Primary}
+        color={
+          disabled ? AppColors.Secondary : color ? color : AppColors.Primary
+        }
         onPress={onPress}
-        disabled={!disabled}
+        disabled={disabled}
         height={height}
         width={width}
         margin={margin}
@@ -37,7 +40,16 @@ export const BasicButton = ({
           marginLeft: margin.marginLeft,
           marginRight: margin.marginRight,
         }}>
-        <AppFonts.Body1>{title}</AppFonts.Body1>
+        <AppFonts.Body1
+          color={
+            disabled
+              ? AppColors.Gray700
+              : fontColor
+              ? fontColor
+              : AppColors.Font
+          }>
+          {title}
+        </AppFonts.Body1>
       </Button>
     </>
   );
@@ -55,6 +67,7 @@ export const BigButton = ({
   title,
   disabled = false,
   onPress,
+  fontColor,
   color,
   height = 44,
   width,
@@ -65,7 +78,8 @@ export const BigButton = ({
       title={title}
       disabled={disabled}
       onPress={onPress}
-      color={color}
+      fontColor={fontColor}
+      color={disabled ? AppColors.Secondary : color}
       height={height}
       width={width ? width : windowWidth * 0.9}
       margin={margin}

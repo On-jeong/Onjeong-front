@@ -218,15 +218,11 @@ const SignInScreen = ({navigation}) => {
               secureTextEntry={true}
             />
           </InputContainer>
-          <AppButtons.BigButton
-            title="로그인"
-            onPress={onSubmit}
-            disabled={!inputCheck}
-          />
+          <AppButtons.BigButton title="로그인" onPress={onSubmit} />
           <AppComponents.EmptyBox height={12} />
           <AppButtons.BigButton
             title="회원가입"
-            color={AppColors.Gray200}
+            color={AppColors.Secondary}
             onPress={() => {
               navigation.navigate('SignUp');
             }}

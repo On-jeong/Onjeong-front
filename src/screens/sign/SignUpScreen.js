@@ -22,12 +22,6 @@ import {WithHeader} from '@/components/headers/WithHeader';
 // 회원가입
 //
 
-const Title = styled.View`
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 30px;
-`;
-
 const InputContainer = styled.View`
   width: 100%;
   align-items: center;
@@ -35,9 +29,9 @@ const InputContainer = styled.View`
 `;
 
 const BirthButton = styled.TouchableOpacity`
-  width: 70%;
+  width: ${windowWidth * 0.9};
   border-bottom-width: 1px;
-  border-color: ${AppColors.border};
+  border-color: ${AppColors.Gray300};
   margin-top: 13px;
   margin-bottom: 10px;
   padding-left: 4px;
@@ -45,14 +39,14 @@ const BirthButton = styled.TouchableOpacity`
 `;
 
 const InputButtonBox = styled.View`
-  width: 70%;
+  width: ${windowWidth * 0.9};
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 `;
 
 const CheckLists = styled.View`
-  width: 70%;
+  width: ${windowWidth * 0.9};
 `;
 
 const ID_REG = /^[A-Za-z]{1}[A-Za-z0-9]{5,19}$/; //영문자 또는 숫자 6 ~ 20자 - 영문자로 시작해야 함
@@ -258,19 +252,17 @@ const SignUpScreen = ({navigation}) => {
 
   return (
     <WithHeader
+      title="회원가입"
       isBack={true}
       navigation={navigation}
       isLoading={noJoinedIsLoading || withJoinedIsLoading}>
       <ScrollView>
         <Container>
           <Box>
-            <Title>
-              <AppFonts.Big>온정</AppFonts.Big>
-            </Title>
             <InputContainer>
               <InputButtonBox>
                 <AppInputs.BorderBottomInput
-                  width={windowWidth * 0.7 - 60}
+                  width={windowWidth * 0.9 - 70}
                   maxLength={20}
                   placeholder="아이디 (영문 또는 숫자 6~20)"
                   value={userId}
@@ -280,7 +272,7 @@ const SignUpScreen = ({navigation}) => {
                 <AppButtons.BasicButton
                   title="확인"
                   width={50}
-                  disabled={userId}
+                  disabled={!userId}
                   onPress={() => {
                     getCheckIdMutate({id: userId});
                   }}
@@ -317,7 +309,7 @@ const SignUpScreen = ({navigation}) => {
               />
               {/* 생년월일 선택 버튼 */}
               <BirthButton onPress={() => setBirthOpen(true)}>
-                <AppFonts.Content color={birthClick ? 'black' : '#999797'}>
+                <AppFonts.Content color={birthClick ? 'black' : AppColors.Gray600}>
                   {birthClick ? format(userBirth, 'yyyy-MM-dd') : '생년월일'}
                 </AppFonts.Content>
               </BirthButton>
@@ -329,7 +321,7 @@ const SignUpScreen = ({navigation}) => {
               />
               <InputButtonBox>
                 <AppInputs.BorderBottomInput
-                  width={windowWidth * 0.7 - 60}
+                  width={windowWidth * 0.9 - 70}
                   maxLength={20}
                   placeholder="초대가족 아이디"
                   value={joinedNickname}
@@ -338,7 +330,7 @@ const SignUpScreen = ({navigation}) => {
                 <AppButtons.BasicButton
                   title="확인"
                   width={50}
-                  disabled={joinedNickname}
+                  disabled={!joinedNickname}
                   onPress={() => {
                     getJoinedIdMutate({id: joinedNickname});
                   }}
@@ -362,12 +354,7 @@ const SignUpScreen = ({navigation}) => {
                 />
               </CheckLists>
             </InputContainer>
-            <AppButtons.FullButton
-              title="회원가입"
-              borderColor={AppColors.green2}
-              onPress={onSubmit}
-              inputCheck={inputCheck}
-            />
+
             {/* 생일 선택 모달 */}
             <DatePicker
               modal
@@ -390,6 +377,11 @@ const SignUpScreen = ({navigation}) => {
           </Box>
         </Container>
       </ScrollView>
+      <AppButtons.FullButton
+        title="저장하기"
+        onPress={onSubmit}
+        disabled={!inputCheck}
+      />
     </WithHeader>
   );
 };
