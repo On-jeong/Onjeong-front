@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {AppFonts} from '@/utils/GlobalFonts';
-import {AppColors} from '@/utils/GlobalStyles';
+import {AppColors, windowHeight} from '@/utils/GlobalStyles';
 import {AppButtons} from '../../components/buttons';
 import {AppInputs} from '../../components/inputs';
 import {useSignIn} from '../../hooks/useUserData';
@@ -58,6 +58,7 @@ export const Title = styled.View`
 export const InputContainer = styled.View`
   width: 100%;
   align-items: center;
+  margin-top: ${windowHeight * 0.05};
   margin-bottom: 20px;
 `;
 
