@@ -16,6 +16,9 @@ export const statusBarHeight = 24;
 
 export const betweenIcons = 15;
 
+export const windowHeightNoNav =
+  windowHeight - navigationHeight - statusBarHeight - bottomTabHeight;
+
 export const AppSize = {
   windowWidth,
   windowHeight,
@@ -25,6 +28,7 @@ export const AppSize = {
   bottomTabHeight,
   statusBarHeight,
   betweenIcons,
+  windowHeightNoNav
 };
 
 //
