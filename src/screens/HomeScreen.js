@@ -203,11 +203,13 @@ export const HomeScreen = ({navigation}) => {
         resizeMode="stretch">
         {flowerStatus == 'success' && (
           <Flower>
-            <AutoHeightImage
-              width={windowWidth * 0.8}
-              source={flower[flowerKindState][flowerLevelState]}
-              // source={flower['violet'][10]}
-            />
+            {flower[flowerKindState][flowerLevelState] && (
+              <AutoHeightImage
+                width={windowWidth * 0.8}
+                source={flower[flowerKindState][flowerLevelState]}
+                // source={flower['violet'][10]}
+              />
+            )}
           </Flower>
         )}
       </Background>
