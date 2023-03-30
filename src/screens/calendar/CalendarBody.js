@@ -18,6 +18,7 @@ const Week = styled.View`
 
 const DateBox = styled.TouchableOpacity`
   flex: 1;
+  padding: 1px;
   align-items: center;
   overflow: hidden;
 `;
@@ -42,10 +43,6 @@ export default function CalendarBody({navigation, monthDays}) {
           <Week key={idx}>
             {week.map(date => {
               const formatDate = format(date.date, 'yyyy-MM-dd');
-              // if (date?.annData[formatDate])
-                // console.log('앤대타', date?.annData[formatDate]);
-              //  console.log('앤대', date?.annData);
-              //  console.log(formatDate);
               return (
                 <DateBox
                   key={date.date}
@@ -62,7 +59,8 @@ export default function CalendarBody({navigation, monthDays}) {
                         width={23}
                         height={20}
                         color={
-                          date.date == today && date.isCurMonth
+                          formatDate == format(today, 'yyyy-MM-dd') &&
+                          date.isCurMonth
                             ? AppColors.Primary
                             : null
                         }>
