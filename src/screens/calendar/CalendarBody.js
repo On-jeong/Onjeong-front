@@ -1,10 +1,7 @@
 import {AppComponents} from '@/components/Components';
 import {AppFonts} from '@/utils/GlobalFonts';
 import {AppColors, windowHeightNoNav} from '@/utils/GlobalStyles';
-import {
-  format,
-  getDate,
-} from 'date-fns';
+import {format, getDate} from 'date-fns';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -28,12 +25,11 @@ const DateBox = styled.TouchableOpacity`
 const MiniText = styled.View`
   justify-content: center;
   align-items: center;
-  padding: 1px;
+  padding: 2px;
   margin-top: 2px;
-  border-width: 1px;
-  border-radius: 12px;
   border-color: ${props =>
     props.type === 'ANNIVERSARY' ? AppColors.red1 : AppColors.green2};
+  background-color: ${AppColors.Secondary};
 `;
 
 export default function CalendarBody({navigation, monthDays}) {
@@ -45,13 +41,18 @@ export default function CalendarBody({navigation, monthDays}) {
         {monthDays.map((week, idx) => (
           <Week key={idx}>
             {week.map(date => {
+              const formatDate = format(date.date, 'yyyy-MM-dd');
+              // if (date?.annData[formatDate])
+                // console.log('앤대타', date?.annData[formatDate]);
+              //  console.log('앤대', date?.annData);
+              //  console.log(formatDate);
               return (
                 <DateBox
                   key={date.date}
                   onPress={() => {
                     navigation.navigate('Post', {
                       date: format(date.date, 'yyyy년 MM월 dd일'),
-                      barDate: format(date.date, 'yyyy-MM-dd'),
+                      barDate: formatDate,
                     });
                   }}>
                   {date.isCurMonth && (
@@ -61,29 +62,27 @@ export default function CalendarBody({navigation, monthDays}) {
                         width={23}
                         height={20}
                         color={
-                          format(date.date, 'yy-MM-dd') == today &&
-                          date.isCurMonth
+                          date.date == today && date.isCurMonth
                             ? AppColors.Primary
                             : null
                         }>
                         <AppFonts.Body2>{getDate(date.date)}</AppFonts.Body2>
                       </AppComponents.Circle>
                       {/* 기념일은 3개까지만 들어감 */}
-                      {/* {annData?.data?.data.map(
-                            plan =>
-                              plan.anniversaryDate == format(date, 'yyyy-MM-dd') && (
-                                // 기념일은 빨간색, 일정은 파란색으로 표시
-                                <MiniText
-                                  type={plan.anniversaryType}
-                                  key={plan.anniversaryId}>
-                                  <AppFonts.CalendarFont
-                                    numberOfLines={1}
-                                    ellipsizeMode="tail">
-                                    {plan.anniversaryContent}
-                                  </AppFonts.CalendarFont>
-                                </MiniText>
-                              ),
-                          )} */}
+                      {date.annData &&
+                        date.annData[formatDate] &&
+                        date.annData[formatDate].map(plan => (
+                          // 기념일은 빨간색, 일정은 파란색으로 표시
+                          <MiniText
+                            type={plan.anniversaryType}
+                            key={plan.anniversaryId}>
+                            <AppFonts.Caption
+                              numberOfLines={1}
+                              ellipsizeMode="tail">
+                              {plan.anniversaryContent}
+                            </AppFonts.Caption>
+                          </MiniText>
+                        ))}
                     </>
                   )}
                 </DateBox>

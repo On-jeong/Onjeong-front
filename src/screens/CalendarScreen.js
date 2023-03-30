@@ -22,7 +22,7 @@ import WheelPicker from 'react-native-wheely';
 import CalendarBody from './calendar/CalendarBody';
 import {AppModal} from '@/components/modal';
 import {useRecoilState} from 'recoil';
-import {CurMonthState, CurYearState} from '@/state/CalandarData';
+import {CurDateState, CurMonthState, CurYearState} from '@/state/CalandarData';
 
 const PaperContainer = styled.View`
   flex: 1;
@@ -69,26 +69,26 @@ const BottomButton = styled.TouchableOpacity`
 export default function CalendarScreen({navigation}) {
   const queryClient = useQueryClient();
 
-  const curDate = new Date();
+  const [curDateState, setCurDateState] = useRecoilState(CurDateState);
   const [curMonthState, setCurMonthState] = useRecoilState(CurMonthState);
   const [curYearState, setCurYearState] = useRecoilState(CurYearState);
 
   const [monthPickerOpen, setMonthPickerOpen] = useState(false);
-  const [pickYear, setPickYear] = useState(getYear(curDate)); // 피커에서 선택한 년도 (임시저장)
-  const [pickMonth, setPickMonth] = useState(getMonth(curDate) + 1); // 피커에서 선택한 월 (임시저장)
+  const [pickYear, setPickYear] = useState(getYear(curDateState)); // 피커에서 선택한 년도 (임시저장)
+  const [pickMonth, setPickMonth] = useState(getMonth(curDateState) + 1); // 피커에서 선택한 월 (임시저장)
 
   const days = ['일', '월', '화', '수', '목', '금', '토'];
 
   const years = [
     -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-  ].map(idx => getYear(curDate) + idx);
+  ].map(idx => curYearState + idx);
 
   const {
     data: annData,
     isLoading,
     isError,
     refetch,
-  } = useGetMonthAnn(format(curDate, 'yyyy-MM-dd'));
+  } = useGetMonthAnn(format(curDateState, 'yyyy-MM-dd'));
 
   useEffect(() => {
     getCurMonthDays(curYearState, curMonthState);
@@ -97,9 +97,10 @@ export default function CalendarScreen({navigation}) {
   // 페이지 리로딩
   useFocusEffect(
     useCallback(() => {
+      console.log('다시!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
       queryClient.invalidateQueries([
         'getMonthAnn',
-        format(curDate, 'yyyy-MM-dd'),
+        format(curDateState, 'yyyy-MM-dd'),
       ]);
     }, []),
   );
@@ -117,12 +118,10 @@ export default function CalendarScreen({navigation}) {
     while (date <= monthEnd) {
       for (let i = 0; i < 7; i++) {
         // 하루씩 추가
-        console.log(month);
         weekList.push({
           date: date,
-          // dateForm: format(date, 'd'),
           isCurMonth: getMonth(date) === month - 1,
-          //annData : annData?.data?.data[format(date,'yyyy-MM-dd')]
+          annData: annData?.data?.data,
         });
 
         date = addDays(date, 1); // 다음날로 변경
@@ -132,7 +131,6 @@ export default function CalendarScreen({navigation}) {
       weekList = []; // 한 주 초기화
     }
 
-    console.log('몬트', monthList);
     return monthList;
   };
 
@@ -140,9 +138,8 @@ export default function CalendarScreen({navigation}) {
     <>
       <WithHeader
         title="가족 달력"
-        // isError={isError}
-        // reloadFunc={() => refetch()}
-      >
+        isError={isError}
+        reloadFunc={() => refetch()}>
         <PaperContainer>
           <AppContainer.Paper
             height={windowHeightNoNav * 0.9}
@@ -167,7 +164,7 @@ export default function CalendarScreen({navigation}) {
             <CalendarBody
               navigation={navigation}
               monthDays={getCurMonthDays(curYearState, curMonthState)}
-              //annData={annData}
+              annData={annData?.data?.data}
             />
           </AppContainer.Paper>
         </PaperContainer>
@@ -179,7 +176,7 @@ export default function CalendarScreen({navigation}) {
         setModalVisible={setMonthPickerOpen}>
         <MonthPickerBox>
           <WheelPicker
-            selectedIndex={curYearState - getYear(curDate) + 10}
+            selectedIndex={curYearState - getYear(curDateState) + 10}
             options={years}
             selectedIndicatorStyle={{backgroundColor: AppColors.Primary}}
             onChange={index => {
@@ -210,6 +207,8 @@ export default function CalendarScreen({navigation}) {
             setMonthPickerOpen(false);
             setCurMonthState(pickMonth);
             setCurYearState(pickYear);
+            setCurDateState(new Date(pickYear, pickMonth-1));
+            console.log('zjf', new Date(pickYear, pickMonth-1));
           }}>
           <AppFonts.Body1>확인</AppFonts.Body1>
         </BottomButton>
