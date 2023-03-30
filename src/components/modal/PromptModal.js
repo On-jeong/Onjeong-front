@@ -46,12 +46,14 @@ export const ButtonContainer = styled.View`
 const PromptModal = ({
   modalVisible,
   setModalVisible,
-  title1,
-  title2,
+  title,
+  script1,
+  script2,
   leftOnPress,
   rightOnPress,
   leftBorderColor = AppColors.border,
   rightBorderColor = AppColors.border,
+  children
 }) => {
   return (
     <Modal
@@ -63,16 +65,19 @@ const PromptModal = ({
       }}>
       <ModalBackground onPress={() => setModalVisible(false)} />
       <ModalBox>
-        <TitleContainer twoTitle={title2}>
-          {title1 && <AppFonts.ContentB>{title1}</AppFonts.ContentB>}
-          {title2 && <AppFonts.ContentB>{title2}</AppFonts.ContentB>}
+        <TitleContainer>
+          {title && <AppFonts.SubTitle>{title}</AppFonts.SubTitle>}
         </TitleContainer>
+        <TitleContainer twoTitle={script2}>
+          {script1 && <AppFonts.Body2>{script1}</AppFonts.Body2>}
+          {script2 && <AppFonts.Body2>{script2}</AppFonts.Body2>}
+        </TitleContainer>
+        {children}
         <ButtonContainer>
           <AppButtons.BasicButton
             title={'취소'}
             width={modalWidth * 0.4}
             onPress={leftOnPress}
-            disabled={true}
             color={leftBorderColor}
             margin={{marginRight: modalWidth * 0.02}}
           />
@@ -80,7 +85,6 @@ const PromptModal = ({
             title={'확인'}
             width={modalWidth * 0.4}
             onPress={rightOnPress}
-            disabled={true}
             color={rightBorderColor}
             margin={{marginLeft: modalWidth * 0.02}}
           />

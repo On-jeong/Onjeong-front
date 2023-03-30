@@ -55,8 +55,9 @@ const AccountDeleteScreen = ({navigation}) => {
       <PromptModal
         modalVisible={quitModal}
         setModalVisible={setQuitModal}
-        title1={'계정을 탈퇴하면 복구할 수 없습니다'}
-        title2={'정말 탈퇴하시겠습니까?'}
+        title={'회원 탈퇴'}
+        script1={'가족을 두고 정말 떠나시는 건가요?'}
+        script2={'비밀번호를 입력해주세요.'}
         leftOnPress={() => setQuitModal(false)}
         rightOnPress={() => {
           deleteAccount(userPW);
