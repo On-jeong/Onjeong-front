@@ -57,9 +57,19 @@ export const PreImage = styled.Image`
   height: ${windowWidth * 0.3}px;
 `;
 
-export const PaperInput = ({children, mainText, setMainText, height = 500}) => {
+export const PaperInput = ({
+  children,
+  mainText,
+  setMainText,
+  height = 500,
+  padding = 20,
+  paddingTop = 10,
+}) => {
   return (
-    <AppContainer.Paper height={height}>
+    <AppContainer.Paper
+      height={height}
+      padding={padding}
+      paddingTop={paddingTop}>
       <>
         {children}
         <MainInput

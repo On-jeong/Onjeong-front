@@ -1,212 +1,219 @@
 import {
   addDays,
-  addMonths,
   endOfMonth,
   endOfWeek,
   format,
   getMonth,
   getYear,
-  startOfMonth,
   startOfWeek,
-  subMonths,
 } from 'date-fns';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {WithHeader} from '../components/headers/WithHeader';
 import {AppFonts} from '../utils/GlobalFonts';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {
-  AppColors,
-  bottomTabHeight,
-  navigationHeight,
-  statusBarHeight,
-  windowHeight,
-  windowWidth,
-} from '../utils/GlobalStyles';
+import {AppColors, windowHeightNoNav, windowWidth} from '../utils/GlobalStyles';
 import {useFocusEffect} from '@react-navigation/native';
 import {useGetMonthAnn} from '../hooks/useAnniversaryData';
 import {useQueryClient} from '@tanstack/react-query';
-import {AppIconButtons} from '@/components/IconButtons';
 import {AppComponents} from '@/components/Components';
+import {AppContainer} from '@/components/container';
+import {AppIcons} from '@/ui/icons';
+import WheelPicker from 'react-native-wheely';
+import CalendarBody from './calendar/CalendarBody';
+import {AppModal} from '@/components/modal';
+import {useRecoilState} from 'recoil';
+import {CurMonthState, CurYearState} from '@/state/CalandarData';
 
-const Calendar = styled.View`
-  width: 100%;
-  height: 80%;
+const PaperContainer = styled.View`
+  flex: 1;
   align-items: center;
+  padding-left: ${windowWidth * 0.05};
+  padding-right: ${windowWidth * 0.05};
+`;
+
+const Title = styled.TouchableOpacity`
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Days = styled.View`
+  height: 30px;
+  flex-direction: row;
 `;
 
 const DateBox = styled.TouchableOpacity`
-  width: ${windowWidth / 7}px;
-  height: ${(windowHeight -
-    navigationHeight -
-    bottomTabHeight -
-    statusBarHeight) /
-  6}px;
+  flex: 1;
+  align-items: center;
   padding: 4px;
-  border-width: 0.6px;
-  border-color: ${AppColors.blur};
   overflow: hidden;
 `;
 
-const MiniText = styled.View`
+const MonthPickerBox = styled.View`
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 1px;
-  margin-top: 2px;
-  border-width: 1px;
-  border-radius: 12px;
-  border-color: ${props =>
-    props.type === 'ANNIVERSARY' ? AppColors.red1 : AppColors.green2};
 `;
 
-const Week = styled.View`
-  flex-direction: row;
+const TextBox = styled.View`
+  margin-left: 10px;
+  margin-right: 10px;
+`;
+
+const BottomButton = styled.TouchableOpacity`
+  padding: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
 `;
 
 export default function CalendarScreen({navigation}) {
   const queryClient = useQueryClient();
 
-  const [curDate, setCurDate] = useState(new Date());
+  const curDate = new Date();
+  const [curMonthState, setCurMonthState] = useRecoilState(CurMonthState);
+  const [curYearState, setCurYearState] = useRecoilState(CurYearState);
 
-  const {data, isLoading, isError, refetch} = useGetMonthAnn(
-    format(curDate, 'yyyy-MM-dd'),
-  );
+  const [monthPickerOpen, setMonthPickerOpen] = useState(false);
+  const [pickYear, setPickYear] = useState(getYear(curDate)); // 피커에서 선택한 년도 (임시저장)
+  const [pickMonth, setPickMonth] = useState(getMonth(curDate) + 1); // 피커에서 선택한 월 (임시저장)
 
+  const days = ['일', '월', '화', '수', '목', '금', '토'];
+
+  const years = [
+    -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+  ].map(idx => getYear(curDate) + idx);
+
+  const {
+    data: annData,
+    isLoading,
+    isError,
+    refetch,
+  } = useGetMonthAnn(format(curDate, 'yyyy-MM-dd'));
+
+  useEffect(() => {
+    getCurMonthDays(curYearState, curMonthState);
+  }, []);
+
+  // 페이지 리로딩
   useFocusEffect(
     useCallback(() => {
       queryClient.invalidateQueries([
         'getMonthAnn',
         format(curDate, 'yyyy-MM-dd'),
       ]);
-    }, [curDate]),
+    }, []),
   );
 
-  return (
-    <>
-      {/* <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={(item) => String(item.id)}
-        onEndReachedThreshold={0.8}
-        onEndReached={onEndReached}
-      /> */}
-      {getCalender({
-        curDate,
-        setCurDate,
-        navigation,
-        data,
-        isLoading,
-        isError,
-        refetch,
-      })}
-    </>
-  );
-}
+  // 선택한 월별 dates 구하기
+  const getCurMonthDays = (year, month) => {
+    // month는 0부터 시작하므로 -1
+    const monthStart = startOfWeek(new Date(year, month - 1)); // 월 시작 주의 첫번째 날짜 (이전 달 일 수 있음)
+    const monthEnd = endOfWeek(endOfMonth(new Date(year, month - 1))); // 월 마지막 주의 7번째 날짜 (이전 달 일 수 있음)
 
-const calendarDatas = () => {
-  return [];
-};
+    const monthList = [];
+    let weekList = [];
+    let date = monthStart;
 
-// 달력
-const getCalender = ({
-  navigation,
-  data,
-  isError,
-  refetch,
-  curDate,
-  setCurDate,
-}) => {
-  const today = format(new Date(), 'yy-MM-dd');
+    while (date <= monthEnd) {
+      for (let i = 0; i < 7; i++) {
+        // 하루씩 추가
+        console.log(month);
+        weekList.push({
+          date: date,
+          // dateForm: format(date, 'd'),
+          isCurMonth: getMonth(date) === month - 1,
+          //annData : annData?.data?.data[format(date,'yyyy-MM-dd')]
+        });
 
-  const prevMonth = getMonth(curDate); // 저번 달 (getMonth() -> 0 ~ 11 이므로 1 더해주기)
-  const curMonth = getMonth(curDate) + 1; // 이번 달
-  const nextMonth = getMonth(curDate) + 2; // 다음 달
+        date = addDays(date, 1); // 다음날로 변경
+      }
 
-  const curYear = getYear(curDate); // 이번 달
-  const monthStart = startOfMonth(curDate); //이번 달 시작 날짜
-  const monthEnd = endOfMonth(curDate); //이번 달 마지막 날짜
-  const startDate = startOfWeek(monthStart); // 이번 달 시작 주의 첫번째 날짜 (저번달 일 수 있음)
-  const endDate = endOfWeek(monthEnd); // 이번 달 마지막 주의 마지막 날짜 (다음달 일 수 있음)
-
-  let date = startDate;
-  let month = [];
-  let week = [];
-
-  while (date <= endDate) {
-    for (let i = 0; i < 7; i++) {
-      // 하루씩 추가
-      week = pushDate({week, date, curMonth, today, navigation, data});
-
-      date = addDays(date, 1); // 다음날
+      monthList.push(weekList); // 한 주 추가
+      weekList = []; // 한 주 초기화
     }
-    month.push(<Week key={date}>{week}</Week>); // 한 주 추가
-    week = []; // 한 주 초기화
-  }
+
+    console.log('몬트', monthList);
+    return monthList;
+  };
 
   return (
     <>
       <WithHeader
-        title={curYear + '년 ' + curMonth + '월'}
-        leftIcon={<AppIconButtons.LeftArrow size={30} />}
-        rightIcon2={<AppIconButtons.RightArrow size={30} />}
-        leftOnPress={() => {
-          setCurDate(subMonths(curDate, 1));
-          getCalender({curDate});
-        }}
-        rightOnPress2={() => {
-          setCurDate(addMonths(curDate, 1));
-          getCalender({curDate});
-        }}
-        isError={isError}
-        reloadFunc={() => refetch()}>
-        <Calendar>{month}</Calendar>
+        title="가족 달력"
+        // isError={isError}
+        // reloadFunc={() => refetch()}
+      >
+        <PaperContainer>
+          <AppContainer.Paper
+            height={windowHeightNoNav * 0.9}
+            padding={0}
+            paddingTop={0}>
+            <Title
+              onPress={() => {
+                setMonthPickerOpen(true);
+              }}>
+              <AppFonts.SubTitle>
+                {curYearState + '년 ' + curMonthState + '월  '}
+                <AppIcons.Down />
+              </AppFonts.SubTitle>
+            </Title>
+            <Days>
+              {days.map(day => (
+                <DateBox key={day}>
+                  <AppFonts.Body2>{day}</AppFonts.Body2>
+                </DateBox>
+              ))}
+            </Days>
+            <CalendarBody
+              navigation={navigation}
+              monthDays={getCurMonthDays(curYearState, curMonthState)}
+              //annData={annData}
+            />
+          </AppContainer.Paper>
+        </PaperContainer>
       </WithHeader>
+
+      {/* 년, 월 선택 모달 */}
+      <AppModal.EmptyModal
+        modalVisible={monthPickerOpen}
+        setModalVisible={setMonthPickerOpen}>
+        <MonthPickerBox>
+          <WheelPicker
+            selectedIndex={curYearState - getYear(curDate) + 10}
+            options={years}
+            selectedIndicatorStyle={{backgroundColor: AppColors.Primary}}
+            onChange={index => {
+              setPickYear(years[index]);
+            }}
+          />
+          <TextBox>
+            <AppFonts.SubTitle>년</AppFonts.SubTitle>
+          </TextBox>
+          <AppComponents.EmptyBox width={10} />
+          <WheelPicker
+            selectedIndex={curMonthState - 1}
+            options={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
+            selectedIndicatorStyle={{
+              backgroundColor: AppColors.Primary,
+              width: 48,
+            }}
+            onChange={index => {
+              setPickMonth(index + 1);
+            }}
+          />
+          <TextBox>
+            <AppFonts.SubTitle>월</AppFonts.SubTitle>
+          </TextBox>
+        </MonthPickerBox>
+        <BottomButton
+          onPress={() => {
+            setMonthPickerOpen(false);
+            setCurMonthState(pickMonth);
+            setCurYearState(pickYear);
+          }}>
+          <AppFonts.Body1>확인</AppFonts.Body1>
+        </BottomButton>
+      </AppModal.EmptyModal>
     </>
   );
-};
-
-const pushDate = ({week, date, curMonth, today, navigation, data}) => {
-  let formattedDate = format(date, 'd'); // 날짜만 format
-  let formattedMonth = date.getMonth() + 1;
-  let formattedDay = date.getDay();
-
-  // 색깔 지정
-  let color = AppColors.black;
-  if (formattedMonth == curMonth) {
-    // 이번 달 일 경우
-    if (formattedDay == 0) color = '#DD4A48';
-    else if (formattedDay == 6) color = '#35589A';
-  } else color = AppColors.blur; // 이번 달이 아닐 경우
-
-  week.push(
-    <DateBox
-      key={date}
-      onPress={() => {
-        navigation.navigate('Post', {
-          date: format(date, 'yyyy년 MM월 dd일'),
-          barDate: format(date, 'yyyy-MM-dd'),
-        });
-      }}>
-      {/* 오늘인 경우 원으로 표시하기 */}
-      <AppComponents.Circle
-        color={format(date, 'yy-MM-dd') == today && AppColors.main}>
-        <AppFonts.ContentB style={{color: color}}>
-          {formattedDate}
-        </AppFonts.ContentB>
-      </AppComponents.Circle>
-      {/* 기념일은 3개까지만 들어감 */}
-      {data?.data?.data.map(
-        plan =>
-          plan.anniversaryDate == format(date, 'yyyy-MM-dd') && (
-            // 기념일은 빨간색, 일정은 파란색으로 표시
-            <MiniText type={plan.anniversaryType} key={plan.anniversaryId}>
-              <AppFonts.CalendarFont numberOfLines={1} ellipsizeMode="tail">
-                {plan.anniversaryContent}
-              </AppFonts.CalendarFont>
-            </MiniText>
-          ),
-      )}
-    </DateBox>,
-  );
-  return week;
-};
+}

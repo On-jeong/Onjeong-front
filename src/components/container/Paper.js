@@ -17,16 +17,23 @@ export const PaperLine = styled.View`
   width: 100%;
   height: 100%;
   border-width: 2px;
-  padding: 20px;
-  padding-top: 10px;
+  padding: ${props => props.padding}px;
+  padding-top: ${props => props.paddingTop}px;
   border-color: ${AppColors.Gray500};
   background-color: ${AppColors.white};
 `;
 
-export const Paper = ({children, height = 500}) => {
+export const Paper = ({
+  children,
+  height = 500,
+  padding = 30,
+  paddingTop = 10,
+}) => {
   return (
     <PaperBox height={height}>
-      <PaperLine>{children}</PaperLine>
+      <PaperLine padding={padding} paddingTop={paddingTop}>
+        {children}
+      </PaperLine>
     </PaperBox>
   );
 };
