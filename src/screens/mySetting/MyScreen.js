@@ -3,15 +3,13 @@ import {BasicHeader} from '@/components/headers/WithHeader';
 import styled from 'styled-components';
 import {AppFonts} from '@/utils/GlobalFonts';
 import {AppComponents} from '@/components/Components';
-import {useDeleteAccount, useSignOut} from '@/hooks/useUserData';
+import {useSignOut} from '@/hooks/useUserData';
 import {useDelFCM} from '@/hooks/useFCMtoken';
 import {useRecoilValue} from 'recoil';
 import {storage} from '@/config/storage';
 import {UserNicknameState} from '@/state/UserData';
 import PromptModal from '@/components/modal/PromptModal';
 import {AppColors} from '@/utils/GlobalStyles';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import customAxios from '@/api/axios';
 
 const Menu = styled.TouchableOpacity`
   width: 100%;
@@ -32,22 +30,16 @@ export const Email = styled.View`
 `;
 
 const MyScreen = ({navigation}) => {
-  const [signOut, setSignOut] = useState(false);
-
+  const userNickname = useRecoilValue(UserNicknameState);
   const [signOutModal, setSignOutModal] = useState(false);
 
-  const userNickname = useRecoilValue(UserNicknameState);
-
-  const {error, status} = useSignOut({
-    enabled: signOut,
-  });
-
-  const {mutate} = useDelFCM();
+  const {mutate: signOut} = useSignOut();
+  const {mutate: delFCM} = useDelFCM();
 
   const delFCMToken = async () => {
     const fcmToken = await storage.getItem('fcmToken');
 
-    mutate({token: fcmToken, userNickname: userNickname});
+    delFCM({token: fcmToken, userNickname: userNickname});
   };
 
   return (
@@ -104,14 +96,15 @@ const MyScreen = ({navigation}) => {
         <PromptModal
           modalVisible={signOutModal}
           setModalVisible={setSignOutModal}
-          title1={'정말 로그아웃을 하시겠습니까?'}
+          title={'로그아웃'}
+          script1={'정말 로그아웃을 하시겠습니까?'}
           leftOnPress={() => setSignOutModal(false)}
           rightOnPress={() => {
             delFCMToken();
             setSignOutModal(false);
-            setSignOut(true);
+            signOut();
           }}
-          leftBorderColor={AppColors.green2}
+          leftBorderColor={AppColors.Gray200}
         />
       </BasicHeader>
     </>
