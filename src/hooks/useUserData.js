@@ -26,7 +26,7 @@ const postSignInData = userData => {
 };
 
 const reqSignOut = () => {
-  return customAxios.get(`/logout`);
+  return customAxios.post(`/logout`);
 };
 
 const modifyAccount = userData => {
@@ -108,13 +108,12 @@ export const useSignIn = ({onSuccess, onError}) => {
 };
 
 // 로그아웃 요청
-export const useSignOut = ({enabled=true}) => {
+export const useSignOut = () => {
   const navigation = useNavigation();
 
-  return useQuery(['reqLogout'], reqSignOut, {
-    //onSuccess: onSuccess,
+  return useMutation(reqSignOut, {
     onSuccess: async () => {
-      console.log('로그아웃 완료')
+      console.log('로그아웃 완료');
       await AsyncStorage.removeItem('userData');
       await AsyncStorage.removeItem('accessToken');
       await AsyncStorage.removeItem('refreshToken');
@@ -125,10 +124,9 @@ export const useSignOut = ({enabled=true}) => {
       navigation.navigate('Welcome');
     },
     onError: err => {
-      console.log(err);
       alert('로그아웃 진행 중 에러가 발생했습니다.');
+      console.log('로그아웃 에러 : ', err);
     },
-    enabled: enabled,
   });
 };
 
