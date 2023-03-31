@@ -12,7 +12,7 @@ import PromptModal from '@/components/modal/PromptModal';
 import {AppColors} from '@/utils/GlobalStyles';
 import {AppIcons} from '@/ui/icons';
 
-const MenuContainer = styled.View`
+export const MenuContainer = styled.View`
   flex: 1;
   margin-top: 10px;
   padding-left: 5%;
