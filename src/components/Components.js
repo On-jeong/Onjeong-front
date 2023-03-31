@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {AppColors} from '@/utils/GlobalStyles';
 
 const HLine = styled.View`
-  background-color: ${AppColors.border};
+  background-color: ${AppColors.Gray300};
   height: ${props => (props.height ? props.height : 1)}px;
   width: 100%;
 `;
@@ -35,8 +35,8 @@ const Box = styled.View`
 `;
 
 // 스크롤 할 때 맨 밑에 빈공간 만들어주는 용도
-const EmptyBox = ({height = 50}) => {
-  return <Box height={height} />;
+const EmptyBox = ({height = 50, width = 5}) => {
+  return <Box height={height} width={width} />;
 };
 EmptyBox.propTypes = {
   height: PropTypes.number,
@@ -47,7 +47,7 @@ const CircleBox = styled.View`
   width: ${props => props.width}px;
   height: ${props => props.height}px;
   margin-bottom: 2px;
-  border-radius: 50px;
+  border-radius: 8px;
   background-color: ${props => props.color};
   justify-content: center;
   align-items: center;

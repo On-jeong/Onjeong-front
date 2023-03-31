@@ -9,6 +9,7 @@ import CalendarBlack from '@/assets/icons/calendar_black.svg';
 import HomeWhite from '@/assets/icons/home_white.svg';
 import HomeBlack from '@/assets/icons/home_black.svg';
 import Right from '@/assets/icons/right.svg';
+import Right_gray from '@/assets/icons/right_gray.svg';
 import Back from '@/assets/icons/back.svg';
 import Back_gray from '@/assets/icons/back_gray.svg';
 import Down from '@/assets/icons/down.svg';
@@ -48,6 +49,7 @@ export const AppIcons = {
   Back,
   Down,
   Back_gray,
+  Right_gray,
 };
 
 const IconBox = styled.TouchableOpacity`
