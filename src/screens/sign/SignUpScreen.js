@@ -17,6 +17,7 @@ import {Alert, ScrollView, TouchableOpacity} from 'react-native';
 import {AppIconButtons} from '@/components/IconButtons';
 import {AppComponents} from '@/components/Components';
 import {WithHeader} from '@/components/headers/WithHeader';
+import {reg} from '@/config/reg';
 
 //
 // 회원가입
@@ -28,7 +29,7 @@ const InputContainer = styled.View`
   margin-bottom: 10px;
 `;
 
-const BirthButton = styled.TouchableOpacity`
+export const BirthButton = styled.TouchableOpacity`
   width: ${windowWidth * 0.9};
   border-bottom-width: 1px;
   border-color: ${AppColors.Gray300};
@@ -49,13 +50,9 @@ const CheckLists = styled.View`
   width: ${windowWidth * 0.9};
 `;
 
-const ID_REG = /^[A-Za-z]{1}[A-Za-z0-9]{5,19}$/; //영문자 또는 숫자 6 ~ 20자 - 영문자로 시작해야 함
-const EMAIL_REG = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/; // 계정@도메인.최상위도메인 형식
-const PW_REG = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,16}$/; // 영문, 숫자 조합 8 ~ 16자
-const NAME_REG = /[ㄱ-힣]/; // 한글만
-
 const SignUpScreen = ({navigation}) => {
   const [inputCheck, setInputCheck] = useState(false);
+
   const [userId, setUserId] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('');
@@ -64,6 +61,7 @@ const SignUpScreen = ({navigation}) => {
   const [userBirth, setUserBirth] = useState(new Date());
   const [userStatus, setUserStatus] = useState('');
   const [joinedNickname, setJoinedNickname] = useState('');
+
   const [birthClick, setBirthClick] = useState(false); // 한번도 클릭하지 않았을 경우 '생년월일'
   const [birthOpen, setBirthOpen] = useState(false);
 
@@ -123,6 +121,7 @@ const SignUpScreen = ({navigation}) => {
     if (
       userId &&
       userName &&
+      userEmail &&
       userPassword &&
       pwCheck &&
       userBirth &&
@@ -130,7 +129,15 @@ const SignUpScreen = ({navigation}) => {
     )
       setInputCheck(true);
     else setInputCheck(false);
-  }, [userId, userName, userPassword, pwCheck, userBirth, userStatus]);
+  }, [
+    userId,
+    userName,
+    userEmail,
+    userPassword,
+    pwCheck,
+    userBirth,
+    userStatus,
+  ]);
 
   const emptyCheck = () => {
     if (!userId) {
@@ -161,7 +168,7 @@ const SignUpScreen = ({navigation}) => {
   };
 
   const validationCheck = () => {
-    if (!ID_REG.test(userId)) {
+    if (!reg.ID_REG.test(userId)) {
       alert('아이디는 영문 또는 숫자 조합 6 ~ 20자리로 설정해 주세요.');
       return 0;
     } else if (!idCheck) {
@@ -170,16 +177,16 @@ const SignUpScreen = ({navigation}) => {
     } else if (joinedNickname && !joinedIdCheck) {
       alert('초대가족 아이디가 존재하는지 검사해 주세요.');
       return 0;
-    } else if (!EMAIL_REG.test(userEmail)) {
+    } else if (!reg.EMAIL_REG.test(userEmail)) {
       alert('이메일 형식이 일치하지 않습니다.');
       return 0;
-    } else if (!NAME_REG.test(userName)) {
+    } else if (!reg.NAME_REG.test(userName)) {
       alert('이름은 한글만 입력 가능합니다.');
       return 0;
-    } else if (!PW_REG.test(userPassword)) {
+    } else if (!reg.PW_REG.test(userPassword)) {
       alert('비밀번호는 영문과 숫자 조합 8 ~ 16 자리로 설정해 주세요.');
       return 0;
-    } else if (!NAME_REG.test(userStatus)) {
+    } else if (!reg.NAME_REG.test(userStatus)) {
       alert('가족 내 역할은 한글만 입력 가능합니다.');
       return 0;
     }
@@ -309,7 +316,8 @@ const SignUpScreen = ({navigation}) => {
               />
               {/* 생년월일 선택 버튼 */}
               <BirthButton onPress={() => setBirthOpen(true)}>
-                <AppFonts.Content color={birthClick ? 'black' : AppColors.Gray600}>
+                <AppFonts.Content
+                  color={birthClick ? 'black' : AppColors.Gray600}>
                   {birthClick ? format(userBirth, 'yyyy-MM-dd') : '생년월일'}
                 </AppFonts.Content>
               </BirthButton>
