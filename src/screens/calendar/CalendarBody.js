@@ -66,11 +66,10 @@ export default function CalendarBody({navigation, monthDays}) {
                         }>
                         <AppFonts.Body2>{getDate(date.date)}</AppFonts.Body2>
                       </AppComponents.Circle>
-                      {/* 기념일은 3개까지만 들어감 */}
+                      {/* 기념일은 최대 3개까지만 들어감 */}
                       {date.annData &&
                         date.annData[formatDate] &&
                         date.annData[formatDate].map(plan => (
-                          // 기념일은 빨간색, 일정은 파란색으로 표시
                           <MiniText
                             type={plan.anniversaryType}
                             key={plan.anniversaryId}>
@@ -92,3 +91,4 @@ export default function CalendarBody({navigation, monthDays}) {
     </>
   );
 }
+

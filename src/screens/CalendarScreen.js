@@ -117,7 +117,7 @@ export default function CalendarScreen({navigation}) {
 
     while (date <= monthEnd) {
       for (let i = 0; i < 7; i++) {
-        // 하루씩 추가
+        // 한 주에 하루씩 추가
         weekList.push({
           date: date,
           isCurMonth: getMonth(date) === month - 1,
@@ -127,7 +127,7 @@ export default function CalendarScreen({navigation}) {
         date = addDays(date, 1); // 다음날로 변경
       }
 
-      monthList.push(weekList); // 한 주 추가
+      monthList.push(weekList); // month에 한 주 추가
       weekList = []; // 한 주 초기화
     }
 
@@ -208,7 +208,6 @@ export default function CalendarScreen({navigation}) {
             setCurMonthState(pickMonth);
             setCurYearState(pickYear);
             setCurDateState(new Date(pickYear, pickMonth-1));
-            console.log('zjf', new Date(pickYear, pickMonth-1));
           }}>
           <AppFonts.Body1>확인</AppFonts.Body1>
         </BottomButton>
