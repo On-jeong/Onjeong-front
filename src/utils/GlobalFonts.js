@@ -57,31 +57,32 @@ const CalendarFont = styled.Text`
 
 // new fonts
 const Heading = styled.Text`
-  font-family: 'Gaegu-Bold';
+  font-family: 'GangwonBold';
   font-size: 21px;
+  /* font-weight: bold; */
   color: ${props => (props.color ? props.color : AppColors.Font)};
 `;
 
 const SubTitle = styled.Text`
-  font-family: 'Gaegu-Bold';
+  font-family: 'GangwonBold';
   font-size: 17px;
   color: ${props => (props.color ? props.color : AppColors.Font)};
 `;
 
 const Body1 = styled.Text`
-  font-family: 'Gaegu-Regular';
+  font-family: 'GangwonLight';
   font-size: 17px;
   color: ${props => (props.color ? props.color : AppColors.Font)};
 `;
 
 const Body2 = styled.Text`
-  font-family: 'Gaegu-Regular';
+  font-family: 'GangwonLight';
   font-size: 15px;
   color: ${props => (props.color ? props.color : AppColors.Font)};
 `;
 
 const Caption = styled.Text`
-  font-family: 'Gaegu-Regular';
+  font-family: 'GangwonLight';
   font-size: 13px;
   color: ${props => (props.color ? props.color : AppColors.Font)};
 `;
