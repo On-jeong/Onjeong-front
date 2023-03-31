@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {AppColors} from '@/utils/GlobalStyles';
 
 export const PaperBox = styled.View`
-  width: 100%;
+  width: ${props => (props.width ? props.width : '100%')};
   height: ${props => props.height && props.height};
   justify-content: center;
   align-items: center;
@@ -23,15 +23,12 @@ export const PaperLine = styled.View`
   background-color: ${AppColors.white};
 `;
 
-export const Paper = ({
-  children,
-  height = 500,
-  padding = 30,
-  paddingTop = 10,
-}) => {
+export const Paper = ({children, height = 500, width, padding, paddingTop}) => {
   return (
-    <PaperBox height={height}>
-      <PaperLine padding={padding} paddingTop={paddingTop}>
+    <PaperBox height={height} width={width}>
+      <PaperLine
+        padding={padding ? padding : 0}
+        paddingTop={paddingTop ? paddingTop : 0}>
         {children}
       </PaperLine>
     </PaperBox>
