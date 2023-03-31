@@ -11,10 +11,13 @@ import {UserNicknameState} from '@/state/UserData';
 import PromptModal from '@/components/modal/PromptModal';
 import {AppColors} from '@/utils/GlobalStyles';
 import {AppIcons} from '@/ui/icons';
+import customAxios from '@/api/axios';
+import axios from 'axios';
 
 export const MenuContainer = styled.View`
   flex: 1;
   margin-top: 10px;
+  margin-bottom: 100px;
   padding-left: 5%;
   padding-right: 5%;
 `;
@@ -79,7 +82,7 @@ const MyScreen = ({navigation}) => {
             onPress={() => {
               navigation.navigate('AccountMod');
             }}>
-            <AppFonts.Body1>회원정보 변경</AppFonts.Body1>
+            <AppFonts.Body1>회원정보 수정</AppFonts.Body1>
             <AppIcons.Right_gray />
           </Menu>
           <AppComponents.HorizonLine />
