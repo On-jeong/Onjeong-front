@@ -162,12 +162,14 @@ function AccountModScreen({navigation}) {
                   value={userNicknameState}
                   onChangeText={setName}
                   disable={true}
+                  margin={{marginBottom: 10}}
                 />
                 <AppInputs.BorderBottomInput
                   maxLength={15}
                   placeholder="이름"
                   value={name}
                   onChangeText={setName}
+                  margin={{marginBottom: 10}}
                 />
                 <AppInputs.BorderBottomInput
                   maxLength={30}
@@ -175,6 +177,7 @@ function AccountModScreen({navigation}) {
                   value={email}
                   onChangeText={setEmail}
                   autoCapitalize="none"
+                  margin={{marginBottom: 10}}
                 />
                 {/* 생년월일 선택 버튼 */}
                 <BirthButton onPress={() => setBirthOpen(true)}>
@@ -187,6 +190,7 @@ function AccountModScreen({navigation}) {
                   placeholder="가족 내 역할  (ex)첫째 딸"
                   value={status}
                   onChangeText={setStatus}
+                  margin={{marginBottom: 10}}
                 />
                 <AppInputs.BorderBottomInput
                   maxLength={16}
@@ -195,6 +199,7 @@ function AccountModScreen({navigation}) {
                   onChangeText={setPw}
                   secureTextEntry={true}
                   autoCapitalize="none"
+                  margin={{marginBottom: 10}}
                 />
                 <AppInputs.BorderBottomInput
                   maxLength={16}
@@ -203,6 +208,7 @@ function AccountModScreen({navigation}) {
                   onChangeText={setPwCheck}
                   secureTextEntry={true}
                   autoCapitalize="none"
+                  margin={{marginBottom: 10}}
                 />
               </InputContainer>
 

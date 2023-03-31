@@ -275,6 +275,7 @@ const SignUpScreen = ({navigation}) => {
                   value={userId}
                   onChangeText={setUserId}
                   autoCapitalize="none"
+                  margin={{marginBottom: 10}}
                 />
                 <AppButtons.BasicButton
                   title="확인"
@@ -283,6 +284,7 @@ const SignUpScreen = ({navigation}) => {
                   onPress={() => {
                     getCheckIdMutate({id: userId});
                   }}
+                  margin={{marginBottom: 10}}
                 />
               </InputButtonBox>
               <AppInputs.BorderBottomInput
@@ -290,6 +292,7 @@ const SignUpScreen = ({navigation}) => {
                 placeholder="이름"
                 value={userName}
                 onChangeText={setUserName}
+                margin={{marginBottom: 10}}
               />
               <AppInputs.BorderBottomInput
                 maxLength={30}
@@ -297,6 +300,7 @@ const SignUpScreen = ({navigation}) => {
                 value={userEmail}
                 onChangeText={setUserEmail}
                 autoCapitalize="none"
+                margin={{marginBottom: 10}}
               />
               <AppInputs.BorderBottomInput
                 maxLength={16}
@@ -305,6 +309,7 @@ const SignUpScreen = ({navigation}) => {
                 onChangeText={setUserPassWord}
                 secureTextEntry={true}
                 autoCapitalize="none"
+                margin={{marginBottom: 10}}
               />
               <AppInputs.BorderBottomInput
                 maxLength={16}
@@ -313,6 +318,7 @@ const SignUpScreen = ({navigation}) => {
                 onChangeText={setPwCheck}
                 secureTextEntry={true}
                 autoCapitalize="none"
+                margin={{marginBottom: 10}}
               />
               {/* 생년월일 선택 버튼 */}
               <BirthButton onPress={() => setBirthOpen(true)}>
@@ -326,6 +332,7 @@ const SignUpScreen = ({navigation}) => {
                 placeholder="가족 내 역할  (ex)첫째 딸"
                 value={userStatus}
                 onChangeText={setUserStatus}
+                margin={{marginBottom: 10}}
               />
               <InputButtonBox>
                 <AppInputs.BorderBottomInput
@@ -334,6 +341,7 @@ const SignUpScreen = ({navigation}) => {
                   placeholder="초대가족 아이디"
                   value={joinedNickname}
                   onChangeText={setJoinedNickname}
+                  margin={{marginBottom: 10}}
                 />
                 <AppButtons.BasicButton
                   title="확인"

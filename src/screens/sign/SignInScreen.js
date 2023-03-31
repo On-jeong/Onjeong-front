@@ -146,7 +146,7 @@ const SignInScreen = ({navigation}) => {
           setUserPassword('');
 
           // 유저정보 리코일에 저장
-          console.log('홈데이터',data)
+          console.log('홈데이터', data);
           setUserIdState(data.data.data.userId);
           setUserNameState(data.data.data.userName);
           setUserNicknameState(data.data.data.userNickname);
@@ -214,6 +214,7 @@ const SignInScreen = ({navigation}) => {
               placeholder="아이디"
               value={userId}
               onChangeText={setUserId}
+              margin={{marginBottom: 10}}
             />
             <AppInputs.BorderBottomInput
               maxLength={15}
@@ -221,6 +222,7 @@ const SignInScreen = ({navigation}) => {
               value={userPassword}
               onChangeText={setUserPassword}
               secureTextEntry={true}
+              margin={{marginBottom: 10}}
             />
           </InputContainer>
           <AppButtons.BigButton title="로그인" onPress={onSubmit} />
