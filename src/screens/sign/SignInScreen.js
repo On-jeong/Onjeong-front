@@ -12,6 +12,7 @@ import {useSetRecoilState} from 'recoil';
 import {
   FamilyIdState,
   UserBirthState,
+  UserEmailState,
   UserIdState,
   UserNameState,
   UserNicknameState,
@@ -68,6 +69,7 @@ const SignInScreen = ({navigation}) => {
   const setUserBirthState = useSetRecoilState(UserBirthState);
   const setUserStatusState = useSetRecoilState(UserStatusState);
   const setUserNicknameState = useSetRecoilState(UserNicknameState);
+  const setUserEmailState = useSetRecoilState(UserEmailState);
   const setFamilyIdState = useSetRecoilState(FamilyIdState);
 
   const [inputCheck, setInputCheck] = useState(false);
@@ -144,9 +146,11 @@ const SignInScreen = ({navigation}) => {
           setUserPassword('');
 
           // 유저정보 리코일에 저장
+          console.log('홈데이터',data)
           setUserIdState(data.data.data.userId);
           setUserNameState(data.data.data.userName);
           setUserNicknameState(data.data.data.userNickname);
+          setUserEmailState(data.data.data.userEmail);
           setUserStatusState(data.data.data.userStatus);
           setUserBirthState(data.data.data.userBirth);
           setFamilyIdState(data.data.data.familyId);

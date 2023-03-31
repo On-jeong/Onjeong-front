@@ -6,6 +6,7 @@ import {
   UserStatusState,
   UserNicknameState,
   UserEmailState,
+  UserIdState,
 } from '@/state/UserData';
 import {AppFonts} from '@/utils/GlobalFonts';
 import {format} from 'date-fns';
@@ -15,14 +16,19 @@ import styled from 'styled-components';
 import DatePicker from 'react-native-date-picker';
 import {AppColors} from '@/utils/GlobalStyles';
 import {WithHeader} from '@/components/headers/WithHeader';
+import {Box, Container, InputContainer} from '../sign/SignInScreen';
+import {AppInputs} from '@/components/inputs';
+import {Button, ScrollView} from 'react-native';
+import {BirthButton} from '../sign/SignUpScreen';
+import {reg} from '@/config/reg';
 
-const Container = styled.View`
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  padding-top: 20px;
-  padding-left: 30px;
-`;
+// const Container = styled.View`
+//   flex-direction: row;
+//   justify-content: flex-start;
+//   align-items: center;
+//   padding-top: 20px;
+//   padding-left: 30px;
+// `;
 
 const Input = styled.TextInput`
   flex: 1;
@@ -34,18 +40,9 @@ const Input = styled.TextInput`
   margin: 0;
 `;
 
-const ButtonContainer = styled.View`
-  flex-direction: row;
-  justify-content: flex-end;
-  padding-top: 40px;
-  padding-right: 30px;
-`;
-
-const BirthButton = styled.TouchableOpacity`
-  flex: 1;
-`;
-
 function AccountModScreen({navigation}) {
+  const [inputCheck, setInputCheck] = useState(false);
+
   // 변경값 임시저장
   const [name, setName] = useState(useRecoilValue(UserNameState));
   const [email, setEmail] = useState(useRecoilValue(UserEmailState));
@@ -53,7 +50,6 @@ function AccountModScreen({navigation}) {
   const [birth, setBirth] = useState(new Date(useRecoilValue(UserBirthState)));
   const [pw, setPw] = useState('');
   const [pwCheck, setPwCheck] = useState('');
-  console.log(new Date());
 
   const [birthOpen, setBirthOpen] = useState(false);
 
@@ -63,9 +59,6 @@ function AccountModScreen({navigation}) {
   const setUserEmailState = useSetRecoilState(UserEmailState);
   const setUserStatusState = useSetRecoilState(UserStatusState);
   const setUserBirthState = useSetRecoilState(UserBirthState);
-
-  const PW_REG = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,16}$/; // 영문, 숫자 조합 8 ~ 16자
-  const NAME_REG = /[ㄱ-힣]/; // 한글만
 
   const {
     mutate: modifyAccountMutate,
@@ -89,7 +82,11 @@ function AccountModScreen({navigation}) {
     },
   });
 
-  useEffect(() => {}, [name, status]);
+  // 항목을 전부 입력했는지 체크
+  useEffect(() => {
+    if (name && email && pw && pwCheck && birth && status) setInputCheck(true);
+    else setInputCheck(false);
+  }, [name, email, pw, pwCheck, birth, status]);
 
   const onSubmit = () => {
     if (name === '') {
@@ -97,6 +94,9 @@ function AccountModScreen({navigation}) {
       return 0;
     } else if (status == '') {
       alert('역할을 입력해 주세요');
+      return 0;
+    } else if (email == '') {
+      alert('이메일을 입력해 주세요');
       return 0;
     } else if (pw == '') {
       alert('비밀번호를 입력해 주세요');
@@ -109,23 +109,27 @@ function AccountModScreen({navigation}) {
       return 0;
     }
 
-    //if (validationCheck())
-    modifyAccountMutate({
-      userBirth: birth,
-      userName: name,
-      userPassword: pw,
-      userStatus: status,
-    });
+    if (validationCheck())
+      modifyAccountMutate({
+        userBirth: birth,
+        userEmail: email,
+        userName: name,
+        userPassword: pw,
+        userStatus: status,
+      });
   };
 
   const validationCheck = () => {
-    if (!NAME_REG.test(name)) {
+    if (!reg.NAME_REG.test(name)) {
       alert('이름은 한글만 입력 가능합니다.');
       return 0;
-    } else if (!PW_REG.test(pw)) {
+    } else if (!reg.EMAIL_REG.test(email)) {
+      alert('이메일 형식이 일치하지 않습니다.');
+      return 0;
+    } else if (!reg.PW_REG.test(pw)) {
       alert('비밀번호는 영문과 숫자 조합 8~16 자리로 설정해 주세요.');
       return 0;
-    } else if (!NAME_REG.test(status)) {
+    } else if (!reg.NAME_REG.test(status)) {
       alert('가족 내 역할은 한글만 입력 가능합니다.');
       return 0;
     }
@@ -133,124 +137,104 @@ function AccountModScreen({navigation}) {
   };
 
   return (
-    <WithHeader
-      title="회원정보 변경"
-      isBack={true}
-      navigation={navigation}
-      isLoading={modifyAccountIsLoading}
-      isError={modifyAccountIsError}>
-      <InfoBox
-        title={'아이디'}
-        modAvailable={false}
-        value={userNicknameState}
-        maxLength={20}
-        secureTextEntry={false}
-      />
-      <InfoBox
-        title={'이름'}
-        modAvailable={true}
-        value={name}
-        setValue={setName}
-        maxLength={20}
-        secureTextEntry={false}
-      />
-      <InfoBox
-        title={'이메일'}
-        modAvailable={true}
-        value={email}
-        setValue={setEmail}
-        maxLength={30}
-        secureTextEntry={false}
-      />
-      {/* 생년월일 선택 버튼 */}
-      <Container>
-        <AppFonts.SubTitleB>
-          {'생년월일'}
-          <AppFonts.SubTitleB> : </AppFonts.SubTitleB>
-        </AppFonts.SubTitleB>
-        <BirthButton onPress={() => setBirthOpen(true)}>
-          <AppFonts.Content>{format(birth, 'yyyy-MM-dd')}</AppFonts.Content>
-        </BirthButton>
-      </Container>
-      <InfoBox
-        title={'역할'}
-        modAvailable={true}
-        value={status}
-        setValue={setStatus}
-        maxLength={20}
-        secureTextEntry={false}
-      />
-      <InfoBox
-        title={'비밀번호'}
-        modAvailable={true}
-        value={pw}
-        setValue={setPw}
-        maxLength={20}
-        secureTextEntry={true}
-      />
-      <InfoBox
-        title={'비밀번호 확인'}
-        modAvailable={true}
-        value={pwCheck}
-        setValue={setPwCheck}
-        maxLength={20}
-        secureTextEntry={true}
-      />
-      {/* 생일 선택 모달 */}
-      <DatePicker
-        modal
-        mode="date"
-        open={birthOpen}
-        date={birth}
-        onConfirm={date => {
-          setBirthOpen(false);
-          setBirth(date);
-        }}
-        onCancel={() => {
-          setBirthOpen(false);
-        }}
-        confirmText="확인"
-        cancelText="취소"
-        title={null}
-        androidVariant="iosClone"
-      />
-      <ButtonContainer>
-        <AppButtons.TextButton.Content
-          title={'변경하기'}
-          bold={true}
+    <>
+      <WithHeader
+        title="회원정보 수정"
+        isBack={true}
+        navigation={navigation}
+        isLoading={modifyAccountIsLoading}
+        isError={modifyAccountIsError}
+        // reloadFunc={modifyAccountMutate({
+        //   userBirth: birth,
+        //   userEmail: email,
+        //   userName: name,
+        //   userPassword: pw,
+        //   userStatus: status,
+        // })}
+      >
+        <ScrollView>
+          <Container>
+            <Box>
+              <InputContainer>
+                <AppInputs.BorderBottomInput
+                  maxLength={15}
+                  placeholder="아이디"
+                  value={userNicknameState}
+                  onChangeText={setName}
+                  disable={true}
+                />
+                <AppInputs.BorderBottomInput
+                  maxLength={15}
+                  placeholder="이름"
+                  value={name}
+                  onChangeText={setName}
+                />
+                <AppInputs.BorderBottomInput
+                  maxLength={30}
+                  placeholder="이메일"
+                  value={email}
+                  onChangeText={setEmail}
+                  autoCapitalize="none"
+                />
+                {/* 생년월일 선택 버튼 */}
+                <BirthButton onPress={() => setBirthOpen(true)}>
+                  <AppFonts.Content>
+                    {format(birth, 'yyyy-MM-dd')}
+                  </AppFonts.Content>
+                </BirthButton>
+                <AppInputs.BorderBottomInput
+                  maxLength={15}
+                  placeholder="가족 내 역할  (ex)첫째 딸"
+                  value={status}
+                  onChangeText={setStatus}
+                />
+                <AppInputs.BorderBottomInput
+                  maxLength={16}
+                  placeholder="비밀번호 (영문과 숫자 조합 8~16)"
+                  value={pw}
+                  onChangeText={setPw}
+                  secureTextEntry={true}
+                  autoCapitalize="none"
+                />
+                <AppInputs.BorderBottomInput
+                  maxLength={16}
+                  placeholder="비밀번호 확인"
+                  value={pwCheck}
+                  onChangeText={setPwCheck}
+                  secureTextEntry={true}
+                  autoCapitalize="none"
+                />
+              </InputContainer>
+
+              {/* 생일 선택 모달 */}
+              <DatePicker
+                modal
+                mode="date"
+                open={birthOpen}
+                date={birth}
+                onConfirm={date => {
+                  setBirthOpen(false);
+                  setBirth(date);
+                }}
+                onCancel={() => {
+                  setBirthOpen(false);
+                }}
+                confirmText="확인"
+                cancelText="취소"
+                title={null}
+                androidVariant="iosClone"
+              />
+            </Box>
+          </Container>
+        </ScrollView>
+        <AppButtons.FullButton
+          title="저장하기"
           onPress={onSubmit}
+          disabled={!inputCheck}
         />
-      </ButtonContainer>
-    </WithHeader>
+      </WithHeader>
+    </>
   );
 }
-
-const InfoBox = ({
-  title,
-  value,
-  setValue,
-  modAvailable,
-  maxLength,
-  secureTextEntry,
-}) => {
-  return (
-    <Container>
-      <AppFonts.SubTitleB>
-        {title}
-        <AppFonts.SubTitleB> : </AppFonts.SubTitleB>
-      </AppFonts.SubTitleB>
-      {modAvailable ? (
-        <Input
-          maxLength={maxLength}
-          value={value}
-          onChangeText={setValue}
-          secureTextEntry={secureTextEntry}
-        />
-      ) : (
-        <AppFonts.SubTitleB>{value}</AppFonts.SubTitleB>
-      )}
-    </Container>
-  );
-};
 
 export default AccountModScreen;
