@@ -22,6 +22,7 @@ export const BorderBottomInput = ({
   maxLength,
   secureTextEntry,
   width,
+  disable = false,
 }) => {
   return (
     <InputContainer width={width}>
@@ -32,6 +33,9 @@ export const BorderBottomInput = ({
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
         placeholderTextColor={AppColors.Gray600}
+        editable={!disable}
+        color={disable && AppColors.Gray600}
+        //selectTextOnFocus={false}
       />
     </InputContainer>
   );
