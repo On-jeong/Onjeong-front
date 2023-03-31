@@ -14,7 +14,7 @@ export const Interceptor = ({children}) => {
     res => res,
     async err => {
       const prevRequest = err?.config;
-      console.log('애로:', err);
+      console.log(err?.config?.url, '애로:', err);
 
       // 에러코드 A004 -> 기간이 만료된 access토큰이라고 판단
       // prevRequest.sent로 중복 요청인지 판단
@@ -73,10 +73,10 @@ export const Interceptor = ({children}) => {
 
       // 잘못된 토큰, 없는 토큰
       if (
-        err?.response?.data.code == 'A005' ||
-        err?.response?.data.code == 'A006'
+        err?.response?.data?.code == 'A005' ||
+        err?.response?.data?.code == 'A006'
       ) {
-        if (err?.response?.data.code == 'A005')
+        if (err?.response?.data?.code == 'A005')
           alert('잘못 된 토큰입니다! 로그인 화면으로 이동합니다.');
         AsyncStorage.removeItem('userData');
         AsyncStorage.removeItem('accessToken');
