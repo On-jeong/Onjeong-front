@@ -53,6 +53,7 @@ const Alert = ({
   onPress,
   disabled = true,
   size = 16,
+  color,
   padding = {
     padding: 0,
     paddingTop: 0,
@@ -65,7 +66,7 @@ const Alert = ({
     <TouchableOpacity onPress={onPress} disabled={disabled}>
       <Ionicons
         name="alert-circle-outline"
-        color={AppColors.Font}
+        color={color}
         size={size}
         style={{
           padding: padding.padding,
@@ -240,14 +241,10 @@ ReLoad.propTypes = {
   padding: PropTypes.objectOf(PropTypes.number),
 };
 
-const AlertCircle = ({onPress, disabled = true, active = false, size = 20}) => {
+const AlertCircle = ({onPress, disabled = true, color, size = 20}) => {
   return (
     <TouchableOpacity onPress={onPress} disabled={disabled}>
-      <Ionicons
-        name="alert-circle"
-        size={size}
-        color={active ? AppColors.border : AppColors.Font}
-      />
+      <Ionicons name="alert-circle" size={size} color={color} />
     </TouchableOpacity>
   );
 };
