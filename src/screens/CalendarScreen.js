@@ -142,9 +142,7 @@ export default function CalendarScreen({navigation}) {
         reloadFunc={() => refetch()}>
         <PaperContainer>
           <AppContainer.Paper
-            height={windowHeightNoNav * 0.9}
-            padding={0}
-            paddingTop={0}>
+            height={windowHeightNoNav * 0.9}>
             <Title
               onPress={() => {
                 setMonthPickerOpen(true);
