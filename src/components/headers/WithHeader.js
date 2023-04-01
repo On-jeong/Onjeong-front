@@ -29,7 +29,7 @@ export const LeftNav = styled.View`
 
 export const BellIconBox = styled.TouchableOpacity`
   padding: 12px;
-  padding-top: 14px;
+  padding-top: 13px;
 `;
 
 export const IconBox = styled.TouchableOpacity`
