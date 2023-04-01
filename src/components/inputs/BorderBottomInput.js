@@ -25,7 +25,7 @@ export const BorderBottomInput = ({
   onSubmitEditing,
   width,
   margin = {marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0},
-  padding = {paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0},
+  padding = {paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10},
   fontSize = 17,
   disable = false,
 }) => {
