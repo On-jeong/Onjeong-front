@@ -1,5 +1,5 @@
-import ReactNativeRecoilPersist from "react-native-recoil-persist";
-import { atom } from "recoil";
+import ReactNativeRecoilPersist from 'react-native-recoil-persist';
+import {atom} from 'recoil';
 
 export const FamilyCoinState = atom({
   key: 'familyCoin',
@@ -28,5 +28,11 @@ export const FlowerKindState = atom({
 export const FlowerBloomDateState = atom({
   key: 'flowerBloomDate',
   default: null,
+  effects_UNSTABLE: [ReactNativeRecoilPersist.persistAtom],
+});
+
+export const FamilyProfileState = atom({
+  key: 'familyProfile',
+  default: [],
   effects_UNSTABLE: [ReactNativeRecoilPersist.persistAtom],
 });

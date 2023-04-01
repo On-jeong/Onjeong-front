@@ -1,13 +1,15 @@
 import React, {useCallback} from 'react';
 import {BasicHeader} from '@/components/headers/WithHeader';
 import styled from 'styled-components';
-import {AppColors, windowHeight, windowWidth} from '@/utils/GlobalStyles';
-import {ScrollView, View} from 'react-native';
+import {AppColors, windowWidth} from '@/utils/GlobalStyles';
+import {ScrollView} from 'react-native';
 import {AppComponents} from '@/components/Components';
 import {useGetFamilyList} from '../../hooks/useProFileData';
 import {AppFonts} from '../../utils/GlobalFonts';
 import {useFocusEffect} from '@react-navigation/native';
 import {AppContainer} from '@/components/container';
+import {FamilyProfileState} from '@/state/FamilyData';
+import {useRecoilState} from 'recoil';
 
 const ProfileBox = styled.View`
   flex-direction: row;
@@ -24,6 +26,12 @@ const Profile = styled.TouchableOpacity`
   align-items: center;
 `;
 
+const Image = styled.Image`
+  width: ${parseInt(windowWidth / 2.3) - 60}px;
+  height: ${parseInt(windowWidth / 2.3) - 60}px;
+  background-color: ${AppColors.Gray400};
+`;
+
 const ProfileBody = styled.View`
   justify-content: space-between;
   align-items: center;
@@ -37,7 +45,16 @@ const Name = styled.View`
 `;
 
 const ProfileScreen = ({navigation}) => {
-  const {data, isLoading, isError, refetch} = useGetFamilyList();
+  const [familyProfileState, setFamilyProfileState] =
+    useRecoilState(FamilyProfileState);
+
+  const {data, isLoading, isError, refetch} = useGetFamilyList({
+    onSuccess: data => {
+      setFamilyProfileState(data.data.data);
+    },
+  });
+
+  console.log('에타', familyProfileState[0].profileImageUrl);
 
   useFocusEffect(
     useCallback(() => {
@@ -55,8 +72,9 @@ const ProfileScreen = ({navigation}) => {
       <ScrollView>
         <ProfileBox>
           <>
-            {data?.data?.data.map(fm => (
+            {familyProfileState.map(fm => (
               <Profile
+                key={fm.userId}
                 onPress={() =>
                   navigation.navigate('ProfileDetail', {
                     userId: fm.userId,
@@ -65,12 +83,9 @@ const ProfileScreen = ({navigation}) => {
                 }>
                 <AppContainer.Paper height={'100%'} key={fm.userId}>
                   <ProfileBody>
-                    <View
-                      style={{
-                        width: parseInt(windowWidth / 2.3) - 60,
-                        height: parseInt(windowWidth / 2.3) - 60,
-                        backgroundColor: 'pink',
-                      }}></View>
+                    <Image
+                      source={fm.profileImageUrl && {uri: fm.profileImageUrl}}
+                    />
                     <Name>
                       <AppFonts.Body2>{fm.userStatus}</AppFonts.Body2>
                     </Name>

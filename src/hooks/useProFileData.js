@@ -67,9 +67,10 @@ const addExpression = ({userId, data}) => {
 };
 
 // 가족 리스트 데이터 불러오기
-export const useGetFamilyList = () => {
+export const useGetFamilyList = ({onSuccess}) => {
   return useQuery(['getFamilyList'], fetchFamilyList, {
     onError: error => console.log(error),
+    onSuccess:onSuccess
   });
 };
 
