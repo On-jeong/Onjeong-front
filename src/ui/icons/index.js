@@ -14,6 +14,8 @@ import Back from '@/assets/icons/back.svg';
 import Back_gray from '@/assets/icons/back_gray.svg';
 import Down from '@/assets/icons/down.svg';
 import Dot from '@/assets/icons/dot.svg';
+import DotGray from '@/assets/icons/dot_gray.svg';
+import Cancel from '@/assets/icons/cancel.svg';
 
 import Add from '@/assets/icons/add.svg';
 import Bell from '@/assets/icons/bell.svg';
@@ -50,4 +52,6 @@ export const AppIcons = {
   Right_gray,
   FlowerGray,
   Dot,
+  DotGray,
+  Cancel,
 };

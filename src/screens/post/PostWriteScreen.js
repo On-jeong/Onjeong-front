@@ -2,18 +2,18 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {AppFonts} from '@/utils/GlobalFonts';
-import {MainInput, Paper, PaperContainer} from '@/screens/mail/MailWriteScreen';
+import {PaperContainer} from '@/screens/mail/MailWriteScreen';
 import {useAddBoard, useModifyBoard} from '../../hooks/useBoardData';
 import {useQueryClient} from '@tanstack/react-query';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
 import {windowHeight, windowWidth} from '../../utils/GlobalStyles';
 import {AppIconButtons} from '../../components/IconButtons';
 import {WithHeader} from '@/components/headers/WithHeader';
 import {AppInputs} from '@/components/inputs';
 import {AppButtons} from '@/components/buttons';
 import {ScrollView} from 'react-native';
-import {AppComponent} from '@/components/Loading';
 import {AppComponents} from '@/components/Components';
+import {format} from 'date-fns';
 
 export const SendBox = styled.View`
   width: 100%;
@@ -43,6 +43,8 @@ export const PreImage = styled.Image`
 `;
 
 const PostWriteScreen = ({navigation, route}) => {
+  const formatDate = format(route.params.date, 'yyyy-MM-dd');
+
   const queryClient = useQueryClient();
 
   // 수정에서 넘어온 경우 기존 컨텐츠 보여주기
@@ -53,25 +55,19 @@ const PostWriteScreen = ({navigation, route}) => {
 
   const {mutate: addBoard, isLoading: addIsLoading} = useAddBoard({
     onSuccess: () => {
-      //alert('게시물 작성이 완료되었습니다.');
-
       // 받아왔던 포스트 데이터 리패치
-      queryClient.invalidateQueries('getTodayBoards', route.params.barDate);
+      queryClient.invalidateQueries('getTodayBoards', formatDate);
       navigation.navigate('Post', {
         date: route.params.date,
-        barDate: route.params.barDate,
       });
     },
   });
   const {mutate: modBoard, isLoading: modIsLoading} = useModifyBoard({
     onSuccess: () => {
-      //alert('게시물 수정이 완료되었습니다.');
-
       // 받아왔던 포스트 데이터 리패치
-      queryClient.invalidateQueries('getTodayBoards', route.params.barDate);
+      queryClient.invalidateQueries('getTodayBoards', formatDate);
       navigation.navigate('Post', {
         date: route.params.date,
-        barDate: route.params.barDate,
       });
     },
   });
@@ -122,14 +118,14 @@ const PostWriteScreen = ({navigation, route}) => {
     }
     // 새로운 포스트인 경우
     else {
-      addBoard({boardDate: route.params.barDate, formData});
+      addBoard({boardDate: formatDate, formData});
     }
   };
 
   return (
     <>
       <WithHeader
-        title={route.params.date}
+        title={formatDate}
         isLoading={addIsLoading || modIsLoading}
         isBack={true}
         navigation={navigation}>
@@ -139,7 +135,8 @@ const PostWriteScreen = ({navigation, route}) => {
               image={image}
               mainText={mainText}
               setMainText={setMainText}
-              height={windowHeight * 0.5}>
+              height={windowHeight * 0.5}
+              padding={{padding: 10}}>
               {image && (
                 <ImageBox>
                   <PreImage source={{uri: image}} />

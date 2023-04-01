@@ -48,8 +48,7 @@ export default function CalendarBody({navigation, monthDays}) {
                   key={date.date}
                   onPress={() => {
                     navigation.navigate('Post', {
-                      date: format(date.date, 'yyyy년 MM월 dd일'),
-                      barDate: formatDate,
+                      date: date.date,
                     });
                   }}>
                   {date.isCurMonth && (
@@ -91,4 +90,3 @@ export default function CalendarBody({navigation, monthDays}) {
     </>
   );
 }
-

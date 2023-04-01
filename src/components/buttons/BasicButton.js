@@ -86,3 +86,60 @@ export const BigButton = ({
     />
   );
 };
+
+export const SmallButton = ({
+  title,
+  disabled = false,
+  onPress,
+  fontColor,
+  color,
+  height = 25,
+  width = 50,
+  margin = {
+    margin: 0,
+    marginTop: 0,
+    marginBottom: 0,
+    marginLeft: 0,
+    marginRight: 0,
+  },
+}) => {
+  return (
+    <>
+      <Button
+        color={
+          disabled ? AppColors.Secondary : color ? color : AppColors.Primary
+        }
+        onPress={onPress}
+        disabled={disabled}
+        height={height}
+        width={width}
+        margin={margin}
+        style={{
+          margin: margin.margin,
+          marginTop: margin.marginTop,
+          marginBottom: margin.marginBottom,
+          marginLeft: margin.marginLeft,
+          marginRight: margin.marginRight,
+        }}>
+        <AppFonts.SubContent
+          color={
+            disabled
+              ? AppColors.Gray700
+              : fontColor
+              ? fontColor
+              : AppColors.Font
+          }>
+          {title}
+        </AppFonts.SubContent>
+      </Button>
+    </>
+  );
+};
+
+SmallButton.propTypes = {
+  title: PropTypes.string.isRequired,
+  width: PropTypes.number.isRequired,
+  inputCheck: PropTypes.bool,
+  onPress: PropTypes.func.isRequired,
+  color: PropTypes.string,
+};

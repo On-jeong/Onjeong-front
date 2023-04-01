@@ -80,8 +80,11 @@ Row.propTypes = {
   justifyContent: PropTypes.string,
 };
 
-const TouchableBox = ({
-  children,
+const Icon = styled.View`
+  padding: 5px;
+`;
+const IconBox = ({
+  icon,
   padding = {
     padding: 0,
     paddingTop: 0,
@@ -91,7 +94,7 @@ const TouchableBox = ({
   },
 }) => {
   return (
-    <TouchableOpacity
+    <Icon
       style={{
         padding: padding.padding,
         paddingTop: padding.paddingTop,
@@ -99,9 +102,45 @@ const TouchableBox = ({
         paddingLeft: padding.paddingLeft,
         paddingRight: padding.paddingRight,
       }}>
-      {children}
-    </TouchableOpacity>
+      {icon}
+    </Icon>
   );
+};
+
+const IconTouch = styled.TouchableOpacity`
+  padding: 5px;
+`;
+const IconButton = ({
+  icon,
+  onPress,
+  disabled = false,
+  padding = {
+    padding: 5,
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
+}) => {
+  return (
+    <IconTouch
+      onPress={onPress}
+      disabled={disabled}
+      style={{
+        padding: padding.padding,
+        paddingTop: padding.paddingTop,
+        paddingBottom: padding.paddingBottom,
+        paddingLeft: padding.paddingLeft,
+        paddingRight: padding.paddingRight,
+      }}>
+      {icon}
+    </IconTouch>
+  );
+};
+IconButton.propTypes = {
+  icon: PropTypes.element,
+  onPress: PropTypes.func,
+  disabled: PropTypes.bool,
 };
 
 export const AppComponents = {
@@ -109,5 +148,6 @@ export const AppComponents = {
   EmptyBox,
   Circle,
   Row,
-  TouchableBox,
+  IconBox,
+  IconButton,
 };

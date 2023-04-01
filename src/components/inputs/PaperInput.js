@@ -62,14 +62,24 @@ export const PaperInput = ({
   mainText,
   setMainText,
   height = 500,
-  padding = 20,
-  paddingTop = 10,
+  padding = {
+    padding: 20,
+    paddingTop: 10,
+    paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
 }) => {
   return (
     <AppContainer.Paper
       height={height}
-      padding={padding}
-      paddingTop={paddingTop}>
+      padding={{
+        padding: padding.padding,
+        paddingTop: padding.paddingTop,
+        paddingBottom: padding.paddingBottom,
+        paddingLeft: padding.paddingLeft,
+        paddingRight: padding.paddingRight,
+      }}>
       <>
         {children}
         <MainInput

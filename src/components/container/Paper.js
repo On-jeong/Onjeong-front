@@ -15,20 +15,35 @@ export const PaperBox = styled.View`
 
 export const PaperLine = styled.View`
   width: 100%;
-  height: 100%;
+  max-height:100%
+  height: auto;
   border-width: 2px;
-  padding: ${props => props.padding}px;
-  padding-top: ${props => props.paddingTop}px;
   border-color: ${AppColors.Gray500};
   background-color: ${AppColors.white};
 `;
 
-export const Paper = ({children, height = 500, width, padding, paddingTop}) => {
+export const Paper = ({
+  children,
+  height = 500,
+  width,
+  padding = {
+    padding: 10,
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
+}) => {
   return (
     <PaperBox height={height} width={width}>
       <PaperLine
-        padding={padding ? padding : 0}
-        paddingTop={paddingTop ? paddingTop : 0}>
+        style={{
+          padding: padding.padding,
+          paddingTop: padding.paddingTop,
+          paddingBottom: padding.paddingBottom,
+          paddingLeft: padding.paddingLeft,
+          paddingRight: padding.paddingRight,
+        }}>
         {children}
       </PaperLine>
     </PaperBox>

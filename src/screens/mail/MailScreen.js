@@ -177,11 +177,11 @@ const MailScreen = ({navigation}) => {
               onPress={() => sendMails()}
             />
             <Alert>
-              <AppIconButtons.Alert disabled={false} onPress={() => {}} />
+              {/* <AppIconButtons.Alert disabled={false} onPress={() => {}} /> */}
             </Alert>
           </Filter>
           <Filter>
-            <IconButton
+            <AppComponents.IconButton
               icon={<AppIcons.Trash />}
               disabled={false}
               onPress={() => setIsDelete(!isDelete)}

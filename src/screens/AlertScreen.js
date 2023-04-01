@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import {AppComponents} from '@/components/Components';
 import {AppIconButtons} from '../components/IconButtons';
 import {FlatList, ScrollView} from 'react-native';
-import {AppIcons, IconBox, IconButton} from '@/ui/icons';
+import {AppIcons} from '@/ui/icons';
 import {AppColors} from '@/utils/GlobalStyles';
 import {useGetNotif} from '@/hooks/useFCMtoken';
 
@@ -67,9 +67,7 @@ const RenderMessage = ({item, index}) => {
       {index != 0 && <AppComponents.HorizonLine />}
       <MessageBox>
         <MessageContent>
-          <IconBox padding={{paddingRight: 8}}>
-            <AppIcons.FlowerGray />
-          </IconBox>
+          <AppComponents.IconBox icon={<AppIcons.FlowerGray />} padding={{paddingRight: 8}} />
           <AppFonts.Body2>{item.notificationContent}</AppFonts.Body2>
         </MessageContent>
         {/* <Time>
