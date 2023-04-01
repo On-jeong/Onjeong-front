@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {AppColors} from '@/utils/GlobalStyles';
+import {TouchableOpacity} from 'react-native';
 
 const HLine = styled.View`
   background-color: ${AppColors.Gray300};
@@ -79,9 +80,34 @@ Row.propTypes = {
   justifyContent: PropTypes.string,
 };
 
+const TouchableBox = ({
+  children,
+  padding = {
+    padding: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
+}) => {
+  return (
+    <TouchableOpacity
+      style={{
+        padding: padding.padding,
+        paddingTop: padding.paddingTop,
+        paddingBottom: padding.paddingBottom,
+        paddingLeft: padding.paddingLeft,
+        paddingRight: padding.paddingRight,
+      }}>
+      {children}
+    </TouchableOpacity>
+  );
+};
+
 export const AppComponents = {
   HorizonLine,
   EmptyBox,
   Circle,
   Row,
+  TouchableBox,
 };

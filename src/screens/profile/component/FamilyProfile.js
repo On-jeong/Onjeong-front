@@ -13,7 +13,6 @@ import {useQueryClient} from '@tanstack/react-query';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {UserIdState} from '@/state/UserData';
 import {ProfileImageUrIState, ProfileMessageState} from '@/state/ProfileData';
-import {AppStyled} from '@/components/style';
 import {AppComponents} from '@/components/Components';
 import {AppInputs} from '@/components/inputs';
 
@@ -131,7 +130,7 @@ const FamilyProfile = ({route}) => {
           </ImageBox>
 
           <BasicInfos>
-            <AppStyled.Row>
+            <AppComponents.Row>
               <AppFonts.SubTitle>
                 {detailData?.data?.data.name}
               </AppFonts.SubTitle>
@@ -139,7 +138,7 @@ const FamilyProfile = ({route}) => {
               <AppFonts.Body2 color={AppColors.Gray600}>
                 {detailData?.data?.data.age}
               </AppFonts.Body2>
-            </AppStyled.Row>
+            </AppComponents.Row>
             <AppFonts.Body2 color={AppColors.Gray800}>
               {detailData?.data?.data.birth}
             </AppFonts.Body2>

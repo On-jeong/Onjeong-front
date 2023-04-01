@@ -13,6 +13,7 @@ import Right_gray from '@/assets/icons/right_gray.svg';
 import Back from '@/assets/icons/back.svg';
 import Back_gray from '@/assets/icons/back_gray.svg';
 import Down from '@/assets/icons/down.svg';
+import Dot from '@/assets/icons/dot.svg';
 
 import Add from '@/assets/icons/add.svg';
 import Bell from '@/assets/icons/bell.svg';
@@ -23,10 +24,6 @@ import Trash from '@/assets/icons/trash.svg';
 import Water from '@/assets/icons/water.svg';
 import Flower from '@/assets/icons/flower.svg';
 import FlowerGray from '@/assets/icons/flower_gray.svg';
-
-import PropTypes from 'prop-types';
-import React from 'react';
-import styled from 'styled-components';
 
 export const AppIcons = {
   MailWhite,
@@ -52,69 +49,5 @@ export const AppIcons = {
   Back_gray,
   Right_gray,
   FlowerGray,
-};
-
-const Icon = styled.View`
-  padding: 5px;
-`;
-
-export const IconBox = ({
-  children,
-  padding = {
-    padding: 0,
-    paddingTop: 0,
-    paddingBottom: 0,
-    paddingLeft: 0,
-    paddingRight: 0,
-  },
-}) => {
-  return (
-    <Icon
-      style={{
-        padding: padding.padding,
-        paddingTop: padding.paddingTop,
-        paddingBottom: padding.paddingBottom,
-        paddingLeft: padding.paddingLeft,
-        paddingRight: padding.paddingRight,
-      }}>
-      {children}
-    </Icon>
-  );
-};
-
-const IconTouch = styled.TouchableOpacity`
-  padding: 5px;
-`;
-
-export const IconButton = ({
-  children,
-  onPress,
-  disabled = false,
-  padding = {
-    padding: 0,
-    paddingTop: 0,
-    paddingBottom: 0,
-    paddingLeft: 0,
-    paddingRight: 0,
-  },
-}) => {
-  return (
-    <IconTouch
-      onPress={onPress}
-      disabled={disabled}
-      style={{
-        padding: padding.padding,
-        paddingTop: padding.paddingTop,
-        paddingBottom: padding.paddingBottom,
-        paddingLeft: padding.paddingLeft,
-        paddingRight: padding.paddingRight,
-      }}>
-      {children}
-    </IconTouch>
-  );
-};
-IconButton.propTypes = {
-  icon: PropTypes.element,
-  onPress: PropTypes.func,
-  disabled: PropTypes.bool,
+  Dot,
 };
