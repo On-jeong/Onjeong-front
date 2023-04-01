@@ -97,7 +97,7 @@ const MailWriteScreen = ({navigation}) => {
           <PaperInput
             mainText={mainText}
             setMainText={setMainText}
-            height={windowHeight * 0.5}>
+            height={windowHeight * 0.6}>
             <PaperTop>
               <ToBox>
                 <AppFonts.SubTitle>To.</AppFonts.SubTitle>

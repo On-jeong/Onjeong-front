@@ -1,60 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import {AppColors, windowHeight, windowWidth} from '@/utils/GlobalStyles';
 import {FontFamily} from '@/utils/GlobalFonts';
 import {AppContainer} from '../container';
-
-export const Paper = styled.View`
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  background-color: ${AppColors.white};
-  padding: 10px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-`;
-
-export const PaperLine = styled.View`
-  width: 100%;
-  border-width: 2px;
-  padding: 20px;
-  padding-top: 10px;
-  border-color: ${AppColors.Gray600};
-  background-color: ${AppColors.white};
-`;
 
 export const MainInput = styled.TextInput`
   font-family: ${FontFamily.Light};
   font-size: 20px;
   height: ${props => props.height && props.height};
-  line-height: 30px;
-`;
-
-export const SendBox = styled.View`
-  width: 100%;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-export const SendBtn = styled.TouchableOpacity`
-  margin: 5px;
-  flex-direction: row;
-  align-items: center;
-`;
-
-export const ImageBox = styled.View`
-  margin-top: 10px;
-`;
-
-export const IconBox = styled.View`
-  position: absolute;
-  top: -10px;
-  left: -10px;
-`;
-
-export const PreImage = styled.Image`
-  width: ${windowWidth * 0.3}px;
-  height: ${windowWidth * 0.3}px;
 `;
 
 export const PaperInput = ({
@@ -63,18 +15,16 @@ export const PaperInput = ({
   setMainText,
   height = 500,
   padding = {
-    padding: 20,
     paddingTop: 10,
-    paddingBottom: 0,
-    paddingLeft: 0,
-    paddingRight: 0,
+    paddingBottom: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
 }) => {
   return (
     <AppContainer.Paper
       height={height}
       padding={{
-        padding: padding.padding,
         paddingTop: padding.paddingTop,
         paddingBottom: padding.paddingBottom,
         paddingLeft: padding.paddingLeft,

@@ -179,8 +179,7 @@ const TodayPlan = ({date, AnnData}) => {
         </PlanTitle>
 
         <AppContainer.Paper
-          padding={{padding: 20, paddingLeft: 20}}
-          height={'auto'}>
+          padding={{padding: 20, paddingLeft: 20}}>
           {AnnData?.length === 0 && !isAddPlan && (
             <AppFonts.Body2 color={AppColors.Gray600}>
               오늘의 일정이 없습니다.

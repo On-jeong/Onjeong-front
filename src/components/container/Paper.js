@@ -4,7 +4,7 @@ import {AppColors} from '@/utils/GlobalStyles';
 
 export const PaperBox = styled.View`
   width: ${props => (props.width ? props.width : '100%')};
-  height: ${props => props.height && props.height};
+  height: ${props => props.height};
   justify-content: center;
   align-items: center;
   background-color: ${AppColors.white};
@@ -15,8 +15,7 @@ export const PaperBox = styled.View`
 
 export const PaperLine = styled.View`
   width: 100%;
-  max-height:100%
-  height: auto;
+  max-height: 100%;
   border-width: 2px;
   border-color: ${AppColors.Gray500};
   background-color: ${AppColors.white};
@@ -24,7 +23,7 @@ export const PaperLine = styled.View`
 
 export const Paper = ({
   children,
-  height = 500,
+  height = 'auto',
   width,
   padding = {
     padding: 10,
