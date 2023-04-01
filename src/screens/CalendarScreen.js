@@ -9,7 +9,7 @@ import {
 } from 'date-fns';
 import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
-import {WithHeader} from '../components/headers/WithHeader';
+import {BasicHeader} from '../components/headers/WithHeader';
 import {AppFonts} from '../utils/GlobalFonts';
 import {AppColors, windowHeightNoNav, windowWidth} from '../utils/GlobalStyles';
 import {useFocusEffect} from '@react-navigation/native';
@@ -136,13 +136,12 @@ export default function CalendarScreen({navigation}) {
 
   return (
     <>
-      <WithHeader
+      <BasicHeader
         title="가족 달력"
         isError={isError}
         reloadFunc={() => refetch()}>
         <PaperContainer>
-          <AppContainer.Paper
-            height={windowHeightNoNav * 0.9}>
+          <AppContainer.Paper height={windowHeightNoNav * 0.9}>
             <Title
               onPress={() => {
                 setMonthPickerOpen(true);
@@ -166,7 +165,7 @@ export default function CalendarScreen({navigation}) {
             />
           </AppContainer.Paper>
         </PaperContainer>
-      </WithHeader>
+      </BasicHeader>
 
       {/* 년, 월 선택 모달 */}
       <AppModal.EmptyModal
@@ -205,7 +204,7 @@ export default function CalendarScreen({navigation}) {
             setMonthPickerOpen(false);
             setCurMonthState(pickMonth);
             setCurYearState(pickYear);
-            setCurDateState(new Date(pickYear, pickMonth-1));
+            setCurDateState(new Date(pickYear, pickMonth - 1));
           }}>
           <AppFonts.Body1>확인</AppFonts.Body1>
         </BottomButton>

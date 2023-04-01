@@ -15,10 +15,10 @@ import {useFocusEffect} from '@react-navigation/native';
 import {AppComponents} from '@/components/Components';
 import {AppButtons} from '../../components/buttons';
 import EmptyComponent from '@/components/Loading/EmptyComponent';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import {NotReadMailsState, ReceiveMailsState} from '@/state/MailData';
-import {WithHeader} from '@/components/headers/WithHeader';
-import {AppIcons, IconButton} from '@/ui/icons';
+import {useRecoilState} from 'recoil';
+import {ReceiveMailsState} from '@/state/MailData';
+import {BasicHeader} from '@/components/headers/WithHeader';
+import {AppIcons} from '@/ui/icons';
 
 const TopBar = styled.View`
   width: 100%;
@@ -158,7 +158,7 @@ const MailScreen = ({navigation}) => {
   };
 
   return (
-    <WithHeader
+    <BasicHeader
       title={'우편함'}
       navigation={navigation}
       isLoading={isReceive ? receiveIsLoading : sendIsLoading}
@@ -242,7 +242,7 @@ const MailScreen = ({navigation}) => {
           <AppIcons.Add />
         </NewButton>
       </>
-    </WithHeader>
+    </BasicHeader>
   );
 };
 
