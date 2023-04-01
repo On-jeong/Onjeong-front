@@ -1,7 +1,5 @@
 import customAxios from '@/api/axios';
-import {UserIdState} from '@/state/UserData';
 import {useMutation, useQuery} from '@tanstack/react-query';
-import {useRecoilValue} from 'recoil';
 
 const fetchFamilyList = () => {
   return customAxios.get(`/families`);
@@ -67,10 +65,9 @@ const addExpression = ({userId, data}) => {
 };
 
 // 가족 리스트 데이터 불러오기
-export const useGetFamilyList = ({onSuccess}) => {
+export const useGetFamilyList = () => {
   return useQuery(['getFamilyList'], fetchFamilyList, {
     onError: error => console.log(error),
-    onSuccess:onSuccess
   });
 };
 
