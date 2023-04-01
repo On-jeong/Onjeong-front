@@ -48,7 +48,7 @@ export const MessageInput = styled.TextInput`
   padding: 0;
 `;
 
-const FamilyProfile = ({route}) => {
+const FamilyProfile = ({route, detailData}) => {
   const queryClient = useQueryClient();
 
   const userId = useRecoilValue(UserIdState);
@@ -57,12 +57,6 @@ const FamilyProfile = ({route}) => {
     useRecoilState(ProfileMessageState);
   const [profileImageUrIState, setProfileImageUrIState] =
     useRecoilState(ProfileImageUrIState);
-
-  const {data: detailData} = useGetFamilyProfile(route.params.userId, data => {
-    setProfileMessageState(data?.data?.data.message);
-    setProfileImageUrIState(data?.data?.data.profileImageUrl);
-    console.log('데이터 가져옴', data);
-  });
 
   const {mutate: addImage} = useAddProfileImage({
     onSuccess: data => {
@@ -131,16 +125,14 @@ const FamilyProfile = ({route}) => {
 
           <BasicInfos>
             <AppComponents.Row>
-              <AppFonts.SubTitle>
-                {detailData?.data?.data.name}
-              </AppFonts.SubTitle>
+              <AppFonts.SubTitle>{detailData?.name}</AppFonts.SubTitle>
               <AppComponents.EmptyBox width={10} />
               <AppFonts.Body2 color={AppColors.Gray600}>
-                {detailData?.data?.data.age}
+                {detailData?.age}
               </AppFonts.Body2>
             </AppComponents.Row>
             <AppFonts.Body2 color={AppColors.Gray800}>
-              {detailData?.data?.data.birth}
+              {detailData?.birth}
             </AppFonts.Body2>
 
             {/* 상태메세지 */}
@@ -148,6 +140,8 @@ const FamilyProfile = ({route}) => {
               value={profileMessageState}
               onChangeText={setProfileMessageState}
               onSubmitEditing={submitMessage}
+              placeholder="메세지 없음"
+              disable={route.params.userId !== userId}
               maxLength={15}
               width={'auto'}
               fontSize={12}

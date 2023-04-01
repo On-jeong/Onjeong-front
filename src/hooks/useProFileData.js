@@ -72,7 +72,7 @@ export const useGetFamilyList = () => {
 };
 
 // 유저 프로필 불러오기 (개인정보 + 상태메시지)
-export const useGetFamilyProfile = (userId, onSuccess) => {
+export const useGetFamilyProfile = ({userId, onSuccess}) => {
   return useQuery(
     ['getFamilyProfile', userId],
     () => fetchFamilyProfile(userId),

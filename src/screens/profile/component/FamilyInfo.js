@@ -20,6 +20,8 @@ import {useQueryClient} from '@tanstack/react-query';
 import {MessageInput} from './FamilyProfile';
 import {AppComponents} from '@/components/Components';
 import LoadingComponent from '@/components/Loading/LoadingComponent';
+import {AppIcons} from '@/ui/icons';
+import {AppContainer} from '@/components/container';
 
 const ContentsContainer = styled.ScrollView`
   padding-left: 7%;
@@ -39,22 +41,13 @@ const CancelBox = styled.View`
   right: -10;
 `;
 
-const FamilyInfo = ({route}) => {
+const FamilyInfo = ({route, infoData}) => {
   const queryClient = useQueryClient();
 
   const [tagValue, setTagValue] = useState(''); // 새로운 태그 추가 내용
 
   // 수정중인 태그 카테고리 표시
   const [modiCategory, setModiCategory] = useState('');
-
-  const {
-    data: infoData,
-    isLoading: infoIsLoading,
-    isError: infoIsError,
-    refetch: infoRefetch,
-  } = useGetFamilyInfo(route.params.userId);
-
-  if (!infoIsLoading) console.log('인포:', infoData);
 
   // 태그 추가 api
   const {mutate: addFavorite} = useAddFavorite({
@@ -202,7 +195,7 @@ const FamilyInfo = ({route}) => {
   };
 
   const TagCategory = (title, infoData, category, tagValue, setTagValue) => {
-    let tagData = infoData[category];
+    const tagData = infoData[category];
 
     return (
       <>
@@ -260,48 +253,33 @@ const FamilyInfo = ({route}) => {
 
   return (
     <ContentsContainer>
-      <LoadingComponent
-        isError={infoIsError}
-        isLoading={infoIsLoading}
-        reloadFunc={infoRefetch}>
-        {!infoIsLoading && (
-          <>
-            {TagCategory(
-              '좋아하는 것들',
-              infoData,
-              'favorites',
-              tagValue,
-              setTagValue,
-            )}
-
-            {TagCategory(
-              '싫어하는 것들',
-              infoData,
-              'hates',
-              tagValue,
-              setTagValue,
-            )}
-
-            {TagCategory(
-              '요즘 관심사',
-              infoData,
-              'interests',
-              tagValue,
-              setTagValue,
-            )}
-
-            {TagCategory(
-              `'${route.params.role}'을(를) 한단어로 표현한다면?`,
-              infoData,
-              'expressions',
-              tagValue,
-              setTagValue,
-            )}
-
-            <AppComponents.EmptyBox height={50} />
-          </>
+      <>
+        {TagCategory(
+          '좋아하는 것들',
+          infoData,
+          'favorites',
+          tagValue,
+          setTagValue,
         )}
-      </LoadingComponent>
+
+        {TagCategory('싫어하는 것들', infoData, 'hates', tagValue, setTagValue)}
+
+        {TagCategory(
+          '요즘 관심사',
+          infoData,
+          'interests',
+          tagValue,
+          setTagValue,
+        )}
+
+        {TagCategory(
+          `'${route.params.role}'을(를) 한단어로 표현한다면?`,
+          infoData,
+          'expressions',
+          tagValue,
+          setTagValue,
+        )}
+      </>
     </ContentsContainer>
   );
 };
@@ -317,18 +295,18 @@ const CategoryTitle = ({title, onPress, isActive}) => {
   return (
     <>
       <Title>
-        <AppFonts.ContentB>{title}</AppFonts.ContentB>
-        <AppIconButtons.Pencil
-          disabled={false}
-          active={isActive}
+        <AppFonts.Body2>{title}</AppFonts.Body2>
+        {/* 추가 버튼 */}
+        <AppComponents.IconButton
+          icon={isActive ? <AppIcons.AddGray /> : <AppIcons.Add />}
+          padding={{padding: 5, paddingLeft: 10}}
           onPress={onPress}
-          size={16}
-          padding={{padding: 10}}
         />
       </Title>
     </>
   );
 };
+
 CategoryTitle.propTypes = {
   title: PropTypes.string,
   onPress: PropTypes.func,
@@ -343,8 +321,7 @@ const TagGroup = styled.TouchableOpacity`
 const TagBox = styled.View`
   align-self: flex-start;
   padding: 7px 12px;
-  background-color: ${AppColors.beige1};
-  border-radius: 12px;
+  background-color: ${AppColors.Secondary};
   elevation: ${props => (props.isModify ? 4 : 0)};
 `;
 

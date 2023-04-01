@@ -18,6 +18,7 @@ import DotGray from '@/assets/icons/dot_gray.svg';
 import Cancel from '@/assets/icons/cancel.svg';
 
 import Add from '@/assets/icons/add.svg';
+import AddGray from '@/assets/icons/add_gray.svg';
 import Bell from '@/assets/icons/bell.svg';
 import List from '@/assets/icons/list.svg';
 import Setting from '@/assets/icons/setting.svg';
@@ -39,6 +40,7 @@ export const AppIcons = {
   HomeWhite,
   HomeBlack,
   Add,
+  AddGray,
   Bell,
   List,
   Setting,

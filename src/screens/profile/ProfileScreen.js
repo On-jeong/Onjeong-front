@@ -54,8 +54,6 @@ const ProfileScreen = ({navigation}) => {
     },
   });
 
-  console.log('에타', familyProfileState[0].profileImageUrl);
-
   useFocusEffect(
     useCallback(() => {
       refetch();
