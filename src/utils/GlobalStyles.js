@@ -28,7 +28,7 @@ export const AppSize = {
   bottomTabHeight,
   statusBarHeight,
   betweenIcons,
-  windowHeightNoNav
+  windowHeightNoNav,
 };
 
 //
@@ -54,7 +54,7 @@ export const white = '#FFFFFF';
 export const Primary = '#DEDBC5';
 export const Secondary = '#F5F2EA';
 export const Background = '#FBF9F3';
-export const Point = '#E87C7C';
+export const Point = '#D88775';
 export const Gray100 = '#E87C7C';
 export const Gray200 = '#F1F0ED';
 export const Gray300 = '#EAE8E5';

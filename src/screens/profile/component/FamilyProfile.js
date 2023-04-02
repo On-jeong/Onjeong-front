@@ -144,7 +144,7 @@ const FamilyProfile = ({route, detailData}) => {
               disable={route.params.userId !== userId}
               maxLength={15}
               width={'auto'}
-              fontSize={12}
+              fontSize={14}
               margin={{marginLeft: -5}}
               padding={{paddingBottom: 0}}
             />

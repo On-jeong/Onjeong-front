@@ -15,7 +15,9 @@ import Back_gray from '@/assets/icons/back_gray.svg';
 import Down from '@/assets/icons/down.svg';
 import Dot from '@/assets/icons/dot.svg';
 import DotGray from '@/assets/icons/dot_gray.svg';
+import DotPink from '@/assets/icons/dot_pink.svg';
 import Cancel from '@/assets/icons/cancel.svg';
+import CancelSmall from '@/assets/icons/cancel_small.svg';
 import Reload from '@/assets/icons/reload.svg';
 
 import Add from '@/assets/icons/add.svg';
@@ -42,6 +44,7 @@ export const AppIcons = {
   HomeBlack,
   Add,
   AddGray,
+  DotPink,
   Bell,
   List,
   Setting,
@@ -57,5 +60,6 @@ export const AppIcons = {
   Dot,
   DotGray,
   Cancel,
+  CancelSmall,
   Reload,
 };

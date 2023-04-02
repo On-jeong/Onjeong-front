@@ -2,6 +2,7 @@ import {AppFonts} from '@/utils/GlobalFonts';
 import React from 'react';
 import styled from 'styled-components';
 import {LoadingBox} from './LoadingComponent';
+import {AppColors} from '@/utils/GlobalStyles';
 
 const TitleBox = styled.View`
   margin-top: 10px;
@@ -12,10 +13,12 @@ const EmptyComponent = ({isEmpty, title1, title2, children}) => {
   if (isEmpty)
     return (
       <LoadingBox>
-        {title1 && <AppFonts.Content>{title1}</AppFonts.Content>}
+        {title1 && (
+          <AppFonts.Body1 color={AppColors.Gray600}>{title1}</AppFonts.Body1>
+        )}
         {title2 && (
           <TitleBox>
-            <AppFonts.Content>{title2}</AppFonts.Content>
+            <AppFonts.Body1 color={AppColors.Gray600}>{title2}</AppFonts.Body1>
           </TitleBox>
         )}
       </LoadingBox>

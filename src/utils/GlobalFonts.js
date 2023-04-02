@@ -77,13 +77,13 @@ const Body1 = styled.Text`
 
 const Body2 = styled.Text`
   font-family: 'GangwonLight';
-  font-size: 15px;
+  font-size: 16px;
   color: ${props => (props.color ? props.color : AppColors.Font)};
 `;
 
 const Caption = styled.Text`
   font-family: 'GangwonLight';
-  font-size: 13px;
+  font-size: 14px;
   color: ${props => (props.color ? props.color : AppColors.Font)};
 `;
 

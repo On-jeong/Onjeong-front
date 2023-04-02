@@ -10,20 +10,21 @@ const NavBar = styled.View`
   height: ${navigationHeight}px;
   width: 100%;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 `;
 
 export const RightNav = styled.View`
   width: 70px;
   flex-direction: row;
   justify-content: flex-end;
+  align-items: center;
   margin-right: ${betweenIcons}px;
 `;
 
 export const LeftNav = styled.View`
-  width: 70px;
   flex-direction: row;
+  align-items: center;
   margin-left: 10px;
 `;
 
@@ -99,8 +100,10 @@ export const BasicHeader = ({
   isBack,
   children,
   title,
-  leftIcon,
-  leftOnPress,
+  leftIcon1,
+  leftIcon2,
+  leftOnPress1,
+  leftOnPress2,
   navigation,
   isLoading,
   isError,
@@ -118,7 +121,10 @@ export const BasicHeader = ({
               <AppIcons.Back_gray />
             </BackBox>
           ) : (
-            <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
+            <>
+              <IconBox onPress={leftOnPress1}>{leftIcon1}</IconBox>
+              <IconBox onPress={leftOnPress2}>{leftIcon2}</IconBox>
+            </>
           )}
         </LeftNav>
         <AppFonts.Heading>{title}</AppFonts.Heading>
