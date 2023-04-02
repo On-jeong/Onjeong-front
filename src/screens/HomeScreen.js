@@ -31,11 +31,9 @@ import {
   FlowerLevelState,
 } from '@/state/FamilyData';
 import {flower} from '@/utils/FlowerImagePath';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {format} from 'date-fns';
 import {useFocusEffect} from '@react-navigation/native';
 import {NotReadMailsState, ReceiveMailsState} from '@/state/MailData';
-import {useGetReceiveMails} from '@/hooks/useMailData';
 import {AppIcons} from '@/ui/icons';
 
 const Background = styled.ImageBackground`
@@ -48,11 +46,11 @@ const Background = styled.ImageBackground`
 
 const FamilyCoinView = styled.View`
   position: absolute;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  top: -20;
-  left: 8;
+  top: -60;
+  left: -3;
   margin: 10px;
 `;
 
@@ -61,16 +59,10 @@ const CoinBox = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-left: 10px;
-  margin-bottom: 5px;
-  border-radius: 4px;
-  background-color: ${AppColors.Secondary};
 `;
 
 const IconBox = styled.View`
-  margin-right: 10px;
+  margin-right: 5px;
 `;
 
 const Flower = styled.View`
@@ -179,12 +171,15 @@ export const HomeScreen = ({navigation}) => {
   return (
     <BasicHeader
       navigation={navigation}
-      isError={coinError || flowerError}
-      reloadFunc={() => {
-        flowerRefetch();
-        coinRefetch();
-      }}>
-      <FamilyCoinView>
+      leftIcon1={
+        <CoinBox onPress={() => navigation.navigate('History')}>
+          <IconBox>
+            <AppIcons.Water />
+          </IconBox>
+          <AppFonts.Heading>{flowerLevelState}</AppFonts.Heading>
+        </CoinBox>
+      }
+      leftIcon2={
         <CoinBox onPress={() => navigation.navigate('Guide')}>
           <IconBox>
             <AppIcons.Flower />
@@ -192,12 +187,26 @@ export const HomeScreen = ({navigation}) => {
           <AppFonts.Heading color={AppColors.Gray700}>lv.</AppFonts.Heading>
           <AppFonts.Heading>{familyCoinState}</AppFonts.Heading>
         </CoinBox>
-        <CoinBox onPress={() => navigation.navigate('History')}>
+      }
+      isError={coinError || flowerError}
+      reloadFunc={() => {
+        flowerRefetch();
+        coinRefetch();
+      }}>
+      <FamilyCoinView>
+        {/* <CoinBox onPress={() => navigation.navigate('History')}>
           <IconBox>
             <AppIcons.Water />
           </IconBox>
           <AppFonts.Heading>{flowerLevelState}</AppFonts.Heading>
         </CoinBox>
+        <CoinBox onPress={() => navigation.navigate('Guide')}>
+          <IconBox>
+            <AppIcons.Flower />
+          </IconBox>
+          <AppFonts.Heading color={AppColors.Gray700}>lv.</AppFonts.Heading>
+          <AppFonts.Heading>{familyCoinState}</AppFonts.Heading>
+        </CoinBox> */}
       </FamilyCoinView>
       <Background
         source={require('@/assets/image/background/background.png')}
