@@ -319,6 +319,8 @@ const TagGroup = styled.TouchableOpacity`
 `;
 
 const TagBox = styled.View`
+  flex-direction: row;
+  align-items: center;
   align-self: flex-start;
   padding: 7px 12px;
   background-color: ${AppColors.Secondary};
@@ -330,13 +332,14 @@ const Tag = ({title, isModify, onPress}) => {
   return (
     <TagGroup onPress={onPress} disabled={!isModify} isModify={isModify}>
       <TagBox isModify={isModify}>
+        {isModify && (
+          <AppComponents.IconBox
+            icon={<AppIcons.CancelSmall />}
+            padding={{paddingRight: 5}}
+          />
+        )}
         <AppFonts.SubContent>{title}</AppFonts.SubContent>
       </TagBox>
-      {isModify && (
-        <CancelBox>
-          <AppIconButtons.Cancel />
-        </CancelBox>
-      )}
     </TagGroup>
   );
 };
