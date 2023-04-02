@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
 import {AppFonts} from '@/utils/GlobalFonts';
 import {AppColors, windowHeight} from '@/utils/GlobalStyles';
@@ -23,6 +23,7 @@ import customAxios from '@/api/axios';
 import {WithHeader} from '@/components/headers/WithHeader';
 import {AppComponents} from '@/components/Components';
 import {NoHeader} from '@/components/headers/NoHeader';
+import {TextInput} from 'react-native';
 
 //
 // 로그인
@@ -77,6 +78,8 @@ const SignInScreen = ({navigation}) => {
   const [userPassword, setUserPassword] = useState('');
   const [isError, setIsError] = useState(false);
 
+  const inputPW = useRef();
+
   const {
     mutate: signInMutate,
     isLoading: signInIsLoading,
@@ -85,7 +88,7 @@ const SignInScreen = ({navigation}) => {
   } = useSignIn(navigation);
   const {mutate: addFCM} = useAddFCM();
 
-  if (signInError) console.log('로긴에로:', signInError);
+  if (signInError) console.log('로긴에러:', signInError);
 
   // 항목을 전부 입력했는지 체크
   useEffect(() => {
@@ -215,17 +218,25 @@ const SignInScreen = ({navigation}) => {
               value={userId}
               onChangeText={setUserId}
               margin={{marginBottom: 10}}
+              onSubmitEditing={() => inputPW.current?.focus()}
+              blurOnSubmit={false}
             />
             <AppInputs.BorderBottomInput
               maxLength={15}
               placeholder="비밀번호"
               value={userPassword}
               onChangeText={setUserPassword}
+              ref={inputPW}
               secureTextEntry={true}
               margin={{marginBottom: 10}}
             />
           </InputContainer>
-          <AppButtons.BigButton title="로그인" onPress={onSubmit} />
+
+          <AppButtons.BigButton
+            title="로그인"
+            onPress={onSubmit}
+            disabled={!inputCheck}
+          />
           <AppComponents.EmptyBox height={12} />
           <AppButtons.BigButton
             title="회원가입"
