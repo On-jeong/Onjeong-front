@@ -16,6 +16,7 @@ import Down from '@/assets/icons/down.svg';
 import Dot from '@/assets/icons/dot.svg';
 import DotGray from '@/assets/icons/dot_gray.svg';
 import Cancel from '@/assets/icons/cancel.svg';
+import Reload from '@/assets/icons/reload.svg';
 
 import Add from '@/assets/icons/add.svg';
 import AddGray from '@/assets/icons/add_gray.svg';
@@ -56,4 +57,5 @@ export const AppIcons = {
   Dot,
   DotGray,
   Cancel,
+  Reload,
 };
