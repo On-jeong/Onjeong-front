@@ -11,16 +11,15 @@ export const PaperBox = styled.View`
   padding: 10px;
   margin-top: 5px;
   margin-bottom: 5px;
-  border-radius: 4px;
 `;
 
 export const PaperLine = styled.View`
   width: 100%;
+  height: ${props => (props.height == 'auto' ? 'auto' : props.height - 20)};
   max-height: 100%;
   border-width: 2px;
   border-color: ${AppColors.Gray500};
   background-color: ${AppColors.white};
-  border-radius: 4px;
 `;
 
 export const Paper = ({
@@ -44,7 +43,8 @@ export const Paper = ({
           paddingBottom: padding.paddingBottom,
           paddingLeft: padding.paddingLeft,
           paddingRight: padding.paddingRight,
-        }}>
+        }}
+        height={height}>
         {children}
       </PaperLine>
     </PaperBox>

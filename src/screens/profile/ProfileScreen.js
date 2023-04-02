@@ -79,7 +79,7 @@ const ProfileScreen = ({navigation}) => {
                     role: fm.userStatus,
                   })
                 }>
-                <AppContainer.Paper height={'100%'} key={fm.userId}>
+                <AppContainer.Paper key={fm.userId}>
                   <ProfileBody>
                     <Image
                       source={fm.profileImageUrl && {uri: fm.profileImageUrl}}
