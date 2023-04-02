@@ -323,6 +323,7 @@ const TagBox = styled.View`
   padding: 7px 12px;
   background-color: ${AppColors.Secondary};
   elevation: ${props => (props.isModify ? 4 : 0)};
+  border-radius: 4px;
 `;
 
 const Tag = ({title, isModify, onPress}) => {

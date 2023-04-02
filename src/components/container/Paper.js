@@ -11,6 +11,7 @@ export const PaperBox = styled.View`
   padding: 10px;
   margin-top: 5px;
   margin-bottom: 5px;
+  border-radius: 4px;
 `;
 
 export const PaperLine = styled.View`
@@ -19,6 +20,7 @@ export const PaperLine = styled.View`
   border-width: 2px;
   border-color: ${AppColors.Gray500};
   background-color: ${AppColors.white};
+  border-radius: 4px;
 `;
 
 export const Paper = ({

@@ -57,7 +57,7 @@ const FamilyCoinView = styled.View`
 `;
 
 const CoinBox = styled.TouchableOpacity`
-  height: 38px;
+  height: 37px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -65,6 +65,7 @@ const CoinBox = styled.TouchableOpacity`
   padding-right: 10px;
   margin-left: 10px;
   margin-bottom: 5px;
+  border-radius: 4px;
   background-color: ${AppColors.Secondary};
 `;
 
