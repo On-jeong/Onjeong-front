@@ -15,7 +15,7 @@ const Button = styled.TouchableOpacity`
 
 export const BasicButton = ({
   title,
-  disabled = false,
+  disabled: disable = false,
   onPress,
   fontColor,
   color,
@@ -27,10 +27,10 @@ export const BasicButton = ({
     <>
       <Button
         color={
-          disabled ? AppColors.Secondary : color ? color : AppColors.Primary
+          disable ? AppColors.Gray400 : color ? color : AppColors.Primary
         }
         onPress={onPress}
-        disabled={disabled}
+        disabled={disable}
         height={height}
         width={width}
         margin={margin}
@@ -42,7 +42,7 @@ export const BasicButton = ({
         }}>
         <AppFonts.Body1
           color={
-            disabled
+            disable
               ? AppColors.Gray700
               : fontColor
               ? fontColor
@@ -65,7 +65,7 @@ BasicButton.propTypes = {
 
 export const BigButton = ({
   title,
-  disabled = false,
+  disabled: disable = false,
   onPress,
   fontColor,
   color,
@@ -76,10 +76,10 @@ export const BigButton = ({
   return (
     <BasicButton
       title={title}
-      disabled={disabled}
+      disabled={disable}
       onPress={onPress}
       fontColor={fontColor}
-      color={disabled ? AppColors.Secondary : color}
+      color={color}
       height={height}
       width={width ? width : windowWidth * 0.9}
       margin={margin}
@@ -89,7 +89,7 @@ export const BigButton = ({
 
 export const SmallButton = ({
   title,
-  disabled = false,
+  disabled: disable = false,
   onPress,
   fontColor,
   color,
@@ -107,10 +107,10 @@ export const SmallButton = ({
     <>
       <Button
         color={
-          disabled ? AppColors.Secondary : color ? color : AppColors.Primary
+          disable ? AppColors.Secondary : color ? color : AppColors.Primary
         }
         onPress={onPress}
-        disabled={disabled}
+        disabled={disable}
         height={height}
         width={width}
         margin={margin}
@@ -123,7 +123,7 @@ export const SmallButton = ({
         }}>
         <AppFonts.SubContent
           color={
-            disabled
+            disable
               ? AppColors.Gray700
               : fontColor
               ? fontColor
