@@ -35,9 +35,10 @@ export const useGetReceiveMails = ({onSuccess}) => {
 };
 
 // 보낸 메일 리스트 데이터 불러오기
-export const useGetSendMails = () => {
+export const useGetSendMails = ({onSuccess}) => {
   return useQuery(['getSendMails'], fetchSendMails, {
     onError: error => console.log(error),
+    onSuccess: onSuccess,
     refetchOnMount: true,
   });
 };

@@ -1,7 +1,12 @@
-
 import customAxios from '@/api/axios';
 import ReactNativeRecoilPersist from 'react-native-recoil-persist';
 import {atom, selector} from 'recoil';
+
+// true: 받은메일함, false: 보낸메일함
+export const IsReceivePageState = atom({
+  key: 'receiveMails',
+  default: true,
+});
 
 const receiveMailsEffects =
   key =>
@@ -19,13 +24,18 @@ export const ReceiveMailsState = atom({
   effects_UNSTABLE: [ReactNativeRecoilPersist.persistAtom],
 });
 
+export const SendMailsState = atom({
+  key: 'sendMails',
+  default: [],
+  effects_UNSTABLE: [ReactNativeRecoilPersist.persistAtom],
+});
 
 // 안읽은 메일
 export const NotReadMailsState = selector({
   key: 'notReadMails',
   get: ({get}) => {
     let notReadCount = 0;
-
+    console.log('안읽은', get(ReceiveMailsState));
     get(ReceiveMailsState)?.map(mail => {
       console.log(mail);
       if (mail.checkRead === false) notReadCount++;

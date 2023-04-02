@@ -11,6 +11,7 @@ export const PaperBox = styled.View`
   padding: 10px;
   margin-top: 5px;
   margin-bottom: 5px;
+  elevation: ${props => props.elevation};
 `;
 
 export const PaperLine = styled.View`
@@ -26,6 +27,7 @@ export const Paper = ({
   children,
   height = 'auto',
   width,
+  elevation = 0,
   padding = {
     padding: 10,
     paddingTop: 0,
@@ -35,7 +37,7 @@ export const Paper = ({
   },
 }) => {
   return (
-    <PaperBox height={height} width={width}>
+    <PaperBox height={height} width={width} elevation={elevation}>
       <PaperLine
         style={{
           padding: padding.padding,

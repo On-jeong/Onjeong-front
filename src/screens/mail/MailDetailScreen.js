@@ -4,6 +4,8 @@ import {AppFonts} from '@/utils/GlobalFonts';
 import {Paper, PaperContainer, SendBox} from './MailWriteScreen';
 import {useGetMailDetail} from '@/hooks/useMailData';
 import {WithHeader} from '@/components/headers/WithHeader';
+import {AppContainer} from '@/components/container';
+import {windowHeight} from '@/utils/GlobalStyles';
 
 const PaperTop = styled.View`
   flex-direction: row;
@@ -20,7 +22,7 @@ const MainContent = styled.Text`
 
 const MailDetailScreen = ({navigation, route}) => {
   // 메일 읽음 처리 용 서버 연동
-  useGetMailDetail(route.params.mailId);
+  useGetMailDetail(route?.params?.mailId);
 
   console.log(route);
 
@@ -28,27 +30,29 @@ const MailDetailScreen = ({navigation, route}) => {
     <WithHeader isBack={true} navigation={navigation}>
       <>
         <PaperContainer>
-          <Paper>
+          <AppContainer.Paper
+            height={windowHeight * 0.6}
+            padding={{padding: 15}}>
             <PaperTop>
-              <AppFonts.ContentB>
+              <AppFonts.SubTitle>
                 To.{' '}
-                <AppFonts.ContentB>
-                  {route.params.receiveUserName}
-                </AppFonts.ContentB>
-              </AppFonts.ContentB>
+                <AppFonts.SubTitle>
+                  {route?.params?.receiveUserName}
+                </AppFonts.SubTitle>
+              </AppFonts.SubTitle>
             </PaperTop>
             <MainContent textAlignVertical="top">
-              {route.params.mailContent}
+              {route?.params?.mailContent}
             </MainContent>
-            <SendBox>
-              <AppFonts.ContentB>
-                From.{' '}
-                <AppFonts.ContentB>
-                  {route.params.sendUserName}
-                </AppFonts.ContentB>
-              </AppFonts.ContentB>
-            </SendBox>
-          </Paper>
+          </AppContainer.Paper>
+          <SendBox>
+            <AppFonts.SubTitle>
+              From.{' '}
+              <AppFonts.SubTitle>
+                {route?.params?.sendUserName}
+              </AppFonts.SubTitle>
+            </AppFonts.SubTitle>
+          </SendBox>
         </PaperContainer>
       </>
     </WithHeader>
