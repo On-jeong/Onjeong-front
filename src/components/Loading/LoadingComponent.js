@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import {Body} from '../headers/WithHeader';
 import {AppColors, navigationHeight} from '@/utils/GlobalStyles';
 import {ActivityIndicator} from 'react-native';
-import {AppIconButtons} from '../IconButtons';
+import {AppComponents} from '../Components';
+import {AppIcons} from '@/ui/icons';
 
 export const LoadingBox = styled.View`
   flex: 1;
@@ -13,22 +14,23 @@ export const LoadingBox = styled.View`
   margin-bottom: ${navigationHeight};
 `;
 
-export const ReloadButton = styled.TouchableOpacity`
-  padding: 10px;
-  margin-top: 10px;
-`;
-
 // 로딩 후 화면 or 에러 전환
 const LoadingComponent = ({isLoading, isError, children, reloadFunc}) => {
   if (isError)
     return (
       <Body>
         <LoadingBox>
-          <AppFonts.Content>에러가 발생했습니다!</AppFonts.Content>
-          <AppFonts.Content>잠시 후 다시 시도해 주세요.</AppFonts.Content>
-          <ReloadButton onPress={reloadFunc}>
-            <AppIconButtons.ReLoad size={28} />
-          </ReloadButton>
+          <AppFonts.Body1 color={AppColors.Gray800}>
+            에러가 발생했습니다!
+          </AppFonts.Body1>
+          <AppFonts.Body1 color={AppColors.Gray800}>
+            잠시 후 다시 시도해 주세요.
+          </AppFonts.Body1>
+          <AppComponents.IconButton
+            icon={<AppIcons.Reload />}
+            onPress={reloadFunc}
+            padding={{padding: 10, paddingTop: 15}}
+          />
         </LoadingBox>
       </Body>
     );
