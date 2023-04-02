@@ -74,12 +74,12 @@ const ProfileScreen = ({navigation}) => {
               <Profile
                 key={fm.userId}
                 onPress={() =>
-                  navigation.navigate('ProfileDetail', {
+                navigation.navigate('ProfileDetail', {
                     userId: fm.userId,
                     role: fm.userStatus,
                   })
                 }>
-                <AppContainer.Paper key={fm.userId}>
+                <AppContainer.Paper>
                   <ProfileBody>
                     <Image
                       source={fm.profileImageUrl && {uri: fm.profileImageUrl}}
