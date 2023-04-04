@@ -51,6 +51,7 @@ const PlanText = styled.TextInput`
   height: 30px;
   min-width: 110px;
   padding: 0;
+  margin-left: 10px;
   font-family: 'GangwonLight';
   font-size: 20px;
   line-height: 30px;
@@ -189,8 +190,8 @@ const TodayPlan = ({date, AnnData}) => {
             <PlanBox key={ann.anniversaryId}>
               {isDelPlan ? (
                 <AppComponents.IconButton
-                  icon={<AppIcons.Cancel size={15} />}
-                  padding={{paddingRight: 10}}
+                  icon={<AppIcons.CancelSmall/>}
+                  padding={{padding: 10}}
                   onPress={() => {
                     delAnn({annId: ann.anniversaryId});
                   }}
@@ -202,9 +203,9 @@ const TodayPlan = ({date, AnnData}) => {
                 />
               )}
 
-              <AppFonts.Body2 bold={ann.anniversaryType === 'ANNIVERSARY'}>
+              <AppFonts.Body1 bold={ann.anniversaryType === 'ANNIVERSARY'}>
                 {ann.anniversaryContent}
-              </AppFonts.Body2>
+              </AppFonts.Body1>
             </PlanBox>
           ))}
 
@@ -216,7 +217,7 @@ const TodayPlan = ({date, AnnData}) => {
                 <PlanText
                   value={newPlan}
                   onChangeText={setNewPlan}
-                  maxLength={15}
+                  maxLength={10}
                 />
               </PlanTextBox>
               <AppComponents.Row justifyContent={'space-between'}>
