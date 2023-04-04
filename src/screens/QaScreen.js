@@ -5,7 +5,6 @@ import {ScrollView} from 'react-native';
 import {AppFonts} from '../utils/GlobalFonts';
 import {AppColors} from '../utils/GlobalStyles';
 import {AppComponents} from '@/components/Components';
-import {AppIconButtons} from '../components/IconButtons';
 import {
   useAddAnswer,
   useDeleteAnswer,
@@ -13,7 +12,6 @@ import {
   useGetQuest,
   useModifyAnswer,
 } from '@/hooks/useQuestionData';
-import {TextButton} from '@/components/buttons/TextButton';
 import {useQueryClient} from '@tanstack/react-query';
 import {useRecoilValue} from 'recoil';
 import {UserNameState} from '@/state/UserData';
@@ -21,44 +19,40 @@ import {useFocusEffect} from '@react-navigation/native';
 import LoadingComponent, {
   LoadingBox,
 } from '@/components/Loading/LoadingComponent';
+import {AppIcons} from '@/ui/icons';
+import {AppContainer} from '@/components/container';
+import {AppInputs} from '@/components/inputs';
 
-export const SpaceBetween = styled.View`
+const AddAnsButton = styled.TouchableOpacity`
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
+  padding: 10px;
 `;
 
-const QuestBox = styled.View`
-  width: 100%;
-  padding-left: 7%;
-  padding-right: 7%;
-  margin-top: 30px;
+const TopContainer = styled.View`
+  align-items: center;
+  margin-top: 20px;
   margin-bottom: 20px;
 `;
 
-const MyAnsContainer = styled.View`
-  padding-left: 7%;
-  padding-right: 7%;
-  margin: 10px 0;
+const QuestBox = styled.View`
+  border-bottom-width: 1px;
+  border-bottom-color: ${AppColors.Primary};
+  padding: 5px;
 `;
 
-const MyAnsWriteBox = styled.View`
+const BottomContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  margin-top: 10px;
-  min-height: 100px;
-  margin-bottom: 10px;
-  border-width: 2px;
-  border-radius: 12px;
-  border-color: ${AppColors.green1};
-  background-color: ${AppColors.white};
 `;
 
 const MyAnsInput = styled.TextInput`
   padding-left: 10px;
   padding-right: 10px;
   font-family: 'GangwonLight';
-  font-size: 20px;
-  line-height: 30px;
+  font-size: 18px;
 `;
 
 const MaxLength = styled.View`
@@ -67,41 +61,21 @@ const MaxLength = styled.View`
   margin-bottom: 5px;
 `;
 
-const SubmitButton = styled.View`
-  flex-direction: row;
-  justify-content: flex-end;
-  padding-right: 5px;
-`;
-
-const AnsContainer = styled.View`
-  flex: 1;
-  align-items: center;
-  padding-left: 7%;
-  padding-right: 7%;
-`;
-
-const AnsBox = styled.View`
+const BottomRight = styled.View`
   width: 100%;
-  margin-top: 10px;
-  margin-bottom: 10px;
-`;
-
-const Ans = styled.View`
-  width: 100%;
-  min-height: 100px;
-  border-width: 2px;
-  border-radius: 12px;
-  border-color: ${AppColors.border};
-  background-color: ${AppColors.white};
-  padding: 10px;
-  margin-top: 7px;
-  margin-bottom: 5px;
+  align-items: flex-end;
+  margin: -5px;
 `;
 
 const MessageBox = styled.View`
   flex: 0.7;
   justify-content: center;
   align-items: center;
+`;
+
+const ContentBox = styled.View`
+  margin-top: 15;
+  margin-bottom: 10;
 `;
 
 export default function QaScreen({navigation}) {
@@ -126,13 +100,14 @@ export default function QaScreen({navigation}) {
     error: questError,
     refetch: questRefetch,
   } = useGetQuest();
+
   const {
     data: ansData,
     isLoading: ansIsLoading,
     isError: ansIsError,
     refetch: ansRefetch,
   } = useGetAnswers();
-  console.log(ansData);
+  console.log(questData?.data?.data[0].questionContent);
 
   const getId = data => {
     if (data.length === 0) return 0;
@@ -217,119 +192,152 @@ export default function QaScreen({navigation}) {
         ansRefetch();
       }}>
       <>
-        <QuestBox>
-          <AppFonts.ContentB>
-            질문 :{' '}
-            <AppFonts.Content>
-              {questData?.data?.data.questionContent}
-            </AppFonts.Content>
-          </AppFonts.ContentB>
-        </QuestBox>
-        {!isMyAns && (
-          <MyAnsContainer>
-            <AppFonts.ContentB>내 답변</AppFonts.ContentB>
-            <MyAnsWriteBox>
-              <MyAnsInput
-                multiline={true}
-                numberOfLines={4}
-                maxLength={80}
-                textAlignVertical="top"
-                value={ansText}
-                onChangeText={setAnsText}
-              />
-              <MaxLength>
-                <AppFonts.SubContent>{ansText.length}/80</AppFonts.SubContent>
-              </MaxLength>
-            </MyAnsWriteBox>
-            <SubmitButton>
-              <TextButton.Content
-                title="제출"
-                onPress={() => {
-                  addAns(ansText);
-                }}
-              />
-            </SubmitButton>
-          </MyAnsContainer>
-        )}
-        {ansData && ansData?.length === 0 ? (
-          <MessageBox>
-            <AppFonts.Content>문답을 첫번째로 작성해보세요!</AppFonts.Content>
-          </MessageBox>
-        ) : (
-          <LoadingComponent isLoading={addIsLoading}>
-            <ScrollView>
-              {ansData?.map(ans => (
-                <AnsContainer key={ans.answerId}>
-                  <AnsBox>
-                    <SpaceBetween>
-                      <AppFonts.ContentB>{ans.userName}</AppFonts.ContentB>
-                      {ans.userName == userName && (
-                        <SpaceBetween>
-                          <AppIconButtons.Pencil
-                            active={isModAns}
-                            disabled={false}
-                            onPress={() => {
-                              setIsModAns(!isModAns);
-                              setAnsText(ans.answerContent);
-                            }}
-                            padding={{padding: 6}}
-                          />
-                          <AppIconButtons.Delete
-                            disabled={false}
-                            onPress={() => {
-                              setIsModAns(false);
-                              delAns(ans.answerId);
-                              setAnsText('');
-                            }}
-                            padding={{padding: 6}}
-                          />
-                        </SpaceBetween>
-                      )}
-                    </SpaceBetween>
-                    <Ans>
-                      {/* 수정버튼 누른 경우 내 대답 수정할 수 있게 */}
-                      {ans.userName == userName && isModAns ? (
-                        <>
-                          <MyAnsInput
-                            multiline={true}
-                            numberOfLines={4}
-                            maxLength={80}
-                            textAlignVertical="top"
-                            value={ansText}
-                            onChangeText={setAnsText}
-                            autoFocus={true}
-                          />
-                          <MaxLength>
-                            <AppFonts.SubContent>
-                              {ansText.length}/80
-                            </AppFonts.SubContent>
-                          </MaxLength>
-                        </>
-                      ) : (
-                        <AppFonts.Content>{ans.answerContent}</AppFonts.Content>
-                      )}
-                    </Ans>
-                    {/* 수정중인 경우 수정버튼 나타나게 */}
-                    {ans.userName == userName && isModAns && (
-                      <SubmitButton>
-                        <TextButton.Content
-                          title="수정"
-                          onPress={() => {
-                            modAns({
-                              answerContent: ansText,
-                              answerId: ans.answerId,
-                            });
-                          }}
+        <AppContainer.Basic>
+          <TopContainer>
+            <QuestBox>
+              <AppFonts.SubTitle>
+                {questData?.data?.data[0].questionContent}
+              </AppFonts.SubTitle>
+            </QuestBox>
+          </TopContainer>
+          <AddAnsButton onPress={() => setIsMyAns(!isMyAns)}>
+            <AppComponents.IconBox
+              icon={<AppIcons.AddGray />}
+              padding={{paddingRight: 5}}
+            />
+            <AppFonts.Body1>나의 답변 추가</AppFonts.Body1>
+          </AddAnsButton>
+          {isMyAns && (
+            <AppInputs.PaperInput
+              numberOfLines={3}
+              maxLength={80}
+              mainText={ansText}
+              setMainText={setAnsText}
+              placeholder="내 답변"
+              padding={{padding: 15, paddingBottom: 10}}
+              topComponent={<AppFonts.SubTitle>{userName}</AppFonts.SubTitle>}
+              bottomComponent={
+                <BottomContainer>
+                  <AppComponents.Row>
+                    <AppComponents.IconButton
+                      icon={<AppFonts.Body2>취소</AppFonts.Body2>}
+                      onPress={() => {
+                        setIsModAns(false);
+                      }}
+                      padding={{padding: 5}}
+                    />
+                    <AppComponents.IconButton
+                      icon={<AppFonts.Body2>저장</AppFonts.Body2>}
+                      onPress={() => {
+                        addAns(ansText);
+                      }}
+                      padding={{padding: 5}}
+                    />
+                  </AppComponents.Row>
+                  <MaxLength>
+                    <AppFonts.SubContent>
+                      {ansText.length}/80
+                    </AppFonts.SubContent>
+                  </MaxLength>
+                </BottomContainer>
+              }
+            />
+          )}
+
+          {ansData && ansData?.length === 0 ? (
+            <MessageBox>
+              <AppFonts.Content>문답을 첫번째로 작성해보세요!</AppFonts.Content>
+            </MessageBox>
+          ) : (
+            <LoadingComponent isLoading={addIsLoading}>
+              <ScrollView>
+                {ansData?.map(ans => (
+                  <AppContainer.Paper
+                    key={ans.answerId}
+                    padding={{padding: 15, paddingBottom: 10}}>
+                    <AppFonts.SubTitle>{ans.userName}</AppFonts.SubTitle>
+                    {/* 수정버튼 누른 경우 내 대답 수정할 수 있게 */}
+                    {ans.userName == userName && isModAns ? (
+                      <>
+                        <MyAnsInput
+                          multiline={true}
+                          numberOfLines={2}
+                          maxLength={80}
+                          textAlignVertical="top"
+                          value={ansText}
+                          onChangeText={setAnsText}
+                          autoFocus={true}
                         />
-                      </SubmitButton>
+                        <MaxLength>
+                          <AppFonts.SubContent>
+                            {ansText.length}/80
+                          </AppFonts.SubContent>
+                        </MaxLength>
+                      </>
+                    ) : (
+                      <ContentBox>
+                        <AppFonts.Body1>{ans.answerContent}</AppFonts.Body1>
+                      </ContentBox>
                     )}
-                  </AnsBox>
-                </AnsContainer>
-              ))}
-              <AppComponents.EmptyBox height={70} />
-            </ScrollView>
-          </LoadingComponent>
-        )}
+
+                    {/* 나의 답변인 경우 하단의 수정, 삭제 버튼 */}
+                    {/* default : 수정/삭제 버튼 , 수정중일 경우 : 저장 버튼 */}
+                    {ans.userName == userName ? (
+                      !isModAns ? (
+                        <BottomRight>
+                          <AppComponents.Row>
+                            <AppComponents.IconButton
+                              icon={
+                                <AppFonts.Caption color={AppColors.Gray700}>
+                                  수정
+                                </AppFonts.Caption>
+                              }
+                              onPress={() => {
+                                setIsModAns(!isModAns);
+                                setAnsText(ans.answerContent);
+                              }}
+                              padding={{padding: 10}}
+                            />
+                            <AppIcons.DotGray />
+                            <AppComponents.IconButton
+                              icon={
+                                <AppFonts.Caption color={AppColors.Gray700}>
+                                  삭제
+                                </AppFonts.Caption>
+                              }
+                              onPress={() => {
+                                setIsModAns(false);
+                                delAns(ans.answerId);
+                                setAnsText('');
+                              }}
+                              padding={{padding: 10, paddingRight: 0}}
+                            />
+                          </AppComponents.Row>
+                        </BottomRight>
+                      ) : (
+                        <BottomRight>
+                          <AppComponents.IconButton
+                            icon={<AppFonts.Body2>저장</AppFonts.Body2>}
+                            onPress={() => {
+                              modAns({
+                                answerContent: ansText,
+                                answerId: ans.answerId,
+                              });
+                            }}
+                            padding={{padding: 5}}
+                          />
+                        </BottomRight>
+                      )
+                    ) : (
+                      <></>
+                    )}
+                  </AppContainer.Paper>
+                ))}
+                <AppComponents.EmptyBox height={70} />
+              </ScrollView>
+            </LoadingComponent>
+          )}
+        </AppContainer.Basic>
       </>
     </BasicHeader>
   );

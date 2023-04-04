@@ -7,7 +7,6 @@ import {AppIconButtons} from '@/components/IconButtons';
 import {AppButtons} from '@/components/buttons';
 import {useAddAnn, useDeleteAnn} from '@/hooks/useAnniversaryData';
 import {Filter} from '@/screens/mail/MailScreen';
-import {SpaceBetween} from '@/screens/QaScreen';
 import {AppIcons} from '@/ui/icons';
 import {AppComponents} from '@/components/Components';
 import {AppContainer} from '@/components/container';
@@ -178,8 +177,7 @@ const TodayPlan = ({date, AnnData}) => {
           </Filter>
         </PlanTitle>
 
-        <AppContainer.Paper
-          padding={{padding: 20, paddingLeft: 20}}>
+        <AppContainer.Paper padding={{padding: 20, paddingLeft: 20}}>
           {AnnData?.length === 0 && !isAddPlan && (
             <AppFonts.Body2 color={AppColors.Gray600}>
               오늘의 일정이 없습니다.
@@ -221,7 +219,7 @@ const TodayPlan = ({date, AnnData}) => {
                   maxLength={15}
                 />
               </PlanTextBox>
-              <SpaceBetween>
+              <AppComponents.Row justifyContent={'space-between'}>
                 <SendBox>
                   <ChoiceBox onPress={() => setIsAnniversary(true)}>
                     {isAnniversary ? (
@@ -257,7 +255,7 @@ const TodayPlan = ({date, AnnData}) => {
                     color={AppColors.Primary}
                   />
                 </SendBox>
-              </SpaceBetween>
+              </AppComponents.Row>
             </>
           )}
         </AppContainer.Paper>

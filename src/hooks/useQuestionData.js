@@ -6,7 +6,7 @@ const fetchQuest = () => {
 };
 
 const fetchAnswers = () => {
-  return customAxios.get(`/answers`).then(data => data?.data?.data);
+  return customAxios.get(`/answers/7`).then(data => data?.data?.data);
 };
 
 const addAnswer = questData => {

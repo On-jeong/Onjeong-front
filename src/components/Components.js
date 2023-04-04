@@ -73,8 +73,30 @@ const RowBox = styled.View`
   align-items: center;
 `;
 
-const Row = ({justifyContent = 'flex-start', children}) => {
-  return <RowBox justifyContent={justifyContent}>{children}</RowBox>;
+const Row = ({
+  justifyContent = 'flex-start',
+  children,
+  margin = {
+    margin: 0,
+    marginTop: 0,
+    marginBottom: 0,
+    marginLeft: 0,
+    marginRight: 0,
+  },
+}) => {
+  return (
+    <RowBox
+      justifyContent={justifyContent}
+      style={{
+        margin: margin.margin,
+        marginTop: margin.marginTop,
+        marginBottom: margin.marginBottom,
+        marginLeft: margin.marginLeft,
+        marginRight: margin.marginRight,
+      }}>
+      {children}
+    </RowBox>
+  );
 };
 Row.propTypes = {
   justifyContent: PropTypes.string,
