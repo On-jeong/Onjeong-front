@@ -19,6 +19,7 @@ import DotPink from '@/assets/icons/dot_pink.svg';
 import Cancel from '@/assets/icons/cancel.svg';
 import CancelSmall from '@/assets/icons/cancel_small.svg';
 import Reload from '@/assets/icons/reload.svg';
+import WarningGray from '@/assets/icons/warning_gray.svg';
 
 import Add from '@/assets/icons/add.svg';
 import AddGray from '@/assets/icons/add_gray.svg';
@@ -62,4 +63,5 @@ export const AppIcons = {
   Cancel,
   CancelSmall,
   Reload,
+  WarningGray,
 };

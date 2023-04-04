@@ -11,8 +11,6 @@ import {UserNicknameState} from '@/state/UserData';
 import PromptModal from '@/components/modal/PromptModal';
 import {AppColors} from '@/utils/GlobalStyles';
 import {AppIcons} from '@/ui/icons';
-import customAxios from '@/api/axios';
-import axios from 'axios';
 
 export const MenuContainer = styled.View`
   flex: 1;
@@ -31,14 +29,6 @@ const Menu = styled.TouchableOpacity`
   margin: 5px;
   padding-left: 4%;
   padding-right: 4%;
-`;
-
-export const Email = styled.View`
-  position: absolute;
-  flex-direction: row;
-  align-items: center;
-  bottom: 20px;
-  left: 30px;
 `;
 
 const MyScreen = ({navigation}) => {
