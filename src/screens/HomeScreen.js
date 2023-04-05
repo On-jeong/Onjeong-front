@@ -172,20 +172,20 @@ export const HomeScreen = ({navigation}) => {
     <BasicHeader
       navigation={navigation}
       leftIcon1={
-        <CoinBox onPress={() => navigation.navigate('History')}>
+        <CoinBox onPress={() => navigation.navigate('Guide')}>
           <IconBox>
             <AppIcons.Water />
           </IconBox>
-          <AppFonts.Heading>{flowerLevelState}</AppFonts.Heading>
+          <AppFonts.Heading>{familyCoinState}</AppFonts.Heading>
         </CoinBox>
       }
       leftIcon2={
-        <CoinBox onPress={() => navigation.navigate('Guide')}>
+        <CoinBox onPress={() => navigation.navigate('History')}>
           <IconBox>
             <AppIcons.Flower />
           </IconBox>
           <AppFonts.Heading color={AppColors.Gray700}>lv.</AppFonts.Heading>
-          <AppFonts.Heading>{familyCoinState}</AppFonts.Heading>
+          <AppFonts.Heading>{flowerLevelState}</AppFonts.Heading>
         </CoinBox>
       }
       isError={coinError || flowerError}
@@ -193,21 +193,6 @@ export const HomeScreen = ({navigation}) => {
         flowerRefetch();
         coinRefetch();
       }}>
-      <FamilyCoinView>
-        {/* <CoinBox onPress={() => navigation.navigate('History')}>
-          <IconBox>
-            <AppIcons.Water />
-          </IconBox>
-          <AppFonts.Heading>{flowerLevelState}</AppFonts.Heading>
-        </CoinBox>
-        <CoinBox onPress={() => navigation.navigate('Guide')}>
-          <IconBox>
-            <AppIcons.Flower />
-          </IconBox>
-          <AppFonts.Heading color={AppColors.Gray700}>lv.</AppFonts.Heading>
-          <AppFonts.Heading>{familyCoinState}</AppFonts.Heading>
-        </CoinBox> */}
-      </FamilyCoinView>
       <Background
         source={require('@/assets/image/background/background.png')}
         resizeMode="stretch">
