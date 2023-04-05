@@ -13,7 +13,7 @@ import {
   useSignUpNoJoined,
   useSignUpWithJoined,
 } from '../../hooks/useUserData';
-import {Alert, ScrollView, TouchableOpacity} from 'react-native';
+import {Alert, Linking, ScrollView, TouchableOpacity} from 'react-native';
 import {AppIconButtons} from '@/components/IconButtons';
 import {AppComponents} from '@/components/Components';
 import {WithHeader} from '@/components/headers/WithHeader';
@@ -74,6 +74,7 @@ const SignUpScreen = ({navigation}) => {
   const [check1, setCheck1] = useState(false); // 개인정보 처리 방침
   const [check2, setCheck2] = useState(false); // 앱 이용 약관
   const [check3, setCheck3] = useState(false); // 푸시 알림 동의
+  const [checkAll, setCheckAll] = useState(false); // 푸시 알림 동의
 
   const {mutate: noJoinedMutate, isLoading: noJoinedIsLoading} =
     useSignUpNoJoined({
@@ -391,12 +392,22 @@ const SignUpScreen = ({navigation}) => {
                 <CheckList
                   check={check1}
                   setCheck={setCheck1}
-                  title="개인정보 처리 방침 [필수]"
+                  title="개인정보 처리 방침 동의 [필수]"
+                  onPress={() => {
+                    Linking.openURL(
+                      'https://www.onjeong-app.com/privacy-policy.html',
+                    );
+                  }}
                 />
                 <CheckList
                   check={check2}
                   setCheck={setCheck2}
-                  title="앱 이용 약관 [필수]"
+                  title="앱 이용 약관 동의 [필수]"
+                  onPress={() => {
+                    Linking.openURL(
+                      'https://www.onjeong-app.com/service-terms.html',
+                    );
+                  }}
                 />
                 <CheckList
                   check={check3}
@@ -460,7 +471,7 @@ const CheckList = ({check, setCheck, onPress, title}) => {
           }}
         />
       )}
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity onPress={onPress} disabled={!onPress}>
         <AppFonts.SubContent>{title}</AppFonts.SubContent>
       </TouchableOpacity>
     </AppComponents.Row>
