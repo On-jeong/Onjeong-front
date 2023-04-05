@@ -147,7 +147,7 @@ const MailScreen = ({navigation}) => {
   const sendMails = () => {
     setIsReceivePageState(false);
     sendRefetch();
-    setSendMailsState(receiveData?.data?.data);
+    setSendMailsState(sendData?.data?.data);
   };
 
   const mailOnPress = mail => {
@@ -198,9 +198,6 @@ const MailScreen = ({navigation}) => {
               }
               onPress={() => sendMails()}
             />
-            <Alert>
-              {/* <AppIconButtons.Alert disabled={false} onPress={() => {}} /> */}
-            </Alert>
           </Filter>
           <AppComponents.IconButton
             icon={<AppIcons.Trash />}
