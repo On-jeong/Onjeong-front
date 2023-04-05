@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {AppFonts} from '@/utils/GlobalFonts';
 import {AppColors, windowWidth} from '@/utils/GlobalStyles';
 import {Box, Container} from './SignInScreen';
@@ -35,7 +35,7 @@ export const BirthButton = styled.TouchableOpacity`
   border-color: ${AppColors.Gray300};
   margin-top: 13px;
   margin-bottom: 10px;
-  padding-left: 4px;
+  padding-left: 10px;
   padding-bottom: 10px;
 `;
 
@@ -51,6 +51,8 @@ const CheckLists = styled.View`
 `;
 
 const SignUpScreen = ({navigation}) => {
+  const inputRef = useRef([]);
+
   const [inputCheck, setInputCheck] = useState(false);
 
   const [userId, setUserId] = useState('');
@@ -276,6 +278,11 @@ const SignUpScreen = ({navigation}) => {
                   onChangeText={setUserId}
                   autoCapitalize="none"
                   margin={{marginBottom: 10}}
+                  onSubmitEditing={e => {
+                    getCheckIdMutate({id: userId});
+                    inputRef.current[0].focus();
+                  }}
+                  blurOnSubmit={false}
                 />
                 <AppButtons.BasicButton
                   title="확인"
@@ -293,6 +300,11 @@ const SignUpScreen = ({navigation}) => {
                 value={userName}
                 onChangeText={setUserName}
                 margin={{marginBottom: 10}}
+                ref={element => (inputRef.current[0] = element)}
+                onSubmitEditing={() => {
+                  inputRef.current[1].focus();
+                }}
+                blurOnSubmit={false}
               />
               <AppInputs.BorderBottomInput
                 maxLength={30}
@@ -301,6 +313,11 @@ const SignUpScreen = ({navigation}) => {
                 onChangeText={setUserEmail}
                 autoCapitalize="none"
                 margin={{marginBottom: 10}}
+                ref={element => (inputRef.current[1] = element)}
+                onSubmitEditing={() => {
+                  inputRef.current[2].focus();
+                }}
+                blurOnSubmit={false}
               />
               <AppInputs.BorderBottomInput
                 maxLength={16}
@@ -310,6 +327,11 @@ const SignUpScreen = ({navigation}) => {
                 secureTextEntry={true}
                 autoCapitalize="none"
                 margin={{marginBottom: 10}}
+                ref={element => (inputRef.current[2] = element)}
+                onSubmitEditing={() => {
+                  inputRef.current[3].focus();
+                }}
+                blurOnSubmit={false}
               />
               <AppInputs.BorderBottomInput
                 maxLength={16}
@@ -319,13 +341,17 @@ const SignUpScreen = ({navigation}) => {
                 secureTextEntry={true}
                 autoCapitalize="none"
                 margin={{marginBottom: 10}}
+                ref={element => (inputRef.current[3] = element)}
+                onSubmitEditing={() => {
+                  setBirthOpen(true);
+                }}
               />
               {/* 생년월일 선택 버튼 */}
               <BirthButton onPress={() => setBirthOpen(true)}>
-                <AppFonts.Content
+                <AppFonts.Body2
                   color={birthClick ? 'black' : AppColors.Gray600}>
                   {birthClick ? format(userBirth, 'yyyy-MM-dd') : '생년월일'}
-                </AppFonts.Content>
+                </AppFonts.Body2>
               </BirthButton>
               <AppInputs.BorderBottomInput
                 maxLength={15}
@@ -333,6 +359,11 @@ const SignUpScreen = ({navigation}) => {
                 value={userStatus}
                 onChangeText={setUserStatus}
                 margin={{marginBottom: 10}}
+                ref={element => (inputRef.current[4] = element)}
+                onSubmitEditing={() => {
+                  inputRef.current[5].focus();
+                }}
+                blurOnSubmit={false}
               />
               <InputButtonBox>
                 <AppInputs.BorderBottomInput
@@ -342,6 +373,10 @@ const SignUpScreen = ({navigation}) => {
                   value={joinedNickname}
                   onChangeText={setJoinedNickname}
                   margin={{marginBottom: 10}}
+                  ref={element => (inputRef.current[5] = element)}
+                  onSubmitEditing={() => {
+                    getJoinedIdMutate({id: joinedNickname});
+                  }}
                 />
                 <AppButtons.BasicButton
                   title="확인"
@@ -381,6 +416,7 @@ const SignUpScreen = ({navigation}) => {
                 setBirthOpen(false);
                 setUserBirth(date);
                 setBirthClick(true);
+                inputRef.current[4].focus();
               }}
               onCancel={() => {
                 setBirthOpen(false);
