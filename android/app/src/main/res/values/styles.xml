@@ -1,0 +1,10 @@
+<resources>
+
+<!-- dark mode 막기 -->
+    <!-- 기본적으로 Light 모드 => Light.NoActionBar -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- 다크모드 해제 -->
+        <item name="android:forceDarkAllowed">false</item>
+    </style>
+
+</resources>
