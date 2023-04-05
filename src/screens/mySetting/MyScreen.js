@@ -9,8 +9,8 @@ import {useRecoilValue} from 'recoil';
 import {storage} from '@/config/storage';
 import {UserNicknameState} from '@/state/UserData';
 import PromptModal from '@/components/modal/PromptModal';
-import {AppColors} from '@/utils/GlobalStyles';
 import {AppIcons} from '@/ui/icons';
+import {Linking} from 'react-native';
 
 export const MenuContainer = styled.View`
   flex: 1;
@@ -20,7 +20,7 @@ export const MenuContainer = styled.View`
   padding-right: 5%;
 `;
 
-const Menu = styled.TouchableOpacity`
+export const Menu = styled.TouchableOpacity`
   width: 100%;
   height: 45px;
   flex-direction: row;
@@ -34,6 +34,8 @@ const Menu = styled.TouchableOpacity`
 const MyScreen = ({navigation}) => {
   const userNickname = useRecoilValue(UserNicknameState);
   const [signOutModal, setSignOutModal] = useState(false);
+  const [accountDelModal, setAccountDelModal] = useState(false);
+  const [userPW, setUserPW] = useState(null);
 
   const {mutate: signOut} = useSignOut();
   const {mutate: delFCM} = useDelFCM();
@@ -48,22 +50,33 @@ const MyScreen = ({navigation}) => {
     <>
       <WithHeader title={'환경 설정'} isBack={true} navigation={navigation}>
         <MenuContainer>
-          <Menu>
+          <Menu
+            onPress={() => {
+              navigation.navigate('Notice');
+            }}>
             <AppFonts.Body1>공지사항</AppFonts.Body1>
             <AppIcons.Right_gray />
           </Menu>
           <AppComponents.HorizonLine />
-          <Menu>
-            <AppFonts.Body1>서비스 이용약관</AppFonts.Body1>
-            <AppIcons.Right_gray />
-          </Menu>
-          <AppComponents.HorizonLine />
-          <Menu>
+          <Menu
+            onPress={() => {
+              Linking.openURL(
+                'https://www.onjeong-app.com/privacy-policy.html',
+              );
+            }}>
             <AppFonts.Body1>개인정보 처리 방침</AppFonts.Body1>
             <AppIcons.Right_gray />
           </Menu>
           <AppComponents.HorizonLine />
-          <Menu>
+          <Menu
+            onPress={() => {
+              Linking.openURL('https://www.onjeong-app.com/service-terms.html');
+            }}>
+            <AppFonts.Body1>서비스 이용약관</AppFonts.Body1>
+            <AppIcons.Right_gray />
+          </Menu>
+          <AppComponents.HorizonLine />
+          <Menu disabled={true}>
             <AppFonts.Body1>버전</AppFonts.Body1>
             <AppFonts.Body1>1.0.0</AppFonts.Body1>
           </Menu>
@@ -86,17 +99,14 @@ const MyScreen = ({navigation}) => {
           <AppComponents.HorizonLine />
           <Menu
             onPress={() => {
-              navigation.navigate('AccountDelete');
+              setAccountDelModal(true);
             }}>
             <AppFonts.Body1>회원탈퇴</AppFonts.Body1>
             <AppIcons.Right_gray />
           </Menu>
           <AppComponents.HorizonLine />
           <AppComponents.HorizonLine />
-          <Menu
-            onPress={() => {
-              navigation.navigate('AccountDelete');
-            }}>
+          <Menu disabled={true}>
             <AppFonts.Body1>connection</AppFonts.Body1>
             <AppFonts.Body1>onjeong@gmail.com</AppFonts.Body1>
           </Menu>
@@ -113,7 +123,21 @@ const MyScreen = ({navigation}) => {
               setSignOutModal(false);
               signOut();
             }}
-            leftBorderColor={AppColors.Gray200}
+          />
+          {/* 회원탈퇴 모달 */}
+
+          <PromptModal
+            modalVisible={accountDelModal}
+            setModalVisible={setAccountDelModal}
+            title={'회원 탈퇴'}
+            script1={'가족을 두고 정말 떠나시는 건가요?'}
+            script2={'탈퇴하면 복구할 수 없습니다.'}
+            leftOnPress={() => setAccountDelModal(false)}
+            rightOnPress={() => {
+              delFCMToken();
+              setAccountDelModal(false);
+              signOut();
+            }}
           />
         </MenuContainer>
       </WithHeader>
