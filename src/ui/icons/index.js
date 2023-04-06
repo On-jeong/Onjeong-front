@@ -29,6 +29,7 @@ import Setting from '@/assets/icons/setting.svg';
 import Trash from '@/assets/icons/trash.svg';
 
 import Water from '@/assets/icons/water.svg';
+import WaterGray from '@/assets/icons/water_gray.svg';
 import Flower from '@/assets/icons/flower.svg';
 import FlowerGray from '@/assets/icons/flower_gray.svg';
 
@@ -51,6 +52,7 @@ export const AppIcons = {
   Setting,
   Trash,
   Water,
+  WaterGray,
   Flower,
   Right,
   Back,
