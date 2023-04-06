@@ -22,6 +22,7 @@ import LoadingComponent, {
 import {AppIcons} from '@/ui/icons';
 import {AppContainer} from '@/components/container';
 import {AppInputs} from '@/components/inputs';
+import {AppMessage} from '@/components/message';
 
 const AddAnsButton = styled.TouchableOpacity`
   flex-direction: row;
@@ -83,6 +84,7 @@ export default function QaScreen({navigation}) {
   const userName = useRecoilValue(UserNameState);
 
   const [isMyAns, setIsMyAns] = useState(true); // 문답을 입력했는지 여부
+  const [isAddAns, setIsAddAns] = useState(false); // 내 문답 추가중인지 여부
   const [isModAns, setIsModAns] = useState(false); // 내 문답 수정중인지 여부
   const [ansText, setAnsText] = useState('');
 
@@ -107,7 +109,7 @@ export default function QaScreen({navigation}) {
     isError: ansIsError,
     refetch: ansRefetch,
   } = useGetAnswers();
-  console.log(questData?.data?.data[0].questionContent);
+  console.log(ansData?.data?.data);
 
   const getId = data => {
     if (data.length === 0) return 0;
@@ -165,7 +167,7 @@ export default function QaScreen({navigation}) {
   // 내가 답변을 작성했는지 여부 확인
   const isAnswered = () => {
     setIsMyAns(false);
-    ansData?.map(obj => {
+    ansData?.data?.data.map(obj => {
       if (obj.userName == userName) setIsMyAns(true);
     });
   };
@@ -196,18 +198,20 @@ export default function QaScreen({navigation}) {
           <TopContainer>
             <QuestBox>
               <AppFonts.SubTitle>
-                {questData?.data?.data[0].questionContent}
+                {questData?.data?.data.questionContent}
               </AppFonts.SubTitle>
             </QuestBox>
           </TopContainer>
-          <AddAnsButton onPress={() => setIsMyAns(!isMyAns)}>
-            <AppComponents.IconBox
-              icon={<AppIcons.AddGray />}
-              padding={{paddingRight: 5}}
-            />
-            <AppFonts.Body1>나의 답변 추가</AppFonts.Body1>
-          </AddAnsButton>
-          {isMyAns && (
+          {!isMyAns && (
+            <AddAnsButton onPress={() => setIsAddAns(!isAddAns)}>
+              <AppComponents.IconBox
+                icon={isAddAns ? <AppIcons.Add /> : <AppIcons.AddGray />}
+                padding={{paddingRight: 5}}
+              />
+              <AppFonts.Body1>나의 답변 추가</AppFonts.Body1>
+            </AddAnsButton>
+          )}
+          {!isMyAns && isAddAns && (
             <AppInputs.PaperInput
               numberOfLines={3}
               maxLength={80}
@@ -234,24 +238,20 @@ export default function QaScreen({navigation}) {
                       padding={{padding: 5}}
                     />
                   </AppComponents.Row>
-                  <MaxLength>
-                    <AppFonts.SubContent>
-                      {ansText.length}/80
-                    </AppFonts.SubContent>
-                  </MaxLength>
+                  <AppMessage.MaxLength maxLen={'80'} curLen={ansText.length} />
                 </BottomContainer>
               }
             />
           )}
 
-          {ansData && ansData?.length === 0 ? (
+          {ansData && ansData?.data?.data?.length === 0 ? (
             <MessageBox>
-              <AppFonts.Content>문답을 첫번째로 작성해보세요!</AppFonts.Content>
+              <AppFonts.Body2>문답을 첫번째로 작성해보세요!</AppFonts.Body2>
             </MessageBox>
           ) : (
             <LoadingComponent isLoading={addIsLoading}>
               <ScrollView>
-                {ansData?.map(ans => (
+                {ansData?.data?.data?.map(ans => (
                   <AppContainer.Paper
                     key={ans.answerId}
                     padding={{padding: 15, paddingBottom: 10}}>
