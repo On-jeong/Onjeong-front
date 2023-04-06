@@ -18,23 +18,33 @@ export const ModalBackground = styled.Pressable`
 
 export const ModalBox = styled.View`
   position: absolute;
-  bottom: ${windowHeight * 0.5 - modalHeight / 2}px;
+  bottom: ${props => windowHeight * 0.5 - props.height / 2}px;
   left: ${windowWidth * 0.5 - modalWidth / 2}px;
-  min-width: ${modalWidth}px;
-  min-height: ${modalHeight}px;
   padding: 20px;
   justify-content: space-around;
   align-items: center;
-  background-color: ${AppColors.Background};
-  border: solid 3px ${AppColors.border};
-  border-radius: 20px;
+  background-color: ${AppColors.white};
+  border-radius: 4px;
 `;
 
 export const TitleContainer = styled.View`
   justify-content: center;
   align-items: center;
-  margin-bottom: ${props =>
-    props.twoTitle ? modalHeight * 0.2 : modalHeight * 0.1};
+  margin-top: 10px;
+  margin-bottom: 20px;
+`;
+
+export const ScriptContainer = styled.View`
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+`;
+
+const ChildrenBox = styled.View`
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
 `;
 
 export const ButtonContainer = styled.View`
@@ -51,9 +61,10 @@ const PromptModal = ({
   script2,
   leftOnPress,
   rightOnPress,
-  leftBorderColor = AppColors.border,
-  rightBorderColor = AppColors.border,
-  children
+  leftButtonColor = AppColors.Gray200,
+  rightButtonColor = AppColors.Primary,
+  children,
+  height = modalHeight,
 }) => {
   return (
     <Modal
@@ -63,33 +74,35 @@ const PromptModal = ({
       onRequestClose={() => {
         setModalVisible(!modalVisible);
       }}>
-      <ModalBackground onPress={() => setModalVisible(false)} />
-      <ModalBox>
-        <TitleContainer>
-          {title && <AppFonts.SubTitle>{title}</AppFonts.SubTitle>}
-        </TitleContainer>
-        <TitleContainer twoTitle={script2}>
-          {script1 && <AppFonts.Body2>{script1}</AppFonts.Body2>}
-          {script2 && <AppFonts.Body2>{script2}</AppFonts.Body2>}
-        </TitleContainer>
-        {children}
-        <ButtonContainer>
-          <AppButtons.BasicButton
-            title={'취소'}
-            width={modalWidth * 0.4}
-            onPress={leftOnPress}
-            color={leftBorderColor}
-            margin={{marginRight: modalWidth * 0.02}}
-          />
-          <AppButtons.BasicButton
-            title={'확인'}
-            width={modalWidth * 0.4}
-            onPress={rightOnPress}
-            color={rightBorderColor}
-            margin={{marginLeft: modalWidth * 0.02}}
-          />
-        </ButtonContainer>
-      </ModalBox>
+        <ModalBackground onPress={() => setModalVisible(false)} />
+        <ModalBox height={height}>
+          <TitleContainer>
+            {title && <AppFonts.SubTitle>{title}</AppFonts.SubTitle>}
+          </TitleContainer>
+          <ScriptContainer twoTitle={script2}>
+            {script1 && <AppFonts.Body2>{script1}</AppFonts.Body2>}
+            {script2 && <AppFonts.Body2>{script2}</AppFonts.Body2>}
+          </ScriptContainer>
+          {children && <ChildrenBox>{children}</ChildrenBox>}
+          <ButtonContainer children={children}>
+            <AppButtons.BasicButton
+              title={'취소'}
+              width={modalWidth * 0.4}
+              height={44}
+              onPress={leftOnPress}
+              color={leftButtonColor}
+              margin={{marginRight: modalWidth * 0.02}}
+            />
+            <AppButtons.BasicButton
+              title={'확인'}
+              width={modalWidth * 0.4}
+              height={44}
+              onPress={rightOnPress}
+              color={rightButtonColor}
+              margin={{marginLeft: modalWidth * 0.02}}
+            />
+          </ButtonContainer>
+        </ModalBox>
     </Modal>
   );
 };
