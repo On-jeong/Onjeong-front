@@ -9,7 +9,7 @@ import {AppContainer} from '@/components/container';
 
 const NoticeScreen = ({navigation}) => {
   return (
-    <WithHeader title={'알림'} isBack={true} navigation={navigation}>
+    <WithHeader title={'공지사항'} isBack={true} navigation={navigation}>
       <AppContainer.Basic>
         <MessageBox>
           <MessageContent>
