@@ -4,7 +4,7 @@ import {AppColors, windowWidth} from '../../utils/GlobalStyles';
 import PropTypes from 'prop-types';
 
 export const InputContainer = styled.View`
-  width: ${props => (props.width ? props.width : windowWidth * 0.9)};
+  width: ${props => (props.width ? props.width : '90%')};
 `;
 
 export const InputBox = styled.TextInput`
@@ -39,7 +39,6 @@ export const BorderBottomInput = forwardRef(
     },
     ref,
   ) => {
-    console.log('ref : ', ref);
     return (
       <InputContainer width={width}>
         <InputBox
