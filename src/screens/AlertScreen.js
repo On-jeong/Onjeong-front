@@ -1,7 +1,7 @@
 import {WithHeader} from '../components/headers/WithHeader';
 import React from 'react';
 import {AppFonts} from '../utils/GlobalFonts';
-import {MenuContainer} from './mySetting/MyScreen';
+import {Menu, MenuContainer} from './mySetting/MyScreen';
 import styled from 'styled-components';
 import {AppComponents} from '@/components/Components';
 import {FlatList} from 'react-native';
@@ -9,6 +9,7 @@ import {AppIcons} from '@/ui/icons';
 import {AppColors} from '@/utils/GlobalStyles';
 import {useGetNotif} from '@/hooks/useFCMtoken';
 import {AppMessage} from '@/components/message';
+import {AppContainer} from '@/components/container';
 
 export const MessageBox = styled.View`
   width: 100%;
@@ -35,15 +36,14 @@ export const AlertBox = styled.View`
   left: 30px;
 `;
 
-const AlertScreen = ({navigation}) => {
+const AlertScreen = () => {
   const {data, isLoading, isError} = useGetNotif();
-  console.log(data?.data?.data);
+  console.log(data);
 
   return (
     <WithHeader
       title={'알림'}
       isBack={true}
-      navigation={navigation}
       isLoading={isLoading}
       isError={isError}>
       <MenuContainer>
@@ -63,7 +63,6 @@ const AlertScreen = ({navigation}) => {
 };
 
 const RenderMessage = ({item, index}) => {
-  console.log('아이템', index);
   return (
     <>
       {index != 0 && <AppComponents.HorizonLine />}
