@@ -20,6 +20,8 @@ export const ModalBox = styled.View`
   position: absolute;
   bottom: ${props => windowHeight * 0.5 - props.height / 2}px;
   left: ${windowWidth * 0.5 - modalWidth / 2}px;
+  min-width: ${modalWidth}px;
+  min-height: ${modalHeight}px;
   padding: 20px;
   justify-content: space-around;
   align-items: center;
@@ -74,35 +76,35 @@ const PromptModal = ({
       onRequestClose={() => {
         setModalVisible(!modalVisible);
       }}>
-        <ModalBackground onPress={() => setModalVisible(false)} />
-        <ModalBox height={height}>
-          <TitleContainer>
-            {title && <AppFonts.SubTitle>{title}</AppFonts.SubTitle>}
-          </TitleContainer>
-          <ScriptContainer twoTitle={script2}>
-            {script1 && <AppFonts.Body2>{script1}</AppFonts.Body2>}
-            {script2 && <AppFonts.Body2>{script2}</AppFonts.Body2>}
-          </ScriptContainer>
-          {children && <ChildrenBox>{children}</ChildrenBox>}
-          <ButtonContainer children={children}>
-            <AppButtons.BasicButton
-              title={'취소'}
-              width={modalWidth * 0.4}
-              height={44}
-              onPress={leftOnPress}
-              color={leftButtonColor}
-              margin={{marginRight: modalWidth * 0.02}}
-            />
-            <AppButtons.BasicButton
-              title={'확인'}
-              width={modalWidth * 0.4}
-              height={44}
-              onPress={rightOnPress}
-              color={rightButtonColor}
-              margin={{marginLeft: modalWidth * 0.02}}
-            />
-          </ButtonContainer>
-        </ModalBox>
+      <ModalBackground onPress={() => setModalVisible(false)} />
+      <ModalBox height={height}>
+        <TitleContainer>
+          {title && <AppFonts.SubTitle>{title}</AppFonts.SubTitle>}
+        </TitleContainer>
+        <ScriptContainer twoTitle={script2}>
+          {script1 && <AppFonts.Body2>{script1}</AppFonts.Body2>}
+          {script2 && <AppFonts.Body2>{script2}</AppFonts.Body2>}
+        </ScriptContainer>
+        {children && <ChildrenBox>{children}</ChildrenBox>}
+        <ButtonContainer children={children}>
+          <AppButtons.BasicButton
+            title={'취소'}
+            width={modalWidth * 0.4}
+            height={44}
+            onPress={leftOnPress}
+            color={leftButtonColor}
+            margin={{marginRight: modalWidth * 0.02}}
+          />
+          <AppButtons.BasicButton
+            title={'확인'}
+            width={modalWidth * 0.4}
+            height={44}
+            onPress={rightOnPress}
+            color={rightButtonColor}
+            margin={{marginLeft: modalWidth * 0.02}}
+          />
+        </ButtonContainer>
+      </ModalBox>
     </Modal>
   );
 };

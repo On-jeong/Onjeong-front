@@ -11,7 +11,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {BasicHeader} from '../components/headers/WithHeader';
 import {AppFonts} from '../utils/GlobalFonts';
-import {AppColors, windowHeightNoNav, windowWidth} from '../utils/GlobalStyles';
+import {AppColors, windowWidth} from '../utils/GlobalStyles';
 import {useFocusEffect} from '@react-navigation/native';
 import {useGetMonthAnn} from '../hooks/useAnniversaryData';
 import {useQueryClient} from '@tanstack/react-query';
@@ -23,6 +23,7 @@ import CalendarBody from './calendar/CalendarBody';
 import {AppModal} from '@/components/modal';
 import {useRecoilState} from 'recoil';
 import {CurDateState, CurMonthState, CurYearState} from '@/state/CalandarData';
+import {AppButtons} from '@/components/buttons';
 
 const PaperContainer = styled.View`
   flex: 1;
@@ -60,8 +61,12 @@ const TextBox = styled.View`
   margin-right: 10px;
 `;
 
+const MonthTextBox = styled.View`
+  margin-left: 10px;
+`;
+
 const BottomButton = styled.TouchableOpacity`
-  padding: 10px;
+  padding-top: 10px;
   padding-left: 30px;
   padding-right: 30px;
 `;
@@ -97,7 +102,6 @@ export default function CalendarScreen() {
   // 페이지 리로딩
   useFocusEffect(
     useCallback(() => {
-      console.log('다시!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
       queryClient.invalidateQueries([
         'getMonthAnn',
         format(curDateState, 'yyyy-MM-dd'),
@@ -169,7 +173,8 @@ export default function CalendarScreen() {
       {/* 년, 월 선택 모달 */}
       <AppModal.EmptyModal
         modalVisible={monthPickerOpen}
-        setModalVisible={setMonthPickerOpen}>
+        setModalVisible={setMonthPickerOpen}
+        height={220}>
         <MonthPickerBox>
           <WheelPicker
             selectedIndex={curYearState - getYear(curDateState) + 10}
@@ -178,6 +183,7 @@ export default function CalendarScreen() {
             onChange={index => {
               setPickYear(years[index]);
             }}
+            visibleRest={1}
           />
           <TextBox>
             <AppFonts.SubTitle>년</AppFonts.SubTitle>
@@ -193,10 +199,11 @@ export default function CalendarScreen() {
             onChange={index => {
               setPickMonth(index + 1);
             }}
+            visibleRest={1}
           />
-          <TextBox>
+          <MonthTextBox>
             <AppFonts.SubTitle>월</AppFonts.SubTitle>
-          </TextBox>
+          </MonthTextBox>
         </MonthPickerBox>
         <BottomButton
           onPress={() => {

@@ -1,14 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
 import {Modal} from 'react-native';
-import {ModalBox} from './PromptModal';
+import {modalHeight} from '@/utils/GlobalStyles';
+import {ModalBackground, ModalBox} from './PromptModal';
 
-export const ModalBackground = styled.Pressable`
-  flex: 1;
-  background-color: rgba(0, 0, 0, 0.3);
-`;
-
-const EmptyModal = ({modalVisible, setModalVisible, children}) => {
+const EmptyModal = ({
+  modalVisible,
+  setModalVisible,
+  children,
+  height = modalHeight,
+}) => {
   return (
     <Modal
       animationType="none"
@@ -18,7 +18,7 @@ const EmptyModal = ({modalVisible, setModalVisible, children}) => {
         setModalVisible(!modalVisible);
       }}>
       <ModalBackground onPress={() => setModalVisible(false)} />
-      <ModalBox>{children}</ModalBox>
+      <ModalBox height={height}>{children}</ModalBox>
     </Modal>
   );
 };
