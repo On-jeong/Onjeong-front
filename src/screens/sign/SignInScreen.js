@@ -20,10 +20,8 @@ import {
 } from '@/state/UserData';
 import messaging from '@react-native-firebase/messaging';
 import customAxios from '@/api/axios';
-import {WithHeader} from '@/components/headers/WithHeader';
 import {AppComponents} from '@/components/Components';
 import {NoHeader} from '@/components/headers/NoHeader';
-import {TextInput} from 'react-native';
 
 //
 // 로그인

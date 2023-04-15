@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {AppColors} from '@/utils/GlobalStyles';
-import {TouchableOpacity} from 'react-native';
 
 const HLine = styled.View`
   background-color: ${AppColors.Gray300};
