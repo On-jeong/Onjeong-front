@@ -12,7 +12,7 @@ const PostContainer = styled.ScrollView`
   width: 100%;
 `;
 
-const PostScreen = ({navigation, route}) => {
+const PostScreen = ({route}) => {
   const formatDate = format(route.params.date, 'yyyy-MM-dd');
 
   const {
@@ -35,7 +35,6 @@ const PostScreen = ({navigation, route}) => {
     <WithHeader
       title={format(route.params.date, 'yyyy년 M월 d일')}
       isBack={true}
-      navigation={navigation}
       isLoading={AnnIsLoading || BoardIsLoading}
       isError={AnnIsError || BoardIsError}>
       <PostContainer>
@@ -43,7 +42,6 @@ const PostScreen = ({navigation, route}) => {
         <TodayPost
           BoardData={BoardData?.data?.data}
           date={route.params.date}
-          navigation={navigation}
         />
         <AppComponents.EmptyBox height={50} />
       </PostContainer>

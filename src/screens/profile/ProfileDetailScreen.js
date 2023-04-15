@@ -37,7 +37,6 @@ const ProfileDetailScreen = ({navigation, route}) => {
     <WithHeader
       title={route.params.role}
       isBack={true}
-      navigation={navigation}
       isLoading={infoIsLoading || detailIsLoading}
       isError={infoIsError || detailIsError}>
       <AppContainer.Basic>

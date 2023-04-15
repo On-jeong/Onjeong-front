@@ -20,14 +20,14 @@ const MainContent = styled.Text`
   line-height: 30px;
 `;
 
-const MailDetailScreen = ({navigation, route}) => {
+const MailDetailScreen = ({route}) => {
   // 메일 읽음 처리 용 서버 연동
   useGetMailDetail(route?.params?.mailId);
 
   console.log(route);
 
   return (
-    <WithHeader isBack={true} navigation={navigation}>
+    <WithHeader isBack={true}>
       <>
         <PaperContainer>
           <AppContainer.Paper

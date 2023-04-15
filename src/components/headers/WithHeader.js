@@ -5,6 +5,7 @@ import {AppColors, betweenIcons, navigationHeight} from '@/utils/GlobalStyles';
 import PropTypes from 'prop-types';
 import LoadingComponent from '../Loading/LoadingComponent';
 import {AppIcons} from '@/ui/icons';
+import {useNavigation} from '@react-navigation/native';
 
 const NavBar = styled.View`
   height: ${navigationHeight}px;
@@ -59,11 +60,12 @@ export const WithHeader = ({
   leftOnPress,
   rightOnPress1,
   rightOnPress2,
-  navigation,
   isLoading,
   isError,
   reloadFunc,
 }) => {
+  const navigation = useNavigation();
+
   return (
     <Body>
       <NavBar>
@@ -104,11 +106,12 @@ export const BasicHeader = ({
   leftIcon2,
   leftOnPress1,
   leftOnPress2,
-  navigation,
   isLoading,
   isError,
   reloadFunc,
 }) => {
+  const navigation = useNavigation();
+
   return (
     <Body>
       <NavBar>
@@ -116,7 +119,7 @@ export const BasicHeader = ({
           {isBack ? (
             <BackBox
               onPress={() => {
-                navigation.goBack();
+                navigation?.goBack();
               }}>
               <AppIcons.Back_gray />
             </BackBox>
@@ -137,7 +140,7 @@ export const BasicHeader = ({
           </BellIconBox>
           <IconBox
             onPress={() => {
-              navigation.navigate('My');
+              navigation?.navigate('My');
             }}>
             <AppIcons.Setting />
           </IconBox>
@@ -168,9 +171,6 @@ WithHeader.propTypes = {
   rightIcon2: PropTypes.element,
   rightOnPress1: PropTypes.func,
   rightOnPress2: PropTypes.func,
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-  }),
 };
 
 BasicHeader.propTypes = {

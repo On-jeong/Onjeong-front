@@ -164,13 +164,13 @@ export const HomeScreen = ({navigation}) => {
 
     // 해당 기기에서 오늘 랜덤코인을 은 적이 없을 경우 호출
     if (dailyCoinState == null && dailyCoinState !== formatDate) {
+      console.log('데일리코인 호출!');
       addRandCoins();
     }
   };
 
   return (
     <BasicHeader
-      navigation={navigation}
       leftIcon1={
         <CoinBox onPress={() => navigation.navigate('Guide')}>
           <IconBox>

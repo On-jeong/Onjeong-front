@@ -63,7 +63,6 @@ const ProfileScreen = ({navigation}) => {
   return (
     <BasicHeader
       title="우리 가족"
-      navigation={navigation}
       isLoading={isLoading}
       isError={isError}
       reloadFunc={refetch}>
@@ -74,7 +73,7 @@ const ProfileScreen = ({navigation}) => {
               <Profile
                 key={fm.userId}
                 onPress={() =>
-                navigation.navigate('ProfileDetail', {
+                  navigation.navigate('ProfileDetail', {
                     userId: fm.userId,
                     role: fm.userStatus,
                   })

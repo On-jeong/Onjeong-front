@@ -66,7 +66,7 @@ const BottomButton = styled.TouchableOpacity`
   padding-right: 30px;
 `;
 
-export default function CalendarScreen({navigation}) {
+export default function CalendarScreen() {
   const queryClient = useQueryClient();
 
   const [curDateState, setCurDateState] = useRecoilState(CurDateState);
@@ -159,7 +159,6 @@ export default function CalendarScreen({navigation}) {
               ))}
             </Days>
             <CalendarBody
-              navigation={navigation}
               monthDays={getCurMonthDays(curYearState, curMonthState)}
               annData={annData?.data?.data}
             />

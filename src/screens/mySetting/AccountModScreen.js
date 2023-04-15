@@ -141,7 +141,6 @@ function AccountModScreen({navigation}) {
       <WithHeader
         title="회원정보 수정"
         isBack={true}
-        navigation={navigation}
         isLoading={modifyAccountIsLoading}
         isError={modifyAccountIsError}
         // reloadFunc={modifyAccountMutate({

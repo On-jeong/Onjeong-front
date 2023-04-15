@@ -178,7 +178,6 @@ const MailScreen = ({navigation}) => {
   return (
     <BasicHeader
       title={'우편함'}
-      navigation={navigation}
       isLoading={isReceivePageState ? receiveIsLoading : sendIsLoading}
       isError={isReceivePageState ? receiveIsError : sendIsError}>
       <>

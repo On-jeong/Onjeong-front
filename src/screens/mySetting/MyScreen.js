@@ -48,7 +48,7 @@ const MyScreen = ({navigation}) => {
 
   return (
     <>
-      <WithHeader title={'환경 설정'} isBack={true} navigation={navigation}>
+      <WithHeader title={'환경 설정'} isBack={true}>
         <MenuContainer>
           <Menu
             onPress={() => {

@@ -41,7 +41,6 @@ const CoinHistoryScreen = ({navigation}) => {
     <WithHeader
       isBack={true}
       title={'꽃 성장 기록'}
-      navigation={navigation}
       isLoading={isLoading}
       isError={isError}
       reloadFunc={refetch}>
@@ -56,6 +55,7 @@ const CoinHistoryScreen = ({navigation}) => {
             renderItem={RenderMessage}
             keyExtractor={(item, index) => index.toString()}
             showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 20}}
           />
         </AppContainer.Basic>
       </EmptyComponent>

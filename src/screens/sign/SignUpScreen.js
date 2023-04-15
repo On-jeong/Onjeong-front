@@ -264,7 +264,6 @@ const SignUpScreen = ({navigation}) => {
     <WithHeader
       title="회원가입"
       isBack={true}
-      navigation={navigation}
       isLoading={noJoinedIsLoading || withJoinedIsLoading}>
       <ScrollView>
         <Container>

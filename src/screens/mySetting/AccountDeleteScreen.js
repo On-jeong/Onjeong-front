@@ -30,7 +30,7 @@ const AccountDeleteScreen = ({navigation}) => {
   });
 
   return (
-    <WithHeader title="회원탈퇴" isBack={true} navigation={navigation}>
+    <WithHeader title="회원탈퇴" isBack={true}>
       <LoadingBox>
         <AppFonts.Content>
           가족들을 남겨두고 정말 떠나시는 건가요?

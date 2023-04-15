@@ -127,8 +127,7 @@ const PostWriteScreen = ({navigation, route}) => {
       <WithHeader
         title={formatDate}
         isLoading={addIsLoading || modIsLoading}
-        isBack={true}
-        navigation={navigation}>
+        isBack={true}>
         <ScrollView>
           <PaperContainer>
             <AppInputs.PaperInput

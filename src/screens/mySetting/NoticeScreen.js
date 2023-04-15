@@ -7,9 +7,9 @@ import {MessageBox, MessageContent} from '../AlertScreen';
 import {AppComponents} from '@/components/Components';
 import {AppContainer} from '@/components/container';
 
-const NoticeScreen = ({navigation}) => {
+const NoticeScreen = () => {
   return (
-    <WithHeader title={'공지사항'} isBack={true} navigation={navigation}>
+    <WithHeader title={'공지사항'} isBack={true}>
       <AppContainer.Basic>
         <MessageBox>
           <MessageContent>

@@ -50,8 +50,6 @@ const BottomContainer = styled.View`
 `;
 
 const MyAnsInput = styled.TextInput`
-  padding-left: 10px;
-  padding-right: 10px;
   font-family: 'GangwonLight';
   font-size: 18px;
 `;
@@ -79,7 +77,7 @@ const ContentBox = styled.View`
   margin-bottom: 10;
 `;
 
-export default function QaScreen({navigation}) {
+export default function QaScreen() {
   const queryClient = useQueryClient();
   const userName = useRecoilValue(UserNameState);
 
@@ -174,7 +172,7 @@ export default function QaScreen({navigation}) {
 
   if (questError?.response?.data?.message === 'WEEKLY QUESTION NOT EXIST') {
     return (
-      <BasicHeader title="이 주의 문답" navigation={navigation}>
+      <BasicHeader title="이 주의 문답">
         <LoadingBox>
           <AppFonts.Content>이 주의 문답이 준비중입니다..</AppFonts.Content>
           <AppFonts.Content>조금만 기다려 주세요!</AppFonts.Content>
@@ -186,7 +184,6 @@ export default function QaScreen({navigation}) {
   return (
     <BasicHeader
       title="이 주의 문답"
-      navigation={navigation}
       isLoading={questIsLoading || ansIsLoading || modIsLoading || delIsLoading}
       isError={questIsError || ansIsError}
       reloadFunc={() => {

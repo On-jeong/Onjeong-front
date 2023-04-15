@@ -91,7 +91,6 @@ const MailWriteScreen = ({navigation}) => {
       <WithHeader
         title="편지 쓰기"
         isBack={true}
-        navigation={navigation}
         isLoading={postIsLoading}>
         <PaperContainer>
           <PaperInput

@@ -21,8 +21,7 @@ const CoinGuideScreen = ({navigation}) => {
   return (
     <WithHeader
       isBack={true}
-      title={'영양제 적립 가이드'}
-      navigation={navigation}>
+      title={'영양제 적립 가이드'}>
       <ScrollView>
         <AppContainer.Basic>
           <AppContainer.Paper padding={{padding: 10}}>

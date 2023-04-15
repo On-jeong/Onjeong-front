@@ -1,6 +1,7 @@
 import {AppComponents} from '@/components/Components';
 import {AppFonts} from '@/utils/GlobalFonts';
 import {AppColors, windowHeightNoNav} from '@/utils/GlobalStyles';
+import { useNavigation } from '@react-navigation/native';
 import {format, getDate} from 'date-fns';
 import React from 'react';
 import styled from 'styled-components';
@@ -33,7 +34,8 @@ const MiniText = styled.View`
   background-color: ${AppColors.Secondary};
 `;
 
-export default function CalendarBody({navigation, monthDays}) {
+export default function CalendarBody({monthDays}) {
+  const navigation = useNavigation();
   const today = new Date();
 
   return (

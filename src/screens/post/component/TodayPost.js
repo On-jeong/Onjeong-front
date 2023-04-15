@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import {useQueryClient} from '@tanstack/react-query';
 import {AppColors, windowWidth} from '@/utils/GlobalStyles';
@@ -10,8 +10,8 @@ import {AppIcons} from '@/ui/icons';
 import {Filter} from '@/screens/mail/MailScreen';
 import {PlanTitle} from './TodayPlan';
 import {format} from 'date-fns';
-import {AppButtons} from '@/components/buttons';
 import AutoHeightImage from 'react-native-auto-height-image';
+import { useNavigation } from '@react-navigation/native';
 
 const PaperContainer = styled.View`
   width: 100%;
@@ -40,7 +40,9 @@ const RightHeader = styled.View`
   align-items: center;
 `;
 
-const TodayPost = ({navigation, BoardData, date}) => {
+const TodayPost = ({BoardData, date}) => {
+  const navigation = useNavigation();
+
   const formatDate = format(date, 'yyyy-MM-dd');
 
   const queryClient = useQueryClient();
