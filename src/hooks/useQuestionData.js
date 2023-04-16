@@ -6,7 +6,7 @@ const fetchQuest = () => {
 };
 
 const fetchAnswers = () => {
-  return customAxios.get(`/answers`);
+  return customAxios.get(`/answers`).then(data => data?.data?.data);
 };
 
 const addAnswer = questData => {
@@ -37,37 +37,37 @@ export const useGetAnswers = onSuccess => {
 };
 
 // 이주의 문답 답변 작성하기
-export const useAddAnswer = ({onSuccess, onSettled}) => {
+export const useAddAnswer = ({onMutate, onSettled}) => {
   return useMutation(addAnswer, {
     onError: error => {
       alert('문답 작성 중 오류가 발생했습니다.');
       console.log('문답작성에러:', error);
     },
-    onSuccess: onSuccess,
+    onMutate: onMutate,
     onSettled: onSettled,
   });
 };
 
 // 이주의 문답 답변 수정하기
-export const useModifyAnswer = ({onSuccess, onSettled}) => {
+export const useModifyAnswer = ({onMutate, onSettled}) => {
   return useMutation(modifyAnswer, {
     onError: error => {
       alert('문답 수정 중 오류가 발생했습니다.');
       console.log('문답수정에러:', error);
     },
-    onSuccess: onSuccess,
+    onMutate: onMutate,
     onSettled: onSettled,
   });
 };
 
 // 이주의 문답 답변 삭제하기
-export const useDeleteAnswer = ({onSuccess, onSettled}) => {
+export const useDeleteAnswer = ({onMutate, onSettled}) => {
   return useMutation(deleteAnswer, {
     onError: error => {
       alert('문답 삭제 중 오류가 발생했습니다.');
       console.log('문답삭제에러:', error);
     },
-    onSuccess: onSuccess,
+    onMutate: onMutate,
     onSettled: onSettled,
   });
 };

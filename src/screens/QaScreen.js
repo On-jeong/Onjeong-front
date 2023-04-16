@@ -81,7 +81,7 @@ export default function QaScreen() {
   const queryClient = useQueryClient();
   const userName = useRecoilValue(UserNameState);
 
-  const [isMyAns, setIsMyAns] = useState(true); // 문답을 입력했는지 여부
+  const [isMyAns, setIsMyAns] = useState(false); // 문답을 입력했는지 여부
   const [isAddAns, setIsAddAns] = useState(false); // 내 문답 추가중인지 여부
   const [isModAns, setIsModAns] = useState(false); // 내 문답 수정중인지 여부
   const [ansText, setAnsText] = useState('');
@@ -107,7 +107,6 @@ export default function QaScreen() {
     isError: ansIsError,
     refetch: ansRefetch,
   } = useGetAnswers();
-  console.log(ansData?.data?.data);
 
   const getId = data => {
     if (data.length === 0) return 0;
@@ -115,41 +114,78 @@ export default function QaScreen() {
   };
 
   const {mutate: addAns, isLoading: addIsLoading} = useAddAnswer({
-    onSuccess: () => {
+    onMutate: () => {
       // 문답 답변들 리패치
       setIsMyAns(true); // 문답 입력칸 없애기
+      setIsAddAns(false);
       setAnsText('');
 
-      queryClient.setQueryData(['getAnswers'], oldData => [
-        ...oldData,
-        {
-          answerId: getId(oldData),
-          answerContent: ansText,
-          userName: userName,
-          answerTime: '',
-        },
-      ]);
+      // 이전에 자동 요청된 데이터 등으로 overwrite 되지 않도록
+      queryClient.cancelQueries(['getAnswers']);
+
+      // 실패했을 경우 롤백을 해야 하므로 원래의 데이터를 저장한다.
+      const rollbackData = queryClient.getQueryData(['getAnswers']);
+
+      // 성공 가정하고 UI 미리 적용
+      queryClient.setQueryData(['getAnswers'], oldData => {
+        console.log('올데1', oldData);
+        return [
+          ...oldData,
+          {
+            answerId: getId(oldData),
+            answerContent: ansText,
+            userName: userName,
+            answerTime: '',
+          },
+        ];
+      });
+
+      queryClient.setQueryData(['getAnswers'], oldData => {
+        console.log('올데2', oldData);
+      });
+      // 실패시 되돌릴 데이터 리턴
+      return {rollbackData};
     },
     onSettled: () => onSettled(),
   });
   const {mutate: modAns, isLoading: modIsLoading} = useModifyAnswer({
-    onSuccess: () => {
+    onMutate: () => {
       setIsModAns(false);
+      // 이전에 자동 요청된 데이터 등으로 overwrite 되지 않도록
+      queryClient.cancelQueries(['getAnswers']);
+
+      // 실패했을 경우 롤백을 해야 하므로 원래의 데이터를 저장한다.
+      const rollbackData = queryClient.getQueryData(['getAnswers']);
+
+      // 성공 가정하고 UI 미리 적용
       queryClient.setQueryData(['getAnswers'], oldData => {
         return oldData.map(data =>
           data.userName === userName ? {...data, answerContent: ansText} : data,
         );
       });
+
+      // 실패시 되돌릴 데이터 리턴
+      return {rollbackData};
     },
     onSettled: () => onSettled(),
   });
   const {mutate: delAns, isLoading: delIsLoading} = useDeleteAnswer({
-    onSuccess: () => {
+    onMutate: () => {
       setAnsText('');
 
-      queryClient.setQueryData(['getAnswers'], oldData =>
-        oldData?.filter(it => it.userName !== userName),
-      );
+      // 이전에 자동 요청된 데이터 등으로 overwrite 되지 않도록
+      queryClient.cancelQueries(['getAnswers']);
+
+      // 실패했을 경우 롤백을 해야 하므로 원래의 데이터를 저장한다.
+      const rollbackData = queryClient.getQueryData(['getAnswers']);
+
+      // 성공 가정하고 UI 미리 적용
+      queryClient.setQueryData(['getAnswers'], oldData => {
+        return oldData?.filter(it => it.userName !== userName);
+      });
+
+      // 실패시 되돌릴 데이터 리턴
+      return {rollbackData};
     },
     onSettled: () => onSettled(),
   });
@@ -165,7 +201,7 @@ export default function QaScreen() {
   // 내가 답변을 작성했는지 여부 확인
   const isAnswered = () => {
     setIsMyAns(false);
-    ansData?.data?.data.map(obj => {
+    ansData?.map(obj => {
       if (obj.userName == userName) setIsMyAns(true);
     });
   };
@@ -241,14 +277,14 @@ export default function QaScreen() {
             />
           )}
 
-          {ansData && ansData?.data?.data?.length === 0 ? (
+          {ansData && ansData?.length === 0 ? (
             <MessageBox>
               <AppFonts.Body2>문답을 첫번째로 작성해보세요!</AppFonts.Body2>
             </MessageBox>
           ) : (
             <LoadingComponent isLoading={addIsLoading}>
               <ScrollView>
-                {ansData?.data?.data?.map(ans => (
+                {ansData?.map(ans => (
                   <AppContainer.Paper
                     key={ans.answerId}
                     padding={{padding: 15, paddingBottom: 10}}>
