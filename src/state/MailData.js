@@ -4,7 +4,7 @@ import {atom, selector} from 'recoil';
 
 // true: 받은메일함, false: 보낸메일함
 export const IsReceivePageState = atom({
-  key: 'receiveMails',
+  key: 'isReceivePage',
   default: true,
 });
 
