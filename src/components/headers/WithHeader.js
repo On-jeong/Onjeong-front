@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import LoadingComponent from '../Loading/LoadingComponent';
 import {AppIcons} from '@/ui/icons';
 import {useNavigation} from '@react-navigation/native';
+import EmptyComponent from '../Loading/EmptyComponent';
+import {AppComponents} from '../Components';
 
 const NavBar = styled.View`
   height: ${navigationHeight}px;
@@ -125,8 +127,12 @@ export const BasicHeader = ({
             </BackBox>
           ) : (
             <>
-              <IconBox onPress={leftOnPress1}>{leftIcon1}</IconBox>
-              <IconBox onPress={leftOnPress2}>{leftIcon2}</IconBox>
+              <IconBox onPress={leftOnPress1}>
+                {leftIcon1 ? leftIcon1 : <AppComponents.EmptyBox width={12} />}
+              </IconBox>
+              <IconBox onPress={leftOnPress2}>
+                {leftIcon2 ? leftIcon2 : <AppComponents.EmptyBox width={12} />}
+              </IconBox>
             </>
           )}
         </LeftNav>
