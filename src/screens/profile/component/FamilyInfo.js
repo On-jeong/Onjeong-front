@@ -2,10 +2,8 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import {AppColors} from '@/utils/GlobalStyles';
 import {AppFonts} from '@/utils/GlobalFonts';
-import {AppIconButtons} from '@/components/IconButtons';
 import PropTypes from 'prop-types';
 import {
-  useGetFamilyInfo,
   useDelFavorite,
   useDelHate,
   useDelInterest,
@@ -19,9 +17,7 @@ import {
 import {useQueryClient} from '@tanstack/react-query';
 import {MessageInput} from './FamilyProfile';
 import {AppComponents} from '@/components/Components';
-import LoadingComponent from '@/components/Loading/LoadingComponent';
 import {AppIcons} from '@/ui/icons';
-import {AppContainer} from '@/components/container';
 
 const ContentsContainer = styled.ScrollView`
   padding-left: 7%;
@@ -35,11 +31,6 @@ const TagContainer = styled.View`
   margin-bottom: 5px;
 `;
 
-const CancelBox = styled.View`
-  position: absolute;
-  top: -10;
-  right: -10;
-`;
 
 const FamilyInfo = ({route, infoData}) => {
   const queryClient = useQueryClient();

@@ -94,7 +94,6 @@ const TodayPlan = ({date, AnnData}) => {
     },
     onError: (err, value, context) => onError(err, value, context),
     onSettled: () => {
-      console.log('????????');
       // 받아왔던 기념일 데이터 리패치
       queryClient.invalidateQueries('getDateAnn', date);
     },
