@@ -11,7 +11,7 @@ import {Filter} from '@/screens/mail/MailScreen';
 import {PlanTitle} from './TodayPlan';
 import {format} from 'date-fns';
 import AutoHeightImage from 'react-native-auto-height-image';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const PaperContainer = styled.View`
   width: 100%;
@@ -83,8 +83,9 @@ const TodayPost = ({BoardData, date}) => {
         {BoardData.map(board => (
           <AppContainer.Paper
             padding={{padding: 20, paddingLeft: 20, paddingBottom: 0}}
-            height={'auto'}>
-            <PaperContainer key={board.boardId}>
+            height={'auto'}
+            key={board.boardId}>
+            <PaperContainer>
               {board.boardImageUrl && (
                 <ImageContainer>
                   <AutoHeightImage
