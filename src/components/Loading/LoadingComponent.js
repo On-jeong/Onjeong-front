@@ -39,7 +39,7 @@ const LoadingComponent = ({isLoading, isError, children, reloadFunc}) => {
     <Body>
       {isLoading ? (
         <LoadingBox>
-          <ActivityIndicator size={'large'} color={AppColors.border} />
+          <ActivityIndicator size={'large'} color={AppColors.Primary} />
         </LoadingBox>
       ) : (
         <>{children}</>
