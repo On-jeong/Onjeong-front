@@ -339,6 +339,7 @@ const SignInScreen = ({navigation}) => {
               ref={inputPW}
               secureTextEntry={true}
               margin={{marginBottom: 10}}
+              onSubmitEditing={onSubmit}
             />
           </InputContainer>
 
