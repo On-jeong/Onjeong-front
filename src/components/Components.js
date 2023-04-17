@@ -102,12 +102,11 @@ Row.propTypes = {
 };
 
 const Icon = styled.View`
-  padding: 5px;
 `;
 const IconBox = ({
   icon,
   padding = {
-    padding: 0,
+    padding: 5,
     paddingTop: 0,
     paddingBottom: 0,
     paddingLeft: 0,

@@ -14,10 +14,10 @@ import {
   useSignUpWithJoined,
 } from '../../hooks/useUserData';
 import {Alert, Linking, ScrollView, TouchableOpacity} from 'react-native';
-import {AppIconButtons} from '@/components/IconButtons';
 import {AppComponents} from '@/components/Components';
 import {WithHeader} from '@/components/headers/WithHeader';
 import {reg} from '@/config/reg';
+import {AppIcons} from '@/ui/icons';
 
 //
 // 회원가입
@@ -74,7 +74,6 @@ const SignUpScreen = ({navigation}) => {
   const [check1, setCheck1] = useState(false); // 개인정보 처리 방침
   const [check2, setCheck2] = useState(false); // 앱 이용 약관
   const [check3, setCheck3] = useState(false); // 푸시 알림 동의
-  const [checkAll, setCheckAll] = useState(false); // 푸시 알림 동의
 
   const {mutate: noJoinedMutate, isLoading: noJoinedIsLoading} =
     useSignUpNoJoined({
@@ -408,11 +407,11 @@ const SignUpScreen = ({navigation}) => {
                     );
                   }}
                 />
-                <CheckList
+                {/* <CheckList
                   check={check3}
                   setCheck={setCheck3}
                   title="앱 푸시 알림 동의 [선택]"
-                />
+                /> */}
               </CheckLists>
             </InputContainer>
 
@@ -448,30 +447,36 @@ const SignUpScreen = ({navigation}) => {
   );
 };
 
+const List = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+`;
+
 const CheckList = ({check, setCheck, onPress, title}) => {
   return (
-    <AppComponents.Row>
-      {check ? (
-        <AppIconButtons.CheckBox
-          size={18}
-          disabled={false}
-          style={{padding: 4}}
-          onPress={() => {
-            setCheck(false);
-          }}
-        />
-      ) : (
-        <AppIconButtons.EmptyCheckBox
-          size={18}
-          disabled={false}
-          style={{padding: 4}}
-          onPress={() => {
-            setCheck(true);
-          }}
-        />
-      )}
-      <TouchableOpacity onPress={onPress} disabled={!onPress}>
+    <AppComponents.Row margin={{marginTop: 5}}>
+      <List
+        onPress={() => {
+          setCheck(!check);
+        }}>
+        {check ? (
+          <AppComponents.IconBox
+            icon={<AppIcons.CheckBox />}
+            padding={{padding: 4}}
+          />
+        ) : (
+          <AppComponents.IconBox
+            icon={<AppIcons.CheckBoxEmpty />}
+            padding={{padding: 4}}
+          />
+        )}
         <AppFonts.SubContent>{title}</AppFonts.SubContent>
+      </List>
+      <TouchableOpacity onPress={onPress} disabled={!onPress}>
+        <AppComponents.IconBox
+          icon={<AppIcons.Right_gray />}
+          padding={{paddingLeft: 10}}
+        />
       </TouchableOpacity>
     </AppComponents.Row>
   );

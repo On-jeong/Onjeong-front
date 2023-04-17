@@ -7,13 +7,13 @@ import {useAddBoard, useModifyBoard} from '../../hooks/useBoardData';
 import {useQueryClient} from '@tanstack/react-query';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {windowHeight, windowWidth} from '../../utils/GlobalStyles';
-import {AppIconButtons} from '../../components/IconButtons';
 import {WithHeader} from '@/components/headers/WithHeader';
 import {AppInputs} from '@/components/inputs';
 import {AppButtons} from '@/components/buttons';
 import {ScrollView} from 'react-native';
 import {AppComponents} from '@/components/Components';
 import {format} from 'date-fns';
+import {AppIcons} from '@/ui/icons';
 
 export const SendBox = styled.View`
   width: 100%;
@@ -31,10 +31,11 @@ export const ImageBox = styled.View`
   margin-top: 10px;
 `;
 
-export const IconBox = styled.View`
+export const IconBox = styled.TouchableOpacity`
   position: absolute;
-  top: -10px;
-  left: -10px;
+  padding: 10px;
+  top: 0px;
+  left: 0px;
 `;
 
 export const PreImage = styled.Image`
@@ -139,13 +140,11 @@ const PostWriteScreen = ({navigation, route}) => {
               {image && (
                 <ImageBox>
                   <PreImage source={{uri: image}} />
-                  <IconBox>
-                    <AppIconButtons.Cancel
-                      disabled={false}
-                      onPress={() => {
-                        setImage(null);
-                      }}
-                    />
+                  <IconBox
+                    onPress={() => {
+                      setImage(null);
+                    }}>
+                    <AppIcons.CancelSmall />
                   </IconBox>
                 </ImageBox>
               )}

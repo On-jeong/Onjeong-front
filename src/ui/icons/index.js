@@ -8,6 +8,7 @@ import CalendarWhite from '@/assets/icons/calendar_white.svg';
 import CalendarBlack from '@/assets/icons/calendar_black.svg';
 import HomeWhite from '@/assets/icons/home_white.svg';
 import HomeBlack from '@/assets/icons/home_black.svg';
+
 import Right from '@/assets/icons/right.svg';
 import Right_gray from '@/assets/icons/right_gray.svg';
 import Back from '@/assets/icons/back.svg';
@@ -27,6 +28,8 @@ import Bell from '@/assets/icons/bell.svg';
 import List from '@/assets/icons/list.svg';
 import Setting from '@/assets/icons/setting.svg';
 import Trash from '@/assets/icons/trash.svg';
+import CheckBoxEmpty from '@/assets/icons/check_box_empty.svg';
+import CheckBox from '@/assets/icons/check_box.svg';
 
 import Water from '@/assets/icons/water.svg';
 import WaterGray from '@/assets/icons/water_gray.svg';
@@ -66,4 +69,6 @@ export const AppIcons = {
   CancelSmall,
   Reload,
   WarningGray,
+  CheckBoxEmpty,
+  CheckBox,
 };

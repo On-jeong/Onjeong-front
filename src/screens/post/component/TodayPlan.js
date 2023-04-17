@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import {useQueryClient} from '@tanstack/react-query';
 import {AppFonts} from '@/utils/GlobalFonts';
 import {AppColors} from '@/utils/GlobalStyles';
-import {AppIconButtons} from '@/components/IconButtons';
 import {AppButtons} from '@/components/buttons';
 import {useAddAnn, useDeleteAnn} from '@/hooks/useAnniversaryData';
 import {Filter} from '@/screens/mail/MailScreen';
@@ -19,7 +18,7 @@ const PlanBox = styled.View`
 `;
 
 const ChoiceBox = styled.TouchableOpacity`
-  margin-right: 8px;
+  margin-right: 10px;
   flex-direction: row;
   align-items: center;
 `;
@@ -44,7 +43,7 @@ const PlanTextBox = styled.View`
   align-self: flex-start;
   margin-top: 5px;
   border-bottom-width: 1px;
-  border-bottom-color: ${AppColors.border};
+  border-bottom-color: ${AppColors.Gray400};
 `;
 
 const PlanText = styled.TextInput`
@@ -189,7 +188,7 @@ const TodayPlan = ({date, AnnData}) => {
             <PlanBox key={ann.anniversaryId}>
               {isDelPlan ? (
                 <AppComponents.IconButton
-                  icon={<AppIcons.CancelSmall/>}
+                  icon={<AppIcons.CancelSmall />}
                   padding={{padding: 10}}
                   onPress={() => {
                     delAnn({annId: ann.anniversaryId});
@@ -223,17 +222,29 @@ const TodayPlan = ({date, AnnData}) => {
                 <SendBox>
                   <ChoiceBox onPress={() => setIsAnniversary(true)}>
                     {isAnniversary ? (
-                      <AppIconButtons.CheckBox disabled={true} />
+                      <AppComponents.IconBox
+                        icon={<AppIcons.CheckBox />}
+                        padding={{paddingRight: 5}}
+                      />
                     ) : (
-                      <AppIconButtons.EmptyCheckBox disabled={true} />
+                      <AppComponents.IconBox
+                        icon={<AppIcons.CheckBoxEmpty />}
+                        padding={{paddingRight: 5}}
+                      />
                     )}
                     <AppFonts.Body2>기념일</AppFonts.Body2>
                   </ChoiceBox>
                   <ChoiceBox onPress={() => setIsAnniversary(false)}>
                     {!isAnniversary ? (
-                      <AppIconButtons.CheckBox disabled={true} />
+                      <AppComponents.IconBox
+                        icon={<AppIcons.CheckBox />}
+                        padding={{paddingRight: 4}}
+                      />
                     ) : (
-                      <AppIconButtons.EmptyCheckBox disabled={true} />
+                      <AppComponents.IconBox
+                        icon={<AppIcons.CheckBoxEmpty />}
+                        padding={{paddingRight: 4}}
+                      />
                     )}
                     <AppFonts.Body2>일정</AppFonts.Body2>
                   </ChoiceBox>
