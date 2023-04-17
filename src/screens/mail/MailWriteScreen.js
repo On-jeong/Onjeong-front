@@ -10,7 +10,6 @@ import {AppButtons} from '../../components/buttons';
 import {WithHeader} from '@/components/headers/WithHeader';
 import {AppIcons} from '@/ui/icons';
 import {AppContainer} from '@/components/container';
-import {View} from 'react-native';
 
 export const PaperContainer = styled.View`
   align-items: center;
@@ -19,11 +18,11 @@ export const PaperContainer = styled.View`
 `;
 
 export const MainInput = styled.TextInput`
-  padding: 10px;
-  padding-top: 60px;
+  padding: 20px;
+  padding-top: 70px;
   font-family: ${FontFamily.Light};
   font-size: 17px;
-  height: ${windowHeight * 0.6};
+  height: ${windowHeight * 0.5};
 `;
 
 const ToBox = styled.View`
@@ -46,7 +45,7 @@ export const SendBox = styled.View`
 const PaperTop = styled.TouchableOpacity`
   position: absolute;
   top: 10;
-  left: 10;
+  left: 20;
   flex-direction: row;
   align-items: flex-start;
   z-index: 9999;
@@ -62,7 +61,6 @@ const SelectTitle = styled.TouchableOpacity`
   height: 38px;
   flex-direction: row;
   justify-content: space-around;
-  padding-left: 10;
   align-items: center;
   margin-left: 5px;
   margin-bottom: -1px;
@@ -140,17 +138,15 @@ const MailWriteScreen = ({navigation}) => {
               setToUserId={setToUserId}
               toUserId={toUserId}
             />
-            <View removeClippedSubviews={!isOpen}>
-              <MainInput
-                multiline={true}
-                textAlignVertical="top"
-                value={mainText}
-                onChangeText={setMainText}
-                contextMenuHidden={isOpen}
-                editable={!isOpen}
-                style={{color: 'black'}}
-              />
-            </View>
+            <MainInput
+              multiline={true}
+              textAlignVertical="top"
+              value={mainText}
+              onChangeText={setMainText}
+              contextMenuHidden={isOpen}
+              editable={!isOpen}
+              style={{color: 'black'}}
+            />
           </AppContainer.Paper>
           <SendBox>
             <AppFonts.SubTitle>
