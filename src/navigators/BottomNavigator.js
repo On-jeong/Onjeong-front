@@ -8,7 +8,6 @@ import Mail from '@/screens/mail/MailScreen';
 import {AppColors, bottomTabHeight} from '../utils/GlobalStyles';
 import {AppIcons} from '@/ui/icons';
 import styled from 'styled-components';
-import {AppFonts} from '@/utils/GlobalFonts';
 
 const Tab = createBottomTabNavigator();
 
@@ -28,6 +27,7 @@ export function BottomNavigator() {
   return (
     <Tab.Navigator
       initialRouteName="HomeTab"
+      backBehavior="initialRoute"
       screenOptions={{
         tabBarStyle: {
           height: bottomTabHeight,
@@ -40,7 +40,8 @@ export function BottomNavigator() {
         tabBarShowLabel: false,
         tabBarActiveBackgroundColor: AppColors.white,
         tabBarInactiveBackgroundColor: AppColors.white,
-      }}>
+      }}
+      animationEnabled={false}>
       <Tab.Screen
         name="QaTab"
         component={Qa}

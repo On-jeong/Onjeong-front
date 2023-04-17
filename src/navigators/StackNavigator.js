@@ -21,11 +21,12 @@ import NoticeScreen from '@/screens/mySetting/NoticeScreen';
 
 const Stack = createStackNavigator();
 
-export function StackNavigator(navigation) {
+export function StackNavigator() {
   return (
     <Stack.Navigator
       initialRouteName={'Welcome'}
-      screenOptions={{headerShown: false}}>
+      screenOptions={{headerShown: false}}
+      animationEnabled={false}>
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="SignIn" component={SignInScreen} />
