@@ -23,7 +23,6 @@ import {AppComponents} from '@/components/Components';
 import {NoHeader} from '@/components/headers/NoHeader';
 import {
   check,
-  checkNotifications,
   PERMISSIONS,
   request,
   RESULTS,

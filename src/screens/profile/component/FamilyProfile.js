@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import {
   useAddProfileImage,
-  useGetFamilyProfile,
   useAddMessage,
   useModMessage,
 } from '@/hooks/useProFileData';

@@ -1,7 +1,7 @@
 import {WithHeader} from '../components/headers/WithHeader';
 import React from 'react';
 import {AppFonts} from '../utils/GlobalFonts';
-import {Menu, MenuContainer} from './mySetting/MyScreen';
+import {MenuContainer} from './mySetting/MyScreen';
 import styled from 'styled-components';
 import {AppComponents} from '@/components/Components';
 import {FlatList} from 'react-native';
