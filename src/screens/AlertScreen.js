@@ -9,10 +9,12 @@ import {AppIcons} from '@/ui/icons';
 import {AppColors} from '@/utils/GlobalStyles';
 import {useGetNotif} from '@/hooks/useFCMtoken';
 import {AppMessage} from '@/components/message';
-import {AppContainer} from '@/components/container';
 
 export const MessageBox = styled.View`
   width: 100%;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
   padding-top: 3%;
   padding-bottom: 3%;
 `;
@@ -48,12 +50,20 @@ const AlertScreen = () => {
       isError={isError}>
       <MenuContainer>
         {/* 기본 메세지 */}
-        <FlatList
-          data={data?.data?.data}
-          renderItem={RenderMessage}
-          keyExtractor={(item, index) => index.toString()}
-          showsVerticalScrollIndicator={false}
-        />
+        {data?.data?.data.length == 0 ? (
+          <MessageBox>
+            <AppFonts.Body2 color={AppColors.Gray600}>
+              최근 3일간 알림이 없습니다.
+            </AppFonts.Body2>
+          </MessageBox>
+        ) : (
+          <FlatList
+            data={data?.data?.data}
+            renderItem={RenderMessage}
+            keyExtractor={(item, index) => index.toString()}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
       </MenuContainer>
       <AlertBox>
         <AppMessage.Warning title={'3일이 지나면 알림이 사라집니다'} />

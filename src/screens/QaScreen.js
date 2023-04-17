@@ -279,7 +279,9 @@ export default function QaScreen() {
 
           {ansData && ansData?.length === 0 ? (
             <MessageBox>
-              <AppFonts.Body2>문답을 첫번째로 작성해보세요!</AppFonts.Body2>
+              <AppFonts.Body2 color={AppColors.Gray600}>
+                문답을 첫번째로 작성해보세요!
+              </AppFonts.Body2>
             </MessageBox>
           ) : (
             <LoadingComponent isLoading={addIsLoading}>
