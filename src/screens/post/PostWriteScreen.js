@@ -127,7 +127,7 @@ const PostWriteScreen = ({navigation, route}) => {
   return (
     <>
       <WithHeader
-        title={formatDate}
+        title={format(route.params.date, 'yyyy년 M월 d일')}
         isLoading={addIsLoading || modIsLoading}
         isBack={true}>
         <ScrollView>
