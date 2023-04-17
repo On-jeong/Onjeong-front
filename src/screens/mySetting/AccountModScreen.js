@@ -204,9 +204,7 @@ function AccountModScreen() {
                 />
                 {/* 생년월일 선택 버튼 */}
                 <BirthButton onPress={() => setBirthOpen(true)}>
-                  <AppFonts.Content>
-                    {format(birth, 'yyyy-MM-dd')}
-                  </AppFonts.Content>
+                  <AppFonts.Body1>{format(birth, 'yyyy-MM-dd')}</AppFonts.Body1>
                 </BirthButton>
                 <AppInputs.BorderBottomInput
                   maxLength={8}

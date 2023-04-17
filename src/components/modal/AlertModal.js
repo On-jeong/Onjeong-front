@@ -62,8 +62,8 @@ const AlertModal = ({
       <ModalBackground onPress={() => setModalVisible(false)} />
       <ModalBox>
         <TitleContainer twoTitle={title2}>
-          {title1 && <AppFonts.ContentB>{title1}</AppFonts.ContentB>}
-          {title2 && <AppFonts.ContentB>{title2}</AppFonts.ContentB>}
+          {title1 && <AppFonts.Body1>{title1}</AppFonts.Body1>}
+          {title2 && <AppFonts.Body1>{title2}</AppFonts.Body1>}
         </TitleContainer>
         <ButtonContainer>
           <AppButtons.BasicButton

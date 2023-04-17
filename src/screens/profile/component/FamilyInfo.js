@@ -31,7 +31,6 @@ const TagContainer = styled.View`
   margin-bottom: 5px;
 `;
 
-
 const FamilyInfo = ({route, infoData}) => {
   const queryClient = useQueryClient();
 
@@ -220,7 +219,7 @@ const FamilyInfo = ({route, infoData}) => {
             </TagGroup>
           )}
           {tagData.size === 0 ? (
-            <AppFonts.Content></AppFonts.Content> // 태그 없을 때 빈칸
+            <></> // 태그 없을 때 빈칸
           ) : (
             tagData?.map(info => (
               <Tag
@@ -329,7 +328,7 @@ const Tag = ({title, isModify, onPress}) => {
             padding={{paddingRight: 5}}
           />
         )}
-        <AppFonts.SubContent>{title}</AppFonts.SubContent>
+        <AppFonts.Caption>{title}</AppFonts.Caption>
       </TagBox>
     </TagGroup>
   );

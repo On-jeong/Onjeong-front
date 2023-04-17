@@ -115,12 +115,12 @@ export const SmallButton = ({
           marginLeft: margin.marginLeft,
           marginRight: margin.marginRight,
         }}>
-        <AppFonts.SubContent
+        <AppFonts.Body1
           color={
             disable ? AppColors.Gray700 : fontColor ? fontColor : AppColors.Font
           }>
           {title}
-        </AppFonts.SubContent>
+        </AppFonts.Body1>
       </Button>
     </>
   );

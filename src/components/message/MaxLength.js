@@ -28,9 +28,9 @@ const MaxLength = ({
         paddingLeft: padding.paddingLeft,
         paddingRight: padding.paddingRight,
       }}>
-      <AppFonts.SubContent>
+      <AppFonts.Caption>
         {curLen}/{maxLen}
-      </AppFonts.SubContent>
+      </AppFonts.Caption>
     </Container>
   );
 };

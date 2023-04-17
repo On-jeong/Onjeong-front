@@ -145,7 +145,7 @@ const PostWriteScreen = ({navigation, route}) => {
                     setImage(null);
                   }}>
                   <AppIcons.CancelSmall style={{marginRight: 5}} />
-                  <AppFonts.SubContent>사진삭제</AppFonts.SubContent>
+                  <AppFonts.Body1>사진삭제</AppFonts.Body1>
                 </SendBtn>
               ) : (
                 <SendBtn
@@ -153,7 +153,7 @@ const PostWriteScreen = ({navigation, route}) => {
                     getImage();
                   }}>
                   <AppIcons.Add style={{marginRight: 5}} />
-                  <AppFonts.SubContent>사진추가</AppFonts.SubContent>
+                  <AppFonts.Body1>사진추가</AppFonts.Body1>
                 </SendBtn>
               )}
             </SendBox>

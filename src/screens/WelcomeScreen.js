@@ -18,6 +18,7 @@ import {useRecoilState, useSetRecoilState} from 'recoil';
 import {WithHeader} from '@/components/headers/WithHeader';
 import {Logo} from './sign/SignInScreen';
 import {AppComponents} from '@/components/Components';
+import {AppColors} from '@/utils/GlobalStyles';
 
 const Center = styled.View`
   flex: 0.8;
@@ -82,8 +83,8 @@ export const WelcomeScreen = ({navigation}) => {
     <WithHeader>
       <Center>
         <Logo source={require('@/assets/image/logo/onjeong_logo.jpg')} />
-        <AppComponents.EmptyBox height={30} />
-        <AppFonts.TitleB>온정</AppFonts.TitleB>
+        <AppComponents.EmptyBox height={5} />
+        <AppFonts.Heading color={AppColors.Gray800}>온정</AppFonts.Heading>
       </Center>
     </WithHeader>
   );

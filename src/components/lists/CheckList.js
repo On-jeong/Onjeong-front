@@ -25,7 +25,7 @@ const CheckList = ({check, onPress, title}) => {
           padding={{padding: 4}}
         />
       )}
-      <AppFonts.SubContent>{title}</AppFonts.SubContent>
+      <AppFonts.Body2>{title}</AppFonts.Body2>
     </List>
   );
 };

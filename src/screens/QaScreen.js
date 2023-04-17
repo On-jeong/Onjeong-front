@@ -210,8 +210,8 @@ export default function QaScreen() {
     return (
       <BasicHeader title="이 주의 문답">
         <LoadingBox>
-          <AppFonts.Content>이 주의 문답이 준비중입니다..</AppFonts.Content>
-          <AppFonts.Content>조금만 기다려 주세요!</AppFonts.Content>
+          <AppFonts.Body2 color={AppColors.Gray600}>이 주의 문답이 준비중입니다..</AppFonts.Body2>
+          <AppFonts.Body2 color={AppColors.Gray600}>조금만 기다려 주세요!</AppFonts.Body2>
         </LoadingBox>
       </BasicHeader>
     );
@@ -304,9 +304,9 @@ export default function QaScreen() {
                           autoFocus={true}
                         />
                         <MaxLength>
-                          <AppFonts.SubContent>
+                          <AppFonts.Caption>
                             {ansText.length}/80
-                          </AppFonts.SubContent>
+                          </AppFonts.Caption>
                         </MaxLength>
                       </>
                     ) : (
