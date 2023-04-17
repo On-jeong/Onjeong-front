@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import {FontFamily} from '@/utils/GlobalFonts';
 import {AppContainer} from '../container';
-import { windowHeight } from '@/utils/GlobalStyles';
+import {windowHeight} from '@/utils/GlobalStyles';
 
 export const MainInput = styled.TextInput`
   font-family: ${FontFamily.Light};
   font-size: 17px;
-  min-height: ${windowHeight * 0.5};
+  min-height: ${props => props.minHeight};
   height: ${props => props.height && props.height};
 `;
 
@@ -20,6 +20,7 @@ export const PaperInput = ({
   topComponent,
   bottomComponent,
   maxLength = 300,
+  minHeight = 0,
   height = 'auto',
   padding = {
     padding: 10,
@@ -51,6 +52,7 @@ export const PaperInput = ({
           textAlignVertical="top"
           value={mainText}
           onChangeText={setMainText}
+          minHeight={minHeight}
         />
         {bottomComponent}
       </>

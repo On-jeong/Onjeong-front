@@ -5,7 +5,7 @@ import {PaperContainer} from '@/screens/mail/MailWriteScreen';
 import {useAddBoard, useModifyBoard} from '../../hooks/useBoardData';
 import {useQueryClient} from '@tanstack/react-query';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {windowWidth} from '../../utils/GlobalStyles';
+import {windowHeight, windowWidth} from '../../utils/GlobalStyles';
 import {WithHeader} from '@/components/headers/WithHeader';
 import {AppInputs} from '@/components/inputs';
 import {AppButtons} from '@/components/buttons';
@@ -137,6 +137,7 @@ const PostWriteScreen = ({navigation, route}) => {
               mainText={mainText}
               setMainText={setMainText}
               padding={{padding: 10}}
+              minHeight={windowHeight * 0.5}
             />
             <SendBox>
               {image ? (

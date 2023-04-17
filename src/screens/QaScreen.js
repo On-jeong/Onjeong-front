@@ -3,7 +3,7 @@ import {BasicHeader} from '../components/headers/WithHeader';
 import styled from 'styled-components';
 import {ScrollView} from 'react-native';
 import {AppFonts} from '../utils/GlobalFonts';
-import {AppColors} from '../utils/GlobalStyles';
+import {AppColors, windowHeight} from '../utils/GlobalStyles';
 import {AppComponents} from '@/components/Components';
 import {
   useAddAnswer,
@@ -210,8 +210,12 @@ export default function QaScreen() {
     return (
       <BasicHeader title="이 주의 문답">
         <LoadingBox>
-          <AppFonts.Body2 color={AppColors.Gray600}>이 주의 문답이 준비중입니다..</AppFonts.Body2>
-          <AppFonts.Body2 color={AppColors.Gray600}>조금만 기다려 주세요!</AppFonts.Body2>
+          <AppFonts.Body2 color={AppColors.Gray600}>
+            이 주의 문답이 준비중입니다..
+          </AppFonts.Body2>
+          <AppFonts.Body2 color={AppColors.Gray600}>
+            조금만 기다려 주세요!
+          </AppFonts.Body2>
         </LoadingBox>
       </BasicHeader>
     );
