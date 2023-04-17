@@ -172,9 +172,6 @@ const MailScreen = ({navigation}) => {
     }
   };
 
-  console.log('테스느', receiveMailsState);
-  console.log('테스', sendMailsState);
-
   return (
     <BasicHeader
       title={'우편함'}

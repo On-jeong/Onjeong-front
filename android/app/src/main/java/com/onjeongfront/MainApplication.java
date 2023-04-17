@@ -1,5 +1,8 @@
 package com.onjeongfront;
 
+// code push
+// import com.microsoft.codepush.react.CodePush;
+
 import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
@@ -12,6 +15,8 @@ import com.facebook.soloader.SoLoader;
 import com.onjeongfront.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+
+
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -35,6 +40,12 @@ public class MainApplication extends Application implements ReactApplication {
         protected String getJSMainModuleName() {
           return "index";
         }
+
+        // code push
+        // @Override
+        // protected String getJSBundleFile() {
+        //     return CodePush.getJSBundleFile();
+        // }
       };
 
   private final ReactNativeHost mNewArchitectureNativeHost =
