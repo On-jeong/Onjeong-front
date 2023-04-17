@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 
-import {ScrollView} from 'react-native';
+import {FlatList, ScrollView} from 'react-native';
 import {AppFonts} from '@/utils/GlobalFonts';
 import {AppColors} from '@/utils/GlobalStyles';
 import {
@@ -212,44 +212,15 @@ const MailScreen = ({navigation}) => {
           }>
           <ScrollView>
             <AppContainer.Basic>
-              {mails[isReceivePageState ? 1 : 0]?.map(mail => (
-                <Mail
-                  key={mail.mailId}
-                  onPress={() => mailOnPress(mail)}
-                  isDelete={isDelete}>
-                  <AppContainer.Paper
-                    padding={{padding: 15}}
-                    elevation={isDelete ? 7 : 0}>
-                    {/* 안읽은 메일 표시 (받은 메일함만) */}
-                    {!mail.checkRead && isReceivePageState && (
-                      <ReadIconBox>
-                        <AppIcons.DotPink />
-                      </ReadIconBox>
-                    )}
-                    {isDelete && (
-                      <DeleteIconBox>
-                        <AppIcons.CancelSmall />
-                      </DeleteIconBox>
-                    )}
-                    <AppFonts.Body2 numberOfLines={2} ellipsizeMode="tail">
-                      {mail.mailContent}
-                    </AppFonts.Body2>
-                    <FromBox>
-                      <AppFonts.Caption color={AppColors.Gray700}>
-                        {format(new Date(mail.sendTime), 'yyyy.MM.dd')}
-                      </AppFonts.Caption>
-                      <AppFonts.SubTitle>
-                        {isReceivePageState ? 'From. ' : 'To. '}
-                        <AppFonts.SubTitle>
-                          {isReceivePageState
-                            ? mail.sendUserName
-                            : mail.receiveUserName}
-                        </AppFonts.SubTitle>
-                      </AppFonts.SubTitle>
-                    </FromBox>
-                  </AppContainer.Paper>
-                </Mail>
-              ))}
+              <FlatList
+                data={mails[isReceivePageState ? 1 : 0]}
+                renderItem={item =>
+                  MailList(item, isDelete, isReceivePageState, mailOnPress)
+                }
+                keyExtractor={(mail, index) => mail.mailId}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{paddingBottom: 20}}
+              />
             </AppContainer.Basic>
             <AppComponents.EmptyBox height={70} />
           </ScrollView>
@@ -263,6 +234,44 @@ const MailScreen = ({navigation}) => {
         </NewButton>
       </>
     </BasicHeader>
+  );
+};
+
+const MailList = ({item}, isDelete, isReceivePageState, mailOnPress) => {
+  console.log(item);
+  return (
+    <Mail
+      key={item.mailId}
+      onPress={() => mailOnPress(item)}
+      isDelete={isDelete}>
+      <AppContainer.Paper padding={{padding: 15}} elevation={isDelete ? 7 : 0}>
+        {/* 안읽은 메일 표시 (받은 메일함만) */}
+        {!item.checkRead && isReceivePageState && (
+          <ReadIconBox>
+            <AppIcons.DotPink />
+          </ReadIconBox>
+        )}
+        {isDelete && (
+          <DeleteIconBox>
+            <AppIcons.CancelSmall />
+          </DeleteIconBox>
+        )}
+        <AppFonts.Body2 numberOfLines={2} ellipsizeMode="tail">
+          {item.mailContent}
+        </AppFonts.Body2>
+        <FromBox>
+          <AppFonts.Caption color={AppColors.Gray700}>
+            {format(new Date(item.sendTime), 'yyyy.MM.dd')}
+          </AppFonts.Caption>
+          <AppFonts.SubTitle>
+            {isReceivePageState ? 'From. ' : 'To. '}
+            <AppFonts.SubTitle>
+              {isReceivePageState ? item.sendUserName : item.receiveUserName}
+            </AppFonts.SubTitle>
+          </AppFonts.SubTitle>
+        </FromBox>
+      </AppContainer.Paper>
+    </Mail>
   );
 };
 
