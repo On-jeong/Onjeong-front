@@ -188,7 +188,7 @@ function AccountModScreen() {
                   margin={{marginBottom: 10}}
                 />
                 <AppInputs.BorderBottomInput
-                  maxLength={15}
+                  maxLength={8}
                   placeholder="이름"
                   value={name}
                   onChangeText={setName}
@@ -209,7 +209,7 @@ function AccountModScreen() {
                   </AppFonts.Content>
                 </BirthButton>
                 <AppInputs.BorderBottomInput
-                  maxLength={15}
+                  maxLength={8}
                   placeholder="가족 내 역할  (ex)첫째 딸"
                   value={status}
                   onChangeText={setStatus}

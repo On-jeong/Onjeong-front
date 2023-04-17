@@ -268,7 +268,7 @@ const SignUpScreen = ({navigation}) => {
                 />
               </InputButtonBox>
               <AppInputs.BorderBottomInput
-                maxLength={15}
+                maxLength={8}
                 placeholder="이름"
                 value={userName}
                 onChangeText={setUserName}
@@ -327,7 +327,7 @@ const SignUpScreen = ({navigation}) => {
                 </AppFonts.Body2>
               </BirthButton>
               <AppInputs.BorderBottomInput
-                maxLength={15}
+                maxLength={8}
                 placeholder="가족 내 역할  (ex)첫째 딸"
                 value={userStatus}
                 onChangeText={setUserStatus}
@@ -366,7 +366,7 @@ const SignUpScreen = ({navigation}) => {
                     check={check1}
                     title="개인정보 처리 방침 동의 [필수]"
                     onPress={() => {
-                      setCheck1(check1);
+                      setCheck1(!check1);
                     }}
                   />
                   <TouchableOpacity
@@ -386,7 +386,7 @@ const SignUpScreen = ({navigation}) => {
                     check={check2}
                     title="앱 이용 약관 동의 [필수]"
                     onPress={() => {
-                      setCheck2(check2);
+                      setCheck2(!check2);
                     }}
                   />
 
