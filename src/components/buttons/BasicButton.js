@@ -26,9 +26,7 @@ export const BasicButton = ({
   return (
     <>
       <Button
-        color={
-          disable ? AppColors.Gray400 : color ? color : AppColors.Primary
-        }
+        color={disable ? AppColors.Gray400 : color ? color : AppColors.Primary}
         onPress={onPress}
         disabled={disable}
         height={height}
@@ -42,11 +40,7 @@ export const BasicButton = ({
         }}>
         <AppFonts.Body1
           color={
-            disable
-              ? AppColors.Gray700
-              : fontColor
-              ? fontColor
-              : AppColors.Font
+            disable ? AppColors.Gray700 : fontColor ? fontColor : AppColors.Font
           }>
           {title}
         </AppFonts.Body1>
@@ -70,7 +64,7 @@ export const BigButton = ({
   fontColor,
   color,
   height = 44,
-  width,
+  width = windowWidth * 0.9,
   margin = {marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0},
 }) => {
   return (
@@ -81,7 +75,7 @@ export const BigButton = ({
       fontColor={fontColor}
       color={color}
       height={height}
-      width={width ? width : windowWidth * 0.9}
+      width={width}
       margin={margin}
     />
   );
@@ -123,11 +117,7 @@ export const SmallButton = ({
         }}>
         <AppFonts.SubContent
           color={
-            disable
-              ? AppColors.Gray700
-              : fontColor
-              ? fontColor
-              : AppColors.Font
+            disable ? AppColors.Gray700 : fontColor ? fontColor : AppColors.Font
           }>
           {title}
         </AppFonts.SubContent>

@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect} from 'react';
 import {AppFonts} from '../utils/GlobalFonts';
 import {BasicHeader} from '../components/headers/WithHeader';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {
   DailyCoinState,
   UserBirthState,
@@ -13,7 +13,6 @@ import styled from 'styled-components';
 import {
   AppColors,
   bottomTabHeight,
-  navigationHeight,
   windowHeight,
   windowWidth,
 } from '@/utils/GlobalStyles';
@@ -42,16 +41,6 @@ const Background = styled.ImageBackground`
   margin-right: ${windowWidth * 0.1}px;
   margin-top: ${windowHeight * 0.05}px;
   margin-bottom: ${bottomTabHeight + windowHeight * 0.1}px;
-`;
-
-const FamilyCoinView = styled.View`
-  position: absolute;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
-  top: -60;
-  left: -3;
-  margin: 10px;
 `;
 
 const CoinBox = styled.TouchableOpacity`
