@@ -75,7 +75,7 @@ const MailWriteScreen = ({navigation}) => {
   const {mutate: postMutate, isLoading: postIsLoading} = usePostMail({
     onSuccess: () => {
       alert('성공적으로 편지를 보냈습니다');
-      navigation.navigate('Mail');
+      navigation.navigate('MailTab');
       setMainText('');
     },
   });
