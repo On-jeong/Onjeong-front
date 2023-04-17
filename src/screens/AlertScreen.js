@@ -12,9 +12,7 @@ import {AppMessage} from '@/components/message';
 
 export const MessageBox = styled.View`
   width: 100%;
-  flex: 1;
   justify-content: center;
-  align-items: center;
   padding-top: 3%;
   padding-bottom: 3%;
 `;
