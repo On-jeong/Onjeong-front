@@ -17,7 +17,7 @@ import {
   UserNicknameState,
   UserStatusState,
 } from '@/state/UserData';
-import messaging from '@react-native-firebase/messaging';
+import messaging, {firebase} from '@react-native-firebase/messaging';
 import customAxios from '@/api/axios';
 import {AppComponents} from '@/components/Components';
 import {NoHeader} from '@/components/headers/NoHeader';
@@ -28,7 +28,7 @@ import {
   request,
   RESULTS,
 } from 'react-native-permissions';
-import {Alert, Linking} from 'react-native';
+import {Alert, Linking, Platform} from 'react-native';
 import {NotificationPermissionState} from '@/state/DeviceData';
 
 //
@@ -164,50 +164,41 @@ const SignInScreen = ({navigation}) => {
     }
   };
 
-  const getNotificationPermission = () => {
-    checkNotifications().then(({status, settings}) => {
-      console.log('노트:', status);
+  const getNotificationPermission = async () => {
+    const enabled = await firebase.messaging().hasPermission();
+    if (enabled) {
+      console.log('알림 허용됨');
+      setNotificationPermissionState(true);
+    } else {
+      console.log('알림 거부됨');
+      requestPermission();
+      setNotificationPermissionState(false);
+    }
+  };
 
-      switch (status) {
-        case RESULTS.UNAVAILABLE:
-          alert('해당 기기는 알림을 받을 수 있는 기기가 아닙니다.');
-          console.log('알림 권한 : unavailable');
-          break;
-        case RESULTS.GRANTED:
-          console.log('알림 권한 : granted');
-          setNotificationPermissionState(true);
-          break;
-        // case RESULTS.DENIED:
-        //   requestNotifications(['alert', 'sound'])
-        //     .then(({status, settings}) => {
-        //       console.log('알림 권한 허용 : ', status , settings);
-        //     })
-        //     .catch(() => {
-        //       alert(
-        //         '알림 권한 허용 중 에러가 발생했습니다. 앱 설정 화면에서 권한을 허용해 주세요.',
-        //       );
-        //     });
-        //   break;
-        case RESULTS.DENIED || RESULTS.BLOCKED:
-          Alert.alert(
-            '',
-            '온정에서 알림을 보낼 수 있도록 앱 설정 화면에서 권한을 허용해주세요.',
-            [
-              {
-                text: '거부',
-                onPress: () => {
-                  console.log('알림 권한 허용 거부됨');
-                },
-              },
-              {
-                text: '허용',
-                onPress: () => Linking.openSettings(),
-              },
-            ],
-          );
-          break;
-      }
-    });
+  const requestPermission = async () => {
+    // 안드로이드 13 버전
+    if (Platform.OS == 33) {
+      const res = await firebase.messaging().requestPermission();
+      if (res == 'denied')
+        alert('푸시 알림 설정은 회원정보변경에서 변경 가능합니다.');
+    } else
+      Alert.alert(
+        '',
+        '가족들에 관한 알림을 받기 위해 앱 설정 화면에서 권한을 허용해주세요.',
+        [
+          {
+            text: '거부',
+            onPress: () => {
+              alert('푸시 알림 설정은 회원정보변경에서 변경 가능합니다.');
+            },
+          },
+          {
+            text: '허용',
+            onPress: () => Linking.openSettings(),
+          },
+        ],
+      );
   };
 
   const onSubmit = () => {

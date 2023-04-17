@@ -9,6 +9,7 @@ const delFCM = data => {
   console.log(data);
   return customAxios.post(`/token/cancel`, data);
 };
+
 const getNotif = data => {
   console.log(data);
   return customAxios.get(`/notification`, data);
@@ -27,6 +28,9 @@ export const useAddFCM = () => {
 // FCM 토큰 해제하기
 export const useDelFCM = () => {
   return useMutation(delFCM, {
+    onSuccess: () => {
+      console.log('del FCM 성공!!!');
+    },
     onError: error => console.log(error),
   });
 };

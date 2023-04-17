@@ -7,41 +7,37 @@ import {
   UserNicknameState,
   UserEmailState,
   UserIdState,
+  FamilyIdState,
 } from '@/state/UserData';
 import {AppFonts} from '@/utils/GlobalFonts';
 import {format} from 'date-fns';
 import React, {useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import styled from 'styled-components';
 import DatePicker from 'react-native-date-picker';
-import {AppColors} from '@/utils/GlobalStyles';
 import {WithHeader} from '@/components/headers/WithHeader';
 import {Box, Container, InputContainer} from '../sign/SignInScreen';
 import {AppInputs} from '@/components/inputs';
-import {Button, ScrollView} from 'react-native';
+import {Platform, ScrollView} from 'react-native';
 import {BirthButton} from '../sign/SignUpScreen';
 import {reg} from '@/config/reg';
+import {AppList} from '@/components/lists';
+import {NotificationPermissionState} from '@/state/DeviceData';
+import styled from 'styled-components';
+import {firebase} from '@react-native-firebase/messaging';
+import {useAddFCM, useDelFCM} from '@/hooks/useFCMtoken';
+import {storage} from '@/config/storage';
 
-// const Container = styled.View`
-//   flex-direction: row;
-//   justify-content: flex-start;
-//   align-items: center;
-//   padding-top: 20px;
-//   padding-left: 30px;
-// `;
-
-const Input = styled.TextInput`
-  flex: 1;
-  //width: 50px;
-  font-family: 'GangwonLight';
-  font-size: 20px;
-  margin-bottom: 10px;
-  padding: 0;
-  margin: 0;
+const Check = styled.View`
+  width: 90%;
 `;
 
-function AccountModScreen({navigation}) {
+function AccountModScreen() {
   const [inputCheck, setInputCheck] = useState(false);
+
+  const userNicknameState = useRecoilValue(UserNicknameState);
+  const familyIdState = useRecoilValue(FamilyIdState);
+  const [notificationPermissionState, setNotificationPermissionState] =
+    useRecoilState(NotificationPermissionState);
 
   // 변경값 임시저장
   const [name, setName] = useState(useRecoilValue(UserNameState));
@@ -53,12 +49,14 @@ function AccountModScreen({navigation}) {
 
   const [birthOpen, setBirthOpen] = useState(false);
 
-  const userNicknameState = useRecoilValue(UserNicknameState);
   // 변경값 영구저장
   const setUserNameState = useSetRecoilState(UserNameState);
   const setUserEmailState = useSetRecoilState(UserEmailState);
   const setUserStatusState = useSetRecoilState(UserStatusState);
   const setUserBirthState = useSetRecoilState(UserBirthState);
+
+  const {mutate: delFCM} = useDelFCM();
+  const {mutate: addFCM} = useAddFCM();
 
   const {
     mutate: modifyAccountMutate,
@@ -81,6 +79,32 @@ function AccountModScreen({navigation}) {
       setStatus(UserStatusState);
     },
   });
+
+  const onNotification = async () => {
+    //FCM 토큰 보내기
+    getFCMToken();
+    //FCM 토큰 구독
+    subscribeTopic(familyIdState);
+  };
+
+  const getFCMToken = async () => {
+    const fcmToken = await storage.getItem('fcmToken');
+
+    console.log('fcm토큰출력:', fcmToken);
+
+    addFCM(fcmToken);
+  };
+
+  const subscribeTopic = topic => {
+    messaging()
+      .subscribeToTopic(topic.toString())
+      .then(() => {
+        console.log(`토픽 ${topic} 구독 성공`);
+      })
+      .catch(err => {
+        console.log(`토픽 ${topic} 구독 실패 :`, err);
+      });
+  };
 
   // 항목을 전부 입력했는지 체크
   useEffect(() => {
@@ -209,6 +233,19 @@ function AccountModScreen({navigation}) {
                   autoCapitalize="none"
                   margin={{marginBottom: 10}}
                 />
+                <Check>
+                  <AppList.CheckList
+                    check={notificationPermissionState}
+                    title="푸시 알림 허용"
+                    onPress={() => {
+                      if (notificationPermissionState) delFCM();
+                      else onNotification();
+                      setNotificationPermissionState(
+                        !notificationPermissionState,
+                      );
+                    }}
+                  />
+                </Check>
               </InputContainer>
 
               {/* 생일 선택 모달 */}
