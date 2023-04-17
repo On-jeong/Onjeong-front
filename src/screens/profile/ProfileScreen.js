@@ -2,8 +2,7 @@ import React, {useCallback} from 'react';
 import {BasicHeader} from '@/components/headers/WithHeader';
 import styled from 'styled-components';
 import {AppColors, windowWidth} from '@/utils/GlobalStyles';
-import {ScrollView} from 'react-native';
-import {AppComponents} from '@/components/Components';
+import {FlatList} from 'react-native';
 import {useGetFamilyList} from '../../hooks/useProFileData';
 import {AppFonts} from '../../utils/GlobalFonts';
 import {useFocusEffect} from '@react-navigation/native';
@@ -12,10 +11,9 @@ import {FamilyProfileState} from '@/state/FamilyData';
 import {useRecoilState} from 'recoil';
 
 const ProfileBox = styled.View`
-  flex-direction: row;
-  flex-wrap: wrap;
   margin-top: 10px;
   justify-content: center;
+  align-items: center;
 `;
 
 const Profile = styled.TouchableOpacity`
@@ -66,35 +64,39 @@ const ProfileScreen = ({navigation}) => {
       isLoading={isLoading}
       isError={isError}
       reloadFunc={refetch}>
-      <ScrollView>
-        <ProfileBox>
-          <>
-            {familyProfileState.map(fm => (
-              <Profile
-                key={fm.userId}
-                onPress={() =>
-                  navigation.navigate('ProfileDetail', {
-                    userId: fm.userId,
-                    role: fm.userStatus,
-                  })
-                }>
-                <AppContainer.Paper>
-                  <ProfileBody>
-                    <Image
-                      source={fm.profileImageUrl && {uri: fm.profileImageUrl}}
-                    />
-                    <Name>
-                      <AppFonts.Body2>{fm.userStatus}</AppFonts.Body2>
-                    </Name>
-                  </ProfileBody>
-                </AppContainer.Paper>
-              </Profile>
-            ))}
-          </>
-        </ProfileBox>
-        <AppComponents.EmptyBox height={80} />
-      </ScrollView>
+      <ProfileBox>
+        <FlatList
+          data={familyProfileState}
+          renderItem={item => ProfileList(item, navigation)}
+          keyExtractor={(item, index) => item.userId}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{paddingBottom: 20}}
+          numColumns={2}
+        />
+      </ProfileBox>
     </BasicHeader>
+  );
+};
+
+const ProfileList = ({item}, navigation) => {
+  return (
+    <Profile
+      key={item.userId}
+      onPress={() =>
+        navigation?.navigate('ProfileDetail', {
+          userId: item.userId,
+          role: item.userStatus,
+        })
+      }>
+      <AppContainer.Paper>
+        <ProfileBody>
+          <Image source={item.profileImageUrl && {uri: item.profileImageUrl}} />
+          <Name>
+            <AppFonts.Body2>{item.userStatus}</AppFonts.Body2>
+          </Name>
+        </ProfileBody>
+      </AppContainer.Paper>
+    </Profile>
   );
 };
 
