@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
-import {AppFonts} from '@/utils/GlobalFonts';
 import {AppColors, windowHeight} from '@/utils/GlobalStyles';
 import {AppButtons} from '../../components/buttons';
 import {AppInputs} from '../../components/inputs';
@@ -8,7 +7,7 @@ import {useSignIn} from '../../hooks/useUserData';
 import {storage} from '../../config/storage';
 import {refreshAxios} from '@/api/axios';
 import {useAddFCM} from '@/hooks/useFCMtoken';
-import {useSetRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {
   FamilyIdState,
   UserBirthState,
@@ -22,6 +21,15 @@ import messaging from '@react-native-firebase/messaging';
 import customAxios from '@/api/axios';
 import {AppComponents} from '@/components/Components';
 import {NoHeader} from '@/components/headers/NoHeader';
+import {
+  check,
+  checkNotifications,
+  PERMISSIONS,
+  request,
+  RESULTS,
+} from 'react-native-permissions';
+import {Alert, Linking} from 'react-native';
+import {NotificationPermissionState} from '@/state/DeviceData';
 
 //
 // 로그인
@@ -70,6 +78,8 @@ const SignInScreen = ({navigation}) => {
   const setUserNicknameState = useSetRecoilState(UserNicknameState);
   const setUserEmailState = useSetRecoilState(UserEmailState);
   const setFamilyIdState = useSetRecoilState(FamilyIdState);
+  const [notificationPermissionState, setNotificationPermissionState] =
+    useRecoilState(NotificationPermissionState);
 
   const [inputCheck, setInputCheck] = useState(false);
   const [userId, setUserId] = useState('');
@@ -97,7 +107,108 @@ const SignInScreen = ({navigation}) => {
   useEffect(() => {
     // 기본 헤더 제거
     delete customAxios.defaults.headers.common['AuthorizationAccess'];
+
+    getStoragePermission();
+    getNotificationPermission();
   }, []);
+
+  const getStoragePermission = () => {
+    // 앨범 접근 권한 요청
+    if (Platform.OS === 'android') {
+      check(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE)
+        .then(result => {
+          console.log(result);
+          switch (result) {
+            case RESULTS.UNAVAILABLE:
+              alert('해당 기기는 앨범에 접근할 수 있는 기기가 아닙니다.');
+              console.log('앨범 접근 권한 : unavailable');
+              break;
+            case RESULTS.GRANTED:
+              console.log('앨범 접근 권한 : granted');
+              break;
+            case RESULTS.DENIED:
+              request(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE)
+                .then(res => {
+                  console.log('앨범 접근 권한 허용 : ', res);
+                })
+                .catch(() => {
+                  alert(
+                    '앨범 접근 권한 허용 중 에러가 발생했습니다. 앱 설정 화면에서 권한을 허용해 주세요.',
+                  );
+                });
+              break;
+            case RESULTS.BLOCKED:
+              alert('앨범 접근 권한 : blocked');
+              Alert.alert(
+                '',
+                '온정에서 기기의 사진, 미디어, 파일에 액세스할 수 있도록 앱 설정 화면에서 권한을 허용해주세요.',
+                [
+                  {
+                    text: '거부',
+                    onPress: () => {
+                      console.log('앨범 접근 권한 허용 거부됨');
+                    },
+                  },
+                  {
+                    text: '허용',
+                    onPress: () => Linking.openSettings(),
+                  },
+                ],
+              );
+              break;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  };
+
+  const getNotificationPermission = () => {
+    checkNotifications().then(({status, settings}) => {
+      console.log('노트:', status);
+
+      switch (status) {
+        case RESULTS.UNAVAILABLE:
+          alert('해당 기기는 알림을 받을 수 있는 기기가 아닙니다.');
+          console.log('알림 권한 : unavailable');
+          break;
+        case RESULTS.GRANTED:
+          console.log('알림 권한 : granted');
+          setNotificationPermissionState(true);
+          break;
+        // case RESULTS.DENIED:
+        //   requestNotifications(['alert', 'sound'])
+        //     .then(({status, settings}) => {
+        //       console.log('알림 권한 허용 : ', status , settings);
+        //     })
+        //     .catch(() => {
+        //       alert(
+        //         '알림 권한 허용 중 에러가 발생했습니다. 앱 설정 화면에서 권한을 허용해 주세요.',
+        //       );
+        //     });
+        //   break;
+        case RESULTS.DENIED || RESULTS.BLOCKED:
+          Alert.alert(
+            '',
+            '온정에서 알림을 보낼 수 있도록 앱 설정 화면에서 권한을 허용해주세요.',
+            [
+              {
+                text: '거부',
+                onPress: () => {
+                  console.log('알림 권한 허용 거부됨');
+                },
+              },
+              {
+                text: '허용',
+                onPress: () => Linking.openSettings(),
+              },
+            ],
+          );
+          break;
+      }
+    });
+  };
 
   const onSubmit = () => {
     console.log('id: ' + userId);
@@ -128,11 +239,12 @@ const SignInScreen = ({navigation}) => {
           refreshAxios.defaults.headers.common['AuthorizationRefresh'] =
             data.headers.authorizationrefresh;
 
-          //FCM 토큰 보내기
-          getFCMToken();
-
-          //FCM 토큰 구독
-          subscribeTopic(data.data.data.familyId);
+          if (notificationPermissionState) {
+            //FCM 토큰 보내기
+            getFCMToken();
+            //FCM 토큰 구독
+            subscribeTopic(data.data.data.familyId);
+          }
 
           //로그인 토큰 저장
           await storage.setItem(
@@ -202,9 +314,9 @@ const SignInScreen = ({navigation}) => {
       <LogoContainer>
         <Box>
           <Logo source={require('@/assets/image/logo/onjeong_logo.jpg')} />
-          <Title>
+          {/* <Title>
             <AppFonts.Heading>온정</AppFonts.Heading>
-          </Title>
+          </Title> */}
         </Box>
       </LogoContainer>
       <Container>
