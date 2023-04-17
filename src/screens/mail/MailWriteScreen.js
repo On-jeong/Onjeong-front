@@ -1,26 +1,29 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import {AppColors, windowHeight} from '@/utils/GlobalStyles';
-import {AppFonts} from '@/utils/GlobalFonts';
+import {AppFonts, FontFamily} from '@/utils/GlobalFonts';
 import {useRecoilValue} from 'recoil';
 import {UserIdState, UserStatusState} from '../../state/UserData';
 import {usePostMail} from '../../hooks/useMailData';
 import {useGetFamilyList} from '../../hooks/useProFileData';
 import {AppButtons} from '../../components/buttons';
 import {WithHeader} from '@/components/headers/WithHeader';
-import {PaperInput} from '@/components/inputs/PaperInput';
 import {AppIcons} from '@/ui/icons';
+import {AppContainer} from '@/components/container';
+import {View} from 'react-native';
 
 export const PaperContainer = styled.View`
-  // flex: 1;
   align-items: center;
   padding-left: 7%;
   padding-right: 7%;
 `;
 
-const PaperTop = styled.TouchableOpacity`
-  flex-direction: row;
-  align-items: flex-start;
+export const MainInput = styled.TextInput`
+  padding: 10px;
+  padding-top: 60px;
+  font-family: ${FontFamily.Light};
+  font-size: 17px;
+  height: ${windowHeight * 0.6};
 `;
 
 const ToBox = styled.View`
@@ -32,13 +35,6 @@ const AlertBox = styled.View`
   margin-top: 10px;
 `;
 
-export const MainInput = styled.TextInput`
-  flex: 1;
-  font-family: 'GangwonLight';
-  font-size: 20px;
-  line-height: 30px;
-`;
-
 export const SendBox = styled.View`
   width: 100%;
   padding-top: 2px;
@@ -47,16 +43,53 @@ export const SendBox = styled.View`
   justify-content: flex-end;
 `;
 
-const SelectBox = styled.View``;
+const PaperTop = styled.TouchableOpacity`
+  position: absolute;
+  top: 10;
+  left: 10;
+  flex-direction: row;
+  align-items: flex-start;
+  z-index: 9999;
+`;
 
-const SelectItem = styled.TouchableOpacity`
-  width: 100px;
+const SelectBox = styled.View`
+  position: relative;
+  z-index: 9999;
+`;
+
+const SelectTitle = styled.TouchableOpacity`
+  width: 120px;
   height: 38px;
   flex-direction: row;
   justify-content: space-around;
+  padding-left: 10;
   align-items: center;
-  padding: 5px;
+  margin-left: 5px;
   margin-bottom: -1px;
+  border-width:2px;
+  border-color:${AppColors.Gray400}
+  background-color: ${AppColors.white};
+`;
+
+const SelectItems = styled.View`
+  position: absolute;
+  top: 36;
+  left: 5;
+  z-index: 9999;
+`;
+
+const SelectItem = styled.TouchableOpacity`
+  position: relative;
+  width: 120px;
+  height: 35px;
+  flex-direction: row;
+  align-items: center;
+  justify-content:center;
+  margin-bottom: -2px;
+  border-width:2px;
+  border-color:${AppColors.Gray400}
+  background-color: ${AppColors.white};
+  z-index: 9999;
 `;
 
 const MailWriteScreen = ({navigation}) => {
@@ -96,25 +129,29 @@ const MailWriteScreen = ({navigation}) => {
     <>
       <WithHeader title="편지 쓰기" isBack={true} isLoading={postIsLoading}>
         <PaperContainer>
-          <PaperInput
-            mainText={mainText}
-            setMainText={setMainText}
-            height={windowHeight * 0.6}>
-            <PaperTop>
-              <ToBox>
-                <AppFonts.SubTitle>To.</AppFonts.SubTitle>
-              </ToBox>
-              <CustomSelectBox
-                data={data}
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
-                toUserStatus={toUserStatus}
-                setToUserStatus={setToUserStatus}
-                userId={userId}
-                setToUserId={setToUserId}
+          <AppContainer.Paper>
+            <CustomSelectBox
+              data={data}
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+              toUserStatus={toUserStatus}
+              setToUserStatus={setToUserStatus}
+              userId={userId}
+              setToUserId={setToUserId}
+              toUserId={toUserId}
+            />
+            <View removeClippedSubviews={!isOpen}>
+              <MainInput
+                multiline={true}
+                textAlignVertical="top"
+                value={mainText}
+                onChangeText={setMainText}
+                contextMenuHidden={isOpen}
+                editable={!isOpen}
+                style={{color: 'black'}}
               />
-            </PaperTop>
-          </PaperInput>
+            </View>
+          </AppContainer.Paper>
           <SendBox>
             <AppFonts.SubTitle>
               From. <AppFonts.SubTitle>{userState}</AppFonts.SubTitle>
@@ -141,19 +178,23 @@ const CustomSelectBox = ({
   setToUserStatus,
   userId,
   setToUserId,
+  toUserId,
 }) => {
   return (
-    <>
+    <PaperTop>
+      <ToBox>
+        <AppFonts.SubTitle>To.</AppFonts.SubTitle>
+      </ToBox>
       <SelectBox>
-        <SelectItem
+        <SelectTitle
           onPress={() => {
             setIsOpen(!isOpen);
           }}>
           <AppFonts.SubTitle>{toUserStatus}</AppFonts.SubTitle>
           <AppIcons.Down />
-        </SelectItem>
+        </SelectTitle>
         {isOpen && (
-          <>
+          <SelectItems>
             {data?.data?.data.length === 1 && (
               <AlertBox>
                 <AppFonts.Body2>보낼 가족이 없습니다.</AppFonts.Body2>
@@ -163,7 +204,7 @@ const CustomSelectBox = ({
             {data?.data?.data?.map(family => {
               return (
                 <React.Fragment key={family.userId}>
-                  {family.userId !== userId && (
+                  {family.userId !== userId && family.userId !== toUserId && (
                     <SelectItem
                       key={family.userId}
                       onPress={() => {
@@ -171,16 +212,16 @@ const CustomSelectBox = ({
                         setToUserId(family.userId);
                         setIsOpen(!isOpen);
                       }}>
-                      <AppFonts.Content>{family.userStatus}</AppFonts.Content>
+                      <AppFonts.Body2>{family.userStatus}</AppFonts.Body2>
                     </SelectItem>
                   )}
                 </React.Fragment>
               );
             })}
-          </>
+          </SelectItems>
         )}
       </SelectBox>
-    </>
+    </PaperTop>
   );
 };
 
