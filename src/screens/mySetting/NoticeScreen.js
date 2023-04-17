@@ -1,6 +1,5 @@
 import React from 'react';
 import {WithHeader} from '@/components/headers/WithHeader';
-import {Menu, MenuContainer} from './MyScreen';
 import {AppFonts} from '@/utils/GlobalFonts';
 import {AppIcons} from '@/ui/icons';
 import {MessageBox, MessageContent} from '../AlertScreen';

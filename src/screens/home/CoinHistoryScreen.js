@@ -1,16 +1,14 @@
 import React, {useCallback} from 'react';
-import styled from 'styled-components';
 import {AppFonts} from '@/utils/GlobalFonts';
 import {AppComponents} from '@/components/Components';
 import {useGetCoinHistory} from '@/hooks/useHomeData';
-import {FlatList, ScrollView} from 'react-native';
+import {FlatList} from 'react-native';
 import EmptyComponent from '@/components/Loading/EmptyComponent';
 import {useFocusEffect} from '@react-navigation/native';
 import {WithHeader} from '@/components/headers/WithHeader';
 import {MessageBox, MessageContent, Time} from '../AlertScreen';
 import {AppIcons} from '@/ui/icons';
 import {AppColors} from '@/utils/GlobalStyles';
-import {MenuContainer} from '../mySetting/MyScreen';
 import {AppContainer} from '@/components/container';
 
 const script = {

@@ -17,7 +17,7 @@ const MessageBox = styled.View`
   align-items: center;
 `;
 
-const CoinGuideScreen = ({navigation}) => {
+const CoinGuideScreen = () => {
   return (
     <WithHeader
       isBack={true}
