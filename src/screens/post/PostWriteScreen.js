@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {AppFonts} from '@/utils/GlobalFonts';
 import {PaperContainer} from '@/screens/mail/MailWriteScreen';
 import {useAddBoard, useModifyBoard} from '../../hooks/useBoardData';
 import {useQueryClient} from '@tanstack/react-query';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {windowHeight, windowWidth} from '../../utils/GlobalStyles';
+import {windowWidth} from '../../utils/GlobalStyles';
 import {WithHeader} from '@/components/headers/WithHeader';
 import {AppInputs} from '@/components/inputs';
 import {AppButtons} from '@/components/buttons';
@@ -18,7 +17,7 @@ import {AppIcons} from '@/ui/icons';
 export const SendBox = styled.View`
   width: 100%;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
 `;
 
 export const SendBtn = styled.TouchableOpacity`
@@ -28,7 +27,9 @@ export const SendBtn = styled.TouchableOpacity`
 `;
 
 export const ImageBox = styled.View`
-  margin-top: 10px;
+  width: 100%;
+  margin-top: 5px;
+  align-items: flex-end;
 `;
 
 export const IconBox = styled.TouchableOpacity`
@@ -135,31 +136,34 @@ const PostWriteScreen = ({navigation, route}) => {
               image={image}
               mainText={mainText}
               setMainText={setMainText}
-              height={windowHeight * 0.5}
-              padding={{padding: 10}}>
-              {image && (
-                <ImageBox>
-                  <PreImage source={{uri: image}} />
-                  <IconBox
-                    onPress={() => {
-                      setImage(null);
-                    }}>
-                    <AppIcons.CancelSmall />
-                  </IconBox>
-                </ImageBox>
-              )}
-            </AppInputs.PaperInput>
+              padding={{padding: 10}}
+            />
             <SendBox>
-              <SendBtn
-                onPress={() => {
-                  getImage();
-                }}>
-                <EvilIcons name="paperclip" size={22} />
-                <AppFonts.SubContent>첨부파일</AppFonts.SubContent>
-              </SendBtn>
+              {image ? (
+                <SendBtn
+                  onPress={() => {
+                    setImage(null);
+                  }}>
+                  <AppIcons.CancelSmall style={{marginRight: 5}} />
+                  <AppFonts.SubContent>사진삭제</AppFonts.SubContent>
+                </SendBtn>
+              ) : (
+                <SendBtn
+                  onPress={() => {
+                    getImage();
+                  }}>
+                  <AppIcons.Add style={{marginRight: 5}} />
+                  <AppFonts.SubContent>사진추가</AppFonts.SubContent>
+                </SendBtn>
+              )}
             </SendBox>
+            {image && (
+              <ImageBox>
+                <PreImage source={{uri: image}} />
+              </ImageBox>
+            )}
+            <AppComponents.EmptyBox height={20} />
           </PaperContainer>
-          <AppComponents.EmptyBox height={10} />
         </ScrollView>
       </WithHeader>
       <AppButtons.FullButton

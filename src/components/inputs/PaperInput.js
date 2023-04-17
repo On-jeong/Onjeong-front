@@ -2,10 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import {FontFamily} from '@/utils/GlobalFonts';
 import {AppContainer} from '../container';
+import { windowHeight } from '@/utils/GlobalStyles';
 
 export const MainInput = styled.TextInput`
   font-family: ${FontFamily.Light};
   font-size: 17px;
+  min-height: ${windowHeight * 0.5};
   height: ${props => props.height && props.height};
 `;
 

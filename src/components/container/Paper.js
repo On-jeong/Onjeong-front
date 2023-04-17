@@ -5,7 +5,7 @@ import {AppColors, windowHeight} from '@/utils/GlobalStyles';
 export const PaperBox = styled.View`
   width: ${props => (props.width ? props.width : '100%')};
   height: ${props => props.height};
-  max-height: ${windowHeight * 0.8};
+  /* max-height: ${windowHeight * 0.8}; */
   justify-content: center;
   align-items: center;
   background-color: ${AppColors.white};
