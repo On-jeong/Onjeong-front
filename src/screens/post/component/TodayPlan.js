@@ -9,6 +9,7 @@ import {Filter} from '@/screens/mail/MailScreen';
 import {AppIcons} from '@/ui/icons';
 import {AppComponents} from '@/components/Components';
 import {AppContainer} from '@/components/container';
+import {AppList} from '@/components/lists';
 
 const PlanBox = styled.View`
   flex-direction: row;
@@ -67,10 +68,12 @@ const TodayPlan = ({date, AnnData}) => {
   const [isAddPlan, setIsAddPlan] = useState(false);
   const [isDelPlan, setIsDelPlan] = useState(false);
   const [newPlan, setNewPlan] = useState('');
-  const [isAnniversary, setIsAnniversary] = useState(true);
+  const [isAnniversary, setIsAnniversary] = useState(false);
 
   const {mutate: addAnn} = useAddAnn({
     onMutate: () => {
+      setIsAddPlan(false);
+
       // 이전에 자동 요청된 데이터 등으로 overwrite 되지 않도록
       queryClient.cancelQueries(['getDateAnn', date]);
 
@@ -132,6 +135,7 @@ const TodayPlan = ({date, AnnData}) => {
       alert('내용을 입력해 주세요.');
       return 0;
     }
+    console.log('종류', isAnniversary);
     addAnn({
       annDate: date,
       annData: {
@@ -170,6 +174,7 @@ const TodayPlan = ({date, AnnData}) => {
               onPress={() => {
                 setNewPlan('');
                 setIsAddPlan(!isAddPlan);
+                setIsAnniversary(false);
                 if (!isAddPlan && isDelPlan) setIsDelPlan(!isDelPlan);
               }}
             />
@@ -220,34 +225,17 @@ const TodayPlan = ({date, AnnData}) => {
               </PlanTextBox>
               <AppComponents.Row justifyContent={'space-between'}>
                 <SendBox>
-                  <ChoiceBox onPress={() => setIsAnniversary(true)}>
-                    {isAnniversary ? (
-                      <AppComponents.IconBox
-                        icon={<AppIcons.CheckBox />}
-                        padding={{paddingRight: 5}}
-                      />
-                    ) : (
-                      <AppComponents.IconBox
-                        icon={<AppIcons.CheckBoxEmpty />}
-                        padding={{paddingRight: 5}}
-                      />
-                    )}
-                    <AppFonts.Body2>기념일</AppFonts.Body2>
-                  </ChoiceBox>
-                  <ChoiceBox onPress={() => setIsAnniversary(false)}>
-                    {!isAnniversary ? (
-                      <AppComponents.IconBox
-                        icon={<AppIcons.CheckBox />}
-                        padding={{paddingRight: 4}}
-                      />
-                    ) : (
-                      <AppComponents.IconBox
-                        icon={<AppIcons.CheckBoxEmpty />}
-                        padding={{paddingRight: 4}}
-                      />
-                    )}
-                    <AppFonts.Body2>일정</AppFonts.Body2>
-                  </ChoiceBox>
+                  <AppList.CheckList
+                    check={isAnniversary}
+                    title={'기념일'}
+                    onPress={() => setIsAnniversary(true)}
+                  />
+                  <AppComponents.EmptyBox width={7} />
+                  <AppList.CheckList
+                    check={!isAnniversary}
+                    title={'일정'}
+                    onPress={() => setIsAnniversary(false)}
+                  />
                 </SendBox>
                 <SendBox>
                   <AppButtons.SmallButton
@@ -260,7 +248,6 @@ const TodayPlan = ({date, AnnData}) => {
                     title="추가"
                     onPress={() => {
                       addPlan();
-                      setIsAddPlan(false);
                     }}
                     margin={{margin: 5}}
                     color={AppColors.Primary}

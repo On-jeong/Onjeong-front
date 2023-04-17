@@ -13,11 +13,12 @@ import {
   useSignUpNoJoined,
   useSignUpWithJoined,
 } from '../../hooks/useUserData';
-import {Alert, Linking, ScrollView, TouchableOpacity} from 'react-native';
+import {Linking, ScrollView, TouchableOpacity} from 'react-native';
 import {AppComponents} from '@/components/Components';
 import {WithHeader} from '@/components/headers/WithHeader';
 import {reg} from '@/config/reg';
 import {AppIcons} from '@/ui/icons';
+import {AppList} from '@/components/lists';
 
 //
 // 회원가입
@@ -73,7 +74,6 @@ const SignUpScreen = ({navigation}) => {
   // 동의사항 체크
   const [check1, setCheck1] = useState(false); // 개인정보 처리 방침
   const [check2, setCheck2] = useState(false); // 앱 이용 약관
-  const [check3, setCheck3] = useState(false); // 푸시 알림 동의
 
   const {mutate: noJoinedMutate, isLoading: noJoinedIsLoading} =
     useSignUpNoJoined({
@@ -207,55 +207,29 @@ const SignUpScreen = ({navigation}) => {
 
     // 서버에 회원가입 요청
     if (emptyCheck() && validationCheck()) {
-      // 푸시알림 미동의시 재확인
-      if (!check3) {
-        Alert.alert(
-          '',
-          '푸시알림에 동의하지 않으시면\n편지와 기념일 알림 등을 받을 수 없습니다.\n푸시알림에 동의하시겠습니까?\n(광고성 정보는 포함되지 않습니다.)',
-          [
-            {
-              text: '미동의',
-              onPress: () => {
-                join();
-              },
-              style: 'cancel',
-            },
-            {
-              text: '동의',
-              onPress: () => {
-                join();
-              },
-            },
-          ],
-          {cancelable: true},
-        );
+      // 가족회원이 없는 회원가입
+      if (!joinedNickname) {
+        noJoinedMutate({
+          userBirth: format(userBirth, 'yyyy-MM-dd'),
+          userEmail,
+          userName,
+          userNickname: userId,
+          userPassword,
+          userStatus,
+        });
       }
-
-      const join = () => {
-        // 가족회원이 없는 회원가입
-        if (!joinedNickname) {
-          noJoinedMutate({
-            userBirth: format(userBirth, 'yyyy-MM-dd'),
-            userEmail,
-            userName,
-            userNickname: userId,
-            userPassword,
-            userStatus,
-          });
-        }
-        // 가족회원이 있는 회원가입
-        else {
-          withJoinedMutate({
-            joinedNickname,
-            userBirth: format(userBirth, 'yyyy-MM-dd'),
-            userEmail,
-            userName,
-            userNickname: userId,
-            userPassword,
-            userStatus,
-          });
-        }
-      };
+      // 가족회원이 있는 회원가입
+      else {
+        withJoinedMutate({
+          joinedNickname,
+          userBirth: format(userBirth, 'yyyy-MM-dd'),
+          userEmail,
+          userName,
+          userNickname: userId,
+          userPassword,
+          userStatus,
+        });
+      }
     }
   };
 
@@ -387,31 +361,47 @@ const SignUpScreen = ({navigation}) => {
                 />
               </InputButtonBox>
               <CheckLists>
-                <CheckList
-                  check={check1}
-                  setCheck={setCheck1}
-                  title="개인정보 처리 방침 동의 [필수]"
-                  onPress={() => {
-                    Linking.openURL(
-                      'https://www.onjeong-app.com/privacy-policy.html',
-                    );
-                  }}
-                />
-                <CheckList
-                  check={check2}
-                  setCheck={setCheck2}
-                  title="앱 이용 약관 동의 [필수]"
-                  onPress={() => {
-                    Linking.openURL(
-                      'https://www.onjeong-app.com/service-terms.html',
-                    );
-                  }}
-                />
-                {/* <CheckList
-                  check={check3}
-                  setCheck={setCheck3}
-                  title="앱 푸시 알림 동의 [선택]"
-                /> */}
+                <AppComponents.Row margin={{marginTop: 10}}>
+                  <AppList.CheckList
+                    check={check1}
+                    title="개인정보 처리 방침 동의 [필수]"
+                    onPress={() => {
+                      setCheck1(check1);
+                    }}
+                  />
+                  <TouchableOpacity
+                    onPress={() => {
+                      Linking.openURL(
+                        'https://www.onjeong-app.com/privacy-policy.html',
+                      );
+                    }}>
+                    <AppComponents.IconBox
+                      icon={<AppIcons.Right_gray />}
+                      padding={{paddingLeft: 10}}
+                    />
+                  </TouchableOpacity>
+                </AppComponents.Row>
+                <AppComponents.Row margin={{marginTop: 5}}>
+                  <AppList.CheckList
+                    check={check2}
+                    title="앱 이용 약관 동의 [필수]"
+                    onPress={() => {
+                      setCheck2(check2);
+                    }}
+                  />
+
+                  <TouchableOpacity
+                    onPress={() => {
+                      Linking.openURL(
+                        'https://www.onjeong-app.com/service-terms.html',
+                      );
+                    }}>
+                    <AppComponents.IconBox
+                      icon={<AppIcons.Right_gray />}
+                      padding={{paddingLeft: 10}}
+                    />
+                  </TouchableOpacity>
+                </AppComponents.Row>
               </CheckLists>
             </InputContainer>
 
@@ -444,41 +434,6 @@ const SignUpScreen = ({navigation}) => {
         disabled={!inputCheck}
       />
     </WithHeader>
-  );
-};
-
-const List = styled.TouchableOpacity`
-  flex-direction: row;
-  align-items: center;
-`;
-
-const CheckList = ({check, setCheck, onPress, title}) => {
-  return (
-    <AppComponents.Row margin={{marginTop: 5}}>
-      <List
-        onPress={() => {
-          setCheck(!check);
-        }}>
-        {check ? (
-          <AppComponents.IconBox
-            icon={<AppIcons.CheckBox />}
-            padding={{padding: 4}}
-          />
-        ) : (
-          <AppComponents.IconBox
-            icon={<AppIcons.CheckBoxEmpty />}
-            padding={{padding: 4}}
-          />
-        )}
-        <AppFonts.SubContent>{title}</AppFonts.SubContent>
-      </List>
-      <TouchableOpacity onPress={onPress} disabled={!onPress}>
-        <AppComponents.IconBox
-          icon={<AppIcons.Right_gray />}
-          padding={{paddingLeft: 10}}
-        />
-      </TouchableOpacity>
-    </AppComponents.Row>
   );
 };
 

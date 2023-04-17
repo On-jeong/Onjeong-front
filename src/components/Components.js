@@ -31,11 +31,12 @@ HorizonLine.propTypes = {
 };
 
 const Box = styled.View`
-  height: ${props => (props.height ? props.height : 100)}px;
+  height: ${props => props.height}px;
+  width: ${props => props.width}px;
 `;
 
 // 스크롤 할 때 맨 밑에 빈공간 만들어주는 용도
-const EmptyBox = ({height = 50, width = 5}) => {
+const EmptyBox = ({height = 0, width = 0}) => {
   return <Box height={height} width={width} />;
 };
 EmptyBox.propTypes = {
@@ -101,8 +102,7 @@ Row.propTypes = {
   justifyContent: PropTypes.string,
 };
 
-const Icon = styled.View`
-`;
+const Icon = styled.View``;
 const IconBox = ({
   icon,
   padding = {
