@@ -68,11 +68,17 @@ const MailWriteScreen = ({navigation}) => {
   const [toUserId, setToUserId] = useState(''); // 보낼 가족 아이디
   const [isOpen, setIsOpen] = useState(false); // 보낼 가족 선택창 열기 여부
 
-  const {data, status, isLoading, error} = useGetFamilyList();
-  if (error) console.log(error);
+  const {data, status, isLoading, error} = useGetFamilyList({
+    onSuccess: () => {},
+  });
 
-  const {mutate: postMutate, isLoading: postIsLoading} =
-    usePostMail(navigation);
+  const {mutate: postMutate, isLoading: postIsLoading} = usePostMail({
+    onSuccess: () => {
+      alert('성공적으로 편지를 보냈습니다');
+      navigation.navigate('Mail');
+      setMainText('');
+    },
+  });
 
   const sendMail = () => {
     if (!toUserId) {
@@ -88,10 +94,7 @@ const MailWriteScreen = ({navigation}) => {
 
   return (
     <>
-      <WithHeader
-        title="편지 쓰기"
-        isBack={true}
-        isLoading={postIsLoading}>
+      <WithHeader title="편지 쓰기" isBack={true} isLoading={postIsLoading}>
         <PaperContainer>
           <PaperInput
             mainText={mainText}

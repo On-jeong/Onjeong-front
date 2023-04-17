@@ -44,15 +44,12 @@ export const useGetSendMails = ({onSuccess}) => {
 };
 
 // 메일 보내기
-export const usePostMail = navigation => {
+export const usePostMail = ({onSuccess}) => {
   return useMutation(postMailData, {
+    onSuccess: onSuccess,
     onError: error => {
       console.log(error);
       alert('편지를 보내는 중 오류가 발생했습니다');
-    },
-    onSuccess: () => {
-      alert('성공적으로 편지를 보냈습니다');
-      navigation.navigate('Mail');
     },
   });
 };
