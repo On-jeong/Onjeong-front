@@ -12,6 +12,7 @@ import {PlanTitle} from './TodayPlan';
 import {format} from 'date-fns';
 import AutoHeightImage from 'react-native-auto-height-image';
 import {useNavigation} from '@react-navigation/native';
+import { Vibration } from 'react-native';
 
 const PaperContainer = styled.View`
   width: 100%;
@@ -127,6 +128,7 @@ const TodayPost = ({BoardData, date}) => {
                     }
                     onPress={() => {
                       delBoard(board.boardId);
+                      Vibration.vibrate(5);
                     }}
                     padding={{padding: 10, paddingRight: 0}}
                   />
