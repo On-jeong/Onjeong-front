@@ -1,7 +1,13 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 
-import {FlatList, ScrollView} from 'react-native';
+import {
+  BackHandler,
+  FlatList,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Vibration,
+} from 'react-native';
 import {AppFonts} from '@/utils/GlobalFonts';
 import {AppColors} from '@/utils/GlobalStyles';
 import {
@@ -39,10 +45,6 @@ const TopBar = styled.View`
 export const Filter = styled.View`
   flex-direction: row;
   justify-content: flex-end;
-`;
-
-const Alert = styled.View`
-  margin-left: 5px;
 `;
 
 const Mail = styled.TouchableOpacity`
@@ -104,10 +106,6 @@ const MailScreen = ({navigation}) => {
   // 삭제 버튼 클릭 여부
   const [isDelete, setIsDelete] = useState(false);
 
-  useEffect(() => {
-    setIsReceivePageState(true);
-  }, []);
-
   // 뒤로가기로 화면이 포커스 됐을 때도 업데이트
   useFocusEffect(
     useCallback(() => {
@@ -115,6 +113,27 @@ const MailScreen = ({navigation}) => {
       setIsDelete(false);
     }, []),
   );
+
+  useEffect(() => {
+    setIsReceivePageState(true);
+  }, []);
+
+  // 백핸들러
+  useEffect(() => {
+    handlePressBack();
+    return () => handlePressBack();
+  }, [isDelete]);
+
+  const handlePressBack = () => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      if (isDelete) {
+        setIsDelete(false);
+        return true;
+      }
+      return false;
+    });
+  };
+
   const {
     data: receiveData,
     isLoading: receiveIsLoading,
@@ -199,7 +218,10 @@ const MailScreen = ({navigation}) => {
             icon={<AppIcons.Trash />}
             padding={{padding: 10, paddingRight: 5}}
             disabled={false}
-            onPress={() => setIsDelete(!isDelete)}
+            onPress={() => {
+              setIsDelete(!isDelete);
+              Vibration.vibrate(5);
+            }}
           />
         </TopBar>
 
@@ -210,20 +232,23 @@ const MailScreen = ({navigation}) => {
               ? '받은 메일이 없습니다.'
               : '보낸 메일이 없습니다.'
           }>
-          <ScrollView>
-            <AppContainer.Basic>
-              <FlatList
-                data={mails[isReceivePageState ? 1 : 0]}
-                renderItem={item =>
-                  MailList(item, isDelete, isReceivePageState, mailOnPress)
-                }
-                keyExtractor={(mail, index) => mail.mailId}
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{paddingBottom: 20}}
-              />
-            </AppContainer.Basic>
-            <AppComponents.EmptyBox height={70} />
-          </ScrollView>
+          <AppContainer.Basic>
+            <FlatList
+              data={mails[isReceivePageState ? 1 : 0]}
+              renderItem={item =>
+                MailList(
+                  item,
+                  isDelete,
+                  isReceivePageState,
+                  mailOnPress,
+                  setIsDelete,
+                )
+              }
+              keyExtractor={(mail, index) => mail.mailId}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{paddingBottom: 20}}
+            />
+          </AppContainer.Basic>
         </EmptyComponent>
         <NewButton
           onPress={() => {
@@ -237,12 +262,22 @@ const MailScreen = ({navigation}) => {
   );
 };
 
-const MailList = ({item}, isDelete, isReceivePageState, mailOnPress) => {
+const MailList = (
+  {item},
+  isDelete,
+  isReceivePageState,
+  mailOnPress,
+  setIsDelete,
+) => {
   console.log(item);
   return (
     <Mail
       key={item.mailId}
       onPress={() => mailOnPress(item)}
+      onLongPress={() => {
+        setIsDelete(!isDelete);
+        Vibration.vibrate(10);
+      }}
       isDelete={isDelete}>
       <AppContainer.Paper padding={{padding: 15}} elevation={isDelete ? 7 : 0}>
         {/* 안읽은 메일 표시 (받은 메일함만) */}
