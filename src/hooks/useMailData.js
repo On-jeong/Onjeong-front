@@ -2,11 +2,11 @@ import customAxios from '@/api/axios';
 import {useMutation, useQuery} from '@tanstack/react-query';
 
 const fetchReceiveMails = () => {
-  return customAxios.get(`/mailList/receive`);
+  return customAxios.get(`/mailList/receive`).then(data => data?.data?.data);
 };
 
 const fetchSendMails = () => {
-  return customAxios.get(`/mailList/send`);
+  return customAxios.get(`/mailList/send`).then(data => data?.data?.data);
 };
 
 const postMailData = mailData => {
@@ -62,15 +62,17 @@ export const useGetMailDetail = mailId => {
 };
 
 // 받은 메일 삭제
-export const useDeleteReceiveMail = () => {
+export const useDeleteReceiveMail = ({onSuccess}) => {
   return useMutation(deleteReceiveMail, {
+    onSuccess: onSuccess,
     onError: error => console.log(error),
   });
 };
 
 // 보낸 메일 삭제
-export const useDeleteSendMail = () => {
+export const useDeleteSendMail = ({onSuccess}) => {
   return useMutation(deleteSendMail, {
+    onSuccess: onSuccess,
     onError: error => console.log(error),
   });
 };
