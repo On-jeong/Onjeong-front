@@ -21,14 +21,10 @@ import messaging, {firebase} from '@react-native-firebase/messaging';
 import customAxios from '@/api/axios';
 import {AppComponents} from '@/components/Components';
 import {NoHeader} from '@/components/headers/NoHeader';
-import {
-  check,
-  PERMISSIONS,
-  request,
-  RESULTS,
-} from 'react-native-permissions';
+import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import {Alert, Linking, Platform} from 'react-native';
 import {NotificationPermissionState} from '@/state/DeviceData';
+import {CommonActions} from '@react-navigation/native';
 
 //
 // 로그인
@@ -258,7 +254,12 @@ const SignInScreen = ({navigation}) => {
           setUserBirthState(data.data.data.userBirth);
           setFamilyIdState(data.data.data.familyId);
 
-          navigation.navigate('Home');
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{name: 'Home'}],
+            }),
+          );
         },
         onError: err => {
           if (err.response.status != 502) alert(err.response.data.message);

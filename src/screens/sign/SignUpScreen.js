@@ -19,6 +19,7 @@ import {WithHeader} from '@/components/headers/WithHeader';
 import {reg} from '@/config/reg';
 import {AppIcons} from '@/ui/icons';
 import {AppList} from '@/components/lists';
+import {CommonActions} from '@react-navigation/native';
 
 //
 // 회원가입
@@ -78,17 +79,28 @@ const SignUpScreen = ({navigation}) => {
   const {mutate: noJoinedMutate, isLoading: noJoinedIsLoading} =
     useSignUpNoJoined({
       onSuccess: () => {
-        navigation.navigate('SignIn');
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{name: 'SignIn'}],
+          }),
+        );
         alert('온정에 오신 것을 환영합니다!');
       },
     });
+
   const {
     mutate: withJoinedMutate,
     isLoading: withJoinedIsLoading,
     error: withJoinedError,
   } = useSignUpWithJoined({
     onSuccess: () => {
-      navigation.navigate('SignIn');
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{name: 'SignIn'}],
+        }),
+      );
       alert('온정에 오신 것을 환영합니다!');
     },
   });
@@ -252,8 +264,15 @@ const SignUpScreen = ({navigation}) => {
                   autoCapitalize="none"
                   margin={{marginBottom: 10}}
                   onSubmitEditing={e => {
-                    getCheckIdMutate({id: userId});
-                    inputRef.current[0].focus();
+                    if (!reg.ID_REG.test(userId)) {
+                      alert(
+                        '아이디는 영문 또는 숫자 조합 6 ~ 20자리로 설정해 주세요.',
+                      );
+                      return 0;
+                    } else {
+                      getCheckIdMutate({id: userId});
+                      inputRef.current[0].focus();
+                    }
                   }}
                   blurOnSubmit={false}
                 />
@@ -262,7 +281,15 @@ const SignUpScreen = ({navigation}) => {
                   width={50}
                   disabled={!userId}
                   onPress={() => {
-                    getCheckIdMutate({id: userId});
+                    if (!reg.ID_REG.test(userId)) {
+                      alert(
+                        '아이디는 영문 또는 숫자 조합 6 ~ 20자리로 설정해 주세요.',
+                      );
+                      return 0;
+                    } else {
+                      getCheckIdMutate({id: userId});
+                      inputRef.current[0].focus();
+                    }
                   }}
                   margin={{marginBottom: 10}}
                 />
