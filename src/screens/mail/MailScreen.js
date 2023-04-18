@@ -1,13 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 
-import {
-  BackHandler,
-  FlatList,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Vibration,
-} from 'react-native';
+import {BackHandler, FlatList, Vibration} from 'react-native';
 import {AppFonts} from '@/utils/GlobalFonts';
 import {AppColors} from '@/utils/GlobalStyles';
 import {
@@ -109,10 +103,15 @@ const MailScreen = ({navigation}) => {
   // 뒤로가기로 화면이 포커스 됐을 때도 업데이트
   useFocusEffect(
     useCallback(() => {
-      isReceivePageState ? refetch() : sendRefetch();
       setIsDelete(false);
+      func();
     }, []),
   );
+
+  const func = () => {
+    refetch();
+    sendRefetch();
+  };
 
   useEffect(() => {
     setIsReceivePageState(true);
@@ -141,9 +140,11 @@ const MailScreen = ({navigation}) => {
     refetch,
   } = useGetReceiveMails({
     onSuccess: data => {
-      setReceiveMailsState(data?.data?.data);
+      setReceiveMailsState(data);
+      console.log('리시브');
     },
   });
+
   const {
     data: sendData,
     isLoading: sendIsLoading,
@@ -151,22 +152,35 @@ const MailScreen = ({navigation}) => {
     refetch: sendRefetch,
   } = useGetSendMails({
     onSuccess: data => {
-      setSendMailsState(data?.data?.data);
+      setSendMailsState(data);
+      console.log('샌드');
     },
   });
-  const {mutate: delReceiveMail} = useDeleteReceiveMail();
-  const {mutate: delSendMail} = useDeleteSendMail();
+
+  const {mutate: delReceiveMail} = useDeleteReceiveMail({
+    onSuccess: (res, mailId) => {
+      setReceiveMailsState(
+        receiveMailsState.filter(it => it.mailId !== mailId),
+      );
+    },
+  });
+
+  const {mutate: delSendMail} = useDeleteSendMail({
+    onSuccess: (res, mailId) => {
+      setSendMailsState(sendMailsState.filter(it => it.mailId !== mailId));
+    },
+  });
 
   const receiveMails = () => {
     setIsReceivePageState(true);
     refetch();
-    setReceiveMailsState(receiveData?.data?.data);
+    setReceiveMailsState(receiveData);
   };
 
   const sendMails = () => {
     setIsReceivePageState(false);
     sendRefetch();
-    setSendMailsState(sendData?.data?.data);
+    setSendMailsState(sendData);
   };
 
   const mailOnPress = mail => {
@@ -174,13 +188,6 @@ const MailScreen = ({navigation}) => {
       // 메일 삭제 요청
       if (isReceivePageState) delReceiveMail(mail.mailId);
       else delSendMail(mail.mailId);
-      isReceivePageState
-        ? setReceiveMailsState(
-            receiveMailsState.filter(it => it.mailId !== mail.mailId),
-          )
-        : setSendMailsState(
-            sendMailsState.filter(it => it.mailId !== mail.mailId),
-          );
     } else {
       navigation.navigate('MailDetail', {
         mailContent: mail.mailContent,
@@ -269,7 +276,6 @@ const MailList = (
   mailOnPress,
   setIsDelete,
 ) => {
-  console.log(item);
   return (
     <Mail
       key={item.mailId}
