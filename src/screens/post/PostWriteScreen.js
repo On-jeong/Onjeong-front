@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {AppFonts} from '@/utils/GlobalFonts';
 import {PaperContainer} from '@/screens/mail/MailWriteScreen';
@@ -9,7 +9,7 @@ import {windowHeight, windowWidth} from '../../utils/GlobalStyles';
 import {WithHeader} from '@/components/headers/WithHeader';
 import {AppInputs} from '@/components/inputs';
 import {AppButtons} from '@/components/buttons';
-import {ScrollView} from 'react-native';
+import {BackHandler, ScrollView} from 'react-native';
 import {AppComponents} from '@/components/Components';
 import {format} from 'date-fns';
 import {AppIcons} from '@/ui/icons';
@@ -54,6 +54,19 @@ const PostWriteScreen = ({navigation, route}) => {
     route.params.boardContent ? route.params.boardContent : '',
   );
   const [image, setImage] = useState(route.params.boardImageUrl);
+
+  // 백핸들러
+  useEffect(() => {
+    handlePressBack();
+    return () => handlePressBack();
+  }, []);
+
+  const handlePressBack = () => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      navigation.pop();
+      return true;
+    });
+  };
 
   const {mutate: addBoard, isLoading: addIsLoading} = useAddBoard({
     onSuccess: () => {

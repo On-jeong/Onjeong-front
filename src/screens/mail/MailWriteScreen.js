@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {AppColors, windowHeight} from '@/utils/GlobalStyles';
 import {AppFonts, FontFamily} from '@/utils/GlobalFonts';
@@ -10,6 +10,7 @@ import {AppButtons} from '../../components/buttons';
 import {WithHeader} from '@/components/headers/WithHeader';
 import {AppIcons} from '@/ui/icons';
 import {AppContainer} from '@/components/container';
+import {BackHandler} from 'react-native';
 
 export const PaperContainer = styled.View`
   align-items: center;
@@ -98,6 +99,18 @@ const MailWriteScreen = ({navigation}) => {
   const [toUserStatus, setToUserStatus] = useState('가족 선택'); // 보낼 가족 별명
   const [toUserId, setToUserId] = useState(''); // 보낼 가족 아이디
   const [isOpen, setIsOpen] = useState(false); // 보낼 가족 선택창 열기 여부
+
+  useEffect(() => {
+    handlePressBack();
+    return () => handlePressBack();
+  }, []);
+
+  const handlePressBack = () => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      navigation.pop();
+      return true;
+    });
+  };
 
   const {data, status, isLoading, error} = useGetFamilyList({
     onSuccess: () => {},

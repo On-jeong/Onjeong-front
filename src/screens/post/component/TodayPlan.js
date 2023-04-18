@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {useQueryClient} from '@tanstack/react-query';
 import {AppFonts} from '@/utils/GlobalFonts';
@@ -10,18 +10,14 @@ import {AppIcons} from '@/ui/icons';
 import {AppComponents} from '@/components/Components';
 import {AppContainer} from '@/components/container';
 import {AppList} from '@/components/lists';
+import {BackHandler, Vibration} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 const PlanBox = styled.View`
   flex-direction: row;
   align-items: center;
   margin-top: 5px;
   margin-bottom: 5px;
-`;
-
-const ChoiceBox = styled.TouchableOpacity`
-  margin-right: 10px;
-  flex-direction: row;
-  align-items: center;
 `;
 
 const SendBox = styled.View`
@@ -63,12 +59,31 @@ export const getId = ({data, id}) => {
 };
 
 const TodayPlan = ({date, AnnData}) => {
+  const navigation = useNavigation();
+
   const queryClient = useQueryClient();
 
   const [isAddPlan, setIsAddPlan] = useState(false);
   const [isDelPlan, setIsDelPlan] = useState(false);
   const [newPlan, setNewPlan] = useState('');
   const [isAnniversary, setIsAnniversary] = useState(false);
+
+  // 백핸들러
+  useEffect(() => {
+    handlePressBack();
+    return () => handlePressBack();
+  }, [isDelPlan]);
+
+  const handlePressBack = () => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      if (isDelPlan) {
+        setIsDelPlan(false);
+        return true;
+      }
+      navigation.navigate('CalendarTab');
+      return true;
+    });
+  };
 
   const {mutate: addAnn} = useAddAnn({
     onMutate: () => {
@@ -162,6 +177,7 @@ const TodayPlan = ({date, AnnData}) => {
                   onPress={() => {
                     setIsDelPlan(!isDelPlan);
                     if (isAddPlan && !isDelPlan) setIsAddPlan(!isAddPlan);
+                    Vibration.vibrate(5);
                   }}
                 />
               </>

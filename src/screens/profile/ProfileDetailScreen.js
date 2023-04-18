@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import FamilyProfile from './component/FamilyProfile';
 import FamilyInfo from './component/FamilyInfo';
 import {WithHeader} from '@/components/headers/WithHeader';
@@ -6,12 +6,26 @@ import {AppContainer} from '@/components/container';
 import {useGetFamilyInfo, useGetFamilyProfile} from '@/hooks/useProFileData';
 import {ProfileImageUrIState, ProfileMessageState} from '@/state/ProfileData';
 import {useRecoilState} from 'recoil';
+import { BackHandler } from 'react-native';
 
 const ProfileDetailScreen = ({navigation, route}) => {
   const [profileMessageState, setProfileMessageState] =
     useRecoilState(ProfileMessageState);
   const [profileImageUrIState, setProfileImageUrIState] =
     useRecoilState(ProfileImageUrIState);
+
+  // 백핸들러
+  useEffect(() => {
+    handlePressBack();
+    return () => handlePressBack();
+  }, []);
+
+  const handlePressBack = () => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      navigation.pop();
+      return true;
+    });
+  };
 
   const {
     data: detailData,

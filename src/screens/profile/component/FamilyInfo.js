@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {AppColors} from '@/utils/GlobalStyles';
 import {AppFonts} from '@/utils/GlobalFonts';
@@ -18,6 +18,13 @@ import {useQueryClient} from '@tanstack/react-query';
 import {MessageInput} from './FamilyProfile';
 import {AppComponents} from '@/components/Components';
 import {AppIcons} from '@/ui/icons';
+import {
+  BackHandler,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Vibration,
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const ContentsContainer = styled.ScrollView`
   padding-left: 7%;
@@ -33,11 +40,28 @@ const TagContainer = styled.View`
 
 const FamilyInfo = ({route, infoData}) => {
   const queryClient = useQueryClient();
+  const navigation = useNavigation();
 
   const [tagValue, setTagValue] = useState(''); // 새로운 태그 추가 내용
 
   // 수정중인 태그 카테고리 표시
   const [modiCategory, setModiCategory] = useState('');
+
+  useEffect(() => {
+    handlePressBack();
+    return () => handlePressBack();
+  }, [modiCategory]);
+
+  const handlePressBack = () => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      if (modiCategory !== '') {
+        setModiCategory('');
+        return true;
+      }
+      navigation.pop();
+      return true;
+    });
+  };
 
   // 태그 추가 api
   const {mutate: addFavorite} = useAddFavorite({
@@ -232,6 +256,14 @@ const FamilyInfo = ({route, infoData}) => {
                     route.params.userId,
                     info.selfIntroductionAnswerId,
                   );
+                  Vibration.vibrate(5);
+                }}
+                onLongPress={() => {
+                  if (modiCategory === '') setModiCategory(category);
+                  else setModiCategory('');
+
+                  setTagValue('');
+                  Vibration.vibrate(5);
                 }}
               />
             ))
@@ -312,24 +344,33 @@ const TagBox = styled.View`
   flex-direction: row;
   align-items: center;
   align-self: flex-start;
-  padding: 7px 12px;
+  padding: 9px 12px;
   background-color: ${AppColors.Secondary};
   elevation: ${props => (props.isModify ? 4 : 0)};
   border-radius: 4px;
 `;
 
-const Tag = ({title, isModify, onPress}) => {
+const Tag = ({title, isModify, onPress, onLongPress}) => {
   return (
-    <TagGroup onPress={onPress} disabled={!isModify} isModify={isModify}>
-      <TagBox isModify={isModify}>
-        {isModify && (
-          <AppComponents.IconBox
-            icon={<AppIcons.CancelSmall />}
-            padding={{paddingRight: 5}}
-          />
-        )}
-        <AppFonts.Caption>{title}</AppFonts.Caption>
-      </TagBox>
+    <TagGroup isModify={isModify}>
+      {isModify ? (
+        <TouchableOpacity onPress={onPress} onLongPress={onLongPress}>
+          <TagBox isModify={isModify}>
+            <AppComponents.IconBox
+              icon={<AppIcons.CancelSmall />}
+              padding={{paddingRight: 5}}
+            />
+
+            <AppFonts.Caption>{title}</AppFonts.Caption>
+          </TagBox>
+        </TouchableOpacity>
+      ) : (
+        <TouchableWithoutFeedback onLongPress={onLongPress}>
+          <TagBox isModify={isModify}>
+            <AppFonts.Caption>{title}</AppFonts.Caption>
+          </TagBox>
+        </TouchableWithoutFeedback>
+      )}
     </TagGroup>
   );
 };

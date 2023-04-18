@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {BasicHeader} from '../components/headers/WithHeader';
 import styled from 'styled-components';
-import {ScrollView} from 'react-native';
+import {BackHandler, ScrollView, Vibration} from 'react-native';
 import {AppFonts} from '../utils/GlobalFonts';
 import {AppColors, windowHeight} from '../utils/GlobalStyles';
 import {AppComponents} from '@/components/Components';
@@ -15,7 +15,7 @@ import {
 import {useQueryClient} from '@tanstack/react-query';
 import {useRecoilValue} from 'recoil';
 import {UserNameState} from '@/state/UserData';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import LoadingComponent, {
   LoadingBox,
 } from '@/components/Loading/LoadingComponent';
@@ -79,6 +79,7 @@ const ContentBox = styled.View`
 
 export default function QaScreen() {
   const queryClient = useQueryClient();
+  const navigation = useNavigation();
   const userName = useRecoilValue(UserNameState);
 
   const [isMyAns, setIsMyAns] = useState(false); // 문답을 입력했는지 여부
@@ -92,6 +93,26 @@ export default function QaScreen() {
       setIsModAns(false);
     }, []),
   );
+
+  // 백 핸들러
+  useEffect(() => {
+    handlePressBack();
+    return () => handlePressBack();
+  }, [isAddAns, isModAns]);
+
+  const handlePressBack = () => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      if (isAddAns) {
+        setIsAddAns(false);
+        return true;
+      }
+      if (isModAns) {
+        setIsModAns(false);
+        return true;
+      }
+      return false;
+    });
+  };
 
   const {
     data: questData,
@@ -348,6 +369,7 @@ export default function QaScreen() {
                                 setIsModAns(false);
                                 delAns(ans.answerId);
                                 setAnsText('');
+                                Vibration.vibrate(5);
                               }}
                               padding={{padding: 10, paddingRight: 0}}
                             />

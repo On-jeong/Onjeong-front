@@ -1,14 +1,15 @@
 import {WithHeader} from '../components/headers/WithHeader';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {AppFonts} from '../utils/GlobalFonts';
 import {MenuContainer} from './mySetting/MyScreen';
 import styled from 'styled-components';
 import {AppComponents} from '@/components/Components';
-import {FlatList} from 'react-native';
+import {BackHandler, FlatList} from 'react-native';
 import {AppIcons} from '@/ui/icons';
 import {AppColors} from '@/utils/GlobalStyles';
 import {useGetNotif} from '@/hooks/useFCMtoken';
 import {AppMessage} from '@/components/message';
+import {useNavigation} from '@react-navigation/native';
 
 export const MessageBox = styled.View`
   width: 100%;
@@ -37,8 +38,23 @@ export const AlertBox = styled.View`
 `;
 
 const AlertScreen = () => {
+  const navigation = useNavigation();
+
   const {data, isLoading, isError} = useGetNotif();
   console.log(data);
+
+  // 백 핸들러
+  useEffect(() => {
+    handlePressBack();
+    return () => handlePressBack();
+  }, []);
+
+  const handlePressBack = () => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      navigation.pop();
+      return true;
+    });
+  };
 
   return (
     <WithHeader

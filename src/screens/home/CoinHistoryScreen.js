@@ -1,8 +1,8 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {AppFonts} from '@/utils/GlobalFonts';
 import {AppComponents} from '@/components/Components';
 import {useGetCoinHistory} from '@/hooks/useHomeData';
-import {FlatList} from 'react-native';
+import {BackHandler, FlatList} from 'react-native';
 import EmptyComponent from '@/components/Loading/EmptyComponent';
 import {useFocusEffect} from '@react-navigation/native';
 import {WithHeader} from '@/components/headers/WithHeader';
@@ -33,6 +33,19 @@ const CoinHistoryScreen = ({navigation}) => {
     }, []),
   );
 
+  // 백 핸들러
+  useEffect(() => {
+    handlePressBack();
+    return () => handlePressBack();
+  }, []);
+
+  const handlePressBack = () => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      navigation.pop();
+      return true;
+    });
+  };
+
   console.log(data);
 
   return (
@@ -53,7 +66,7 @@ const CoinHistoryScreen = ({navigation}) => {
             renderItem={RenderMessage}
             keyExtractor={(item, index) => index.toString()}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingBottom: 20}}
+            contentContainerStyle={{paddingBottom: 20}}
           />
         </AppContainer.Basic>
       </EmptyComponent>
