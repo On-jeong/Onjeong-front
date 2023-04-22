@@ -12,16 +12,16 @@ import {AppColors} from '@/utils/GlobalStyles';
 import {AppContainer} from '@/components/container';
 
 const script = {
-  RAND: '출석 랜덤으로',
+  RAND: '출석으로',
   MAIL: '편지 보내기로',
   PROFILEIMAGE: '프로필 사진 등록으로',
-  PROFILEMESSAGE: '프로필 상태메시지 작성으로',
-  PROFILEFAV: '프로필 좋아하는 것 작성으로',
-  PROFILEHATE: '프로필 싫어하는 것 작성으로',
-  PROFILEEXPRESSION: '프로필 한단어로 표현하는 것 작성으로',
-  PROFILEINTEREST: '프로필 관심사 작성으로',
+  PROFILEMESSAGE: '상태메시지 작성으로',
+  PROFILEFAV: '좋아하는 것 작성으로',
+  PROFILEHATE: '싫어하는 것 작성으로',
+  PROFILEEXPRESSION: '한단어로 표현하기 작성으로',
+  PROFILEINTEREST: '관심사 작성으로',
   BOARD: '오늘의 기록 작성으로',
-  ANSWER: '이달의 문답 작성으로',
+  ANSWER: '이주의 문답 작성으로',
 };
 
 const CoinHistoryScreen = ({navigation}) => {
@@ -98,14 +98,14 @@ const RenderMessage = ({item, index}) => {
                 padding={{paddingRight: 8}}
               />
               <AppFonts.Body2>
-                {script[item.type]} {item.amount}의 영양제를 얻었어요.
+                {item.user}의 {script[item.type]} {item.amount}의 영양제를 얻었어요.
               </AppFonts.Body2>
             </>
           )}
         </MessageContent>
         <Time>
           <AppFonts.Caption color={AppColors.Gray600}>
-            {item.date}
+            {item.date.substr(0,16)}
           </AppFonts.Caption>
         </Time>
       </MessageBox>

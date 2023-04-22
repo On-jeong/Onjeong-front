@@ -23,6 +23,7 @@ import {AppIcons} from '@/ui/icons';
 import {AppContainer} from '@/components/container';
 import {AppInputs} from '@/components/inputs';
 import {AppMessage} from '@/components/message';
+import EmptyComponent from '@/components/Loading/EmptyComponent';
 
 const AddAnsButton = styled.TouchableOpacity`
   flex-direction: row;
@@ -302,13 +303,9 @@ export default function QaScreen() {
             />
           )}
 
-          {ansData && ansData?.length === 0 ? (
-            <MessageBox>
-              <AppFonts.Body2 color={AppColors.Gray600}>
-                문답을 첫번째로 작성해보세요!
-              </AppFonts.Body2>
-            </MessageBox>
-          ) : (
+          <EmptyComponent
+            isEmpty={ansData && ansData?.length === 0}
+            title1={'문답을 첫번째로 작성해보세요!'}>
             <LoadingComponent isLoading={addIsLoading}>
               <ScrollView>
                 {ansData?.map(ans => (
@@ -397,7 +394,7 @@ export default function QaScreen() {
                 <AppComponents.EmptyBox height={70} />
               </ScrollView>
             </LoadingComponent>
-          )}
+          </EmptyComponent>
         </AppContainer.Basic>
       </>
     </BasicHeader>
