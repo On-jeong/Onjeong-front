@@ -37,13 +37,7 @@ export const BellIconBox = styled.TouchableOpacity`
 `;
 
 export const IconBox = styled.TouchableOpacity`
-  padding: 12px;
-`;
-
-export const BackBox = styled.TouchableOpacity`
   padding: 15px;
-  padding-left: 15px;
-  padding-right: 40px;
 `;
 
 export const Body = styled.View`
@@ -72,16 +66,15 @@ export const WithHeader = ({
     <Body>
       <NavBar>
         <LeftNav>
-          {isBack ? (
-            <BackBox
+          {isBack && (
+            <IconBox
               onPress={() => {
                 navigation.goBack();
               }}>
               <AppIcons.Back_gray />
-            </BackBox>
-          ) : (
-            <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
+            </IconBox>
           )}
+          <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
         </LeftNav>
         <AppFonts.Heading>{title}</AppFonts.Heading>
         <RightNav>
