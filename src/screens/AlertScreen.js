@@ -10,6 +10,7 @@ import {AppColors} from '@/utils/GlobalStyles';
 import {useGetNotif} from '@/hooks/useFCMtoken';
 import {AppMessage} from '@/components/message';
 import {useNavigation} from '@react-navigation/native';
+import EmptyComponent from '@/components/Loading/EmptyComponent';
 
 export const MessageBox = styled.View`
   width: 100%;
@@ -62,23 +63,19 @@ const AlertScreen = () => {
       isBack={true}
       isLoading={isLoading}
       isError={isError}>
-      <MenuContainer>
-        {/* 기본 메세지 */}
-        {data?.data?.data.length == 0 ? (
-          <MessageBox>
-            <AppFonts.Body2 color={AppColors.Gray600}>
-              최근 3일간 알림이 없습니다.
-            </AppFonts.Body2>
-          </MessageBox>
-        ) : (
+      <EmptyComponent
+        isEmpty={data?.data?.data.length == 0}
+        title1={' 최근 3일간 알림이 없습니다.'}>
+        <MenuContainer>
+          {/* 기본 메세지 */}
           <FlatList
             data={data?.data?.data}
             renderItem={RenderMessage}
             keyExtractor={(item, index) => index.toString()}
             showsVerticalScrollIndicator={false}
           />
-        )}
-      </MenuContainer>
+        </MenuContainer>
+      </EmptyComponent>
       <AlertBox>
         <AppMessage.Warning title={'3일이 지나면 알림이 사라집니다'} />
       </AlertBox>
