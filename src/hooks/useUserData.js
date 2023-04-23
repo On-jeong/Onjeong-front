@@ -4,13 +4,15 @@ import {useNavigation} from '@react-navigation/native';
 import {useMutation, useQuery} from '@tanstack/react-query';
 
 const fetchUserData = () => {
-  return customAxios.get(`/user-information`);
+  return customAxios.get(`/user-information`).then(data => data?.data?.data);
 };
 const fetchCheckId = ({id}) => {
-  return customAxios.post(`/check/id/${id} `);
+  return customAxios.post(`/check/id/${id}`).then(data => data?.data?.data);
 };
 const fetchJoinedId = ({id}) => {
-  return customAxios.post(`/check/joined-id/${id}`);
+  return customAxios
+    .post(`/check/joined-id/${id}`)
+    .then(data => data?.data?.data);
 };
 
 const postSignUpNoJoined = userData => {

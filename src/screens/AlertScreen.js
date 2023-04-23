@@ -64,12 +64,12 @@ const AlertScreen = () => {
       isLoading={isLoading}
       isError={isError}>
       <EmptyComponent
-        isEmpty={data?.data?.data.length == 0}
+        isEmpty={data?.length == 0}
         title1={' 최근 3일간 알림이 없습니다.'}>
         <MenuContainer>
           {/* 기본 메세지 */}
           <FlatList
-            data={data?.data?.data}
+            data={data}
             renderItem={RenderMessage}
             keyExtractor={(item, index) => index.toString()}
             showsVerticalScrollIndicator={false}

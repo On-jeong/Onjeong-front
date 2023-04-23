@@ -108,7 +108,7 @@ const SignUpScreen = ({navigation}) => {
   const {mutate: getCheckIdMutate} = useGetCheckId({
     onSuccess: data => {
       console.log('data', data);
-      if (data?.data?.data?.available) {
+      if (data?.available) {
         alert('사용할 수 있는 아이디 입니다.');
         setIdCheck(true);
       } else {
@@ -120,7 +120,7 @@ const SignUpScreen = ({navigation}) => {
   const {mutate: getJoinedIdMutate} = useGetJoinedId({
     onSuccess: data => {
       console.log(data);
-      if (data?.data?.data?.available) {
+      if (data?.available) {
         alert('초대가족이 확인되었습니다.');
         setJoinedIdCheck(true);
       } else {

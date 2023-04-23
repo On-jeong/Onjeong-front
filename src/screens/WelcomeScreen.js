@@ -48,7 +48,7 @@ export const WelcomeScreen = ({navigation}) => {
     }, []),
   );
 
-  const {newUserData, status} = useGetUserData({enabled: isUserData});
+  const {data: newUserData, isSuccess} = useGetUserData({enabled: isUserData});
 
   const checkToken = async () => {
     const accessToken = await storage.getItem('accessToken');
@@ -59,15 +59,15 @@ export const WelcomeScreen = ({navigation}) => {
       // 유저 데이터가 저장되어있지 않은 경우
       if (userIdState === '') {
         setIsUserData(true);
-        if (status === 'success') {
+        if (isSuccess) {
           // 새로 받은 유저정보 리코일에 저장
-          setUserIdState(data.data.data.userId);
-          setUserNameState(data.data.data.userName);
-          setUserEmailState(data.data.data.userEmail);
-          setUserNicknameState(data.data.data.userNickname);
-          setUserStatusState(data.data.data.userStatus);
-          setUserBirthState(data.data.data.userBirth);
-          setFamilyIdState(data.data.data.familyId);
+          setUserIdState(newUserData?.userId);
+          setUserNameState(newUserData?.userName);
+          setUserEmailState(newUserData?.userEmail);
+          setUserNicknameState(newUserData?.userNickname);
+          setUserStatusState(newUserData?.userStatus);
+          setUserBirthState(newUserData?.userBirth);
+          setFamilyIdState(newUserData?.familyId);
         }
         console.log('newUserData: ' + newUserData);
       }

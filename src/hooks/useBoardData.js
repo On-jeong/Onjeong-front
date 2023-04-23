@@ -2,11 +2,11 @@ import customAxios from '@/api/axios';
 import {useMutation, useQuery} from '@tanstack/react-query';
 
 const fetchTodayBoards = boardDate => {
-  return customAxios.get(`/boards/all/${boardDate}`);
-};
+  return customAxios.get(`/boards/all/${boardDate}`).then(data => data?.data?.data);
+}
 
 const fetchBoardDetail = boardId => {
-  return customAxios.get(`/boards/${boardId}/one`);
+  return customAxios.get(`/boards/${boardId}/one`).then(data => data?.data?.data);
 };
 
 const addBoard = ({boardDate, formData}) => {

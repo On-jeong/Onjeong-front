@@ -125,7 +125,7 @@ export default function CalendarScreen() {
         weekList.push({
           date: date,
           isCurMonth: getMonth(date) === month - 1,
-          annData: annData?.data?.data,
+          annData: annData,
         });
 
         date = addDays(date, 1); // 다음날로 변경
@@ -164,7 +164,7 @@ export default function CalendarScreen() {
             </Days>
             <CalendarBody
               monthDays={getCurMonthDays(curYearState, curMonthState)}
-              annData={annData?.data?.data}
+              annData={annData}
             />
           </AppContainer.Paper>
         </PaperContainer>

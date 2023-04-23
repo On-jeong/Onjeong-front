@@ -2,17 +2,17 @@ import customAxios from '@/api/axios';
 import {useMutation, useQuery} from '@tanstack/react-query';
 
 const fetchFamilyList = () => {
-  return customAxios.get(`/families`);
+  return customAxios.get(`/families`).then(data => data?.data?.data);
 };
 
 const fetchFamilyProfile = userId => {
-  return customAxios.get(`/profiles/${userId}/user-profile`);
+  return customAxios.get(`/profiles/${userId}/user-profile`).then(data => data?.data?.data);
 };
 
 const fetchFamilyInfo = userId => {
-  return customAxios.get(`/profiles/${userId}/self-introduction`).then(data => {
-    return data?.data?.data;
-  });
+  return customAxios
+    .get(`/profiles/${userId}/self-introduction`)
+    .then(data => data?.data?.data);
 };
 
 const addProfileImage = formData => {

@@ -2,19 +2,19 @@ import customAxios from '@/api/axios';
 import {useMutation, useQuery} from '@tanstack/react-query';
 
 const fetchCoins = () => {
-  return customAxios.get(`/coins`);
+  return customAxios.get(`/coins`).then(data => data?.data?.data);
 };
 
 const fetchFlowerInfo = () => {
-  return customAxios.get(`/flowers`);
+  return customAxios.get(`/flowers`).then(data => data?.data?.data);
 };
 
 const AddRandCoins = () => {
-  return customAxios.post(`/coins-random`);
+  return customAxios.post(`/coins-random`).then(data => data?.data?.data);
 };
 
 const fetchCoinHistory = () => {
-  return customAxios.get(`/histories`);
+  return customAxios.get(`/histories`).then(data => data?.data?.data);
 };
 
 // 패밀리 코인 보여주기

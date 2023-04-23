@@ -10,9 +10,9 @@ const delFCM = data => {
   return customAxios.post(`/token/cancel`, data);
 };
 
-const getNotif = data => {
+const fetchNotif = data => {
   console.log(data);
-  return customAxios.get(`/notification`, data);
+  return customAxios.get(`/notification`, data).then(data => data?.data?.data);
 };
 
 // FCM 토큰 등록하기
@@ -37,7 +37,7 @@ export const useDelFCM = () => {
 
 // 알림 받아오기
 export const useGetNotif = () => {
-  return useQuery(['getNotif'], getNotif, {
+  return useQuery(['getNotif'], fetchNotif, {
     onError: error => console.log(error),
   });
 };

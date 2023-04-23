@@ -40,7 +40,7 @@ const PostScreen = ({route}) => {
       <PostContainer>
         <TodayPlan AnnData={AnnData} date={formatDate} />
         <TodayPost
-          BoardData={BoardData?.data?.data}
+          BoardData={BoardData}
           date={route.params.date}
         />
         <AppComponents.EmptyBox height={50} />

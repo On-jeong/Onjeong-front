@@ -257,7 +257,7 @@ export default function QaScreen() {
           <TopContainer>
             <QuestBox>
               <AppFonts.SubTitle>
-                {questData?.data?.data.questionContent}
+                {questData?.questionContent}
               </AppFonts.SubTitle>
             </QuestBox>
           </TopContainer>

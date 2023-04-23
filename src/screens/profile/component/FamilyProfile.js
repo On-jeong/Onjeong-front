@@ -59,7 +59,7 @@ const FamilyProfile = ({route, detailData}) => {
 
   const {mutate: addImage} = useAddProfileImage({
     onSuccess: data => {
-      setProfileImageUrIState(data?.data?.data.profileImageUrl);
+      setProfileImageUrIState(data?.profileImageUrl);
     },
   });
   const {mutate: addMessage} = useAddMessage();

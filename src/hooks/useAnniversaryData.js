@@ -2,7 +2,7 @@ import customAxios from '@/api/axios';
 import {useMutation, useQuery} from '@tanstack/react-query';
 
 const fetchMonthAnn = annDate => {
-  return customAxios.get(`/months/anniversaries/${annDate}`);
+  return customAxios.get(`/months/anniversaries/${annDate}`).then(data => data?.data?.data);
 };
 
 const fetchDateAnn = annDate => {

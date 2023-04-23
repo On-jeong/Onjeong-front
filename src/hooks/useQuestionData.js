@@ -2,7 +2,7 @@ import customAxios from '@/api/axios';
 import {useMutation, useQuery} from '@tanstack/react-query';
 
 const fetchQuest = () => {
-  return customAxios.get(`/questions`);
+  return customAxios.get(`/questions`).then(data => data?.data?.data);
 };
 
 const fetchAnswers = () => {

@@ -204,13 +204,13 @@ const CustomSelectBox = ({
         </SelectTitle>
         {isOpen && (
           <SelectItems>
-            {data?.data?.data.length === 1 && (
+            {data?.length === 1 && (
               <AlertBox>
                 <AppFonts.Body2>보낼 가족이 없습니다.</AppFonts.Body2>
                 <AppFonts.Body2>가족 구성원을 초대해 주세요!</AppFonts.Body2>
               </AlertBox>
             )}
-            {data?.data?.data?.map(family => {
+            {data?.map(family => {
               return (
                 <React.Fragment key={family.userId}>
                   {family.userId !== userId && family.userId !== toUserId && (

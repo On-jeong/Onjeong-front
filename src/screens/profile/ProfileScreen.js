@@ -48,7 +48,7 @@ const ProfileScreen = ({navigation}) => {
 
   const {data, isLoading, isError, refetch} = useGetFamilyList({
     onSuccess: data => {
-      setFamilyProfileState(data.data.data);
+      setFamilyProfileState(data);
     },
   });
 
