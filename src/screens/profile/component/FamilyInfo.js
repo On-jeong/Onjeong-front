@@ -24,7 +24,7 @@ import {
   TouchableWithoutFeedback,
   Vibration,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const ContentsContainer = styled.ScrollView`
   padding-left: 7%;
@@ -334,7 +334,7 @@ CategoryTitle.propTypes = {
   onPress: PropTypes.func,
 };
 
-const TagGroup = styled.TouchableOpacity`
+const TagGroup = styled.View`
   margin-right: 12px;
   margin-bottom: 10px;
   margin-bottom: ${props => (props.isModify ? 15 : 10)}px;
@@ -365,8 +365,11 @@ const Tag = ({title, isModify, onPress, onLongPress}) => {
           </TagBox>
         </TouchableOpacity>
       ) : (
-        <TouchableWithoutFeedback onLongPress={onLongPress}>
-          <TagBox isModify={isModify}>
+        <TouchableWithoutFeedback
+          onLongPress={onLongPress}
+          delayLongPress={300}
+          style={{padding: 15}}>
+          <TagBox isModify={isModify} style={{margin: 15}}>
             <AppFonts.Caption>{title}</AppFonts.Caption>
           </TagBox>
         </TouchableWithoutFeedback>
