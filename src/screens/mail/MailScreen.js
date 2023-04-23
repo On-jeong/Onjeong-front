@@ -284,6 +284,7 @@ const MailList = (
         setIsDelete(!isDelete);
         Vibration.vibrate(10);
       }}
+      delayLongPress={300}
       isDelete={isDelete}>
       <AppContainer.Paper padding={{padding: 15}} elevation={isDelete ? 7 : 0}>
         {/* 안읽은 메일 표시 (받은 메일함만) */}
