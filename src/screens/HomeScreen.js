@@ -34,6 +34,7 @@ import {format} from 'date-fns';
 import {useFocusEffect} from '@react-navigation/native';
 import {NotReadMailsState, ReceiveMailsState} from '@/state/MailData';
 import {AppIcons} from '@/ui/icons';
+import {useGetReceiveMails} from '@/hooks/useMailData';
 
 const Background = styled.ImageBackground`
   flex: 1;
@@ -90,7 +91,7 @@ export const HomeScreen = ({navigation}) => {
     refetch: coinRefetch,
   } = useGetCoins({
     onSuccess: data => {
-      setFamilyCoinState(data?.data?.data);
+      setFamilyCoinState(data);
     },
   });
 
@@ -101,26 +102,26 @@ export const HomeScreen = ({navigation}) => {
   } = useGetFlowerInfo({
     onSuccess: data => {
       setFlowerKindState('camellia');
-      setFlowerLevelState(data?.data?.data.flowerLevel);
-      setFlowerColorState(data?.data?.data.flowerColor);
-      setFlowerBloomState(data?.data?.data.flowerBloomDate);
+      setFlowerLevelState(data?.flowerLevel);
+      setFlowerColorState(data?.flowerColor);
+      setFlowerBloomState(data?.flowerBloomDate);
     },
   });
 
   const {mutate: addRandCoins} = useAddRandCoins({
     onSuccess: data => {
-      setFamilyCoinState(familyCoinState + data?.data?.data);
+      setFamilyCoinState(familyCoinState + data);
       setDailyCoinState(formatDate);
-      alert(`오늘의 랜덤 영양제 ${data?.data?.data}를 받았어요!`);
+      alert(`오늘의 랜덤 영양제 ${data}를 받았어요!`);
     },
   });
 
   // 받은메일 업데이트 -> 안읽은 메일 업데이트 위함
-  // const {refetch: receiveMailsRefetch} = useGetReceiveMails({
-  //   onSuccess: data => {
-  //     setReceiveMailsState(data?.data?.data);
-  //   },
-  // });
+  const {refetch: receiveMailsRefetch} = useGetReceiveMails({
+    onSuccess: data => {
+      setReceiveMailsState(data);
+    },
+  });
 
   console.log(
     '리코일: ' + JSON.stringify(userId),
@@ -137,7 +138,7 @@ export const HomeScreen = ({navigation}) => {
 
   useEffect(() => {
     getDailyCoinInfo();
-    // receiveMailsRefetch();
+    receiveMailsRefetch();
   }, []);
 
   useFocusEffect(
@@ -151,11 +152,8 @@ export const HomeScreen = ({navigation}) => {
     console.log(dailyCoinState);
     console.log(formatDate);
 
-    // 해당 기기에서 오늘 랜덤코인을 은 적이 없을 경우 호출
-    if (dailyCoinState == null && dailyCoinState !== formatDate) {
-      console.log('데일리코인 호출!');
-      addRandCoins();
-    }
+    // 데일리 코인 호출
+    addRandCoins();
   };
 
   return (

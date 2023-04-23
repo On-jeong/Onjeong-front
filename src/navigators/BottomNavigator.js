@@ -7,23 +7,16 @@ import Profile from '../screens/profile/ProfileScreen';
 import Mail from '@/screens/mail/MailScreen';
 import {AppColors, bottomTabHeight} from '../utils/GlobalStyles';
 import {AppIcons} from '@/ui/icons';
-import styled from 'styled-components';
+import {useRecoilValue} from 'recoil';
+import {NotReadMailsState} from '@/state/MailData';
 
 const Tab = createBottomTabNavigator();
 
-const Circle = styled.View`
-  position: absolute;
-  top: -8;
-  right: -2;
-  width: 22px;
-  height: 22px;
-  border-radius: 50px;
-  background-color: ${AppColors.black};
-  justify-content: center;
-  align-items: center;
-`;
-
 export function BottomNavigator() {
+  const notReadMailsState = useRecoilValue(NotReadMailsState);
+
+  console.log('안읽은 메일', notReadMailsState);
+
   return (
     <Tab.Navigator
       initialRouteName="HomeTab"
@@ -55,28 +48,14 @@ export function BottomNavigator() {
         }}
       />
       <Tab.Screen
-        name="MailTab"
-        component={Mail}
+        name="CalendarTab"
+        component={Calendar}
         options={{
           tabBarIcon: ({color, size}) =>
             color ? (
-              <>
-                {/* <Circle>
-                  <FontStyle.SubContentB style={{color: AppColors.blur}}>
-                    {notReadMailsState}
-                  </FontStyle.SubContentB>
-                </Circle> */}
-                <AppIcons.MailBlack width={size} height={size} />
-              </>
+              <AppIcons.CalendarBlack width={size} height={size} />
             ) : (
-              <>
-                {/* <Circle>
-                  <FontStyle.SubContentB style={{color: AppColors.blur}}>
-                    {notReadMailsState}
-                  </FontStyle.SubContentB>
-                </Circle> */}
-                <AppIcons.MailWhite width={size} height={size} />
-              </>
+              <AppIcons.CalendarWhite width={size} height={size} />
             ),
         }}
       />
@@ -93,14 +72,27 @@ export function BottomNavigator() {
         }}
       />
       <Tab.Screen
-        name="CalendarTab"
-        component={Calendar}
+        name="MailTab"
+        component={Mail}
         options={{
+          tabBarIconStyle: {marginTop: 3},
+          tabBarBadge: notReadMailsState > 0 ? notReadMailsState : null,
+          tabBarBadgeStyle: {
+            backgroundColor: '#D88775',
+            color: 'white',
+            fontSize: 13,
+            fontWeight: 'bold',
+            marginTop: 8,
+          },
           tabBarIcon: ({color, size}) =>
             color ? (
-              <AppIcons.CalendarBlack width={size} height={size} />
+              <>
+                <AppIcons.MailBlack width={size} height={size} />
+              </>
             ) : (
-              <AppIcons.CalendarWhite width={size} height={size} />
+              <>
+                <AppIcons.MailWhite width={size} height={size} />
+              </>
             ),
         }}
       />
