@@ -109,7 +109,7 @@ const RenderMessage = ({item, index}) => {
         </MessageContent>
         <Time>
           <AppFonts.Caption color={AppColors.Gray600}>
-            {item.date.substr(0, 16)}
+            {item.date.substr(0,16)}
           </AppFonts.Caption>
         </Time>
       </MessageBox>
