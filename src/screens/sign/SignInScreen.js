@@ -225,6 +225,7 @@ const SignInScreen = ({navigation}) => {
           refreshAxios.defaults.headers.common['AuthorizationRefresh'] =
             data.headers.authorizationrefresh;
 
+          //알림 허용 돼있을 때만
           if (notificationPermissionState) {
             //FCM 토큰 보내기
             getFCMToken();
