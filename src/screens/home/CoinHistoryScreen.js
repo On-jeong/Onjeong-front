@@ -12,16 +12,16 @@ import {AppColors} from '@/utils/GlobalStyles';
 import {AppContainer} from '@/components/container';
 
 const script = {
-  RAND: '출석 랜덤으로',
-  MAIL: '편지 보내기로',
-  PROFILEIMAGE: '프로필 사진 등록으로',
-  PROFILEMESSAGE: '프로필 상태메시지 작성으로',
-  PROFILEFAV: '프로필 좋아하는 것 작성으로',
-  PROFILEHATE: '프로필 싫어하는 것 작성으로',
-  PROFILEEXPRESSION: '프로필 한단어로 표현하는 것 작성으로',
-  PROFILEINTEREST: '프로필 관심사 작성으로',
-  BOARD: '오늘의 기록 작성으로',
-  ANSWER: '이달의 문답 작성으로',
+  RAND: '출석',
+  MAIL: '편지 보내기',
+  PROFILEIMAGE: '프로필 사진 등록',
+  PROFILEMESSAGE: '상태메시지 작성',
+  PROFILEFAV: '좋아하는 것 작성',
+  PROFILEHATE: '싫어하는 것 작성',
+  PROFILEEXPRESSION: '한단어로 표현하기 작성',
+  PROFILEINTEREST: '관심사 작성',
+  BOARD: '오늘의 기록 작성',
+  ANSWER: '이주의 문답 작성',
 };
 
 const CoinHistoryScreen = ({navigation}) => {
@@ -56,13 +56,13 @@ const CoinHistoryScreen = ({navigation}) => {
       isError={isError}
       reloadFunc={refetch}>
       <EmptyComponent
-        isEmpty={data?.data?.data.length === 0}
+        isEmpty={data?.length === 0}
         title1={'꽃 성장 기록이 없습니다.'}
         title2={'꽃을 성장시켜 기록을 채워나가요!'}>
         <AppContainer.Basic margin={{marginTop: 10}}>
           {/* 기본 메세지 */}
           <FlatList
-            data={data?.data?.data}
+            data={data}
             renderItem={RenderMessage}
             keyExtractor={(item, index) => index.toString()}
             showsVerticalScrollIndicator={false}
@@ -87,8 +87,7 @@ const RenderMessage = ({item, index}) => {
                 padding={{paddingRight: 8}}
               />
               <AppFonts.Body2>
-                {item.amount * -1}의 영양제를 사용해서 꽃이 {item.after}
-                레벨로 성장했어요!
+                꽃이 {item.after}레벨로 성장했어요!
               </AppFonts.Body2>
             </>
           ) : (
@@ -97,15 +96,20 @@ const RenderMessage = ({item, index}) => {
                 icon={<AppIcons.WaterGray />}
                 padding={{paddingRight: 8}}
               />
-              <AppFonts.Body2>
-                {script[item.type]} {item.amount}의 영양제를 얻었어요.
-              </AppFonts.Body2>
+              <AppFonts.Body1>
+                {item.user}의 {script[item.type]}
+                {' '}
+                <AppFonts.SubTitle>
+                  {item.amount > 0 && '+'}
+                  {item.amount}
+                </AppFonts.SubTitle>
+              </AppFonts.Body1>
             </>
           )}
         </MessageContent>
         <Time>
           <AppFonts.Caption color={AppColors.Gray600}>
-            {item.date}
+            {item.date.substr(0, 16)}
           </AppFonts.Caption>
         </Time>
       </MessageBox>
