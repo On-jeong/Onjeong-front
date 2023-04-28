@@ -30,15 +30,9 @@ import {CommonActions} from '@react-navigation/native';
 // 로그인
 //
 
-export const LogoContainer = styled.View`
-  flex: 2;
-  justify-content: flex-end;
-  align-items: center;
-`;
-
-export const Container = styled.SafeAreaView`
-  flex: 3;
-  justify-content: flex-start;
+export const Container = styled.KeyboardAvoidingView`
+  flex: 1;
+  justify-content: center;
   align-items: center;
 `;
 
@@ -225,13 +219,8 @@ const SignInScreen = ({navigation}) => {
           refreshAxios.defaults.headers.common['AuthorizationRefresh'] =
             data.headers.authorizationrefresh;
 
-          //알림 허용 돼있을 때만
-          if (notificationPermissionState) {
-            //FCM 토큰 보내기
-            getFCMToken();
-            //FCM 토큰 구독
-            subscribeTopic(data.data.data.familyId);
-          }
+          //FCM 토큰 보내기
+          getFCMToken();
 
           //로그인 토큰 저장
           await storage.setItem(
@@ -287,32 +276,14 @@ const SignInScreen = ({navigation}) => {
     addFCM(fcmToken);
   };
 
-  const subscribeTopic = topic => {
-    messaging()
-      .subscribeToTopic(topic.toString())
-      .then(() => {
-        console.log(`토픽 ${topic} 구독 성공`);
-      })
-      .catch(err => {
-        console.log(`토픽 ${topic} 구독 실패 :`, err);
-      });
-  };
-
   return (
     <NoHeader
       isLoading={signInIsLoading}
       reloadFunc={onSubmit}
       isError={signInIsError && isError}>
-      <LogoContainer>
+      <Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <Box>
           <Logo source={require('@/assets/image/logo/onjeong_logo.jpg')} />
-          {/* <Title>
-            <AppFonts.Heading>온정</AppFonts.Heading>
-          </Title> */}
-        </Box>
-      </LogoContainer>
-      <Container>
-        <Box>
           <InputContainer>
             <AppInputs.BorderBottomInput
               maxLength={15}
