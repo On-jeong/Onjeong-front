@@ -1,7 +1,7 @@
 import {AppComponents} from '@/components/Components';
 import {AppFonts} from '@/utils/GlobalFonts';
 import {AppColors, windowHeightNoNav} from '@/utils/GlobalStyles';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {format, getDate} from 'date-fns';
 import React from 'react';
 import styled from 'styled-components';
@@ -29,8 +29,6 @@ const MiniText = styled.View`
   align-items: center;
   padding: 2px;
   margin-top: 2px;
-  border-color: ${props =>
-    props.type === 'ANNIVERSARY' ? AppColors.red1 : AppColors.green2};
   background-color: ${AppColors.Secondary};
 `;
 

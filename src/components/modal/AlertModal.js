@@ -26,7 +26,7 @@ const ModalBox = styled.View`
   justify-content: space-around;
   align-items: center;
   background-color: ${AppColors.Background};
-  border: solid 3px ${AppColors.border};
+  border: solid 3px ${AppColors.Primary};
   border-radius: 20px;
 `;
 
@@ -49,7 +49,7 @@ const AlertModal = ({
   title1,
   title2,
   onPress,
-  borderColor = AppColors.border,
+  borderColor = AppColors.Primary,
 }) => {
   return (
     <Modal
