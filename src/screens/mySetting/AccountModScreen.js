@@ -6,7 +6,6 @@ import {
   UserStatusState,
   UserNicknameState,
   UserEmailState,
-  UserIdState,
   FamilyIdState,
 } from '@/state/UserData';
 import {AppFonts} from '@/utils/GlobalFonts';
@@ -17,15 +16,15 @@ import DatePicker from 'react-native-date-picker';
 import {WithHeader} from '@/components/headers/WithHeader';
 import {Box, Container, InputContainer} from '../sign/SignInScreen';
 import {AppInputs} from '@/components/inputs';
-import {Platform, ScrollView} from 'react-native';
+import {ScrollView} from 'react-native';
 import {BirthButton} from '../sign/SignUpScreen';
 import {reg} from '@/config/reg';
 import {AppList} from '@/components/lists';
 import {NotificationPermissionState} from '@/state/DeviceData';
 import styled from 'styled-components';
-import {firebase} from '@react-native-firebase/messaging';
-import {useAddFCM, useDelFCM} from '@/hooks/useFCMtoken';
+import {useCheckNotification, useUpdateNotification} from '@/hooks/useFCMtoken';
 import {storage} from '@/config/storage';
+import messaging, {firebase} from '@react-native-firebase/messaging';
 
 const Check = styled.View`
   width: 90%;
@@ -55,15 +54,12 @@ function AccountModScreen() {
   const setUserStatusState = useSetRecoilState(UserStatusState);
   const setUserBirthState = useSetRecoilState(UserBirthState);
 
-  const {mutate: delFCM} = useDelFCM();
-  const {mutate: addFCM} = useAddFCM();
-
   const {
     mutate: modifyAccountMutate,
     isLoading: modifyAccountIsLoading,
     isError: modifyAccountIsError,
   } = useModifyAccount({
-    onSuccess: () => {
+    onSuccess: async () => {
       alert('회원정보 변경이 완료되었습니다.');
       setUserNameState(name);
       setUserEmailState(email);
@@ -71,6 +67,12 @@ function AccountModScreen() {
       setUserBirthState(birth);
       setPw('');
       setPwCheck('');
+
+      let fcmToken = await storage.getItem('fcmToken');
+      updateNotif({
+        check: notificationPermissionState,
+        token: fcmToken,
+      });
     },
     onError: () => {
       alert('회원정보 변경에 실패했습니다.');
@@ -80,37 +82,20 @@ function AccountModScreen() {
     },
   });
 
-  const onNotification = async () => {
-    //FCM 토큰 보내기
-    getFCMToken();
-    //FCM 토큰 구독
-    subscribeTopic(familyIdState);
-  };
+  const {data: checkNotif} = useCheckNotification({
+    onSuccess: data => {
+      setNotificationPermissionState(data?.data?.data);
+    },
+  });
 
-  const getFCMToken = async () => {
-    const fcmToken = await storage.getItem('fcmToken');
+  const {mutate: updateNotif} = useUpdateNotification();
 
-    console.log('fcm토큰출력:', fcmToken);
-
-    addFCM(fcmToken);
-  };
-
-  const subscribeTopic = topic => {
-    messaging()
-      .subscribeToTopic(topic.toString())
-      .then(() => {
-        console.log(`토픽 ${topic} 구독 성공`);
-      })
-      .catch(err => {
-        console.log(`토픽 ${topic} 구독 실패 :`, err);
-      });
-  };
 
   // 항목을 전부 입력했는지 체크
   useEffect(() => {
-    if (name && email && pw && pwCheck && birth && status) setInputCheck(true);
+    if (name && email && birth && status) setInputCheck(true);
     else setInputCheck(false);
-  }, [name, email, pw, pwCheck, birth, status]);
+  }, [name, email, birth, status]);
 
   const onSubmit = () => {
     if (name === '') {
@@ -122,10 +107,7 @@ function AccountModScreen() {
     } else if (email == '') {
       alert('이메일을 입력해 주세요');
       return 0;
-    } else if (pw == '') {
-      alert('비밀번호를 입력해 주세요');
-      return 0;
-    } else if (pwCheck == '') {
+    } else if (pw != '' && pwCheck == '') {
       alert('비밀번호 확인을 입력해 주세요');
       return 0;
     } else if (pw !== pwCheck) {
@@ -150,11 +132,11 @@ function AccountModScreen() {
     } else if (!reg.EMAIL_REG.test(email)) {
       alert('이메일 형식이 일치하지 않습니다.');
       return 0;
-    } else if (!reg.PW_REG.test(pw)) {
-      alert('비밀번호는 영문과 숫자 조합 8~16 자리로 설정해 주세요.');
-      return 0;
     } else if (!reg.NAME_REG.test(status)) {
       alert('가족 내 역할은 한글만 입력 가능합니다.');
+      return 0;
+    } else if (pw != '' && !reg.PW_REG.test(pw)) {
+      alert('비밀번호는 영문과 숫자 조합 8~16 자리로 설정해 주세요.');
       return 0;
     }
     return 1;
@@ -236,8 +218,6 @@ function AccountModScreen() {
                     check={notificationPermissionState}
                     title="푸시 알림 허용"
                     onPress={() => {
-                      if (notificationPermissionState) delFCM();
-                      else onNotification();
                       setNotificationPermissionState(
                         !notificationPermissionState,
                       );
