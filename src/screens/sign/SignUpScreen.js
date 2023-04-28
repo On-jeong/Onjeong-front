@@ -13,13 +13,15 @@ import {
   useSignUpNoJoined,
   useSignUpWithJoined,
 } from '../../hooks/useUserData';
-import {Linking, ScrollView, TouchableOpacity} from 'react-native';
+import {Alert, Linking, ScrollView, TouchableOpacity} from 'react-native';
 import {AppComponents} from '@/components/Components';
 import {WithHeader} from '@/components/headers/WithHeader';
 import {reg} from '@/config/reg';
 import {AppIcons} from '@/ui/icons';
 import {AppList} from '@/components/lists';
 import {CommonActions} from '@react-navigation/native';
+import {useRecoilState} from 'recoil';
+import {NotificationPermissionState} from '@/state/DeviceData';
 
 //
 // 회원가입
@@ -38,7 +40,7 @@ export const BirthButton = styled.TouchableOpacity`
   margin-top: 13px;
   margin-bottom: 10px;
   padding-left: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 15px;
 `;
 
 const InputButtonBox = styled.View`
@@ -75,6 +77,9 @@ const SignUpScreen = ({navigation}) => {
   // 동의사항 체크
   const [check1, setCheck1] = useState(false); // 개인정보 처리 방침
   const [check2, setCheck2] = useState(false); // 앱 이용 약관
+  const [check3, setCheck3] = useState(false); // 푸시 알림 동의
+  const [notificationPermissionState, setNotificationPermissionState] =
+    useRecoilState(NotificationPermissionState);
 
   const {mutate: noJoinedMutate, isLoading: noJoinedIsLoading} =
     useSignUpNoJoined({
@@ -86,6 +91,7 @@ const SignUpScreen = ({navigation}) => {
           }),
         );
         alert('온정에 오신 것을 환영합니다!');
+        setNotificationPermissionState(check3);
       },
     });
 
@@ -102,6 +108,7 @@ const SignUpScreen = ({navigation}) => {
         }),
       );
       alert('온정에 오신 것을 환영합니다!');
+      setNotificationPermissionState(check3);
     },
   });
 
@@ -216,32 +223,61 @@ const SignUpScreen = ({navigation}) => {
     console.log('birth: ' + userBirth);
     console.log('role: ' + userStatus);
     console.log('invite: ' + joinedNickname);
-
     // 서버에 회원가입 요청
     if (emptyCheck() && validationCheck()) {
-      // 가족회원이 없는 회원가입
-      if (!joinedNickname) {
-        noJoinedMutate({
-          userBirth: format(userBirth, 'yyyy-MM-dd'),
-          userEmail,
-          userName,
-          userNickname: userId,
-          userPassword,
-          userStatus,
-        });
+      // 푸시알림 미동의시 재확인
+      if (!check3) {
+        Alert.alert(
+          '',
+          '푸시알림에 동의하지 않으시면\n편지와 기념일 알림 등을 받을 수 없습니다.\n푸시알림에 동의하시겠습니까?\n(광고성 정보는 포함되지 않습니다.)',
+          [
+            {
+              text: '미동의',
+              onPress: () => {
+                join(false);
+              },
+              style: 'cancel',
+            },
+            {
+              text: '동의',
+              onPress: () => {
+                join(true);
+              },
+            },
+          ],
+          {cancelable: true},
+        );
+      } else {
+        join(check3);
       }
-      // 가족회원이 있는 회원가입
-      else {
-        withJoinedMutate({
-          joinedNickname,
-          userBirth: format(userBirth, 'yyyy-MM-dd'),
-          userEmail,
-          userName,
-          userNickname: userId,
-          userPassword,
-          userStatus,
-        });
-      }
+    }
+  };
+
+  const join = notifCheck => {
+    // 가족회원이 없는 회원가입
+    if (!joinedNickname) {
+      noJoinedMutate({
+        checkNotification: notifCheck,
+        userBirth: format(userBirth, 'yyyy-MM-dd'),
+        userEmail,
+        userName,
+        userNickname: userId,
+        userPassword,
+        userStatus,
+      });
+    }
+    // 가족회원이 있는 회원가입
+    else {
+      withJoinedMutate({
+        checkNotification: notifCheck,
+        joinedNickname,
+        userBirth: format(userBirth, 'yyyy-MM-dd'),
+        userEmail,
+        userName,
+        userNickname: userId,
+        userPassword,
+        userStatus,
+      });
     }
   };
 
@@ -416,7 +452,6 @@ const SignUpScreen = ({navigation}) => {
                       setCheck2(!check2);
                     }}
                   />
-
                   <TouchableOpacity
                     onPress={() => {
                       Linking.openURL(
@@ -428,6 +463,15 @@ const SignUpScreen = ({navigation}) => {
                       padding={{paddingLeft: 10}}
                     />
                   </TouchableOpacity>
+                </AppComponents.Row>
+                <AppComponents.Row margin={{marginTop: 5}}>
+                  <AppList.CheckList
+                    check={check3}
+                    title="앱 푸시 알림 동의 [선택]"
+                    onPress={() => {
+                      setCheck3(!check3);
+                    }}
+                  />
                 </AppComponents.Row>
               </CheckLists>
             </InputContainer>
