@@ -20,6 +20,10 @@ const PlanBox = styled.View`
   margin-bottom: 5px;
 `;
 
+const TextBox = styled.View`
+  padding-right: 10px;
+`;
+
 const SendBox = styled.View`
   flex-direction: row;
   align-items: center;
@@ -233,11 +237,13 @@ const TodayPlan = ({date, AnnData}) => {
             <>
               <PlanTextBox>
                 <AppIcons.Dot />
-                <PlanText
-                  value={newPlan}
-                  onChangeText={setNewPlan}
-                  maxLength={10}
-                />
+                <TextBox>
+                  <PlanText
+                    value={newPlan}
+                    onChangeText={setNewPlan}
+                    maxLength={10}
+                  />
+                </TextBox>
               </PlanTextBox>
               <AppComponents.Row justifyContent={'space-between'}>
                 <SendBox>
