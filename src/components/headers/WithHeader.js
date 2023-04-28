@@ -37,7 +37,7 @@ export const BellIconBox = styled.TouchableOpacity`
 `;
 
 export const IconBox = styled.TouchableOpacity`
-  padding: 15px;
+  padding: 13px;
 `;
 
 export const Body = styled.View`
