@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import LoadingComponent from '../Loading/LoadingComponent';
 import {AppIcons} from '@/ui/icons';
 import {useNavigation} from '@react-navigation/native';
-import EmptyComponent from '../Loading/EmptyComponent';
 import {AppComponents} from '../Components';
 
 const NavBar = styled.View`
@@ -37,7 +36,10 @@ export const BellIconBox = styled.TouchableOpacity`
 `;
 
 export const IconBox = styled.TouchableOpacity`
+  min-width: 35px;
   padding: 13px;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Body = styled.View`
@@ -66,13 +68,15 @@ export const WithHeader = ({
     <Body>
       <NavBar>
         <LeftNav>
-          {isBack && (
+          {isBack ? (
             <IconBox
               onPress={() => {
                 navigation.goBack();
               }}>
               <AppIcons.Back_gray />
             </IconBox>
+          ) : (
+            <IconBox />
           )}
           <IconBox onPress={leftOnPress}>{leftIcon}</IconBox>
         </LeftNav>

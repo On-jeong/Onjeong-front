@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {BasicHeader} from '@/components/headers/WithHeader';
 import styled from 'styled-components';
-import {AppColors, windowWidth} from '@/utils/GlobalStyles';
+import {AppColors, bottomTabHeight, windowWidth} from '@/utils/GlobalStyles';
 import {FlatList} from 'react-native';
 import {useGetFamilyList} from '../../hooks/useProFileData';
 import {AppFonts} from '../../utils/GlobalFonts';
@@ -70,7 +70,7 @@ const ProfileScreen = ({navigation}) => {
           renderItem={item => ProfileList(item, navigation)}
           keyExtractor={(item, index) => item.userId}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{paddingBottom: 20}}
+          contentContainerStyle={{paddingBottom: bottomTabHeight}}
           numColumns={2}
         />
       </ProfileBox>

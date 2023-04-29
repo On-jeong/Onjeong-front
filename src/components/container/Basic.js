@@ -5,6 +5,7 @@ const Container = styled.View`
   flex: 1;
   padding-left: 5%;
   padding-right: 5%;
+  padding-bottom: 2%;
 `;
 
 export const Basic = ({

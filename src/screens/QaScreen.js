@@ -38,6 +38,7 @@ const TopContainer = styled.View`
 `;
 
 const QuestBox = styled.View`
+  max-width: 80%;
   border-bottom-width: 1px;
   border-bottom-color: ${AppColors.Primary};
   padding: 5px;
