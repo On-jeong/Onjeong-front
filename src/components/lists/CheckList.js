@@ -1,7 +1,6 @@
 import {AppIcons} from '@/ui/icons';
 import {AppFonts} from '@/utils/GlobalFonts';
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
 import styled from 'styled-components';
 import {AppComponents} from '../Components';
 
