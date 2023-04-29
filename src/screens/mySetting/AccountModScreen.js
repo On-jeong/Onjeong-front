@@ -24,7 +24,6 @@ import {NotificationPermissionState} from '@/state/DeviceData';
 import styled from 'styled-components';
 import {useCheckNotification, useUpdateNotification} from '@/hooks/useFCMtoken';
 import {storage} from '@/config/storage';
-import messaging, {firebase} from '@react-native-firebase/messaging';
 
 const Check = styled.View`
   width: 90%;
@@ -197,7 +196,7 @@ function AccountModScreen() {
                 />
                 <AppInputs.BorderBottomInput
                   maxLength={16}
-                  placeholder="비밀번호 (영문과 숫자 조합 8~16)"
+                  placeholder="새 비밀번호 (영문과 숫자 조합 8~16)"
                   value={pw}
                   onChangeText={setPw}
                   secureTextEntry={true}
@@ -206,7 +205,7 @@ function AccountModScreen() {
                 />
                 <AppInputs.BorderBottomInput
                   maxLength={16}
-                  placeholder="비밀번호 확인"
+                  placeholder="새 비밀번호 확인"
                   value={pwCheck}
                   onChangeText={setPwCheck}
                   secureTextEntry={true}
