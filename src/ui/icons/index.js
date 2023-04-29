@@ -28,6 +28,7 @@ import Bell from '@/assets/icons/bell.svg';
 import List from '@/assets/icons/list.svg';
 import Setting from '@/assets/icons/setting.svg';
 import Trash from '@/assets/icons/trash.svg';
+import TrashGray from '@/assets/icons/trash_gray.svg';
 import CheckBoxEmpty from '@/assets/icons/check_box_empty.svg';
 import CheckBox from '@/assets/icons/check_box.svg';
 
@@ -54,6 +55,7 @@ export const AppIcons = {
   List,
   Setting,
   Trash,
+  TrashGray,
   Water,
   WaterGray,
   Flower,
