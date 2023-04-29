@@ -53,7 +53,7 @@ const PlanText = styled.TextInput`
   padding: 0;
   margin-left: 10px;
   font-family: 'GangwonLight';
-  font-size: 20px;
+  font-size: 17px;
   line-height: 30px;
 `;
 
@@ -176,7 +176,7 @@ const TodayPlan = ({date, AnnData}) => {
             {AnnData?.length !== 0 && (
               <>
                 <AppComponents.IconButton
-                  icon={<AppIcons.Trash />}
+                  icon={isDelPlan ? <AppIcons.TrashGray /> : <AppIcons.Trash />}
                   padding={{padding: 8, paddingRight: 12}}
                   onPress={() => {
                     setIsDelPlan(!isDelPlan);
@@ -189,7 +189,7 @@ const TodayPlan = ({date, AnnData}) => {
 
             {/* 추가 버튼 */}
             <AppComponents.IconButton
-              icon={<AppIcons.Add />}
+              icon={isAddPlan ? <AppIcons.AddGray /> : <AppIcons.Add />}
               padding={{padding: 8, paddingLeft: 12}}
               onPress={() => {
                 setNewPlan('');
@@ -201,84 +201,89 @@ const TodayPlan = ({date, AnnData}) => {
           </Filter>
         </PlanTitle>
 
-        <AppContainer.Paper padding={{padding: 20, paddingLeft: 20}}>
-          {AnnData?.length === 0 && !isAddPlan && (
-            <AppFonts.Body2 color={AppColors.Gray600}>
-              오늘의 일정이 없습니다.
-            </AppFonts.Body2>
-          )}
+        <AppContainer.TouchableWithoutFeedback
+          onPress={() => {
+            setIsDelPlan(false);
+          }}>
+          <AppContainer.Paper padding={{padding: 20, paddingLeft: 20}}>
+            {AnnData?.length === 0 && !isAddPlan && (
+              <AppFonts.Body2 color={AppColors.Gray600}>
+                오늘의 일정이 없습니다.
+              </AppFonts.Body2>
+            )}
 
-          {/* 오늘의 일정 리스트 */}
-          {AnnData?.map(ann => (
-            <PlanBox key={ann.anniversaryId}>
-              {isDelPlan ? (
-                <AppComponents.IconButton
-                  icon={<AppIcons.CancelSmall />}
-                  padding={{padding: 10}}
-                  onPress={() => {
-                    delAnn({annId: ann.anniversaryId});
-                  }}
-                />
-              ) : (
-                <AppComponents.IconBox
-                  icon={<AppIcons.Dot />}
-                  padding={{paddingRight: 10}}
-                />
-              )}
-
-              <AppFonts.Body1 bold={ann.anniversaryType === 'ANNIVERSARY'}>
-                {ann.anniversaryContent}
-              </AppFonts.Body1>
-            </PlanBox>
-          ))}
-
-          {/* 기념일 추가 */}
-          {isAddPlan && (
-            <>
-              <PlanTextBox>
-                <AppIcons.Dot />
-                <TextBox>
-                  <PlanText
-                    value={newPlan}
-                    onChangeText={setNewPlan}
-                    maxLength={10}
-                  />
-                </TextBox>
-              </PlanTextBox>
-              <AppComponents.Row justifyContent={'space-between'}>
-                <SendBox>
-                  <AppList.CheckList
-                    check={isAnniversary}
-                    title={'기념일'}
-                    onPress={() => setIsAnniversary(true)}
-                  />
-                  <AppComponents.EmptyBox width={7} />
-                  <AppList.CheckList
-                    check={!isAnniversary}
-                    title={'일정'}
-                    onPress={() => setIsAnniversary(false)}
-                  />
-                </SendBox>
-                <SendBox>
-                  <AppButtons.SmallButton
-                    title="취소"
-                    onPress={() => setIsAddPlan(false)}
-                    margin={{margin: 5}}
-                    color={AppColors.Gray200}
-                  />
-                  <AppButtons.SmallButton
-                    title="추가"
+            {/* 오늘의 일정 리스트 */}
+            {AnnData?.map(ann => (
+              <PlanBox key={ann.anniversaryId}>
+                {isDelPlan ? (
+                  <AppComponents.IconButton
+                    icon={<AppIcons.CancelSmall />}
+                    padding={{padding: 10}}
                     onPress={() => {
-                      addPlan();
+                      delAnn({annId: ann.anniversaryId});
                     }}
-                    margin={{margin: 5}}
-                    color={AppColors.Primary}
                   />
-                </SendBox>
-              </AppComponents.Row>
-            </>
-          )}
-        </AppContainer.Paper>
+                ) : (
+                  <AppComponents.IconBox
+                    icon={<AppIcons.Dot />}
+                    padding={{paddingRight: 10}}
+                  />
+                )}
+
+                <AppFonts.Body1 bold={ann.anniversaryType === 'ANNIVERSARY'}>
+                  {ann.anniversaryContent}
+                </AppFonts.Body1>
+              </PlanBox>
+            ))}
+
+            {/* 기념일 추가 */}
+            {isAddPlan && (
+              <>
+                <PlanTextBox>
+                  <AppIcons.Dot />
+                  <TextBox>
+                    <PlanText
+                      value={newPlan}
+                      onChangeText={setNewPlan}
+                      maxLength={10}
+                    />
+                  </TextBox>
+                </PlanTextBox>
+                <AppComponents.Row justifyContent={'space-between'}>
+                  <SendBox>
+                    <AppList.CheckList
+                      check={isAnniversary}
+                      title={'기념일'}
+                      onPress={() => setIsAnniversary(true)}
+                    />
+                    <AppComponents.EmptyBox width={7} />
+                    <AppList.CheckList
+                      check={!isAnniversary}
+                      title={'일정'}
+                      onPress={() => setIsAnniversary(false)}
+                    />
+                  </SendBox>
+                  <SendBox>
+                    <AppButtons.SmallButton
+                      title="취소"
+                      onPress={() => setIsAddPlan(false)}
+                      margin={{margin: 5}}
+                      color={AppColors.Gray200}
+                    />
+                    <AppButtons.SmallButton
+                      title="추가"
+                      onPress={() => {
+                        addPlan();
+                      }}
+                      margin={{margin: 5}}
+                      color={AppColors.Primary}
+                    />
+                  </SendBox>
+                </AppComponents.Row>
+              </>
+            )}
+          </AppContainer.Paper>
+        </AppContainer.TouchableWithoutFeedback>
       </AppContainer.Basic>
     </>
   );

@@ -25,8 +25,9 @@ import {
   Vibration,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {AppContainer} from '@/components/container';
 
-const ContentsContainer = styled.ScrollView`
+const ContentsContainer = styled.View`
   padding-left: 7%;
   padding-right: 7%;
 `;
@@ -236,7 +237,6 @@ const FamilyInfo = ({route, infoData}) => {
                       selfIntroductionAnswerContent: tagValue,
                     });
                   }}
-                  autoFocus={true}
                   maxLength={10}
                 />
               </TagBox>
@@ -275,7 +275,8 @@ const FamilyInfo = ({route, infoData}) => {
 
   return (
     <ContentsContainer>
-      <>
+      <AppContainer.TouchableWithoutFeedback
+        onPress={() => setModiCategory('')}>
         {TagCategory(
           '좋아하는 것들',
           infoData,
@@ -301,7 +302,7 @@ const FamilyInfo = ({route, infoData}) => {
           tagValue,
           setTagValue,
         )}
-      </>
+      </AppContainer.TouchableWithoutFeedback>
     </ContentsContainer>
   );
 };
@@ -369,7 +370,7 @@ const Tag = ({title, isModify, onPress, onLongPress}) => {
           onLongPress={onLongPress}
           delayLongPress={300}
           style={{padding: 15}}>
-          <TagBox isModify={isModify} style={{margin: 15}}>
+          <TagBox isModify={isModify}>
             <AppFonts.Caption>{title}</AppFonts.Caption>
           </TagBox>
         </TouchableWithoutFeedback>

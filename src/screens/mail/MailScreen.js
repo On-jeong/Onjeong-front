@@ -1,9 +1,15 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 
-import {BackHandler, FlatList, Vibration} from 'react-native';
+import {
+  BackHandler,
+  FlatList,
+  TouchableWithoutFeedback,
+  Vibration,
+  View,
+} from 'react-native';
 import {AppFonts} from '@/utils/GlobalFonts';
-import {AppColors} from '@/utils/GlobalStyles';
+import {AppColors, bottomTabHeight} from '@/utils/GlobalStyles';
 import {
   useDeleteReceiveMail,
   useDeleteSendMail,
@@ -203,68 +209,70 @@ const MailScreen = ({navigation}) => {
       title={'우편함'}
       isLoading={isReceivePageState ? receiveIsLoading : sendIsLoading}
       isError={isReceivePageState ? receiveIsError : sendIsError}>
-      <>
-        <TopBar>
-          <Filter>
-            <AppButtons.BasicButton
-              title={'받은 편지'}
-              color={
-                isReceivePageState ? AppColors.Primary : AppColors.Background
-              }
-              onPress={() => receiveMails()}
+      <TouchableWithoutFeedback onPress={() => setIsDelete()}>
+        <View>
+          <TopBar>
+            <Filter>
+              <AppButtons.BasicButton
+                title={'받은 편지'}
+                color={
+                  isReceivePageState ? AppColors.Primary : AppColors.Background
+                }
+                onPress={() => receiveMails()}
+              />
+              <AppButtons.BasicButton
+                title={'보낸 편지'}
+                color={
+                  !isReceivePageState ? AppColors.Primary : AppColors.Background
+                }
+                onPress={() => sendMails()}
+              />
+            </Filter>
+            <AppComponents.IconButton
+              icon={isDelete ? <AppIcons.TrashGray /> : <AppIcons.Trash />}
+              padding={{padding: 10, paddingRight: 5}}
+              disabled={false}
+              onPress={() => {
+                setIsDelete(!isDelete);
+                Vibration.vibrate(5);
+              }}
             />
-            <AppButtons.BasicButton
-              title={'보낸 편지'}
-              color={
-                !isReceivePageState ? AppColors.Primary : AppColors.Background
-              }
-              onPress={() => sendMails()}
-            />
-          </Filter>
-          <AppComponents.IconButton
-            icon={<AppIcons.Trash />}
-            padding={{padding: 10, paddingRight: 5}}
-            disabled={false}
-            onPress={() => {
-              setIsDelete(!isDelete);
-              Vibration.vibrate(5);
-            }}
-          />
-        </TopBar>
+          </TopBar>
+        </View>
+      </TouchableWithoutFeedback>
 
-        <EmptyComponent
-          isEmpty={mails[isReceivePageState ? 1 : 0]?.length === 0}
-          title1={
-            isReceivePageState
-              ? '받은 메일이 없습니다.'
-              : '보낸 메일이 없습니다.'
-          }>
-          <AppContainer.Basic>
-            <FlatList
-              data={mails[isReceivePageState ? 1 : 0]}
-              renderItem={item =>
-                MailList(
-                  item,
-                  isDelete,
-                  isReceivePageState,
-                  mailOnPress,
-                  setIsDelete,
-                )
-              }
-              keyExtractor={(mail, index) => mail.mailId}
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={{paddingBottom: 20}}
-            />
-          </AppContainer.Basic>
-        </EmptyComponent>
-        <NewButton
-          onPress={() => {
-            setIsDelete(false);
-            navigation.navigate('MailWrite');
-          }}>
-          <AppIcons.Add />
-        </NewButton>
-      </>
+      <EmptyComponent
+        isEmpty={mails[isReceivePageState ? 1 : 0]?.length === 0}
+        title1={
+          isReceivePageState ? '받은 메일이 없습니다.' : '보낸 메일이 없습니다.'
+        }>
+        <AppContainer.TouchableWithoutFeedback
+          onPress={() => setIsDelete()}
+          padding={{paddingRight: '5%', paddingLeft: '5%'}}>
+          <FlatList
+            data={mails[isReceivePageState ? 1 : 0]}
+            renderItem={item =>
+              MailList(
+                item,
+                isDelete,
+                isReceivePageState,
+                mailOnPress,
+                setIsDelete,
+              )
+            }
+            keyExtractor={(mail, index) => mail.mailId}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{paddingBottom: bottomTabHeight}}
+          />
+        </AppContainer.TouchableWithoutFeedback>
+      </EmptyComponent>
+      <NewButton
+        onPress={() => {
+          setIsDelete(false);
+          navigation.navigate('MailWrite');
+        }}>
+        <AppIcons.Add />
+      </NewButton>
     </BasicHeader>
   );
 };
