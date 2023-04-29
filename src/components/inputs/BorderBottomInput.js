@@ -1,6 +1,6 @@
 import React, {forwardRef} from 'react';
 import styled from 'styled-components';
-import {AppColors, windowWidth} from '../../utils/GlobalStyles';
+import {AppColors} from '../../utils/GlobalStyles';
 import PropTypes from 'prop-types';
 
 export const InputContainer = styled.View`

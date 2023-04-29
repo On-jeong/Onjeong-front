@@ -141,14 +141,25 @@ export const useModifyAccount = ({onError, onSuccess}) => {
 };
 
 // 회원탈퇴
-export const useDeleteAccount = ({onSuccess}) => {
+export const useDeleteAccount = () => {
+  const navigation = useNavigation();
   return useMutation(deleteAccount, {
-    onSuccess: onSuccess,
+    onSuccess: async () => {
+      console.log('회원탈퇴 완료');
+      await AsyncStorage.removeItem('userData');
+      await AsyncStorage.removeItem('accessToken');
+      await AsyncStorage.removeItem('refreshToken');
+
+      // 기본 헤더 제거
+      delete customAxios.defaults.headers.common['AuthorizationAccess'];
+
+      navigation.navigate('Welcome');
+    },
     onError: err => {
       console.log('회원탈퇴 진행 중 에러', err);
       if (err.response.data.message === 'USER PASSWORD NOT CORRECT')
         alert('잘못된 비밀번호 입니다');
-      else alert('회원탈퇴 진행 중 에러가 발생했습니다.');
+      alert('회원탈퇴 진행 중 에러가 발생했습니다.');
     },
   });
 };

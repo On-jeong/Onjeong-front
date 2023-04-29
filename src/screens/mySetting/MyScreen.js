@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {BasicHeader, WithHeader} from '@/components/headers/WithHeader';
+import {WithHeader} from '@/components/headers/WithHeader';
 import styled from 'styled-components';
 import {AppFonts} from '@/utils/GlobalFonts';
 import {AppComponents} from '@/components/Components';
-import {useSignOut} from '@/hooks/useUserData';
+import {useDeleteAccount, useSignOut} from '@/hooks/useUserData';
 import {useDelFCM} from '@/hooks/useFCMtoken';
 import {useRecoilValue} from 'recoil';
 import {storage} from '@/config/storage';
@@ -11,6 +11,8 @@ import {UserNicknameState} from '@/state/UserData';
 import PromptModal from '@/components/modal/PromptModal';
 import {AppIcons} from '@/ui/icons';
 import {Linking} from 'react-native';
+import {AppInputs} from '@/components/inputs';
+import InputModal from '@/components/modal/InputModal';
 
 export const MenuContainer = styled.View`
   flex: 1;
@@ -38,6 +40,7 @@ const MyScreen = ({navigation}) => {
   const [userPW, setUserPW] = useState(null);
 
   const {mutate: signOut} = useSignOut();
+  const {mutate: delAccount} = useDeleteAccount();
   const {mutate: delFCM} = useDelFCM();
 
   const delFCMToken = async () => {
@@ -126,17 +129,21 @@ const MyScreen = ({navigation}) => {
           />
           {/* 회원탈퇴 모달 */}
 
-          <PromptModal
+          <InputModal
             modalVisible={accountDelModal}
             setModalVisible={setAccountDelModal}
             title={'회원 탈퇴'}
+            input={userPW}
+            setInput={setUserPW}
             script1={'가족을 두고 정말 떠나시는 건가요?'}
             script2={'탈퇴하면 복구할 수 없습니다.'}
+            height={250}
             leftOnPress={() => setAccountDelModal(false)}
             rightOnPress={() => {
               delFCMToken();
               setAccountDelModal(false);
-              signOut();
+              delAccount(userPW);
+              console.log(userPW);
             }}
           />
         </MenuContainer>
