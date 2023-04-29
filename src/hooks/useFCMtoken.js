@@ -6,13 +6,19 @@ const addFCM = data => {
 };
 
 const delFCM = data => {
-  console.log(data);
   return customAxios.post(`/token/cancel`, data);
 };
 
 const fetchNotif = data => {
-  console.log(data);
   return customAxios.get(`/notification`, data).then(data => data?.data?.data);
+};
+
+const fetchCheckNotif = () => {
+  return customAxios.get(`/token/check`);
+};
+
+const updateNotif = data => {
+  return customAxios.post(`/token/update`, data);
 };
 
 // FCM 토큰 등록하기
@@ -35,9 +41,24 @@ export const useDelFCM = () => {
   });
 };
 
-// 알림 받아오기
+// 알림 목록 받아오기
 export const useGetNotif = () => {
   return useQuery(['getNotif'], fetchNotif, {
+    onError: error => console.log(error),
+  });
+};
+
+// 알림 허용 여부 받아오기
+export const useCheckNotification = ({onSuccess}) => {
+  return useQuery(['checkNotif'], fetchCheckNotif, {
+    onError: error => console.log(error),
+    onSuccess: onSuccess,
+  });
+};
+
+// 알림 허용 여부 변경
+export const useUpdateNotification = () => {
+  return useMutation(updateNotif, {
     onError: error => console.log(error),
   });
 };
