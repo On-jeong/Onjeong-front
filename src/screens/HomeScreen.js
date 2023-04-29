@@ -13,6 +13,8 @@ import styled from 'styled-components';
 import {
   AppColors,
   bottomTabHeight,
+  navigationHeight,
+  statusBarHeight,
   windowHeight,
   windowWidth,
 } from '@/utils/GlobalStyles';
@@ -36,12 +38,20 @@ import {NotReadMailsState, ReceiveMailsState} from '@/state/MailData';
 import {AppIcons} from '@/ui/icons';
 import {useGetReceiveMails} from '@/hooks/useMailData';
 
+const Container = styled.View`
+  width: 100%;
+  height: ${windowHeight -
+  bottomTabHeight -
+  statusBarHeight -
+  navigationHeight}px;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Background = styled.ImageBackground`
-  flex: 1;
-  margin-left: ${windowWidth * 0.1}px;
-  margin-right: ${windowWidth * 0.1}px;
-  margin-top: ${windowHeight * 0.05}px;
-  margin-bottom: ${bottomTabHeight + windowHeight * 0.1}px;
+  justify-content: center;
+  align-items: center;
+  width: ${windowWidth * 0.8}px;
 `;
 
 const CoinBox = styled.TouchableOpacity`
@@ -58,7 +68,6 @@ const IconBox = styled.View`
 const Flower = styled.View`
   justify-content: center;
   align-items: center;
-  padding-top: 20px;
 `;
 
 export const HomeScreen = ({navigation}) => {
@@ -180,23 +189,25 @@ export const HomeScreen = ({navigation}) => {
         flowerRefetch();
         coinRefetch();
       }}>
-      <Background
-        source={require('@/assets/image/background/background.png')}
-        resizeMode="stretch">
-        {flowerStatus == 'success' && (
-          <Flower>
-            {flowerKindState &&
-              flowerLevelState &&
-              flower[flowerKindState][flowerLevelState] && (
-                <AutoHeightImage
-                  width={windowWidth * 0.8}
-                  source={flower[flowerKindState][flowerLevelState]}
-                  // source={flower['violet'][10]}
-                />
-              )}
-          </Flower>
-        )}
-      </Background>
+      <Container>
+        <Background
+          source={require('@/assets/image/background/background.png')}
+          resizeMode="contain">
+          {flowerStatus == 'success' && (
+            <Flower>
+              {flowerKindState &&
+                flowerLevelState &&
+                flower[flowerKindState][flowerLevelState] && (
+                  <AutoHeightImage
+                    width={windowWidth * 0.8}
+                    source={flower[flowerKindState][flowerLevelState]}
+                    // source={flower['violet'][10]}
+                  />
+                )}
+            </Flower>
+          )}
+        </Background>
+      </Container>
     </BasicHeader>
   );
 };
