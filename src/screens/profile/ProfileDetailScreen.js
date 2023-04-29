@@ -6,7 +6,7 @@ import {AppContainer} from '@/components/container';
 import {useGetFamilyInfo, useGetFamilyProfile} from '@/hooks/useProFileData';
 import {ProfileImageUrIState, ProfileMessageState} from '@/state/ProfileData';
 import {useRecoilState} from 'recoil';
-import {BackHandler} from 'react-native';
+import {BackHandler, ScrollView} from 'react-native';
 
 const ProfileDetailScreen = ({navigation, route}) => {
   const [profileMessageState, setProfileMessageState] =
@@ -55,11 +55,13 @@ const ProfileDetailScreen = ({navigation, route}) => {
       isError={infoIsError || detailIsError}>
       <AppContainer.Basic>
         <AppContainer.Paper>
-          {/* 유저 프로필 부분 */}
-          <FamilyProfile route={route} detailData={detailData} />
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {/* 유저 프로필 부분 */}
+            <FamilyProfile route={route} detailData={detailData} />
 
-          {/* 유저 정보 부분 - 좋아하는 것 등*/}
-          <FamilyInfo route={route} infoData={infoData} />
+            {/* 유저 정보 부분 - 좋아하는 것 등*/}
+            <FamilyInfo route={route} infoData={infoData} />
+          </ScrollView>
         </AppContainer.Paper>
       </AppContainer.Basic>
     </WithHeader>
