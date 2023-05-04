@@ -24,6 +24,7 @@ import {NotificationPermissionState} from '@/state/DeviceData';
 import styled from 'styled-components';
 import {useCheckNotification, useUpdateNotification} from '@/hooks/useFCMtoken';
 import {storage} from '@/config/storage';
+import Confirm from '@/components/alert/Alert';
 
 const Check = styled.View`
   width: 90%;
@@ -59,7 +60,7 @@ function AccountModScreen() {
     isError: modifyAccountIsError,
   } = useModifyAccount({
     onSuccess: async () => {
-      alert('회원정보 변경이 완료되었습니다.');
+      Confirm('온정', '회원정보 변경이 완료되었습니다.');
       setUserNameState(name);
       setUserEmailState(email);
       setUserStatusState(status);

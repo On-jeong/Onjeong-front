@@ -37,6 +37,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {NotReadMailsState, ReceiveMailsState} from '@/state/MailData';
 import {AppIcons} from '@/ui/icons';
 import {useGetReceiveMails} from '@/hooks/useMailData';
+import Confirm from '@/components/alert/Alert';
 
 const Container = styled.View`
   width: 100%;
@@ -121,7 +122,7 @@ export const HomeScreen = ({navigation}) => {
     onSuccess: data => {
       setFamilyCoinState(familyCoinState + data);
       setDailyCoinState(formatDate);
-      alert(`오늘의 랜덤 영양제 ${data}를 받았어요!`);
+      Confirm('온정', `오늘의 랜덤 영양제 ${data}를 받았어요!`);
     },
   });
 

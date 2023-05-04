@@ -22,6 +22,7 @@ import {AppList} from '@/components/lists';
 import {CommonActions} from '@react-navigation/native';
 import {useRecoilState} from 'recoil';
 import {NotificationPermissionState} from '@/state/DeviceData';
+import Confirm from '@/components/alert/Alert';
 
 //
 // 회원가입
@@ -90,7 +91,7 @@ const SignUpScreen = ({navigation}) => {
             routes: [{name: 'SignIn'}],
           }),
         );
-        alert('온정에 오신 것을 환영합니다!');
+        Confirm('온정', '온정에 오신 것을 환영합니다!');
         setNotificationPermissionState(check3);
       },
     });

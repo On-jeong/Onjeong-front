@@ -11,6 +11,7 @@ import {WithHeader} from '@/components/headers/WithHeader';
 import {AppIcons} from '@/ui/icons';
 import {AppContainer} from '@/components/container';
 import {BackHandler} from 'react-native';
+import Confirm from '@/components/alert/Alert';
 
 export const PaperContainer = styled.View`
   align-items: center;
@@ -118,7 +119,7 @@ const MailWriteScreen = ({navigation}) => {
 
   const {mutate: postMutate, isLoading: postIsLoading} = usePostMail({
     onSuccess: () => {
-      alert('성공적으로 편지를 보냈습니다');
+      Confirm('편지', '성공적으로 편지를 보냈습니다');
       navigation.navigate('MailTab');
       setMainText('');
     },
