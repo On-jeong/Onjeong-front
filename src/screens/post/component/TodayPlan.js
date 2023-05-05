@@ -12,6 +12,7 @@ import {AppContainer} from '@/components/container';
 import {AppList} from '@/components/lists';
 import {BackHandler, Vibration} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import Confirm from '@/components/alert/Alert';
 
 const PlanBox = styled.View`
   flex-direction: row;
@@ -151,7 +152,7 @@ const TodayPlan = ({date, AnnData}) => {
 
   const addPlan = () => {
     if (newPlan === '') {
-      alert('내용을 입력해 주세요.');
+      Confirm('알림', '내용을 입력해 주세요.');
       return 0;
     }
     console.log('종류', isAnniversary);
@@ -246,6 +247,9 @@ const TodayPlan = ({date, AnnData}) => {
                       value={newPlan}
                       onChangeText={setNewPlan}
                       maxLength={10}
+                      onSubmitEditing={() => {
+                        addPlan();
+                      }}
                     />
                   </TextBox>
                 </PlanTextBox>
