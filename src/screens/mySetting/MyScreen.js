@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {WithHeader} from '@/components/headers/WithHeader';
 import styled from 'styled-components';
 import {AppFonts} from '@/utils/GlobalFonts';
@@ -40,7 +40,7 @@ const MyScreen = ({navigation}) => {
   const [userPW, setUserPW] = useState(null);
 
   const {mutate: signOut} = useSignOut();
-  const {mutate: delAccount} = useDeleteAccount();
+  const {mutate: delAccount, isError} = useDeleteAccount();
   const {mutate: delFCM} = useDelFCM();
 
   const delFCMToken = async () => {
@@ -48,6 +48,10 @@ const MyScreen = ({navigation}) => {
 
     delFCM({token: fcmToken, userNickname: userNickname});
   };
+
+  useEffect(() => {
+    if (isError) setUserPW('');
+  }, [isError]);
 
   return (
     <>
