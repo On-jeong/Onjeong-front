@@ -75,7 +75,7 @@ function AccountModScreen() {
       });
     },
     onError: () => {
-      alert('회원정보 변경에 실패했습니다.');
+      Confirm('알림', '회원정보 변경에 실패했습니다.');
       setName(UserNameState);
       setEmail(UserEmailState);
       setStatus(UserStatusState);
@@ -90,7 +90,6 @@ function AccountModScreen() {
 
   const {mutate: updateNotif} = useUpdateNotification();
 
-
   // 항목을 전부 입력했는지 체크
   useEffect(() => {
     if (name && email && birth && status) setInputCheck(true);
@@ -99,19 +98,19 @@ function AccountModScreen() {
 
   const onSubmit = () => {
     if (name === '') {
-      alert('이름을 입력해 주세요');
+      Confirm('알림', '이름을 입력해 주세요');
       return 0;
     } else if (status == '') {
-      alert('역할을 입력해 주세요');
+      Confirm('알림', '역할을 입력해 주세요');
       return 0;
     } else if (email == '') {
-      alert('이메일을 입력해 주세요');
+      Confirm('알림', '이메일을 입력해 주세요');
       return 0;
     } else if (pw != '' && pwCheck == '') {
-      alert('비밀번호 확인을 입력해 주세요');
+      Confirm('알림', '비밀번호 확인을 입력해 주세요');
       return 0;
     } else if (pw !== pwCheck) {
-      alert('비밀번호 확인이 맞지 않습니다.');
+      Confirm('알림', '비밀번호 확인이 맞지 않습니다.');
       return 0;
     }
 
@@ -127,16 +126,16 @@ function AccountModScreen() {
 
   const validationCheck = () => {
     if (!reg.NAME_REG.test(name)) {
-      alert('이름은 한글만 입력 가능합니다.');
+      Confirm('알림', '이름은 한글만 입력 가능합니다.');
       return 0;
     } else if (!reg.EMAIL_REG.test(email)) {
-      alert('이메일 형식이 일치하지 않습니다.');
+      Confirm('알림', '이메일 형식이 일치하지 않습니다.');
       return 0;
     } else if (!reg.NAME_REG.test(status)) {
-      alert('가족 내 역할은 한글만 입력 가능합니다.');
+      Confirm('알림', '가족 내 역할은 한글만 입력 가능합니다.');
       return 0;
     } else if (pw != '' && !reg.PW_REG.test(pw)) {
-      alert('비밀번호는 영문과 숫자 조합 8~16 자리로 설정해 주세요.');
+      Confirm('알림', '비밀번호는 영문과 숫자 조합 8~16 자리로 설정해 주세요.');
       return 0;
     }
     return 1;

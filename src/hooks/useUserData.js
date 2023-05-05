@@ -1,4 +1,5 @@
 import customAxios from '@/api/axios';
+import Confirm from '@/components/alert/Alert';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {useMutation, useQuery} from '@tanstack/react-query';
@@ -78,8 +79,8 @@ export const useSignUpNoJoined = ({onSuccess}) => {
     onSuccess: onSuccess,
     onError: err => {
       if (err?.response?.data?.message === 'USER NICKNAME DUPLICATION') {
-        alert('이미 가입된 아이디 입니다.');
-      } else alert('회원가입 진행 중 에러가 발생했습니다.');
+        Confirm('알림', '이미 가입된 아이디 입니다.');
+      } else Confirm('알림', '회원가입 진행 중 에러가 발생했습니다.');
       console.log(err);
     },
   });
@@ -92,10 +93,10 @@ export const useSignUpWithJoined = ({onSuccess}) => {
     onSuccess: onSuccess,
     onError: err => {
       if (err?.response?.data?.message === 'USER NICKNAME DUPLICATION') {
-        alert('이미 가입된 아이디 입니다.');
+        Confirm('알림', '이미 가입된 아이디 입니다.');
       } else if (err?.response?.data?.message === 'JOINED USER NOT EXIST') {
-        alert('초대가족 아이디가 존재하지 않습니다.');
-      } else alert('회원가입 진행 중 에러가 발생했습니다.');
+        Confirm('알림', '초대가족 아이디가 존재하지 않습니다.');
+      } else Confirm('알림', '회원가입 진행 중 에러가 발생했습니다.');
       console.log(err);
     },
   });
@@ -126,7 +127,7 @@ export const useSignOut = () => {
       navigation.navigate('Welcome');
     },
     onError: err => {
-      alert('로그아웃 진행 중 에러가 발생했습니다.');
+      Confirm('알림', '로그아웃 진행 중 에러가 발생했습니다.');
       console.log('로그아웃 에러 : ', err);
     },
   });
@@ -158,8 +159,8 @@ export const useDeleteAccount = () => {
     onError: err => {
       console.log('회원탈퇴 진행 중 에러', err);
       if (err.response.data.message === 'USER PASSWORD NOT CORRECT')
-        alert('잘못된 비밀번호 입니다');
-      alert('회원탈퇴 진행 중 에러가 발생했습니다.');
+        Confirm('알림', '잘못된 비밀번호 입니다');
+      else Confirm('알림', '회원탈퇴 진행 중 에러가 발생했습니다.');
     },
   });
 };

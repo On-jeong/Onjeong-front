@@ -1,3 +1,4 @@
+import Confirm from '@/components/alert/Alert';
 import {storage} from '@/config/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
@@ -58,7 +59,7 @@ export const Interceptor = ({children}) => {
               if (err?.response?.data?.code === 'A001')
                 console.log('리프레시 불일치:', err?.response.data);
 
-              alert('세션이 만료되어 로그인 화면으로 이동합니다.');
+              Confirm('알림', '세션이 만료되어 로그인 화면으로 이동합니다.');
               AsyncStorage.removeItem('userData');
               AsyncStorage.removeItem('accessToken');
               AsyncStorage.removeItem('refreshToken');
@@ -77,7 +78,7 @@ export const Interceptor = ({children}) => {
         err?.response?.data?.code == 'A006'
       ) {
         if (err?.response?.data?.code == 'A005')
-          alert('잘못 된 토큰입니다! 로그인 화면으로 이동합니다.');
+          Confirm('알림','잘못 된 토큰입니다! 로그인 화면으로 이동합니다.');
         AsyncStorage.removeItem('userData');
         AsyncStorage.removeItem('accessToken');
         AsyncStorage.removeItem('refreshToken');

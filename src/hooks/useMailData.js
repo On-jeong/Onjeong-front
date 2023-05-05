@@ -1,4 +1,5 @@
 import customAxios from '@/api/axios';
+import Confirm from '@/components/alert/Alert';
 import {useMutation, useQuery} from '@tanstack/react-query';
 
 const fetchReceiveMails = () => {
@@ -49,7 +50,7 @@ export const usePostMail = ({onSuccess}) => {
     onSuccess: onSuccess,
     onError: error => {
       console.log(error);
-      alert('편지를 보내는 중 오류가 발생했습니다');
+      Confirm('알림', '편지를 보내는 중 오류가 발생했습니다');
     },
   });
 };

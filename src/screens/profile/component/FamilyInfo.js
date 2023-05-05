@@ -26,6 +26,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {AppContainer} from '@/components/container';
+import Confirm from '@/components/alert/Alert';
 
 const ContentsContainer = styled.View`
   padding-left: 7%;
@@ -179,8 +180,8 @@ const FamilyInfo = ({route, infoData}) => {
       ['getFamilyInfo', route.params.userId],
       context.rollbackData,
     );
-    if (context.add) alert('태그 생성 중 오류가 발생했습니다');
-    else if (context.del) alert('태그 삭제 중 오류가 발생했습니다');
+    if (context.add) Confirm('알림', '태그 생성 중 오류가 발생했습니다');
+    else if (context.del) Confirm('알림', '태그 삭제 중 오류가 발생했습니다');
 
     console.log('context : ', context);
     console.log('태그오류 : ', err);
@@ -192,7 +193,7 @@ const FamilyInfo = ({route, infoData}) => {
 
   // 카테고리별 태그 추가 - 서버로 보내는 함수
   const submitTag = (category, userId, data) => {
-    if (tagValue === '') alert('태그를 입력해 주세요');
+    if (tagValue === '') Confirm('알림', '태그를 입력해 주세요');
     else {
       if (category === 'favorites') addFavorite({userId, data});
       else if (category === 'hates') addHate({userId, data});

@@ -1,4 +1,5 @@
 import customAxios from '@/api/axios';
+import Confirm from '@/components/alert/Alert';
 import {useMutation, useQuery} from '@tanstack/react-query';
 
 const fetchQuest = () => {
@@ -40,7 +41,7 @@ export const useGetAnswers = onSuccess => {
 export const useAddAnswer = ({onMutate, onSettled}) => {
   return useMutation(addAnswer, {
     onError: error => {
-      alert('문답 작성 중 오류가 발생했습니다.');
+      Confirm('알림', '문답 작성 중 오류가 발생했습니다.');
       console.log('문답작성에러:', error);
     },
     onMutate: onMutate,
@@ -52,7 +53,7 @@ export const useAddAnswer = ({onMutate, onSettled}) => {
 export const useModifyAnswer = ({onMutate, onSettled}) => {
   return useMutation(modifyAnswer, {
     onError: error => {
-      alert('문답 수정 중 오류가 발생했습니다.');
+      Confirm('알림', '문답 수정 중 오류가 발생했습니다.');
       console.log('문답수정에러:', error);
     },
     onMutate: onMutate,
@@ -64,7 +65,7 @@ export const useModifyAnswer = ({onMutate, onSettled}) => {
 export const useDeleteAnswer = ({onMutate, onSettled}) => {
   return useMutation(deleteAnswer, {
     onError: error => {
-      alert('문답 삭제 중 오류가 발생했습니다.');
+      Confirm('알림', '문답 삭제 중 오류가 발생했습니다.');
       console.log('문답삭제에러:', error);
     },
     onMutate: onMutate,

@@ -127,10 +127,10 @@ const MailWriteScreen = ({navigation}) => {
 
   const sendMail = () => {
     if (!toUserId) {
-      alert('보낼 가족을 선택해 주세요.');
+      Confirm('알림', '보낼 가족을 선택해 주세요.');
       return 0;
     } else if (!mainText) {
-      alert('보낼 내용을 입력해 주세요.');
+      Confirm('알림', '보낼 내용을 입력해 주세요.');
       return 0;
     }
 

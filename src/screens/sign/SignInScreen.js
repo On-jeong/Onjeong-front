@@ -25,6 +25,7 @@ import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import {Alert, Linking, Platform} from 'react-native';
 import {NotificationPermissionState} from '@/state/DeviceData';
 import {CommonActions} from '@react-navigation/native';
+import Confirm from '@/components/alert/Alert';
 
 //
 // 로그인
@@ -109,7 +110,10 @@ const SignInScreen = ({navigation}) => {
           console.log(result);
           switch (result) {
             case RESULTS.UNAVAILABLE:
-              alert('해당 기기는 앨범에 접근할 수 있는 기기가 아닙니다.');
+              Confirm(
+                '알림',
+                '해당 기기는 앨범에 접근할 수 있는 기기가 아닙니다.',
+              );
               console.log('앨범 접근 권한 : unavailable');
               break;
             case RESULTS.GRANTED:
@@ -121,13 +125,14 @@ const SignInScreen = ({navigation}) => {
                   console.log('앨범 접근 권한 허용 : ', res);
                 })
                 .catch(() => {
-                  alert(
+                  Confirm(
+                    '알림',
                     '앨범 접근 권한 허용 중 에러가 발생했습니다. 앱 설정 화면에서 권한을 허용해 주세요.',
                   );
                 });
               break;
             case RESULTS.BLOCKED:
-              alert('앨범 접근 권한 : blocked');
+              console.log('앨범 접근 권한 : blocked');
               Alert.alert(
                 '',
                 '온정에서 기기의 사진, 미디어, 파일에 액세스할 수 있도록 앱 설정 화면에서 권한을 허용해주세요.',
@@ -170,7 +175,7 @@ const SignInScreen = ({navigation}) => {
     if (Platform.OS == 33) {
       const res = await firebase.messaging().requestPermission();
       if (res == 'denied')
-        alert('푸시 알림 설정은 회원정보변경에서 변경 가능합니다.');
+        Confirm('알림', '푸시 알림 설정은 회원정보변경에서 변경 가능합니다.');
     } else
       Alert.alert(
         '',
@@ -179,7 +184,10 @@ const SignInScreen = ({navigation}) => {
           {
             text: '거부',
             onPress: () => {
-              alert('푸시 알림 설정은 회원정보변경에서 변경 가능합니다.');
+              Confirm(
+                '알림',
+                '푸시 알림 설정은 회원정보변경에서 변경 가능합니다.',
+              );
             },
           },
           {
@@ -195,10 +203,10 @@ const SignInScreen = ({navigation}) => {
     console.log('pw: ' + userPassword);
 
     if (!userId) {
-      alert('아이디를 입력해주세요.');
+      Confirm('알림', '아이디를 입력해주세요.');
       return 0;
     } else if (!userPassword) {
-      alert('비밀번호를 입력해주세요.');
+      Confirm('알림', '비밀번호를 입력해주세요.');
       return 0;
     }
 
@@ -252,7 +260,8 @@ const SignInScreen = ({navigation}) => {
           );
         },
         onError: err => {
-          if (err.response.status != 502) alert(err.response.data.message);
+          if (err.response.status != 502)
+            Confirm('알림', err.response.data.message);
           console.log(err);
 
           // 아이디 비번이 틀린 경우 제외

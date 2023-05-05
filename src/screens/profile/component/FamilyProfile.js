@@ -14,6 +14,7 @@ import {UserIdState} from '@/state/UserData';
 import {ProfileImageUrIState, ProfileMessageState} from '@/state/ProfileData';
 import {AppComponents} from '@/components/Components';
 import {AppInputs} from '@/components/inputs';
+import Confirm from '@/components/alert/Alert';
 
 const ImageBox = styled.TouchableOpacity``;
 
@@ -77,7 +78,7 @@ const FamilyProfile = ({route, detailData}) => {
 
     // 에러 발생
     if (image.errorMessage) {
-      alert('이미지를 업로드하지 못했습니다.');
+      Confirm('알림', '이미지를 업로드하지 못했습니다.');
       console.log(image.errorMessage);
     }
 

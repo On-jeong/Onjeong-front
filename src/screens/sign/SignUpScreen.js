@@ -108,7 +108,7 @@ const SignUpScreen = ({navigation}) => {
           routes: [{name: 'SignIn'}],
         }),
       );
-      alert('온정에 오신 것을 환영합니다!');
+      Confirm('알림', '온정에 오신 것을 환영합니다!');
       setNotificationPermissionState(check3);
     },
   });
@@ -117,10 +117,10 @@ const SignUpScreen = ({navigation}) => {
     onSuccess: data => {
       console.log('data', data);
       if (data?.available) {
-        alert('사용할 수 있는 아이디 입니다.');
+        Confirm('알림', '사용할 수 있는 아이디 입니다.');
         setIdCheck(true);
       } else {
-        alert('사용할 수 없는 아이디 입니다.');
+        Confirm('알림', '사용할 수 없는 아이디 입니다.');
         setIdCheck(false);
       }
     },
@@ -129,10 +129,10 @@ const SignUpScreen = ({navigation}) => {
     onSuccess: data => {
       console.log(data);
       if (data?.available) {
-        alert('초대가족이 확인되었습니다.');
+        Confirm('알림', '초대가족이 확인되었습니다.');
         setJoinedIdCheck(true);
       } else {
-        alert('초대가족을 찾을 수 없습니다.');
+        Confirm('알림', '초대가족을 찾을 수 없습니다.');
         setJoinedIdCheck(false);
       }
     },
@@ -163,53 +163,59 @@ const SignUpScreen = ({navigation}) => {
 
   const emptyCheck = () => {
     if (!userId) {
-      alert('아이디를 입력해주세요. (6~20자리)');
+      Confirm('알림', '아이디를 입력해주세요. (6~20자리)');
       return 0;
     } else if (!userName) {
-      alert('이름을 입력해주세요.');
+      Confirm('알림', '이름을 입력해주세요.');
       return 0;
     } else if (!userPassword) {
-      alert('비밀번호를 입력해주세요. (8~16자리)');
+      Confirm('알림', '비밀번호를 입력해주세요. (8~16자리)');
       return 0;
     } else if (!pwCheck) {
-      alert('비밀번호 확인을 입력해주세요.');
+      Confirm('알림', '비밀번호 확인을 입력해주세요.');
       return 0;
     } else if (userPassword != pwCheck) {
-      alert('비밀번호 확인이 맞지 않습니다.');
+      Confirm('알림', '비밀번호 확인이 맞지 않습니다.');
       return 0;
     } else if (!userBirth) {
-      alert('생일을 입력해주세요.');
+      Confirm('알림', '생일을 입력해주세요.');
       return 0;
     } else if (!userStatus) {
-      alert('가족 내 역할을 입력해주세요.');
+      Confirm('알림', '가족 내 역할을 입력해주세요.');
       return 0;
     } else if (!check1 || !check2) {
-      alert('필수 약관에 동의해 주세요.');
+      Confirm('알림', '필수 약관에 동의해 주세요.');
       return 0;
     } else return 1;
   };
 
   const validationCheck = () => {
     if (!reg.ID_REG.test(userId)) {
-      alert('아이디는 영문 또는 숫자 조합 6 ~ 20자리로 설정해 주세요.');
+      Confirm(
+        '알림',
+        '아이디는 영문 또는 숫자 조합 6 ~ 20자리로 설정해 주세요.',
+      );
       return 0;
     } else if (!idCheck) {
-      alert('사용할 수 있는 아이디인지 검사해 주세요.');
+      Confirm('알림', '사용할 수 있는 아이디인지 검사해 주세요.');
       return 0;
     } else if (joinedNickname && !joinedIdCheck) {
-      alert('초대가족 아이디가 존재하는지 검사해 주세요.');
+      Confirm('알림', '초대가족 아이디가 존재하는지 검사해 주세요.');
       return 0;
     } else if (!reg.EMAIL_REG.test(userEmail)) {
-      alert('이메일 형식이 일치하지 않습니다.');
+      Confirm('알림', '이메일 형식이 일치하지 않습니다.');
       return 0;
     } else if (!reg.NAME_REG.test(userName)) {
-      alert('이름은 한글만 입력 가능합니다.');
+      Confirm('알림', '이름은 한글만 입력 가능합니다.');
       return 0;
     } else if (!reg.PW_REG.test(userPassword)) {
-      alert('비밀번호는 영문과 숫자 조합 8 ~ 16 자리로 설정해 주세요.');
+      Confirm(
+        '알림',
+        '비밀번호는 영문과 숫자 조합 8 ~ 16 자리로 설정해 주세요.',
+      );
       return 0;
     } else if (!reg.NAME_REG.test(userStatus)) {
-      alert('가족 내 역할은 한글만 입력 가능합니다.');
+      Confirm('알림', '가족 내 역할은 한글만 입력 가능합니다.');
       return 0;
     }
     return 1;
@@ -302,7 +308,8 @@ const SignUpScreen = ({navigation}) => {
                   margin={{marginBottom: 10}}
                   onSubmitEditing={e => {
                     if (!reg.ID_REG.test(userId)) {
-                      alert(
+                      Confirm(
+                        '알림',
                         '아이디는 영문 또는 숫자 조합 6 ~ 20자리로 설정해 주세요.',
                       );
                       return 0;
@@ -319,7 +326,8 @@ const SignUpScreen = ({navigation}) => {
                   disabled={!userId}
                   onPress={() => {
                     if (!reg.ID_REG.test(userId)) {
-                      alert(
+                      Confirm(
+                        '알림',
                         '아이디는 영문 또는 숫자 조합 6 ~ 20자리로 설정해 주세요.',
                       );
                       return 0;
