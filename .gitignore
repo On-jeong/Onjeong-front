@@ -85,3 +85,6 @@ google-services.json
 android/gradle.properties
 android/app/build.gradle
 android/app/src/debug/AndroidManifest.xml
+
+# codepush
+appcenter-config.json

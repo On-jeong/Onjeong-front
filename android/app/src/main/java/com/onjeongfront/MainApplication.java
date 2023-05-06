@@ -1,7 +1,7 @@
 package com.onjeongfront;
 
 // code push
-// import com.microsoft.codepush.react.CodePush;
+import com.microsoft.codepush.react.CodePush;
 
 import android.app.Application;
 import android.content.Context;
@@ -42,10 +42,10 @@ public class MainApplication extends Application implements ReactApplication {
         }
 
         // code push
-        // @Override
-        // protected String getJSBundleFile() {
-        //     return CodePush.getJSBundleFile();
-        // }
+        @Override
+        protected String getJSBundleFile() {
+          return CodePush.getJSBundleFile();
+        }
       };
 
   private final ReactNativeHost mNewArchitectureNativeHost =

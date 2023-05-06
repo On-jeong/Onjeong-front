@@ -7,20 +7,28 @@ import {StackNavigator} from './src/navigators/StackNavigator';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {RecoilRoot} from 'recoil';
 
-import {AppFonts} from './src/utils/GlobalFonts';
+import codePush from 'react-native-code-push';
 
 //fcm
 import messaging from '@react-native-firebase/messaging';
 import {storage} from '@/config/storage';
 import {Interceptor} from '@/api/interceptor';
-import LoadingComponent, {
-  LoadingBox,
-} from '@/components/Loading/LoadingComponent';
+import {LoadingBox} from '@/components/Loading/LoadingComponent';
 import {ActivityIndicator} from 'react-native';
 import {AppColors} from '@/utils/GlobalStyles';
 
-export default function App() {
+// 업데이트 체크
+const updateCheck = async () => {
+  const update = await codePush.checkForUpdate();
+  console.log('업데이트 체크 : ', update);
+};
+
+const App = () => {
   const queryClient = new QueryClient();
+
+  React.useEffect(() => {
+    updateCheck();
+  }, []);
 
   const foregroundListener = React.useCallback(() => {
     messaging().onMessage(async remoteMessage => {
@@ -58,7 +66,7 @@ export default function App() {
           <React.Suspense
             fallback={
               <LoadingBox>
-                <ActivityIndicator size={'large'} color={AppColors.border} />
+                <ActivityIndicator size={'large'} color={AppColors.Primary} />
               </LoadingBox>
             }>
             <NavigationContainer>
@@ -71,4 +79,6 @@ export default function App() {
       </RecoilRoot>
     </QueryClientProvider>
   );
-}
+};
+
+export default codePush(App);
