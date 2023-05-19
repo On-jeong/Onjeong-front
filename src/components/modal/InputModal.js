@@ -39,6 +39,7 @@ const InputModal = ({
   script2,
   input,
   setInput,
+  placeholder,
   leftOnPress,
   rightOnPress,
   leftButtonColor = AppColors.Gray200,
@@ -64,7 +65,7 @@ const InputModal = ({
           </ScriptContainer>
           <InputBox>
             <AppInputs.BorderBottomInput
-              placeHolder="비밀번호"
+              placeholder={placeholder}
               value={input}
               onChangeText={setInput}
             />

@@ -139,6 +139,7 @@ const MyScreen = ({navigation}) => {
             title={'회원 탈퇴'}
             input={userPW}
             setInput={setUserPW}
+            placeholder={'비밀번호'}
             script1={'가족을 두고 정말 떠나시는 건가요?'}
             script2={'탈퇴하면 복구할 수 없습니다.'}
             height={250}
